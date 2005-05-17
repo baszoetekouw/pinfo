@@ -1,0 +1,74 @@
+How does this program work. (for hackers ;)
+
+1. Info file format
+
+Info files always contain a tag_table, which contains offsets to all nodes.
+If the info is splitted up into several subinfo files, there is a indirect
+table, which indicates, which offsets are in which file. Every node starts
+from an INFO_TAG, and ends at the EOF, or at another INFO_TAG.
+
+Menus are recognized as lines of format 
+
+*Tag Table Node Name::comment
+
+and also as
+
+* comment: [spaces] Tag Table Node Name.
+
+Notes are recognized as lines of format
+
+blabla*note Tag Table Node Name::blabla
+
+and also as
+
+blabla*note comment: [spaces] Tag Table Node Name.
+
+Notes may be split up across lines.
+
+The offsets in tag_table in an indirect split are counted as follows:
+
+tag_table_offset-indirect_offset+tag_table[1]_offset
+
+In nonindirect splits it's normal.
+
+2. How are man pages handled?
+
+All of this is handled in manual.c. It is called man program there to
+produce output, which is then parsed by pinfo.
+
+3. A scheme of working when viewing info
+
+a) opening file (pinfo.c, filehandling_functions.c)
+b) seeking to the indirect table, and reading it
+	- important function here is read_item, which reads an info
+	  node; that is a block of text starting with INFOTAG, and ending
+	  with it, or with another INFOTAG
+c) doing the same for tag_table
+d) running 'work' function (mainfunction.c), which handles keyboard actions
+	- when this function is called, before it gets to the main loop,
+	  it sets up some standard variables, like position in viewed node,
+ 	  position of selected line with node (it is line oriented selection
+	  here).
+		* it handles also here situations like 'aftersearch',
+		  where the function recognizes, that it's called after
+		  a search across infofiles, and that it must set the
+		  position to a value determined by previous search
+		* besides aftersearch it must also handle the history
+		  -backward move; it uses then the npos and ncursor vars.
+		* it also initializes caches for isnote and ismenu functions
+		  which check if given line contains a menu or note.
+	- after that there follows a normal loop with quite clear cases.
+e) from the 'work' function there is called a function showscreen, which
+   paints the screen (in quite simple way).
+
+The scheme of work when viewing manual is quite similar.
+
+4. Additional notes
+- the regexp search via all info files is probably one of the most
+  complicated functions
+For regexp search I've adapted a procedure from midnight commander, and
+put it into the file regexp_search.c
+
+For list of global variables, see datatypes.h
+
+For list of global vars for the manual code, see manual.c

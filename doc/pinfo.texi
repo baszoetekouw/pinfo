@@ -1,0 +1,749 @@
+\input texinfo
+@c %**start of header
+@setfilename pinfo.info
+@settitle Pinfo
+@c %**end of header
+
+@set EDITION 0.2.1
+@set VERSION 0.6.4
+@set DATE 1 Dec 2001
+@set DATEMAN 21 Mar 1999
+
+@set AUTHOR Przemek Borys
+@set CONTACT @email{pborys@@dione.ids.pl}, @uref{http://zeus.polsl.gliwice.pl/~pborys/}
+@set AUTHORTEXI Stanislav Kuchar
+@set CONTACTTEXI @email{thorn@@slonik.sk}, @uref{http://slonik.sk/}
+@set PROGRAM @file{pinfo}
+
+@ifinfo
+This is documentation for @value{PROGRAM}, version @value{VERSION}.
+Edition @value{EDITION}, date @value{DATE}.
+
+@flushright
+Copyright 2000 @copyright{} @value{AUTHOR}@*
+@value{CONTACT}
+@end flushright
+@end ifinfo
+
+@titlepage
+@title Pinfo
+@subtitle Version of @value{PROGRAM} @value{VERSION}
+@subtitle Edition @value{EDITION}
+@subtitle @value{DATE}
+@author @value{AUTHOR}
+@author @value{CONTACT}
+@page
+
+@vskip 0pt plus 1filll
+
+@flushright
+Copyright 2000 @copyright{} @value{AUTHOR}@*
+@value{CONTACT}
+@end flushright
+
+@end titlepage
+
+@dircategory Texinfo
+@direntry
+* Pinfo: (pinfo).           curses based lynx-style info browser.
+@end direntry
+
+@node Top, Invoking, (dir), (dir)
+@cindex Date
+
+This documentation is for @value{PROGRAM}, version @value{VERSION}.
+
+Original manpage written on @value{DATEMAN} by @value{AUTHOR},
+@value{CONTACT}.
+
+Translated to Texinfo by @value{AUTHORTEXI}, @value{CONTACTTEXI} on
+@value{DATE}.
+
+@menu
+* Invoking::                    Comman line options.
+* Configuration::               Configurable behaviour of pinfo.
+* Internationalization Support::  Localization.
+* Author::                      Who wrote pinfo.
+* Bugs::                        Help debugging.
+* Copyright::                   Copying.
+* Index::                       Search.
+
+@detailmenu
+ --- The Detailed Node Listing ---
+
+Configuration
+
+* Configuration file::          Save your preferences.
+* Environment::                 Variables.
+
+Configuration file
+
+* Color::                       Color settings.
+* Keys::                        Bindable keyboard.
+* Options::                     Confiruration options.
+* Example config file::         Build in values.
+
+Keys
+
+* Keybindings::                 What keys can be used.
+
+@end detailmenu
+@end menu
+
+@node Invoking, Configuration, Top, Top
+@chapter Invoking
+@cindex Description
+@cindex Command line
+@cindex Options
+@cindex info files
+
+@value{PROGRAM} [@var{options}] [@var{info_page}]
+
+@value{PROGRAM} is a program for viewing info files. You specify which
+page you want to read by passing it an @var{info_page} argument. This argumen
+t
+contains the name of an info page (i.e. @samp{bash}). The program
+will then (by default) search for it in @file{./}, @file{/usr/info},
+@file{/usr/share/info} and @file{/usr/local/info}. Other searchpath may be
+specified in configfile or via INFOPATH environmental variable.
+Pinfo will also automaticaly add the suffix
+@samp{-info}, @samp{-info.Z}, @samp{-info.gz}, or @samp{-info.bz2}. At
+present other suffixes are not recognized, but you can easily add them
+to the function @code{openinfo()} in @file{filehandling_functions.c}.
+
+When the search for info pages fails, man is called with the @var{info_page}
+argument, and it's output is parsed by @value{PROGRAM}. This means that
+when you don't have the appropriate info page, but have a man page
+instead; the man page will be viewed.
+
+When no @var{info_page} is specified, the default @samp{dir} page is shown.
+
+@noindent
+Supported @var{options} are
+
+@table @samp
+@item -h, --help
+print help information and exit
+@item -v, --version
+print version information and exit
+@item -m, --manual
+uses manual page instead of info by default. (@value{PROGRAM} @samp{-m}
+could be used as a manual pager). Warning: Everything what follows this
+option is passed to the @code{man} program. Don't be confused if
+@value{PROGRAM} options, which followed @samp{-m} don't work.
+When using this option, pinfo does not parse the info options as ussual!
+It invokes the man part of program.
+
+You can also call the man function of @value{PROGRAM} in another way.
+When @value{PROGRAM} is called with an @code{argv[0]} (the program file
+name), which contains the word @code{man} in it's name, the man
+functions are enabled automatically.
+
+Previously there was a symlink to @value{PROGRAM}, called @code{pman},
+but I had to remove it from the distribution, since it's name was in
+conflict with some other utility. Anyway, you can feel free to create
+such a link if you wish.
+@item -r, --raw-filename
+uses a raw filename first (i.e.  the name which you specified as
+infopage is considered to be a real file in the specified location).
+@item -f, --file
+Same as '-r'.
+@item -a, --apropos
+if this is set, apropos is called when no man or info page could be
+found.
+@item -c, --cut-man-headers
+if this is set, man parsing code will try to cut out the repeated man
+headers. Use with care. ;)
+@item -s, --squeeze-lines
+cut empty lines from manual pages. This option enables autocutting of
+every repeated newline in a manual page.
+@item -t, --force-manual-tag-table
+forces manual detection of tag table. This allows you to view info
+pages, which may be corrupted.  (as i.e.  version of jed's pages,
+shipped with RH5.0). The tag table corruption ussualy appears in that
+the info links, which you follow, move you to quite unexpected nodes.
+@item --node=@var{nodename}, --node @var{nodename}
+Go to the node @var{nodename} of info file. Since 0.6.7 it is also
+possible to specify nodes as in standalone info via filenames, like
+`(gcc)Introduction'.
+
+@item --rcfile=@var{filename}, --node @var{filename}
+Use alternate rcfile.
+@item -l, --long-manual-links
+Use long link names in manuals.  On some systems the manual hierarchy is
+divided into subsections like @samp{3ncurses}, etc, while on other
+systems all belongs to section @samp{3}. If this option is what your
+system is like, feel free to use it.
+@item  -x, --clear-at-exit
+Clear screen at exit.
+@end table
+
+The options are handled by GNU getopt, so you can here as in other
+programs abbreviate the option names to the minimal number of characters
+by which the options differ.
+
+Warning! If you do not have getopt, these options will not work!
+
+@node Configuration, Internationalization Support, Invoking, Top
+@chapter Configuration
+
+@menu
+* Configuration file::          Save your preferences.
+* Environment::                 Variables.
+@end menu
+
+@node Configuration file, Environment, Configuration, Configuration
+@section Configuration file
+@cindex Customization
+@cindex Configure
+
+Just take a look at the example config file, @xref{Example config
+file}, and at the key descriptions, @xref{Keys}. Keys available in
+manual viewer differ a bit from the keys available in info viewer.
+
+There are configuration files called @file{~/.pinforc} and
+@file{[prefix]/etc/pinforc}, for local and global configuration (where
+prefix is the prefix of the directory, where @value{PROGRAM} is
+installed, i.e. @file{/usr/local}, or @file{/usr}).
+
+@menu
+* Color::                       Color settings.
+* Keys::                        Bindable keyboard.
+* Options::                     Confiruration options.
+* Example config file::         Build in values.
+@end menu
+
+@node Color, Keys, Configuration file, Configuration file
+@subsection Color
+@cindex Color
+@cindex Look preferences
+
+First you must enter a color name (all available color names are present
+in the example, @xref{Example config file}, and they're self
+explanatory, I think.
+
+There is also a special color @var{COLOR_DEFAULT}, which stands for
+transparency). Then you enter the foreground color, and the background
+color.
+
+The @var{BOLD} attribute means that we want the foreground color to be
+highlighted. (i.e.  lightblue, lightgreen).  @var{BLINK} attribute is
+the blinking attribute, or highlighted background in some other
+configurations.
+
+@node Keys, Options, Color, Configuration file
+@subsection Keys
+@cindex Keyboard
+@cindex Configure keys
+@cindex How to use it
+
+Now let's move to the key definitions. Here we first put a key name
+(again all keys are present in the example); then we enter it's value --
+either surrounded by apostrophes, or a keycode number (like in
+@var{KEY_REFRESH_1}), or its mnemonic code name if it's a special key
+(like i.e.  in @var{KEY_FOLLOWLINK_1}).
+
+If you wish to specify key by code value, use the supplied program
+'testkey' to obtain the needed value. It mainly is a feature, when you
+want to add some ctrl+letter keybindings, and similar.
+
+For each function you can bind two keys, i.e.  you could bind both Enter
+and Cursor Right to the FollowLink-function.  As you can see in the
+example above, the two key names are @var{KEY_FOLLOWLINK_1} and
+@var{KEY_FOLLOWLINK_2}.
+
+@menu
+* Keybindings::                 What keys can be used.
+@end menu
+
+@node Keybindings,  , Keys, Keys
+@subsubsection Keybindings
+@cindex Keybindings
+@cindex Configuration Keys
+
+Here's an explanation of the key names:
+
+@table @var
+@item KEY_TOTALSEARCH_1
+Key for searching through all nodes of info file.
+
+@item KEY_TOTALSEARCH_2
+Alternate key for searching through all nodes of info file.
+
+@item KEY_SEARCH_1
+Key for searching through current node (or manual).
+
+@item KEY_SEARCH_2
+Alternate key for searching through current node (or manual).
+
+@item KEY_SEARCH_AGAIN_1
+Key for repeating the last search.
+
+@item KEY_SEARCH_AGAIN_2
+Alternate key for repeating the last search.
+
+@item KEY_GOTO_1
+Key for explicitly going to a node (by specifing it's name).
+
+@item KEY_GOTO_2
+Alternate key for explicitly going to a node (by specifing it's name).
+
+@item KEY_PREVNODE_1
+Key for going to a node marked as 'Prev' in the header. In manpage viewer
+this goes to the previous man section.
+
+@item KEY_PREVNODE_2
+Alternate key for going to a node marked as 'Prev' in the header. In manpage
+viewer this goes to the previous man section.
+
+@item KEY_NEXTNODE_1
+Key for going to a node marked as 'Next' in the header. In manpage viewer
+this goes to the next man section.
+
+@item KEY_NEXTNODE_2
+Alternate key for going to a node marked as 'Next' in the header. In manpage
+viewer this goes to the next man section.
+
+@item KEY_UP_1
+Key for scrolling text one line up.  Alternate key for scrolling text
+one line up.
+
+@item KEY_END_1
+Key for going to the end of the node.  Alternate key for going to the
+end of the node.
+
+@item KEY_PGDN_1
+Key for going one page down in the viewed node.
+
+@item KEY_PGDN_2
+Alternate key for going one page down in the viewed node.
+
+@item KEY_PGDN_AUTO_1
+Key for going to the next node when you're at the end of node (default
+is zero -- turned off).
+
+@item KEY_PGDN_AUTO_2
+Alternate key for going to the next node when you're at the end of node
+(default is space, as for pgdn_2).
+
+@item KEY_HOME_1
+Key for going to the beginning of the node.
+
+@item KEY_HOME_2
+Alternate key for going to the beginning of the node.
+
+@item KEY_PGUP_1
+Key for going one page up in the viewed node.
+
+@item KEY_PGUP_2
+Alternate key for going one page up in the viewed node.
+
+@item KEY_PGUP_AUTO_1
+Key for going to the `up' node, when being at the top of node. (Default
+value is zero -- turned off).
+
+@item KEY_PGUP_AUTO_2
+Alternate key for going to the `up' node, when being at the top of node.
+(Default value is `-', as for pgup_2).
+
+@item KEY_DOWN_1
+Key for scrolling the text down one line.
+
+@item KEY_DOWN_2
+Alternate key for scrolling the text down one line.
+
+@item KEY_TOP_1
+Key for going to the top (first) node.  Alternate key for going to the
+top (first) node.
+
+@item KEY_BACK_1
+Key for going back (in the history of viewed nodes).
+
+@item KEY_BACK_2
+Alternate key for going back (in the history of viewed nodes).
+
+@item KEY_FOLLOWLINK_1
+Key for following a hypertext link.
+
+@item KEY_FOLLOWLINK_2
+Alternate key for following a hypertext link.
+
+@item KEY_REFRESH_1
+Key for refreshing the screen (hardcoded is the ^L value).
+
+@item KEY_REFRESH_2
+Alternate key for refreshing the screen.
+
+@item KEY_SHELLFEED_1
+Key for calling a shell command, and passing the viewed node to the
+stdin of that command.
+
+@item KEY_SHELLFEED_2
+Alternate key for calling a shell command, and passing the viewed node
+to the stdin of that command.
+
+@item KEY_QUIT_1
+Key for exiting the program.
+
+@item KEY_QUIT_2
+Alternate key for exiting the program.
+
+@item KEY_GOLINE_1
+Key for going to a specified line in file.
+
+@item KEY_GOLINE_2
+Alternate key for going to a specified line in file.
+
+@item KEY_PRINT_1
+Key for printing viewed node or man page.
+
+@item KEY_PRINT_2
+Alternate key for printing viewed node or man page.
+
+@end table
+
+The special mnemonics for keys (which are defined at present) are:
+
+@table @var
+@item KEY_BREAK
+
+@item KEY_DOWN
+
+@item KEY_UP
+
+@item KEY_LEFT
+
+@item KEY_RIGHT
+
+@item KEY_DOWN
+
+@item KEY_HOME
+
+@item KEY_BACKSPACE
+
+@item KEY_NPAGE
+
+@item KEY_PPAGE
+
+@item KEY_END
+[Note: this works probably ONLY with linux ncurses]
+
+@item KEY_F(x)
+
+@item KEY_CTRL('c')
+this assigns the key value to a ctrl+c combination.  c may be any
+letter you wish.
+
+@item KEY_ALT('c')
+this assigns the key value to a alt+c combination.  c may be any letter
+you wish. If alt key won't work, you may use ESC+key combination.
+
+@item 'c'
+this means a printable character c. The syntax is just like in C/C++ ;).
+
+@item [number]
+you can also specify key as it's code number.  It is useful e.g. when
+specifing control keys, and some nonstandard keys.  A numerical value of
+zero turns given keybinding off.
+
+@end table
+
+See manual page for curs_getch(3x) for description of their meaning.
+
+Warning!  Try not to create some serious keybinding conflicts!
+
+@node Options, Example config file, Keys, Configuration file
+@subsection Options
+@cindex Configuration options
+@cindex Manual
+
+The options in the last part of the example configuration file should be
+fairly self-explanatory.  The variables that can be set to true or false
+do the same things as the commandline arguments with the same names.
+
+@table @var
+@item MANUAL
+If this is set to true the default is to first check for a man page,
+instead of a texinfo file.
+
+@item CUT-MAN-HEADERS
+If set to true, then pinfo tries to cut off the repeated headers
+throughout man pages.
+
+@item CUT-EMPTY-MAN-LINES
+If set to true, then pinfo tries to cut off the repeated
+newlines (i.e.  it will shorten each set of consecutive newlines to one
+newline).
+
+@item RAW-FILENAME
+If set to true, the file argument is taken to be the name of a file in
+the current working directory, i.e.  the directories in @code{INFOPATH} will
+only be searched if a file with this name is not in the working
+directory.
+
+@item APROPOS
+If set to true, apropos is called if no info or man page is found.
+
+@item DONT-HANDLE-WITHOUT-TAG-TABLE
+If set to true, pinfo will not attempt to display texinfo pages without
+tag tables.
+
+@item HTTPVIEWER
+Set this to the program you want to use to follow http links in
+documents.
+
+@item FTPVIEWER 
+Set this to the program you want to use to follow ftp links in
+documents.
+
+@item MAILEDITOR
+Set this to your favourite email program, and it will be started if you
+follow an email link in a document.
+
+@item PRINTUTILITY
+Utility, which you use for printing. I.e.  @samp{lpr}. If you don't use
+any, you may also try something like @samp{cat >/dev/lp1}, or sth. ;)
+
+@item MANLINKS  
+This specifies the section names, which may be referenced in your man
+pages (i.e.  Xtoolkit man pages match the section 3Xt (see for example
+XtVaCreateWidget) manpage), Xlib function pages match section 3X11,
+etc. Such extensions may not be recognized by default, so it is a good
+idea to add them).
+
+@item INFOPATH
+This allows you to override the default search paths for info pages.
+Paths should be separated by colons.
+
+@item MAN-OPTIONS
+This specifies the options, which should be passed to the `man' program.
+(see man(1) for description of what they're like).
+
+@item STDERR-REDIRECTION
+Pinfo allows you to redirect the stderr output of called programms.  For
+example if you don't want to see man's error messages about manual page
+formatting, you can use @samp{STDER-REDIRECTION"> /dev/null"}.  This
+is the default.
+
+@item LONG-MANUAL-LINKS
+This is another true/false option, which decides whether your system
+supports long manual section names, or not.  (i.e.  "3ncurses" instead
+of "3").
+
+@item FILTER-0xB7
+This decides, whether you want to convert 0xb7 chars to @samp{o}, or
+not.  For example for iso-8859-2 fonts this makes man's list marks a bit
+nicer ;) (look for example at perl's man page, to see how those marks
+look like).
+
+@item QUIT-CONFIRMATION
+This decides whether you want to use quit confirmation on exit, or not.
+
+@item QUIT-CONFIRM-DEFAULT
+This yes/no option determines the default answer to the
+@var{QUIT-CONFIRMATION} dialog.  (default answer is when you press a
+key, that does not match the asked question).
+
+@item CLEAR-SCREEN-AT-EXIT
+This true/false option determines if you want to have your screen
+cleared at exit, or no.
+
+@item CALL-READLINE-HISTORY
+This true/false option determines if you want to have a prompt of last
+history entry whenever calling readline wrapper, eg. in subsequent searches.
+
+@item HIGHLIGHTREGEXP
+This is an option, through which you may pass to pinfo regexps, which
+should be highlighted when working with document.  Warning! This may
+turn very slow if you use it without care!
+
+@item SAFE-USER 
+This option is used to pass the name of user, to which suid when pinfo
+is run with root privileges.
+
+@item SAFE-GROUP
+This option is used to pass the name of group, to which suid when pinfo
+is run with root privileges.
+
+@end table
+
+@node Example config file,  , Options, Configuration file
+@subsection Example config file
+@cindex Config file
+
+@example
+#
+# Here are some colour setting.
+# Whitespace between the entries is optional.
+#
+COL_NORMAL        =COLOR_WHITE,    COLOR_BLACK, NO_BOLD, NO_BLINK
+COL_MENUSELECTED  =COLOR_RED,      COLOR_BLACK, BOLD,    NO_BLINK
+COL_MENU          =COLOR_BLUE,     COLOR_BLACK, BOLD,    NO_BLINK
+COL_NOTESELECTED  =COLOR_RED,      COLOR_BLACK, BOLD,    NO_BLINK
+COL_NOTE          =COLOR_GREEN,    COLOR_BLACK, BOLD,    NO_BLINK
+COL_TOPLINE       =COLOR_YELLOW,   COLOR_BLUE,  BOLD,    NO_BLINK
+COL_BOTTOMLINE    =COLOR_YELLOW,   COLOR_BLUE,  BOLD,    NO_BLINK
+COL_MANUALBOLD    =COLOR_WHITE,    COLOR_BLACK, BOLD,    NO_BLINK
+COL_MANUALITALIC  =COLOR_WHITE,    COLOR_BLACK, BOLD,    NO_BLINK
+COL_URL           =COLOR_MAGENTA,  COLOR_BLACK, BOLD,    NO_BLINK
+COL_URLSELECTED   =COLOR_RED,      COLOR_BLACK, NO_BOLD, NO_BLINK
+COL_INFOHIGHLIGHT =COLOR_WHITE,    COLOR_BLACK, BOLD,    NO_BLINK
+
+#
+# Here are some keybindings as well...
+#
+KEY_TOTALSEARCH_1    ='s'
+KEY_TOTALSEARCH_2    ='S'
+KEY_SEARCH_1         ='/'
+KEY_SEARCH_2         ='.'
+KEY_GOTO_1           ='g'
+KEY_GOTO_2           ='m'
+KEY_HOME_1           ='h'
+KEY_HOME_2           ='H'
+KEY_PREVNODE_1       ='p'
+KEY_PREVNODE_2       ='P'
+KEY_NEXTNODE_1       ='n'
+KEY_NEXTNODE_2       ='N'
+KEY_UP_1             =KEY_UP
+KEY_UP_2             ='u'
+KEY_END_1            =KEY_END
+KEY_END_2            ='e'
+KEY_PGDN_1           =KEY_NPAGE
+KEY_PGDN_2           =' '
+KEY_PGDN_AUTO_1      =0
+KEY_PGDN_AUTO_2      =' '
+KEY_PGUP_1           =KEY_PPAGE
+KEY_PGUP_2           ='b'
+KEY_PGUP_AUTO_1      =0
+KEY_PGUP_AUTO_2      ='b'
+KEY_DOWN_1           =KEY_DOWN
+KEY_DOWN_2           ='d'
+KEY_TOP_1            =KEY_HOME
+KEY_TOP_2            ='t'
+KEY_BACK_1           =KEY_LEFT
+KEY_BACK_2           ='l'
+KEY_FOLLOWLINK_1     =KEY_RIGHT
+KEY_FOLLOWLINK_2     ='\n'
+# 12 is a code for ctrl+l
+KEY_REFRESH_1        =KEY_CTRL('l')
+KEY_REFRESH_2        ='~'
+KEY_SHELLFEED_1      ='!'
+KEY_SHELLFEED_2      ='1'
+KEY_QUIT_1           ='q'
+KEY_QUIT_2           ='Q'
+KEY_DIRPAGE_1        ='d'
+KEY_DIRPAGE_2        ='D'
+KEY_GOLINE_1         ='l'
+KEY_GOLINE_2         =0
+KEY_PRINT_1          =']'
+KEY_PRINT_2          =0
+KEY_SEARCH_AGAIN_1   ='f'
+KEY_SEARCH_AGAIN_2   =0
+
+#
+# Some options, explained in the man page
+#
+MANUAL=false
+CUT-MAN-HEADERS=true
+CUT-EMPTY-MAN-LINES=true
+RAW-FILENAME=false
+APROPOS=false
+DONT-HANDLE-WITHOUT-TAG-TABLE=false
+LONG-MANUAL-LINKS=false
+FILTER-0xB7=true
+QUIT-CONFIRMATION=false
+QUIT-CONFIRM-DEFAULT=no
+CLEAR-SCREEN-AT-EXIT=true
+STDERR-REDIRECTION="2> /dev/null"
+HTTPVIEWER=lynx
+FTPVIEWER=lynx
+MAILEDITOR=pine
+MANLINKS=1:8:2:3:4:5:6:7:9:n:p:o:3X11:3Xt
+INFOPATH=/usr/info:/usr/share/info:/usr/local/info
+HIGHLIGHTREGEXP=bash.*has
+SAFE-USER=nobody
+SAFE-GROUP=nobody
+@end example
+
+
+@node Environment,  , Configuration file, Configuration
+@section Environment
+@cindex Enviroment configuration
+@cindex Search path
+
+There is a variable @code{$INFOPATH}, which can specify the paths
+to  be  searched for info files. It's format is similar to
+that of the @code{$PATH} variable. An example setting could
+look like:
+
+@samp{/usr/info:/usr/somewhere/info:/not/even/in/usr/info}
+
+etc. Directories are separated by colons.
+
+@node Internationalization Support, Author, Configuration, Top
+@chapter Internationalization Support
+@cindex Languages
+
+Pinfo implements general features of gnu gettext library (the thing,
+which you need to see national messages ;). But it is not the
+end. Pinfo allows you to use national info pages! You only need to put
+them to your info directory, into a subdirectory, which is called
+@code{$LANG}.
+
+@node Author, Bugs, Internationalization Support, Top
+@chapter Author
+@cindex Who did it
+@cindex Comments
+
+@value{AUTHOR} @value{CONTACT}
+
+If that E-mail address wont work (since the machine where it is being
+handled is a bit damaged lately), you can try
+@email{pborys@@zeus.polsl.gliwice.pl}, or
+@email{pborys@@p-soft.silesia.linux.org.pl}.
+
+There was also a lot of other people, who contributed to this code. See
+the @file{AUTHORS} file.
+
+Please send bug reports to the author: @value{AUTHOR} @value{CONTACT}.
+
+The author would like to read some comments and suggestions from you, if
+any.
+
+@node Bugs, Copyright, Author, Top
+@chapter Bugs
+
+Please send bug reports to the author, @ref{Author}.
+
+@node Copyright, Index, Bugs, Top
+@chapter Copyright
+@cindex Copyright
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of this License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with GNU Emacs; see the file COPYING. If not, write to the
+Free Software Foundation, Inc., 59 Temple Place - Suite 330,
+Boston, MA 021111, USA.
+
+@flushright
+Copyright 2000 @copyright{} @value{AUTHOR}@*
+@value{CONTACT}
+@end flushright
+
+@node Index,  , Copyright, Top
+@unnumbered Index
+
+@printindex cp
+
+@contents
+
+@bye

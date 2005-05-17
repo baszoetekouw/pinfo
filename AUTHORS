@@ -1,0 +1,62 @@
+The author is Przemek Borys <pborys@dione.ids.pl>.
+Besides, here are some people, who helped me by work by sending good ideas,
+and helping with bugs, or helped me other way:
+
+Linus Åkerlund (%)
+Tomasz Kloczko (%)
+Artur Frysiak (%)
+Dobrica Pavlinusic (%)
+Jiri Pavlovsky (%)
+Pawel Wilk (%)
+Paul Boekholt (*)
+Ingo Oeser (*)
+Simon Huggins (*)
+Marius Gedminas (*)
+andrew deryabin (*)
+Ilya L Ovchinnikov (*)
+Cort (*)
+Stanislav Kuchar (*)
+Kevin Kreamer (*)
+David M. Cooke (*)
+Witold Filipczyk (*)
+Liviu Daia (+)
+Jarkko O Mourujarvi (+)
+Michal Politowski (+)
+Tim Bell (+)
+Marcin Wojdyr (+)
+Pawel Kot (+)
+Jerzy Klejnowski (+)
+Adam Lazur (+)
+Daniel Bauke
+Andre' Karwath
+Pawel Kolodziej
+Egil Kvaleberg
+Andrzej Solecki
+Christian Kurz
+Moritz Moeller-Herrmann
+Hao Li
+Sotiris Vassilopoulos
+Michal Kuratczyk
+Maciej Nowicki
+Frederick W. Wheeler
+Ryszard Kurek
+Matthias Friedrich
+Marcin Kadziolka
+Dmitry Volosenkov
+Aleksey I Zavilohin
+Stanislav Kuchar
+Hector Rivas Gandara
+Carlo Wood
+Jakub Bogusz
+Micha³ Stêpieñ
+Jerzy Klejnowski
+Stanislav Ievlev
+
+(there is probably sb. missing, and I can't find him -- remind me if you
+see your idea working in pinfo, or if you contributed some code ;)
+
+People marked with '%' have made really serious coding :)
+People marked with '*' have sent me complete (coded) ideas/fixes.
+People marked with '+' have helped by sending (almost) complete solutions.
+The other people have sent bugrepots, national translations and good wish
+lists.

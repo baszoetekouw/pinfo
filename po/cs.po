@@ -1,0 +1,280 @@
+# Czech translation of pinfo
+# Jiøí Pavlovský <pavlovsk@ff.cuni.cz>, 1999.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: pinfo-0.5.6\n"
+"POT-Creation-Date: 2003-08-21 11:22+0200\n"
+"PO-Revision-Date: 1999-08-28 00:05+0200\n"
+"Last-Translator: Jiøí Pavlovský <pavlovsk@ff.cuni.cz>\n"
+"Language-Team: Czech <cs@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=ISO-8859-2\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: src/filehandling_functions.c:393
+msgid "Searching for indirect done\n"
+msgstr "Hledání nepøímého odkazu ukonèeno\n"
+
+#: src/filehandling_functions.c:398
+msgid "Searching for indirect done"
+msgstr "Hledání nepøímého odkazu ukonèeno"
+
+#: src/filehandling_functions.c:425
+msgid "Warning: could not find tag table\n"
+msgstr "Varování: tabulku znaèek nelze nalézt\n"
+
+#: src/filehandling_functions.c:430
+msgid "Warning: could not find tag table"
+msgstr "Varování: tabulku znaèek nelze nalézt"
+
+#: src/filehandling_functions.c:457
+msgid "Searching for tag table done\n"
+msgstr "Hledání tabulky znaèek ukonèeno\n"
+
+#: src/filehandling_functions.c:1024
+msgid "Error: could not open info file\n"
+msgstr "Chyba: Info dokument nelze otevøít.\n"
+
+#: src/mainfunction.c:125 src/manual.c:865
+msgid "Are you sure to print?"
+msgstr "Opravdu chcete dokument vytisknout?"
+
+#: src/mainfunction.c:177 src/manual.c:908
+msgid "Enter line: "
+msgstr "Zadejte øádek: "
+
+#: src/mainfunction.c:218 src/manual.c:955
+msgid "Enter command: "
+msgstr "Zadejte pøíkaz: "
+
+#: src/mainfunction.c:237
+msgid "Operation failed..."
+msgstr "Operace se nezdaøila..."
+
+#: src/mainfunction.c:273 src/mainfunction.c:543 src/manual.c:1004
+msgid "Enter regexp: "
+msgstr "Zadejte regulární výraz: "
+
+#: src/mainfunction.c:513 src/mainfunction.c:605 src/manual.c:1066
+#, fuzzy
+msgid "Search string not found..."
+msgstr "Varování: tabulka znaèek nenalezena...\n"
+
+#: src/mainfunction.c:634
+msgid "Enter node name: "
+msgstr "Zadejte jméno uzlu: "
+
+#: src/mainfunction.c:719
+#, c-format
+msgid "Node %s not found"
+msgstr "Uzel %s nenalezen"
+
+#: src/mainfunction.c:1177 src/manual.c:1412
+msgid "Are you sure to quit?"
+msgstr "Opravdu chcete ukonèit program?"
+
+#: src/manual.c:258
+msgid "Error: Cannot call man command.\n"
+msgstr "Chyba: program man nelze spustit.\n"
+
+#: src/manual.c:267
+msgid "Error: No manual page found either.\n"
+msgstr "Chyba: Nebyla nalezena ani manuálová stránka.\n"
+
+#: src/manual.c:270
+msgid "Appropriate pages:\n"
+msgstr "Pøíslu¹né stránky:\n"
+
+#: src/manual.c:309
+msgid "Calling gunzip for"
+msgstr "Volám program gunzip pro"
+
+#: src/manual.c:315
+msgid "Couldn't call gunzip.\n"
+msgstr "Program gunzip nelze zpustit.\n"
+
+#: src/manual.c:350
+msgid "IGNORING"
+msgstr "IGNORUJI"
+
+#: src/manual.c:393
+#, fuzzy
+msgid "Error: No manual page found\n"
+msgstr "Chyba: Nebyla nalezena ani manuálová stránka.\n"
+
+#: src/manual.c:398
+msgid "Calling apropos \n"
+msgstr ""
+
+#: src/manual.c:403
+msgid "Nothing apropiate\n"
+msgstr ""
+
+#: src/manual.c:878
+msgid "Enter manual name: "
+msgstr "Zadejte jméno manuálové stránky: "
+
+#: src/manual.c:1488 src/video.c:90
+#, c-format
+msgid "Viewing line %d/%d, %d%%"
+msgstr "Zobrazen øádek %d/%d, %d%%"
+
+#: src/manual.c:1490 src/video.c:92
+#, c-format
+msgid "Viewing line %d/%d, 100%%"
+msgstr "Zobrazen øádek %d/%d, 100%%"
+
+#: src/parse_config.c:90
+msgid "Can't open config file!\n"
+msgstr ""
+
+#: src/parse_config.c:138
+#, c-format
+msgid "Parse error in config file on line %d\n"
+msgstr "Syntaktická chyba na øádku %d konfiguraèního souboru.\n"
+
+#: src/utils.c:99 src/utils.c:153
+msgid "Virtual memory exhausted\n"
+msgstr "Nedostatek virtuální pamìti\n"
+
+#: src/utils.c:205
+#, c-format
+msgid ""
+"Illegal characters in filename!\n"
+"*** %s\n"
+msgstr ""
+"Soubor obsahuje nepovolené znaky!\n"
+"*** %s\n"
+
+#: src/utils.c:390
+msgid "yes"
+msgstr "ano"
+
+#: src/utils.c:391
+msgid "no"
+msgstr "ne"
+
+#: src/video.c:39
+msgid "File:"
+msgstr "Soubor:"
+
+#: src/video.c:40
+msgid "Node:"
+msgstr "Uzel:"
+
+#: src/video.c:41
+msgid "Next:"
+msgstr "Dal¹í:"
+
+#: src/video.c:42
+msgid "Prev:"
+msgstr "Pøedchozí:"
+
+#: src/video.c:43
+msgid "Up:"
+msgstr "Horní:"
+
+#: src/pinfo.c:87 src/pinfo.c:165
+msgid "Looking for man page...\n"
+msgstr "Hledá se manuálová stránka...\n"
+
+#: src/pinfo.c:120
+msgid "--node option used without argument\n"
+msgstr "chybí argument pro pøepínaè --node\n"
+
+#: src/pinfo.c:129
+#, fuzzy
+msgid "--rcfile option used without argument\n"
+msgstr "chybí argument pro pøepínaè --node\n"
+
+#: src/pinfo.c:139
+#, fuzzy, c-format
+msgid ""
+"Usage:\n"
+"%s [options] [info|manual]\n"
+"Options:\n"
+"-h, --help                            help\n"
+"-v, --version                         version\n"
+"-m, --manual                          use man page\n"
+"-r, --raw-filename                    use raw filename\n"
+"-f, --file                            synonym for -r\n"
+"-a, --apropos                         call apropos if nothing found\n"
+"-p, --plain-apropos                   call only apropos\n"
+"-c, --cut-man-headers                 cut out repeated man headers\n"
+"-l, --long-manual-links               use long link names in manuals\n"
+"-s, --squeeze-manlines                cut empty lines from manual pages\n"
+"-d, --dont-handle-without-tag-table   don't display texinfo pages without "
+"tag\n"
+"                                      tables\n"
+"-t, --force-manual-tag-table          force manual detection of tag table\n"
+"-x, --clear-at-exit                   clear screen at exit\n"
+"    --node=nodename, --node nodename  jump directly to the node nodename\n"
+"    --rcfile=file, --rcfile file      use alternate rcfile\n"
+msgstr ""
+"Pou¾ití:\n"
+"%s [pøepínaèe] [info|manuál]\n"
+"Pøepínaèe:\n"
+"-h, --help                            vypí¹e tuto nápovìdu\n"
+"-v, --version                         vypí¹e informace o verzi\n"
+"-m, --manual                          zobrazí manuálovou stránku\n"
+"-r, --raw-filename                    zobrazí soubor daného jména\n"
+"-a, --apropos                         pokud nenalezne odpovídající "
+"dokument,\n"
+"                                      pou¾ije apropos(1)\n"
+"-c, --cut-man-headers                 vystøihne z manuálových stránek "
+"opakované\n"
+"                                      hlavièky\n"
+"-l, --long-manual-links               pou¾ije dlouhé názvy odkazù v "
+"manuálových\n"
+"                                      stránkách\n"
+"-s, --squeeze-manlines                prázdné øádky jdoucí po sobì redukuje "
+"na\n"
+"                                      jediný\n"
+"-d, --don't-handle-without-tag-table  nezobrazí texinfo stránky bez tabulky\n"
+"                                      znaèek\n"
+"-t, --force-manual-tag-table          vynutí detekci tabulky znaèek\n"
+"-x, --clear-at-exit                   pøi ukonèení programu sma¾e obrazovku\n"
+"    --node=UZEL, --node UZEL          pøeskoèí rovnou na UZEL\n"
+
+#: src/pinfo.c:266
+msgid "Error: could not open info file, trying manual\n"
+msgstr "Chyba: Nelze najít info stránku, zkou¹ím manuálovou stránku.\n"
+
+#: src/pinfo.c:298
+msgid "Warning: tag table not found...\n"
+msgstr "Varování: tabulka znaèek nenalezena...\n"
+
+#: src/pinfo.c:302
+msgid "Trying to create alternate tag table...\n"
+msgstr "Vytváøí se náhradní tabulka znaèek...\n"
+
+#: src/pinfo.c:307 src/pinfo.c:444
+msgid "This doesn't look like info file...\n"
+msgstr "Toto nevypadá jako info dokument...\n"
+
+#: src/pinfo.c:320
+msgid "Specified node does not exist...\n"
+msgstr "Zadaný uzel neexistuje...\n"
+
+#: src/pinfo.c:374
+msgid "File not found. Press any key..."
+msgstr "Soubor nenalezen. Stisknìte libovolnou klávesu..."
+
+#: src/pinfo.c:392
+msgid "Unexpected error.\n"
+msgstr "Neoèekávaná chyba.\n"
+
+#: src/pinfo.c:439
+msgid "Tag table not found. Trying to create alternate..."
+msgstr "Tabulka znaèek nenalezena. Vytváøí se náhradní..."
+
+#: src/pinfo.c:521
+#, c-format
+msgid "Security warning: Unable to get GID of group called: %s\n"
+msgstr "Bezpeènostní varování: GID skupiny %s nelze zjistit\n"
+
+#: src/pinfo.c:541
+#, c-format
+msgid "Security warning: Unable to get UID of user called: %s\n"
+msgstr "Bezpeènostní varování: UID u¾ivatele %s nelze zjistit\n"

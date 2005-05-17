@@ -1,0 +1,11 @@
+This is a ncurses based lynx style info documentation browser.
+Hope you like it :)
+See man page (pinfo.1) for details. But continue to read here for
+installation notes :)
+
+COPYING:
+GPL; the license is included with the package.
+
+NOTE 5:
+readline doesn't work properly without -ltermcap. If you have it, feel free
+to turn it on in makefile.
