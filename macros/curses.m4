@@ -20,9 +20,8 @@ dnl   has_curses        - exports result of tests to rest of configure
 dnl
 dnl Usage:
 dnl ======
-dnl 1) Add lines indicated below to acconfig.h
-dnl 2) call AC_CHECK_CURSES after AC_PROG_CC in your configure.in
-dnl 3) Instead of #include <curses.h> you should use the following to
+dnl 1) call AC_CHECK_CURSES after AC_PROG_CC in your configure.in
+dnl 2) Instead of #include <curses.h> you should use the following to
 dnl    properly locate ncurses or curses header file
 dnl
 dnl    #if defined(USE_NCURSES) && !defined(RENAMED_NCURSES)
@@ -31,8 +30,8 @@ dnl    #else
 dnl    #include <curses.h>
 dnl    #endif
 dnl
-dnl 4) Make sure to add @CURSES_INCLUDES@ to your preprocessor flags
-dnl 5) Make sure to add @CURSES_LIBS@ to your linker flags or LIBS
+dnl 3) Make sure to add @CURSES_INCLUDES@ to your preprocessor flags
+dnl 4) Make sure to add @CURSES_LIBS@ to your linker flags or LIBS
 dnl
 dnl Notes with automake:
 dnl - call AM_CONDITIONAL(HAS_CURSES, test "$has_curses" = true) from
@@ -51,42 +50,28 @@ dnl   name_of_curses_prog_LDADD = blah $(CURSES_LIBS)
 dnl   -----------------------------------------------
 dnl
 dnl
-dnl The following lines should be added to acconfig.h:
-dnl ==================================================
-dnl
-dnl /*=== Curses version detection defines ===*/
-dnl /* Found some version of curses that we're going to use */
-dnl #undef HAS_CURSES
-dnl    
-dnl /* Use SunOS SysV curses? */
-dnl #undef USE_SUNOS_CURSES
-dnl 
-dnl /* Use old BSD curses - not used right now */
-dnl #undef USE_BSD_CURSES
-dnl 
-dnl /* Use SystemV curses? */
-dnl #undef USE_SYSV_CURSES
-dnl 
-dnl /* Use Ncurses? */
-dnl #undef USE_NCURSES
-dnl 
-dnl /* If you Curses does not have color define this one */
-dnl #undef NO_COLOR_CURSES
-dnl 
-dnl /* Define if you want to turn on SCO-specific code */
-dnl #undef SCO_FLAVOR
-dnl 
-dnl /* Set to reflect version of ncurses *
-dnl  *   0 = version 1.*
-dnl  *   1 = version 1.9.9g
-dnl  *   2 = version 4.0/4.1 */
-dnl #undef NCURSES_970530
-dnl
-dnl /*=== End new stuff for acconfig.h ===*/
-dnl 
+dnl First define the headers for config.h.in:
+AH_TEMPLATE([HAS_CURSES],
+	[ Found some version of curses that we're going to use ])
+AH_TEMPLATE([USE_SUNOS_CURSES],
+	[ Use SunOS SysV curses? ])
+AH_TEMPLATE([USE_BSD_CURSES],
+	[ Use old BSD curses - not used right now ])
+AH_TEMPLATE([USE_SYSV_CURSES],
+	[ Use SystemV curses? ] )
+AH_TEMPLATE([USE_NCURSES],
+	[ Use Ncurses? ] )
+AH_TEMPLATE([NO_COLOR_CURSES],
+	[ If you Curses does not have color define this one ])
+AH_TEMPLATE([SCO_FLAVOR],
+	[ Define if you want to turn on SCO-specific code ])
+AH_TEMPLATE([NCURSES_970530],
+	[ Set to reflect version of ncurses
+	   0 = version 1.
+	   1 = version 1.9.9g
+	   2 = version 4.0/4.1 ])
 
-
-AC_DEFUN(AC_CHECK_CURSES,[
+AC_DEFUN([AC_CHECK_CURSES],[
 	search_ncurses=true
 	screen_manager=""
 	has_curses=false
@@ -150,7 +135,7 @@ AC_DEFUN(AC_CHECK_CURSES,[
 ])
 
 
-AC_DEFUN(AC_USE_SUNOS_CURSES, [
+AC_DEFUN([AC_USE_SUNOS_CURSES], [
 	search_ncurses=false
 	screen_manager="SunOS 4.x /usr/5include curses"
 	AC_MSG_RESULT(Using SunOS 4.x /usr/5include curses)
@@ -164,7 +149,7 @@ AC_DEFUN(AC_USE_SUNOS_CURSES, [
 	AC_MSG_RESULT(Please note that some screen refreshs may fail)
 ])
 
-AC_DEFUN(AC_USE_OSF1_CURSES, [
+AC_DEFUN([AC_USE_OSF1_CURSES], [
        AC_MSG_RESULT(Using OSF1 curses)
        search_ncurses=false
        screen_manager="OSF1 curses"
@@ -175,7 +160,7 @@ AC_DEFUN(AC_USE_OSF1_CURSES, [
        CURSES_LIBS="-lcurses"
 ])
 
-AC_DEFUN(AC_USE_SYSV_CURSES, [
+AC_DEFUN([AC_USE_SYSV_CURSES], [
 	AC_MSG_RESULT(Using SysV curses)
 	AC_DEFINE(HAS_CURSES)
 	has_curses=true
@@ -210,7 +195,7 @@ dnl)
 dnl
 dnl Parameters: directory filename cureses_LIBS curses_INCLUDES nicename
 dnl
-AC_DEFUN(AC_NCURSES, [
+AC_DEFUN([AC_NCURSES], [
     if $search_ncurses
     then
         if test -f $1/$2
@@ -228,7 +213,7 @@ AC_DEFUN(AC_NCURSES, [
     fi
 ])
 
-AC_DEFUN(AC_SEARCH_NCURSES, [
+AC_DEFUN([AC_SEARCH_NCURSES], [
     AC_CHECKING("location of ncurses.h file")
 
     AC_NCURSES(/usr/include, ncurses.h, -lncurses,, "ncurses on /usr/include")

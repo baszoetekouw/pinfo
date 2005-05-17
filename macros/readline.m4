@@ -18,10 +18,9 @@ dnl   has_readline        - exports result of tests to rest of configure
 dnl
 dnl Usage:
 dnl ======
-dnl 1) Add lines indicated below to acconfig.h
-dnl 2) call AC_CHECK_READLINE after AC_PROG_CC in your configure.in
-dnl 3) Make sure to add @READLINE_INCLUDES@ to your preprocessor flags
-dnl 4) Make sure to add @READLINE_LIBS@ to your linker flags or LIBS
+dnl 1) call AC_CHECK_READLINE after AC_PROG_CC in your configure.in
+dnl 2) Make sure to add @READLINE_INCLUDES@ to your preprocessor flags
+dnl 3) Make sure to add @READLINE_LIBS@ to your linker flags or LIBS
 dnl
 dnl Notes with automake:
 dnl - call AM_CONDITIONAL(HAS_READLINE, test "$has_readline" = true) from
@@ -40,16 +39,11 @@ dnl   name_of_readline_prog_LDADD = blah $(READLINE_LIBS)
 dnl   -----------------------------------------------
 dnl
 dnl
-dnl The following lines should be added to acconfig.h:
-dnl ==================================================
-dnl
-dnl #undef HAS_READLINE
-dnl 
-dnl /*=== End new stuff for acconfig.h ===*/
-dnl 
 
+AH_TEMPLATE([HAS_READLINE],
+	[ Defined if found readline ])
 
-AC_DEFUN(AC_CHECK_READLINE,[
+AC_DEFUN([AC_CHECK_READLINE],[
 	search_readline=false
 	has_readline=false
 
@@ -84,7 +78,7 @@ dnl	CFLAGS=${CFLAGS--O}
 dnl
 dnl Parameters: directory filename cureses_LIBS curses_INCLUDES nicename
 dnl
-AC_DEFUN(AC_READLINE, [
+AC_DEFUN([AC_READLINE], [
     if $search_readline
     then
         if test -f $1/$2
@@ -99,7 +93,7 @@ AC_DEFUN(AC_READLINE, [
     fi
 ])
 
-AC_DEFUN(AC_SEARCH_READLINE, [
+AC_DEFUN([AC_SEARCH_READLINE], [
     AC_CHECKING("location of readline.h file")
 
     AC_READLINE(/usr/include, readline.h, -lreadline,, "readline on /usr/include")
