@@ -1,12 +1,14 @@
 # SOME DESCRIPTIVE TITLE.
-# Copyright (C) YEAR Free Software Foundation, Inc.
+# Copyright (C) YEAR Przemek Borys  <pborys@dione.ids.pl>
+# This file is distributed under the same license as the PACKAGE package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 #
 #, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2003-08-21 11:22+0200\n"
+"Report-Msgid-Bugs-To: pinfo-devel@lists.alioth.debian.org\n"
+"POT-Creation-Date: 2005-05-17 19:35+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -15,6 +17,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 
 #: src/filehandling_functions.c:393
+#, c-format
 msgid "Searching for indirect done\n"
 msgstr ""
 
@@ -23,6 +26,7 @@ msgid "Searching for indirect done"
 msgstr ""
 
 #: src/filehandling_functions.c:425
+#, c-format
 msgid "Warning: could not find tag table\n"
 msgstr ""
 
@@ -31,10 +35,12 @@ msgid "Warning: could not find tag table"
 msgstr ""
 
 #: src/filehandling_functions.c:457
+#, c-format
 msgid "Searching for tag table done\n"
 msgstr ""
 
 #: src/filehandling_functions.c:1024
+#, c-format
 msgid "Error: could not open info file\n"
 msgstr ""
 
@@ -76,14 +82,17 @@ msgid "Are you sure to quit?"
 msgstr ""
 
 #: src/manual.c:258
+#, c-format
 msgid "Error: Cannot call man command.\n"
 msgstr ""
 
 #: src/manual.c:267
+#, c-format
 msgid "Error: No manual page found either.\n"
 msgstr ""
 
 #: src/manual.c:270
+#, c-format
 msgid "Appropriate pages:\n"
 msgstr ""
 
@@ -92,6 +101,7 @@ msgid "Calling gunzip for"
 msgstr ""
 
 #: src/manual.c:315
+#, c-format
 msgid "Couldn't call gunzip.\n"
 msgstr ""
 
@@ -100,14 +110,17 @@ msgid "IGNORING"
 msgstr ""
 
 #: src/manual.c:393
+#, c-format
 msgid "Error: No manual page found\n"
 msgstr ""
 
 #: src/manual.c:398
+#, c-format
 msgid "Calling apropos \n"
 msgstr ""
 
 #: src/manual.c:403
+#, c-format
 msgid "Nothing apropiate\n"
 msgstr ""
 
@@ -126,6 +139,7 @@ msgid "Viewing line %d/%d, 100%%"
 msgstr ""
 
 #: src/parse_config.c:90
+#, c-format
 msgid "Can't open config file!\n"
 msgstr ""
 
@@ -135,6 +149,7 @@ msgid "Parse error in config file on line %d\n"
 msgstr ""
 
 #: src/utils.c:99 src/utils.c:153
+#, c-format
 msgid "Virtual memory exhausted\n"
 msgstr ""
 
@@ -174,14 +189,17 @@ msgid "Up:"
 msgstr ""
 
 #: src/pinfo.c:87 src/pinfo.c:165
+#, c-format
 msgid "Looking for man page...\n"
 msgstr ""
 
 #: src/pinfo.c:120
+#, c-format
 msgid "--node option used without argument\n"
 msgstr ""
 
 #: src/pinfo.c:129
+#, c-format
 msgid "--rcfile option used without argument\n"
 msgstr ""
 
@@ -211,22 +229,27 @@ msgid ""
 msgstr ""
 
 #: src/pinfo.c:266
+#, c-format
 msgid "Error: could not open info file, trying manual\n"
 msgstr ""
 
 #: src/pinfo.c:298
+#, c-format
 msgid "Warning: tag table not found...\n"
 msgstr ""
 
 #: src/pinfo.c:302
+#, c-format
 msgid "Trying to create alternate tag table...\n"
 msgstr ""
 
 #: src/pinfo.c:307 src/pinfo.c:444
+#, c-format
 msgid "This doesn't look like info file...\n"
 msgstr ""
 
 #: src/pinfo.c:320
+#, c-format
 msgid "Specified node does not exist...\n"
 msgstr ""
 
@@ -235,6 +258,7 @@ msgid "File not found. Press any key..."
 msgstr ""
 
 #: src/pinfo.c:392
+#, c-format
 msgid "Unexpected error.\n"
 msgstr ""
 

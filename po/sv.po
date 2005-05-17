@@ -5,7 +5,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: pinfo-0.6.8\n"
-"POT-Creation-Date: 2003-08-21 11:22+0200\n"
+"Report-Msgid-Bugs-To: pinfo-devel@lists.alioth.debian.org\n"
+"POT-Creation-Date: 2005-05-17 19:35+0200\n"
 "PO-Revision-Date: 2003-08-21 11:22+0200\n"
 "Last-Translator:\n"
 "Language-Team: \n"
@@ -13,11 +14,11 @@ msgstr ""
 "Content-Type: text/plain; charset=ISO-8859-1\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-
 #
 # Load messages for info pages (version for printf)
 #
 #: src/filehandling_functions.c:393
+#, c-format
 msgid "Searching for indirect done\n"
 msgstr "Sökning efter indirekt klar\n"
 
@@ -26,6 +27,7 @@ msgid "Searching for indirect done"
 msgstr "Sökning efter indirekt klar"
 
 #: src/filehandling_functions.c:425
+#, c-format
 msgid "Warning: could not find tag table\n"
 msgstr "Varning: kunde inte finna tag table\n"
 
@@ -34,10 +36,12 @@ msgid "Warning: could not find tag table"
 msgstr "Varning: kunde inte finna tag table"
 
 #: src/filehandling_functions.c:457
+#, c-format
 msgid "Searching for tag table done\n"
 msgstr "Sökning efter tag table klar\n"
 
 #: src/filehandling_functions.c:1024
+#, c-format
 msgid "Error: could not open info file\n"
 msgstr "Fel: kunde inte öppna info-fil\n"
 
@@ -94,6 +98,7 @@ msgid "Are you sure to quit?"
 msgstr ""
 
 #: src/manual.c:258
+#, c-format
 msgid "Error: Cannot call man command.\n"
 msgstr ""
 
@@ -102,11 +107,13 @@ msgstr ""
 #
 # loading:
 #: src/manual.c:267
+#, c-format
 msgid "Error: No manual page found either.\n"
 msgstr "Fel: Hittade ingen manual-sida heller.\n"
 
 # apropos:
 #: src/manual.c:270
+#, c-format
 msgid "Appropriate pages:\n"
 msgstr "Lämpliga sidor:\n"
 
@@ -115,6 +122,7 @@ msgid "Calling gunzip for"
 msgstr ""
 
 #: src/manual.c:315
+#, c-format
 msgid "Couldn't call gunzip.\n"
 msgstr ""
 
@@ -127,15 +135,17 @@ msgstr ""
 #
 # loading:
 #: src/manual.c:393
-#, fuzzy
+#, fuzzy, c-format
 msgid "Error: No manual page found\n"
 msgstr "Fel: Hittade ingen manual-sida heller.\n"
 
 #: src/manual.c:398
+#, c-format
 msgid "Calling apropos \n"
 msgstr ""
 
 #: src/manual.c:403
+#, c-format
 msgid "Nothing apropiate\n"
 msgstr ""
 
@@ -161,6 +171,7 @@ msgid "Viewing line %d/%d, 100%%"
 msgstr "Aktuell rad %d/%d, 100%%"
 
 #: src/parse_config.c:90
+#, c-format
 msgid "Can't open config file!\n"
 msgstr ""
 
@@ -176,6 +187,7 @@ msgstr "Syntax-fel i konfigureringsfil på rad %d\n"
 # Out of memory message
 #
 #: src/utils.c:99 src/utils.c:153
+#, c-format
 msgid "Virtual memory exhausted\n"
 msgstr "Slut på virtuellt minne\n"
 
@@ -224,15 +236,17 @@ msgstr "Upp:"
 # error messages when loading
 #
 #: src/pinfo.c:87 src/pinfo.c:165
+#, c-format
 msgid "Looking for man page...\n"
 msgstr "Letar efter man-sida...\n"
 
 #: src/pinfo.c:120
+#, c-format
 msgid "--node option used without argument\n"
 msgstr "Alternativ --node använt utan argument\n"
 
 #: src/pinfo.c:129
-#, fuzzy
+#, fuzzy, c-format
 msgid "--rcfile option used without argument\n"
 msgstr "Alternativ --node använt utan argument\n"
 
@@ -262,22 +276,27 @@ msgid ""
 msgstr ""
 
 #: src/pinfo.c:266
+#, c-format
 msgid "Error: could not open info file, trying manual\n"
 msgstr "Fel: kunde inte öppna info-fil, försöker med manual\n"
 
 #: src/pinfo.c:298
+#, c-format
 msgid "Warning: tag table not found...\n"
 msgstr "Varning: tag-table inte funnen...\n"
 
 #: src/pinfo.c:302
+#, c-format
 msgid "Trying to create alternate tag table...\n"
 msgstr "Försöker skapa alternativ tag-table...\n"
 
 #: src/pinfo.c:307 src/pinfo.c:444
+#, c-format
 msgid "This doesn't look like info file...\n"
 msgstr "Det här ser inte ut som en info-fil...\n"
 
 #: src/pinfo.c:320
+#, c-format
 msgid "Specified node does not exist...\n"
 msgstr "Angiven nod existerar inte...\n"
 
@@ -286,6 +305,7 @@ msgid "File not found. Press any key..."
 msgstr "Filen finns inte.  Tryck en tangent..."
 
 #: src/pinfo.c:392
+#, c-format
 msgid "Unexpected error.\n"
 msgstr "Oväntat fel.\n"
 

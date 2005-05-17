@@ -5,7 +5,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: pinfo-0.6.8\n"
-"POT-Creation-Date: 2003-08-21 11:22+0200\n"
+"Report-Msgid-Bugs-To: pinfo-devel@lists.alioth.debian.org\n"
+"POT-Creation-Date: 2005-05-17 19:35+0200\n"
 "PO-Revision-Date: 2003-08-21 11:22+0200\n"
 "Last-Translator: Przemek Borys <pborys@dione.ids.pl>\n"
 "Language-Team:\n"
@@ -13,11 +14,11 @@ msgstr ""
 "Content-Type: text/plain; charset=ISO-8859-2\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-
 #
 # Load messages for info pages (version for printf)
 #
 #: src/filehandling_functions.c:393
+#, c-format
 msgid "Searching for indirect done\n"
 msgstr "Zakoñczono poszukiwanie tablicy mapowañ niebezpo¶rednich\n"
 
@@ -26,6 +27,7 @@ msgid "Searching for indirect done"
 msgstr "Zakoñczono poszukiwanie mapowañ niebezpo¶rednich"
 
 #: src/filehandling_functions.c:425
+#, c-format
 msgid "Warning: could not find tag table\n"
 msgstr "Ostrze¿enie: Nie znalaz³em tablicy mapowañ (tag table)...\n"
 
@@ -34,10 +36,12 @@ msgid "Warning: could not find tag table"
 msgstr "Ostrze¿enie: Nie znalaz³em tablicy mapowañ (tag table)..."
 
 #: src/filehandling_functions.c:457
+#, c-format
 msgid "Searching for tag table done\n"
 msgstr "Zakoñczono poszukiwanie tablicy mapowañ\n"
 
 #: src/filehandling_functions.c:1024
+#, c-format
 msgid "Error: could not open info file\n"
 msgstr "B³ad: nie mog³em otworzyæ pliku info\n"
 
@@ -93,6 +97,7 @@ msgid "Are you sure to quit?"
 msgstr "Czy na pewno chcesz zakoñczyæ pracê?"
 
 #: src/manual.c:258
+#, c-format
 msgid "Error: Cannot call man command.\n"
 msgstr "B³±d: Nie mogê wywo³aæ komendy man.\n"
 
@@ -101,11 +106,13 @@ msgstr "B³±d: Nie mogê wywo³aæ komendy man.\n"
 #
 # loading:
 #: src/manual.c:267
+#, c-format
 msgid "Error: No manual page found either.\n"
 msgstr "B³ad: Nie ma równie¿ pasuj±cej strony podrêcznika man.\n"
 
 # apropos:
 #: src/manual.c:270
+#, c-format
 msgid "Appropriate pages:\n"
 msgstr "Odpowiadaj±ce zapytaniu strony:\n"
 
@@ -114,6 +121,7 @@ msgid "Calling gunzip for"
 msgstr "Wo³am gunzip dla"
 
 #: src/manual.c:315
+#, c-format
 msgid "Couldn't call gunzip.\n"
 msgstr "Nie mog³em wywo³aæ gunzip.\n"
 
@@ -126,15 +134,17 @@ msgstr "IGNORUJÊ"
 #
 # loading:
 #: src/manual.c:393
-#, fuzzy
+#, fuzzy, c-format
 msgid "Error: No manual page found\n"
 msgstr "B³ad: Nie ma równie¿ pasuj±cej strony podrêcznika man.\n"
 
 #: src/manual.c:398
+#, c-format
 msgid "Calling apropos \n"
 msgstr ""
 
 #: src/manual.c:403
+#, c-format
 msgid "Nothing apropiate\n"
 msgstr ""
 
@@ -160,6 +170,7 @@ msgid "Viewing line %d/%d, 100%%"
 msgstr "Przegl±danie linii %d/%d, 100%%"
 
 #: src/parse_config.c:90
+#, c-format
 msgid "Can't open config file!\n"
 msgstr ""
 
@@ -175,6 +186,7 @@ msgstr "B³±d sk³adni w linii %d pliku konfiguracyjnego\n"
 # Out of memory message
 #
 #: src/utils.c:99 src/utils.c:153
+#, c-format
 msgid "Virtual memory exhausted\n"
 msgstr "Brak pamiêci\n"
 
@@ -220,6 +232,7 @@ msgid "Up:"
 msgstr "Góra:"
 
 #: src/pinfo.c:87 src/pinfo.c:165
+#, c-format
 msgid "Looking for man page...\n"
 msgstr "Szukam strony podrêcznika man...\n"
 
@@ -227,10 +240,12 @@ msgstr "Szukam strony podrêcznika man...\n"
 # error messages when loading
 #
 #: src/pinfo.c:120
+#, c-format
 msgid "--node option used without argument\n"
 msgstr "opcja --node bez argumentu\n"
 
 #: src/pinfo.c:129
+#, c-format
 msgid "--rcfile option used without argument\n"
 msgstr "opcja --rcfile bez argumentu\n"
 
@@ -288,22 +303,27 @@ msgstr ""
 "    --rcfile=plik, --rcfile plik      U¿yj alternatywnego pliku rc\n"
 
 #: src/pinfo.c:266
+#, c-format
 msgid "Error: could not open info file, trying manual\n"
 msgstr "B³±d: nie ma takiego pliku info, próbujê podrêcznika man\n"
 
 #: src/pinfo.c:298
+#, c-format
 msgid "Warning: tag table not found...\n"
 msgstr "Ostrze¿enie: nie znalaz³em tablicy mapowañ (tag table)...\n"
 
 #: src/pinfo.c:302
+#, c-format
 msgid "Trying to create alternate tag table...\n"
 msgstr "Próbujê utworzyæ alternatywn± tablicê mapowañ...\n"
 
 #: src/pinfo.c:307 src/pinfo.c:444
+#, c-format
 msgid "This doesn't look like info file...\n"
 msgstr "Nie wygl±da mi to na plik info...\n"
 
 #: src/pinfo.c:320
+#, c-format
 msgid "Specified node does not exist...\n"
 msgstr "Podany wêze³ nie istnieje...\n"
 
@@ -312,6 +332,7 @@ msgid "File not found. Press any key..."
 msgstr "Nie znalaz³em pliku. Naci¶nij dowolny klawisz..."
 
 #: src/pinfo.c:392
+#, c-format
 msgid "Unexpected error.\n"
 msgstr "Nieoczekiwany b³±d.\n"
 
