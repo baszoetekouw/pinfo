@@ -1,0 +1,17 @@
+src/colors.c
+src/datatypes.c
+src/filehandling_functions.c
+src/initializelinks.c
+src/keyboard.c
+src/mainfunction.c
+src/manual.c
+src/menu_and_note_utils.c
+src/parse_config.c
+src/readlinewrapper.c
+# src/readrc.c
+src/regexp_search.c
+src/signal_handler.c
+src/snprintf.c
+src/utils.c
+src/video.c
+src/pinfo.c

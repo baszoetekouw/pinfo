@@ -1,0 +1,438 @@
+# Makefile.in generated automatically by automake 1.4 from Makefile.am
+
+# Copyright (C) 1994, 1995-8, 1999 Free Software Foundation, Inc.
+# This Makefile.in is free software; the Free Software Foundation
+# gives unlimited permission to copy and/or distribute it,
+# with or without modifications, as long as this notice is preserved.
+
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY, to the extent permitted by law; without
+# even the implied warranty of MERCHANTABILITY or FITNESS FOR A
+# PARTICULAR PURPOSE.
+
+
+SHELL = @SHELL@
+
+srcdir = @srcdir@
+top_srcdir = @top_srcdir@
+VPATH = @srcdir@
+prefix = @prefix@
+exec_prefix = @exec_prefix@
+
+bindir = @bindir@
+sbindir = @sbindir@
+libexecdir = @libexecdir@
+datadir = @datadir@
+sysconfdir = @sysconfdir@
+sharedstatedir = @sharedstatedir@
+localstatedir = @localstatedir@
+libdir = @libdir@
+infodir = @infodir@
+mandir = @mandir@
+includedir = @includedir@
+oldincludedir = /usr/include
+
+DESTDIR =
+
+pkgdatadir = $(datadir)/@PACKAGE@
+pkglibdir = $(libdir)/@PACKAGE@
+pkgincludedir = $(includedir)/@PACKAGE@
+
+top_builddir = ..
+
+ACLOCAL = @ACLOCAL@
+AUTOCONF = @AUTOCONF@
+AUTOMAKE = @AUTOMAKE@
+AUTOHEADER = @AUTOHEADER@
+
+INSTALL = @INSTALL@
+INSTALL_PROGRAM = @INSTALL_PROGRAM@ $(AM_INSTALL_PROGRAM_FLAGS)
+INSTALL_DATA = @INSTALL_DATA@
+INSTALL_SCRIPT = @INSTALL_SCRIPT@
+transform = @program_transform_name@
+
+NORMAL_INSTALL = :
+PRE_INSTALL = :
+POST_INSTALL = :
+NORMAL_UNINSTALL = :
+PRE_UNINSTALL = :
+POST_UNINSTALL = :
+host_alias = @host_alias@
+host_triplet = @host@
+BUILD_INCLUDED_LIBINTL = @BUILD_INCLUDED_LIBINTL@
+CATALOGS = @CATALOGS@
+CATOBJEXT = @CATOBJEXT@
+CC = @CC@
+CURSES_INCLUDES = @CURSES_INCLUDES@
+CURSES_LIBS = @CURSES_LIBS@
+DATADIRNAME = @DATADIRNAME@
+EXTRA_SOURCES = @EXTRA_SOURCES@
+GENCAT = @GENCAT@
+GLIBC21 = @GLIBC21@
+GMOFILES = @GMOFILES@
+GMSGFMT = @GMSGFMT@
+INSTOBJEXT = @INSTOBJEXT@
+INTLBISON = @INTLBISON@
+INTLLIBS = @INTLLIBS@
+INTLOBJS = @INTLOBJS@
+INTL_LIBTOOL_SUFFIX_PREFIX = @INTL_LIBTOOL_SUFFIX_PREFIX@
+KEY_END = @KEY_END@
+LIBICONV = @LIBICONV@
+LN_S = @LN_S@
+MAINT = @MAINT@
+MAKEINFO = @MAKEINFO@
+MANDIR = @MANDIR@
+MAN_KEY_END = @MAN_KEY_END@
+MKINSTALLDIRS = @MKINSTALLDIRS@
+MSGFMT = @MSGFMT@
+PACKAGE = @PACKAGE@
+POFILES = @POFILES@
+POSUB = @POSUB@
+RANLIB = @RANLIB@
+READLINE_INCLUDES = @READLINE_INCLUDES@
+READLINE_LIBS = @READLINE_LIBS@
+USE_INCLUDED_LIBINTL = @USE_INCLUDED_LIBINTL@
+USE_NLS = @USE_NLS@
+VERSION = @VERSION@
+
+bin_PROGRAMS = pinfo
+
+pinfo_COMMON_SRC = pinfo.c 		colors.c 		datatypes.c 		filehandling_functions.c 		keyboard.c 		mainfunction.c 		manual.c 		menu_and_note_utils.c 		parse_config.c 		regexp_search.c 		signal_handler.c 		utils.c 		video.c 		colors.h 		common_includes.h 		datatypes.h 		filehandling_functions.h 		keyboard.h 		mainfunction.h 		manual.h 		menu_and_note_utils.h 		parse_config.h 		regexp_search.h 		signal_handler.h 		utils.h 		video.h 		initializelinks.c 		initializelinks.h 		printinfo.c 		printinfo.h 		localestuff.h 		rcsid.h
+
+
+pinfo_READLINE = readlinewrapper.c readlinewrapper.h 
+pinfo_SNPRINTF = snprintf.c # snprintf.h
+pinfo_SIGBLOCK = sigblock.c sigblock.h
+@HAS_READLINE_TRUE@pinfo_READLINE_OBJ = 
+@HAS_READLINE_FALSE@pinfo_READLINE_OBJ = readlinewrapper.o
+@HAVE_SNPRINTF_TRUE@pinfo_SNPRINTF_OBJ = 
+@HAVE_SNPRINTF_FALSE@pinfo_SNPRINTF_OBJ = snprintf.o
+@HAVE_SIGBLOCK_TRUE@pinfo_SIGBLOCK_OBJ = 
+@HAVE_SIGBLOCK_FALSE@pinfo_SIGBLOCK_OBJ = sigblock.o
+
+pinfo_SOURCES = $(pinfo_COMMON_SRC)
+
+INCLUDES = @READLINE_INCLUDES@
+
+pinfo_LDADD = $(pinfo_READLINE_OBJ) $(pinfo_SNPRINTF_OBJ)               $(pinfo_SIGBLOCK_OBJ) @READLINE_LIBS@ $(INTLLIBS)
+
+
+pinfo_DEPENDENCIES = $(pinfo_READLINE_OBJ)                      $(pinfo_SNPRINTF_OBJ)                      $(pinfo_SIGBLOCK_OBJ) 		     $(INTLDEPS)
+
+
+EXTRA_DIST = $(pinfo_READLINE) $(pinfo_SNPRINTF) $(pinfo_SIGBLOCK)
+mkinstalldirs = $(SHELL) $(top_srcdir)/mkinstalldirs
+CONFIG_HEADER = ../config.h
+CONFIG_CLEAN_FILES =  pinforc
+PROGRAMS =  $(bin_PROGRAMS)
+
+
+DEFS = @DEFS@ -I. -I$(srcdir) -I..
+CPPFLAGS = @CPPFLAGS@
+LDFLAGS = @LDFLAGS@
+LIBS = @LIBS@
+pinfo_OBJECTS =  pinfo.o colors.o datatypes.o filehandling_functions.o \
+keyboard.o mainfunction.o manual.o menu_and_note_utils.o parse_config.o \
+regexp_search.o signal_handler.o utils.o video.o initializelinks.o \
+printinfo.o
+pinfo_LDFLAGS = 
+CFLAGS = @CFLAGS@
+COMPILE = $(CC) $(DEFS) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS)
+CCLD = $(CC)
+LINK = $(CCLD) $(AM_CFLAGS) $(CFLAGS) $(LDFLAGS) -o $@
+DIST_COMMON =  Makefile.am Makefile.in pinforc.in
+
+
+DISTFILES = $(DIST_COMMON) $(SOURCES) $(HEADERS) $(TEXINFOS) $(EXTRA_DIST)
+
+TAR = tar
+GZIP_ENV = --best
+SOURCES = $(pinfo_SOURCES)
+OBJECTS = $(pinfo_OBJECTS)
+
+all: all-redirect
+.SUFFIXES:
+.SUFFIXES: .S .c .o .s
+$(srcdir)/Makefile.in: @MAINTAINER_MODE_TRUE@ Makefile.am $(top_srcdir)/configure.in $(ACLOCAL_M4) 
+	cd $(top_srcdir) && $(AUTOMAKE) --gnu --include-deps src/Makefile
+
+Makefile: $(srcdir)/Makefile.in  $(top_builddir)/config.status
+	cd $(top_builddir) \
+	  && CONFIG_FILES=$(subdir)/$@ CONFIG_HEADERS= $(SHELL) ./config.status
+
+pinforc: $(top_builddir)/config.status pinforc.in
+	cd $(top_builddir) && CONFIG_FILES=$(subdir)/$@ CONFIG_HEADERS= $(SHELL) ./config.status
+
+mostlyclean-binPROGRAMS:
+
+clean-binPROGRAMS:
+	-test -z "$(bin_PROGRAMS)" || rm -f $(bin_PROGRAMS)
+
+distclean-binPROGRAMS:
+
+maintainer-clean-binPROGRAMS:
+
+install-binPROGRAMS: $(bin_PROGRAMS)
+	@$(NORMAL_INSTALL)
+	$(mkinstalldirs) $(DESTDIR)$(bindir)
+	@list='$(bin_PROGRAMS)'; for p in $$list; do \
+	  if test -f $$p; then \
+	    echo "  $(INSTALL_PROGRAM) $$p $(DESTDIR)$(bindir)/`echo $$p|sed 's/$(EXEEXT)$$//'|sed '$(transform)'|sed 's/$$/$(EXEEXT)/'`"; \
+	     $(INSTALL_PROGRAM) $$p $(DESTDIR)$(bindir)/`echo $$p|sed 's/$(EXEEXT)$$//'|sed '$(transform)'|sed 's/$$/$(EXEEXT)/'`; \
+	  else :; fi; \
+	done
+
+uninstall-binPROGRAMS:
+	@$(NORMAL_UNINSTALL)
+	list='$(bin_PROGRAMS)'; for p in $$list; do \
+	  rm -f $(DESTDIR)$(bindir)/`echo $$p|sed 's/$(EXEEXT)$$//'|sed '$(transform)'|sed 's/$$/$(EXEEXT)/'`; \
+	done
+
+.c.o:
+	$(COMPILE) -c $<
+
+.s.o:
+	$(COMPILE) -c $<
+
+.S.o:
+	$(COMPILE) -c $<
+
+mostlyclean-compile:
+	-rm -f *.o core *.core
+
+clean-compile:
+
+distclean-compile:
+	-rm -f *.tab.c
+
+maintainer-clean-compile:
+
+pinfo: $(pinfo_OBJECTS) $(pinfo_DEPENDENCIES)
+	@rm -f pinfo
+	$(LINK) $(pinfo_LDFLAGS) $(pinfo_OBJECTS) $(pinfo_LDADD) $(LIBS)
+
+tags: TAGS
+
+ID: $(HEADERS) $(SOURCES) $(LISP)
+	list='$(SOURCES) $(HEADERS)'; \
+	unique=`for i in $$list; do echo $$i; done | \
+	  awk '    { files[$$0] = 1; } \
+	       END { for (i in files) print i; }'`; \
+	here=`pwd` && cd $(srcdir) \
+	  && mkid -f$$here/ID $$unique $(LISP)
+
+TAGS:  $(HEADERS) $(SOURCES)  $(TAGS_DEPENDENCIES) $(LISP)
+	tags=; \
+	here=`pwd`; \
+	list='$(SOURCES) $(HEADERS)'; \
+	unique=`for i in $$list; do echo $$i; done | \
+	  awk '    { files[$$0] = 1; } \
+	       END { for (i in files) print i; }'`; \
+	test -z "$(ETAGS_ARGS)$$unique$(LISP)$$tags" \
+	  || (cd $(srcdir) && etags $(ETAGS_ARGS) $$tags  $$unique $(LISP) -o $$here/TAGS)
+
+mostlyclean-tags:
+
+clean-tags:
+
+distclean-tags:
+	-rm -f TAGS ID
+
+maintainer-clean-tags:
+
+distdir = $(top_builddir)/$(PACKAGE)-$(VERSION)/$(subdir)
+
+subdir = src
+
+distdir: $(DISTFILES)
+	@for file in $(DISTFILES); do \
+	  d=$(srcdir); \
+	  if test -d $$d/$$file; then \
+	    cp -pr $$/$$file $(distdir)/$$file; \
+	  else \
+	    test -f $(distdir)/$$file \
+	    || ln $$d/$$file $(distdir)/$$file 2> /dev/null \
+	    || cp -p $$d/$$file $(distdir)/$$file || :; \
+	  fi; \
+	done
+colors.o: colors.c common_includes.h localestuff.h ../config.h rcsid.h \
+	datatypes.h filehandling_functions.h video.h \
+	menu_and_note_utils.h mainfunction.h utils.h signal_handler.h \
+	colors.h regexp_search.h manual.h parse_config.h keyboard.h \
+	initializelinks.h printinfo.h readlinewrapper.h
+datatypes.o: datatypes.c common_includes.h localestuff.h ../config.h \
+	rcsid.h datatypes.h filehandling_functions.h video.h \
+	menu_and_note_utils.h mainfunction.h utils.h signal_handler.h \
+	colors.h regexp_search.h manual.h parse_config.h keyboard.h \
+	initializelinks.h printinfo.h readlinewrapper.h
+filehandling_functions.o: filehandling_functions.c common_includes.h \
+	localestuff.h ../config.h rcsid.h datatypes.h \
+	filehandling_functions.h video.h menu_and_note_utils.h \
+	mainfunction.h utils.h signal_handler.h colors.h \
+	regexp_search.h manual.h parse_config.h keyboard.h \
+	initializelinks.h printinfo.h readlinewrapper.h
+initializelinks.o: initializelinks.c common_includes.h localestuff.h \
+	../config.h rcsid.h datatypes.h filehandling_functions.h \
+	video.h menu_and_note_utils.h mainfunction.h utils.h \
+	signal_handler.h colors.h regexp_search.h manual.h \
+	parse_config.h keyboard.h initializelinks.h printinfo.h \
+	readlinewrapper.h
+keyboard.o: keyboard.c common_includes.h localestuff.h ../config.h \
+	rcsid.h datatypes.h filehandling_functions.h video.h \
+	menu_and_note_utils.h mainfunction.h utils.h signal_handler.h \
+	colors.h regexp_search.h manual.h parse_config.h keyboard.h \
+	initializelinks.h printinfo.h readlinewrapper.h
+mainfunction.o: mainfunction.c common_includes.h localestuff.h \
+	../config.h rcsid.h datatypes.h filehandling_functions.h \
+	video.h menu_and_note_utils.h mainfunction.h utils.h \
+	signal_handler.h colors.h regexp_search.h manual.h \
+	parse_config.h keyboard.h initializelinks.h printinfo.h \
+	readlinewrapper.h
+manual.o: manual.c common_includes.h localestuff.h ../config.h rcsid.h \
+	datatypes.h filehandling_functions.h video.h \
+	menu_and_note_utils.h mainfunction.h utils.h signal_handler.h \
+	colors.h regexp_search.h manual.h parse_config.h keyboard.h \
+	initializelinks.h printinfo.h readlinewrapper.h
+menu_and_note_utils.o: menu_and_note_utils.c common_includes.h \
+	localestuff.h ../config.h rcsid.h datatypes.h \
+	filehandling_functions.h video.h menu_and_note_utils.h \
+	mainfunction.h utils.h signal_handler.h colors.h \
+	regexp_search.h manual.h parse_config.h keyboard.h \
+	initializelinks.h printinfo.h readlinewrapper.h
+parse_config.o: parse_config.c common_includes.h localestuff.h \
+	../config.h rcsid.h datatypes.h filehandling_functions.h \
+	video.h menu_and_note_utils.h mainfunction.h utils.h \
+	signal_handler.h colors.h regexp_search.h manual.h \
+	parse_config.h keyboard.h initializelinks.h printinfo.h \
+	readlinewrapper.h
+pinfo.o: pinfo.c common_includes.h localestuff.h ../config.h rcsid.h \
+	datatypes.h filehandling_functions.h video.h \
+	menu_and_note_utils.h mainfunction.h utils.h signal_handler.h \
+	colors.h regexp_search.h manual.h parse_config.h keyboard.h \
+	initializelinks.h printinfo.h readlinewrapper.h
+printinfo.o: printinfo.c common_includes.h localestuff.h ../config.h \
+	rcsid.h datatypes.h filehandling_functions.h video.h \
+	menu_and_note_utils.h mainfunction.h utils.h signal_handler.h \
+	colors.h regexp_search.h manual.h parse_config.h keyboard.h \
+	initializelinks.h printinfo.h readlinewrapper.h
+readlinewrapper.o: readlinewrapper.c common_includes.h localestuff.h \
+	../config.h rcsid.h datatypes.h filehandling_functions.h \
+	video.h menu_and_note_utils.h mainfunction.h utils.h \
+	signal_handler.h colors.h regexp_search.h manual.h \
+	parse_config.h keyboard.h initializelinks.h printinfo.h \
+	readlinewrapper.h
+regexp_search.o: regexp_search.c common_includes.h localestuff.h \
+	../config.h rcsid.h datatypes.h filehandling_functions.h \
+	video.h menu_and_note_utils.h mainfunction.h utils.h \
+	signal_handler.h colors.h regexp_search.h manual.h \
+	parse_config.h keyboard.h initializelinks.h printinfo.h \
+	readlinewrapper.h
+signal_handler.o: signal_handler.c common_includes.h localestuff.h \
+	../config.h rcsid.h datatypes.h filehandling_functions.h \
+	video.h menu_and_note_utils.h mainfunction.h utils.h \
+	signal_handler.h colors.h regexp_search.h manual.h \
+	parse_config.h keyboard.h initializelinks.h printinfo.h \
+	readlinewrapper.h
+utils.o: utils.c common_includes.h localestuff.h ../config.h rcsid.h \
+	datatypes.h filehandling_functions.h video.h \
+	menu_and_note_utils.h mainfunction.h utils.h signal_handler.h \
+	colors.h regexp_search.h manual.h parse_config.h keyboard.h \
+	initializelinks.h printinfo.h readlinewrapper.h
+video.o: video.c common_includes.h localestuff.h ../config.h rcsid.h \
+	datatypes.h filehandling_functions.h video.h \
+	menu_and_note_utils.h mainfunction.h utils.h signal_handler.h \
+	colors.h regexp_search.h manual.h parse_config.h keyboard.h \
+	initializelinks.h printinfo.h readlinewrapper.h
+
+info-am:
+info: info-am
+dvi-am:
+dvi: dvi-am
+check-am: all-am
+check: check-am
+installcheck-am:
+installcheck: installcheck-am
+install-exec-am: install-binPROGRAMS
+install-exec: install-exec-am
+
+install-data-am: install-data-local
+install-data: install-data-am
+
+install-am: all-am
+	@$(MAKE) $(AM_MAKEFLAGS) install-exec-am install-data-am
+install: install-am
+uninstall-am: uninstall-binPROGRAMS
+uninstall: uninstall-am
+all-am: Makefile $(PROGRAMS)
+all-redirect: all-am
+install-strip:
+	$(MAKE) $(AM_MAKEFLAGS) AM_INSTALL_PROGRAM_FLAGS=-s install
+installdirs:
+	$(mkinstalldirs)  $(DESTDIR)$(bindir)
+
+
+mostlyclean-generic:
+
+clean-generic:
+
+distclean-generic:
+	-rm -f Makefile $(CONFIG_CLEAN_FILES)
+	-rm -f config.cache config.log stamp-h stamp-h[0-9]*
+
+maintainer-clean-generic:
+mostlyclean-am:  mostlyclean-binPROGRAMS mostlyclean-compile \
+		mostlyclean-tags mostlyclean-generic
+
+mostlyclean: mostlyclean-am
+
+clean-am:  clean-binPROGRAMS clean-compile clean-tags clean-generic \
+		mostlyclean-am
+
+clean: clean-am
+
+distclean-am:  distclean-binPROGRAMS distclean-compile distclean-tags \
+		distclean-generic clean-am
+
+distclean: distclean-am
+
+maintainer-clean-am:  maintainer-clean-binPROGRAMS \
+		maintainer-clean-compile maintainer-clean-tags \
+		maintainer-clean-generic distclean-am
+	@echo "This command is intended for maintainers to use;"
+	@echo "it deletes files that may require special tools to rebuild."
+
+maintainer-clean: maintainer-clean-am
+
+.PHONY: mostlyclean-binPROGRAMS distclean-binPROGRAMS clean-binPROGRAMS \
+maintainer-clean-binPROGRAMS uninstall-binPROGRAMS install-binPROGRAMS \
+mostlyclean-compile distclean-compile clean-compile \
+maintainer-clean-compile tags mostlyclean-tags distclean-tags \
+clean-tags maintainer-clean-tags distdir info-am info dvi-am dvi check \
+check-am installcheck-am installcheck install-exec-am install-exec \
+install-data-local install-data-am install-data install-am install \
+uninstall-am uninstall all-redirect all-am all installdirs \
+mostlyclean-generic distclean-generic clean-generic \
+maintainer-clean-generic clean mostlyclean distclean maintainer-clean
+
+
+@SET_MAKE@
+
+@HAS_READLINE_FALSE@readlinewrapper.o: $(pinfo_READLINE)
+
+@HAVE_SNPRINTF_FALSE@snprintf.o: $(pinfo_SNPRINTF)
+
+@HAVE_SIGBLOCK_FALSE@sigblock.o: $(pinfo_SIGBLOCK)
+
+install-data-local:
+	if [ ! -f $(DESTDIR)$(sysconfdir)/pinforc ] ; then \
+		if [ ! -d $(DESTDIR)$(sysconfdir) ]; then \
+		   $(INSTALL) -d $(DESTDIR)$(sysconfdir); \
+		fi; \
+		$(INSTALL) -m 644 $(srcdir)/pinforc $(DESTDIR)$(sysconfdir) ; \
+	else \
+		echo "WARNING! Old pinforc detected. I'm not installing the new file"; \
+        fi
+
+# Tell versions [3.59,3.63) of GNU make to not export all variables.
+# Otherwise a system limit (for SysV at least) may be exceeded.
+.NOEXPORT:

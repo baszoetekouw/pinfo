@@ -1,0 +1,255 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR Free Software Foundation, Inc.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: 0.5.3\n"
+"POT-Creation-Date: 2003-08-21 11:22+0200\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: Volosenkov Dmitry <_bil_@mail.ru>\n"
+"Language-Team: russian <ru@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=koi8-r\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: src/filehandling_functions.c:393
+msgid "Searching for indirect done\n"
+msgstr ""
+
+#: src/filehandling_functions.c:398
+msgid "Searching for indirect done"
+msgstr ""
+
+#: src/filehandling_functions.c:425
+msgid "Warning: could not find tag table\n"
+msgstr "Предупреждение: не могу найти табличный тэг\n"
+
+#: src/filehandling_functions.c:430
+msgid "Warning: could not find tag table"
+msgstr "Предупреждение: не могу найти табличный тэг"
+
+#: src/filehandling_functions.c:457
+msgid "Searching for tag table done\n"
+msgstr "Поиск табличного тэга завершен\n"
+
+#: src/filehandling_functions.c:1024
+msgid "Error: could not open info file\n"
+msgstr "Ошибка: не могу найти info файл\n"
+
+#: src/mainfunction.c:125 src/manual.c:865
+msgid "Are you sure to print?"
+msgstr "Вы действительно желаете напечатать"
+
+#: src/mainfunction.c:177 src/manual.c:908
+msgid "Enter line: "
+msgstr "Введите строку: "
+
+#: src/mainfunction.c:218 src/manual.c:955
+msgid "Enter command: "
+msgstr "Введите команду: "
+
+#: src/mainfunction.c:237
+msgid "Operation failed..."
+msgstr "Действие не удалось..."
+
+#: src/mainfunction.c:273 src/mainfunction.c:543 src/manual.c:1004
+msgid "Enter regexp: "
+msgstr "Введите регулярное выражение: "
+
+#: src/mainfunction.c:513 src/mainfunction.c:605 src/manual.c:1066
+msgid "Search string not found..."
+msgstr "Строка не найдена..."
+
+#: src/mainfunction.c:634
+msgid "Enter node name: "
+msgstr "Введите имя ноды: "
+
+#: src/mainfunction.c:719
+#, c-format
+msgid "Node %s not found"
+msgstr "Узел %s не найден"
+
+#: src/mainfunction.c:1177 src/manual.c:1412
+msgid "Are you sure to quit?"
+msgstr "Вы действительно желаете выйти?"
+
+#: src/manual.c:258
+msgid "Error: Cannot call man command.\n"
+msgstr "Ошибка: Невозможно запустить man\n"
+
+#: src/manual.c:267
+msgid "Error: No manual page found either.\n"
+msgstr "Ошибка: Man страница не найдена также.\n"
+
+#: src/manual.c:270
+msgid "Appropriate pages:\n"
+msgstr "Подходящие страницы:\n"
+
+#: src/manual.c:309
+msgid "Calling gunzip for"
+msgstr "Запуск gunzip для"
+
+#: src/manual.c:315
+msgid "Couldn't call gunzip.\n"
+msgstr "Невозможно запустить gunzip \n"
+
+#: src/manual.c:350
+msgid "IGNORING"
+msgstr ""
+
+#: src/manual.c:393
+msgid "Error: No manual page found\n"
+msgstr "Ошибка: страница руководства не найдена.\n"
+
+#: src/manual.c:398
+msgid "Calling apropos \n"
+msgstr ""
+
+#: src/manual.c:403
+msgid "Nothing apropiate\n"
+msgstr "Ничего подходящего\n"
+
+#: src/manual.c:878
+msgid "Enter manual name: "
+msgstr "Введите название руководства: "
+
+#: src/manual.c:1488 src/video.c:90
+#, c-format
+msgid "Viewing line %d/%d, %d%%"
+msgstr "Просматриваю строчку %d/%d, %d%%"
+
+#: src/manual.c:1490 src/video.c:92
+#, c-format
+msgid "Viewing line %d/%d, 100%%"
+msgstr "Просматриваю строчку %d/%d, 100%%"
+
+#: src/parse_config.c:90
+msgid "Can't open config file!\n"
+msgstr ""
+
+#: src/parse_config.c:138
+#, c-format
+msgid "Parse error in config file on line %d\n"
+msgstr "Синтаксическая ошибка конфигурационного файла в строке %d\n"
+
+#: src/utils.c:99 src/utils.c:153
+msgid "Virtual memory exhausted\n"
+msgstr "Закончилась виртуальная память\n"
+
+#: src/utils.c:205
+#, c-format
+msgid ""
+"Illegal characters in filename!\n"
+"*** %s\n"
+msgstr ""
+"неверные символы в имени файла!\n"
+"*** %s\n"
+
+#: src/utils.c:390
+msgid "yes"
+msgstr ""
+
+#: src/utils.c:391
+msgid "no"
+msgstr ""
+
+#: src/video.c:39
+msgid "File:"
+msgstr "Файл:"
+
+#: src/video.c:40
+msgid "Node:"
+msgstr "Узел:"
+
+#: src/video.c:41
+msgid "Next:"
+msgstr "След.:"
+
+#: src/video.c:42
+msgid "Prev:"
+msgstr "Пред.:"
+
+#: src/video.c:43
+msgid "Up:"
+msgstr "Вверх:"
+
+#: src/pinfo.c:87 src/pinfo.c:165
+msgid "Looking for man page...\n"
+msgstr "Ищу man страницу...\n"
+
+#: src/pinfo.c:120
+msgid "--node option used without argument\n"
+msgstr "параметр --node используется без аргумента\n"
+
+#: src/pinfo.c:129
+#, fuzzy
+msgid "--rcfile option used without argument\n"
+msgstr "опция --node используется без аргумента\n"
+
+#: src/pinfo.c:139
+#, c-format
+msgid ""
+"Usage:\n"
+"%s [options] [info|manual]\n"
+"Options:\n"
+"-h, --help                            help\n"
+"-v, --version                         version\n"
+"-m, --manual                          use man page\n"
+"-r, --raw-filename                    use raw filename\n"
+"-f, --file                            synonym for -r\n"
+"-a, --apropos                         call apropos if nothing found\n"
+"-p, --plain-apropos                   call only apropos\n"
+"-c, --cut-man-headers                 cut out repeated man headers\n"
+"-l, --long-manual-links               use long link names in manuals\n"
+"-s, --squeeze-manlines                cut empty lines from manual pages\n"
+"-d, --dont-handle-without-tag-table   don't display texinfo pages without "
+"tag\n"
+"                                      tables\n"
+"-t, --force-manual-tag-table          force manual detection of tag table\n"
+"-x, --clear-at-exit                   clear screen at exit\n"
+"    --node=nodename, --node nodename  jump directly to the node nodename\n"
+"    --rcfile=file, --rcfile file      use alternate rcfile\n"
+msgstr ""
+
+#: src/pinfo.c:266
+msgid "Error: could not open info file, trying manual\n"
+msgstr "Ошибка: не могу открыть info файл, пытаюсь открыть man\n"
+
+#: src/pinfo.c:298
+msgid "Warning: tag table not found...\n"
+msgstr "Предупреждение: табличный тэг не найден...\n"
+
+#: src/pinfo.c:302
+msgid "Trying to create alternate tag table...\n"
+msgstr "Пытаюсь создать другой табличный тэг...\n"
+
+#: src/pinfo.c:307 src/pinfo.c:444
+msgid "This doesn't look like info file...\n"
+msgstr "Непохож на info файл...\n"
+
+#: src/pinfo.c:320
+msgid "Specified node does not exist...\n"
+msgstr "Указанный узел не существует...\n"
+
+#: src/pinfo.c:374
+msgid "File not found. Press any key..."
+msgstr "Файл не найден. Нажмите любую клавишу..."
+
+#: src/pinfo.c:392
+msgid "Unexpected error.\n"
+msgstr "Неожиданная ошибка.\n"
+
+#: src/pinfo.c:439
+msgid "Tag table not found. Trying to create alternate..."
+msgstr "Табличный тэг не найден. Пытаюсь создать другой..."
+
+#: src/pinfo.c:521
+#, c-format
+msgid "Security warning: Unable to get GID of group called: %s\n"
+msgstr ""
+
+#: src/pinfo.c:541
+#, c-format
+msgid "Security warning: Unable to get UID of user called: %s\n"
+msgstr ""

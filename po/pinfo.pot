@@ -1,0 +1,253 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR Free Software Foundation, Inc.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"POT-Creation-Date: 2003-08-21 11:22+0200\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=CHARSET\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: src/filehandling_functions.c:393
+msgid "Searching for indirect done\n"
+msgstr ""
+
+#: src/filehandling_functions.c:398
+msgid "Searching for indirect done"
+msgstr ""
+
+#: src/filehandling_functions.c:425
+msgid "Warning: could not find tag table\n"
+msgstr ""
+
+#: src/filehandling_functions.c:430
+msgid "Warning: could not find tag table"
+msgstr ""
+
+#: src/filehandling_functions.c:457
+msgid "Searching for tag table done\n"
+msgstr ""
+
+#: src/filehandling_functions.c:1024
+msgid "Error: could not open info file\n"
+msgstr ""
+
+#: src/mainfunction.c:125 src/manual.c:865
+msgid "Are you sure to print?"
+msgstr ""
+
+#: src/mainfunction.c:177 src/manual.c:908
+msgid "Enter line: "
+msgstr ""
+
+#: src/mainfunction.c:218 src/manual.c:955
+msgid "Enter command: "
+msgstr ""
+
+#: src/mainfunction.c:237
+msgid "Operation failed..."
+msgstr ""
+
+#: src/mainfunction.c:273 src/mainfunction.c:543 src/manual.c:1004
+msgid "Enter regexp: "
+msgstr ""
+
+#: src/mainfunction.c:513 src/mainfunction.c:605 src/manual.c:1066
+msgid "Search string not found..."
+msgstr ""
+
+#: src/mainfunction.c:634
+msgid "Enter node name: "
+msgstr ""
+
+#: src/mainfunction.c:719
+#, c-format
+msgid "Node %s not found"
+msgstr ""
+
+#: src/mainfunction.c:1177 src/manual.c:1412
+msgid "Are you sure to quit?"
+msgstr ""
+
+#: src/manual.c:258
+msgid "Error: Cannot call man command.\n"
+msgstr ""
+
+#: src/manual.c:267
+msgid "Error: No manual page found either.\n"
+msgstr ""
+
+#: src/manual.c:270
+msgid "Appropriate pages:\n"
+msgstr ""
+
+#: src/manual.c:309
+msgid "Calling gunzip for"
+msgstr ""
+
+#: src/manual.c:315
+msgid "Couldn't call gunzip.\n"
+msgstr ""
+
+#: src/manual.c:350
+msgid "IGNORING"
+msgstr ""
+
+#: src/manual.c:393
+msgid "Error: No manual page found\n"
+msgstr ""
+
+#: src/manual.c:398
+msgid "Calling apropos \n"
+msgstr ""
+
+#: src/manual.c:403
+msgid "Nothing apropiate\n"
+msgstr ""
+
+#: src/manual.c:878
+msgid "Enter manual name: "
+msgstr ""
+
+#: src/manual.c:1488 src/video.c:90
+#, c-format
+msgid "Viewing line %d/%d, %d%%"
+msgstr ""
+
+#: src/manual.c:1490 src/video.c:92
+#, c-format
+msgid "Viewing line %d/%d, 100%%"
+msgstr ""
+
+#: src/parse_config.c:90
+msgid "Can't open config file!\n"
+msgstr ""
+
+#: src/parse_config.c:138
+#, c-format
+msgid "Parse error in config file on line %d\n"
+msgstr ""
+
+#: src/utils.c:99 src/utils.c:153
+msgid "Virtual memory exhausted\n"
+msgstr ""
+
+#: src/utils.c:205
+#, c-format
+msgid ""
+"Illegal characters in filename!\n"
+"*** %s\n"
+msgstr ""
+
+#: src/utils.c:390
+msgid "yes"
+msgstr ""
+
+#: src/utils.c:391
+msgid "no"
+msgstr ""
+
+#: src/video.c:39
+msgid "File:"
+msgstr ""
+
+#: src/video.c:40
+msgid "Node:"
+msgstr ""
+
+#: src/video.c:41
+msgid "Next:"
+msgstr ""
+
+#: src/video.c:42
+msgid "Prev:"
+msgstr ""
+
+#: src/video.c:43
+msgid "Up:"
+msgstr ""
+
+#: src/pinfo.c:87 src/pinfo.c:165
+msgid "Looking for man page...\n"
+msgstr ""
+
+#: src/pinfo.c:120
+msgid "--node option used without argument\n"
+msgstr ""
+
+#: src/pinfo.c:129
+msgid "--rcfile option used without argument\n"
+msgstr ""
+
+#: src/pinfo.c:139
+#, c-format
+msgid ""
+"Usage:\n"
+"%s [options] [info|manual]\n"
+"Options:\n"
+"-h, --help                            help\n"
+"-v, --version                         version\n"
+"-m, --manual                          use man page\n"
+"-r, --raw-filename                    use raw filename\n"
+"-f, --file                            synonym for -r\n"
+"-a, --apropos                         call apropos if nothing found\n"
+"-p, --plain-apropos                   call only apropos\n"
+"-c, --cut-man-headers                 cut out repeated man headers\n"
+"-l, --long-manual-links               use long link names in manuals\n"
+"-s, --squeeze-manlines                cut empty lines from manual pages\n"
+"-d, --dont-handle-without-tag-table   don't display texinfo pages without "
+"tag\n"
+"                                      tables\n"
+"-t, --force-manual-tag-table          force manual detection of tag table\n"
+"-x, --clear-at-exit                   clear screen at exit\n"
+"    --node=nodename, --node nodename  jump directly to the node nodename\n"
+"    --rcfile=file, --rcfile file      use alternate rcfile\n"
+msgstr ""
+
+#: src/pinfo.c:266
+msgid "Error: could not open info file, trying manual\n"
+msgstr ""
+
+#: src/pinfo.c:298
+msgid "Warning: tag table not found...\n"
+msgstr ""
+
+#: src/pinfo.c:302
+msgid "Trying to create alternate tag table...\n"
+msgstr ""
+
+#: src/pinfo.c:307 src/pinfo.c:444
+msgid "This doesn't look like info file...\n"
+msgstr ""
+
+#: src/pinfo.c:320
+msgid "Specified node does not exist...\n"
+msgstr ""
+
+#: src/pinfo.c:374
+msgid "File not found. Press any key..."
+msgstr ""
+
+#: src/pinfo.c:392
+msgid "Unexpected error.\n"
+msgstr ""
+
+#: src/pinfo.c:439
+msgid "Tag table not found. Trying to create alternate..."
+msgstr ""
+
+#: src/pinfo.c:521
+#, c-format
+msgid "Security warning: Unable to get GID of group called: %s\n"
+msgstr ""
+
+#: src/pinfo.c:541
+#, c-format
+msgid "Security warning: Unable to get UID of user called: %s\n"
+msgstr ""
