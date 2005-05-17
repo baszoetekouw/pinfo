@@ -4,9 +4,9 @@ always_built_SUBDIRS = src
 
 sometimes_built_SUBDIRS = 
 
-SUBDIRS = doc macros po intl $(always_built_SUBDIRS)
+SUBDIRS = doc macros po $(always_built_SUBDIRS)
 
-EXTRA_DIST = TECHSTUFF TODO pinfo.spec INSTALL
+EXTRA_DIST = config.rpath  TECHSTUFF TODO pinfo.spec INSTALL
 
 
 ## to automatically rebuild aclocal.m4 if any of the macros in `macros/' change
@@ -19,3 +19,5 @@ rpm: Makefile
 	$(MAKE) dist
 	rpm -ta --clean $(PACKAGE)-$(VERSION).tar.gz
 		
+
+ACLOCAL_AMFLAGS = -I macros
