@@ -348,7 +348,7 @@
 	Updated argument parsing code and help message to reflect new options.
 	cs.po updated
 
-1999-06-05  Linus Ĺkerlund  <uxm165t@tninet.se>
+1999-06-05  Linus Åkerlund  <uxm165t@tninet.se>
 
 	* po/sv.po, src/parse_config.c:
 	parse_config.c: added check for NULL pointer to skip_whitespace(), and
@@ -592,7 +592,7 @@
 	* src/initializelinks.c:
 	Added support for splitted into two lines `highlights'.
 
-1999-04-23  Linus Ĺkerlund  <uxm165t@tninet.se>
+1999-04-23  Linus Åkerlund  <uxm165t@tninet.se>
 
 	* src/parse_config.c, doc/pinfo.1:
 	parse_config.c: Fixed blank lines in config file.
@@ -613,7 +613,7 @@
 	Added support for key_upnode (Marius Gedminas)
 	Modified handling of blank lines in config file.
 
-1999-04-21  Linus Ĺkerlund  <uxm165t@tninet.se>
+1999-04-21  Linus Åkerlund  <uxm165t@tninet.se>
 
 	* src/parse_config.c:
 	Fixed the bug/feature that gave you a parse error for empty lines in
@@ -634,7 +634,7 @@
 
 	* doc/pinfo.1: Stilistical changes to pinfo.1
 
-1999-04-21  Linus Ĺkerlund  <uxm165t@tninet.se>
+1999-04-21  Linus Åkerlund  <uxm165t@tninet.se>
 
 	* src/pinforc, src/parse_config.c:
 	Added user visible error messages like "parse error on line XX".
@@ -646,7 +646,7 @@
 	updated little bug, which was caused by not counting tabs as 8 chars, but
 	as 1.
 
-1999-04-20  Linus Ĺkerlund  <uxm165t@tninet.se>
+1999-04-20  Linus Åkerlund  <uxm165t@tninet.se>
 
 	* doc/pinfo.1:
 	Fixed some formulations and spelling errors.
