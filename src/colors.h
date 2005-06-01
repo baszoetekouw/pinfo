@@ -33,9 +33,10 @@ extern int urlselected;
 extern int infohighlight;
 extern int searchhighlight;
 
-void initcolors ();		/* 
-				 * initialize color values/attributes/etc. 
-				 * Either for color and monochrome mode.
-				 */
+/*
+ * initialize color values/attributes/etc.  Either for color and monochrome
+ * mode.
+ */
+void initcolors ();
 
 #endif

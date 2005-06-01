@@ -2,4 +2,4 @@
 
 RCSID ("$Id$")
 
-     extern struct keybindings keys;
+extern struct keybindings keys;
