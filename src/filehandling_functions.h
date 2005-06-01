@@ -9,54 +9,57 @@
 void initpaths ();
 void addrawpath (char *filename);
 
-void seeknode (int tag_table_pos, FILE ** Id);	/* 
-						 * seek to a node in certain
-						 * info file 
-						 */
+/*  seek to a node in certain info file */
+void seeknode (int tag_table_pos, FILE ** Id);
 
+/*
+ * free allocated memory, hold by buf (node** content, stored line by line),
+ * and type (a char* pointer, which stores the node header).
+ */
 void freeitem (char **type, char ***buf, long *lines);
-  /*
-   * free allocated memory, hold by buf (node** content, stored line by line),
-   * and type (a char* pointer, which stores the node header).
-   */
 
-void read_item (FILE * id, char **type, char ***buf, long *lines);
-/*  
+/*
  * reads a node from 'id' to 'buf', and the header of node to 'type'. It sets
  * the numer of read lines to *lines. Warning! First line of 'buf' is left
  * empty.
  */
-int seek_indirect (FILE * id);	/* searches for indirect entry of info file */
-int seek_tag_table (FILE * id,int quiet);	/* as above, but with tag table entry */
+void read_item (FILE * id, char **type, char ***buf, long *lines);
+/* searches for indirect entry of info file */
+int seek_indirect (FILE * id);
+/* as above, but with tag table entry */
+int seek_tag_table (FILE * id,int quiet);
+/*
+ * loads indirect table (from a special node, stored in message, of lines
+ * length)
+ */
 void load_indirect (char **message, long lines);
- /* 
-  * loads indirect table (from a special node, stored in message, of lines 
-  * length)
-  */
+/* loads tag table (as above) */
 void load_tag_table (char **message, long lines);
- /* 
-  * loads tag table (as above) 
-  */
-FILE *openinfo (char *filename, int number);	/* opens info file */
-FILE *opendirfile (int number);	/* opens dir info file */
+/* opens info file */
+FILE *openinfo (char *filename, int number);
+/* opens dir info file */
+FILE *opendirfile (int number);
 
-void create_tag_table (FILE * id);	/* creates tag table for info file */
-void create_indirect_tag_table ();	/* creates tag table for indirect info */
+/* creates tag table for info file */
+void create_tag_table (FILE * id);
+/* creates tag table for indirect info */
+void create_indirect_tag_table ();
 
-FILE *
-  dirpage_lookup (char **type, char ***message, long *lines,
-		  char *filename, char **first_node);
-/*              
- * look up a name, which was specified by the user in cmd line, in dir 
- * entries. If found, return filedescriptor of the info file, which holds 
- * needed entry. Also set `first node' to the name of node, which describes 
+/*
+ * look up a name, which was specified by the user in cmd line, in dir
+ * entries. If found, return filedescriptor of the info file, which holds
+ * needed entry. Also set `first node' to the name of node, which describes
  * the problem. Arguments:
  * type: a pointer to char*, which will hold the header line of dir entry
- * message: a pointer to char** buffer, which will hold the dir page line by 
- * line
+ * message: a pointer to char** buffer, which will hold the dir page line by
+ *          line
  * lines: pointer to long, which holds the number of lines in dir entry
  */
+FILE *
+dirpage_lookup (char **type, char ***message, long *lines,
+		char *filename, char **first_node);
 
-void strip_compression_suffix (char *file);	/* removes trailing .gz, .bz2, etc. */
+/* removes trailing .gz, .bz2, etc. */
+void strip_compression_suffix (char *file);
 
 #endif

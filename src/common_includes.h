@@ -53,5 +53,6 @@
 #include "sigblock.h"
 #endif
 
-#define _REGEX_RE_COMP		/* I hear voices, that it is needed by RH5.2 ;) */
+/* I hear voices, that it is needed by RH5.2 ;) */
+#define _REGEX_RE_COMP
 #endif
