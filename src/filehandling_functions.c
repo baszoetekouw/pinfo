@@ -46,7 +46,7 @@ qsort_cmp(const void *base, const void *compared)
 int
 matchfile(char **buf, char *name)
 {
-#define Buf(*buf)
+#define Buf	(*buf)
 	DIR *dir;
 	char *bname=basename(name);
 	struct dirent *dp;
@@ -91,9 +91,9 @@ FILE *
 dirpage_lookup(char **type, char ***message, long *lines,
 		char *filename, char **first_node)
 {
-#define Type(*type)
-#define Message(*message)
-#define Lines(*lines)
+#define Type	(*type)
+#define Message	(*message)
+#define Lines	(*lines)
 	FILE *id = 0;
 	int filenamelen = strlen(filename);
 	int goodHit = 0, perfectHit = 0;
@@ -167,9 +167,9 @@ dirpage_lookup(char **type, char ***message, long *lines,
 void
 freeitem(char **type, char ***buf, long *lines)
 {
-#define Type(*type)
-#define Buf(*buf)
-#define Lines(*lines)
+#define Type	(*type)
+#define Buf		(*buf)
+#define Lines	(*lines)
 	long i;
 
 	if (Type != 0)
@@ -197,9 +197,9 @@ void
 read_item(FILE * id, char **type, char ***buf, long *lines)
 {
 
-#define Type(*type)
-#define Buf(*buf)
-#define Lines(*lines)
+#define Type	(*type)
+#define Buf		(*buf)
+#define Lines	(*lines)
 
 	freeitem(type, buf, lines);	/* free previously allocated memory */
 
@@ -286,7 +286,8 @@ load_indirect(char **message, long lines)
 	}
 	IndirectEntries = lines - 1 - cut;
 }
-	oid
+
+void
 load_tag_table(char **message, long lines)
 {
 	long i;
@@ -997,12 +998,13 @@ create_tag_table(FILE * id)
 seeknode(int tag_table_pos, FILE ** Id)
 {
 	int i;
-#define id(*Id)
-	if (indirect)			/*
-							 * Indirect nodes are seeked using a formula:
-							 * file-offset = tagtable_offset - indirect_offset +
-							 *             + tagtable[1]_offset
-							 */
+#define id	(*Id)
+	/*
+	 * Indirect nodes are seeked using a formula:
+	 * file-offset = tagtable_offset - indirect_offset +
+	 *             + tagtable[1]_offset
+	 */
+	if (indirect)	
 	{
 		for (i = IndirectEntries; i >= 1; i--)
 		{

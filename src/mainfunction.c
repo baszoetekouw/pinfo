@@ -23,9 +23,9 @@ long pos, cursor, infomenu, infocolumn=0;
 WorkRVal
 work(char ***message, char **type, long *lines, FILE * id, int tag_table_pos)
 {
-#define Message(*message)
-#define Lines(*lines)
-#define Type(*type)
+#define Message	(*message)
+#define Lines	(*lines)
+#define Type	(*type)
 	static WorkRVal rval =
 	{0, 0};
 	FILE *pipe;
@@ -345,7 +345,7 @@ work(char ***message, char **type, long *lines, FILE * id, int tag_table_pos)
 							 * add the offset of the part of file, which wasn't
 							 * read to the memory
 							 */
-							tokenpos += starttokenpaos;
+							tokenpos += starttokenpos;
 							{	/* local scope for tmpvar, matched */
 								int tmpvar = 0, matched = 0;
 								tag_table[0].offset = 0;
@@ -1191,7 +1191,7 @@ rescan_cursor()
 int
 getnodeoffset(int tag_table_pos, int *Indstart)	/* count node offset in file */
 {
-#define indirectstart(*Indstart)
+#define indirectstart	(*Indstart)
 	int i, fileoffset = 0;
 	if (indirect)
 	{
