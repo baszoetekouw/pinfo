@@ -12,8 +12,8 @@ RCSID("$Id$")
 void
 printnode(char ***message, long *lines)
 {
-#define Message(*message)
-#define Lines(*lines)
+#define Message	(*message)
+#define Lines	(*lines)
 
 	/* counter, to point at what highlights are already * handled */
 	int highlight = 0;

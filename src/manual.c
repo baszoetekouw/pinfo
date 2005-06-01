@@ -845,7 +845,7 @@ man_initializelinks(char *tmp, int carry)
 					/* check whether this is a carry'ed entry(i.e. in the
 					 * previous line there was `-' at end, and this is the
 					 * first word of this line */
-					for (b = i - 1; b >= 0; b--)a
+					for (b = i - 1; b >= 0; b--)
 					{
 						if (b > 0)
 							if (!isspace(tmp[b]))
