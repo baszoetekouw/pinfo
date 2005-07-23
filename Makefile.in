@@ -184,7 +184,7 @@ RECURSIVE_TARGETS = info-recursive dvi-recursive pdf-recursive \
 	check-recursive installcheck-recursive
 DIST_COMMON = README $(srcdir)/Makefile.in $(srcdir)/configure \
 	ABOUT-NLS AUTHORS COPYING ChangeLog INSTALL Makefile.am NEWS \
-	TODO aclocal.m4 config.h.in configure configure.ac depcomp \
+	TODO aclocal.m4 config.h.in configure configure.ac \
 	pinfo.spec.in tools/config.guess tools/config.rpath \
 	tools/config.sub tools/depcomp tools/install-sh tools/ltmain.sh \
 	tools/missing tools/mkinstalldirs tools/texinfo.tex
@@ -207,7 +207,7 @@ $(top_builddir)/config.status: $(srcdir)/configure $(CONFIG_STATUS_DEPENDENCIES)
 $(srcdir)/configure: @MAINTAINER_MODE_TRUE@ $(srcdir)/configure.ac $(ACLOCAL_M4) $(CONFIGURE_DEPENDENCIES)
 	cd $(srcdir) && $(AUTOCONF)
 
-$(ACLOCAL_M4): @MAINTAINER_MODE_TRUE@ configure.ac macros/aclocal-include.m4 macros/compiler-flags.m4 macros/curses.m4 macros/readline.m4
+$(ACLOCAL_M4): @MAINTAINER_MODE_TRUE@ configure.ac macros/aclocal-include.m4 macros/codeset.m4 macros/compiler-flags.m4 macros/curses.m4 macros/gettext.m4 macros/glibc2.m4 macros/glibc21.m4 macros/iconv.m4 macros/intdiv0.m4 macros/intmax.m4 macros/inttypes-pri.m4 macros/inttypes.m4 macros/inttypes_h.m4 macros/isc-posix.m4 macros/lcmessage.m4 macros/lib-ld.m4 macros/lib-link.m4 macros/lib-prefix.m4 macros/longdouble.m4 macros/longlong.m4 macros/nls.m4 macros/po.m4 macros/printf-posix.m4 macros/progtest.m4 macros/readline.m4 macros/signed.m4 macros/size_max.m4 macros/stdint_h.m4 macros/uintmax_t.m4 macros/ulonglong.m4 macros/wchar_t.m4 macros/wint_t.m4 macros/xsize.m4
 	cd $(srcdir) && $(ACLOCAL) $(ACLOCAL_AMFLAGS)
 
 config.h: stamp-h1
