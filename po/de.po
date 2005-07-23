@@ -40,7 +40,7 @@ msgstr "Suche nach der Tag-Tabelle abgeschlossen.\n"
 #: src/filehandling_functions.c:1024
 #, c-format
 msgid "Error: could not open info file\n"
-msgstr "Fehler: Konnte die Info-Datei nicht oeffnen.\n"
+msgstr "Fehler: Konnte die Info-Datei nicht öffnen.\n"
 
 #: src/mainfunction.c:125 src/manual.c:865
 msgid "Are you sure to print?"
@@ -275,7 +275,7 @@ msgstr "Angegebener Knoten existiert nicht...\n"
 
 #: src/pinfo.c:374
 msgid "File not found. Press any key..."
-msgstr "Datei wurde nicht gefunden. Bitte druecken sie eine Taste..."
+msgstr "Datei wurde nicht gefunden. Bitte drücken Sie eine Taste..."
 
 #: src/pinfo.c:392
 #, c-format
