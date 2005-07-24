@@ -802,101 +802,200 @@ isininfopath(char *name)
 	return 0;			/* path not found in previous links */
 }
 
-	void
+/* returns the number of chars ch in string str */
+unsigned int
+charcount(const char *str, const char ch)
+{
+	int num = 0;
+	const char *c;
+
+	c = str;
+	
+	while (*c != '\0')
+	{
+		if (*c++ == ch)
+			num++;
+	}
+	return num;
+}
+
+/* 
+ * find the paths where info files are to be found, 
+ * and put them in the global var infopaths[]
+ */
+void
 initpaths()
 {
-	char curdir[1024];
-	int i, infolen, wsklen;
-	int localdir = 0, globaldir = 0;	/* flags, which say if the /usr/local/info *
-										 * and /usr/info were defined in $INFOPATH */
-	int sharedir = 0;		/* the same for /usr/share/info */
-	char *lang = getenv("LANG");
-	char *infopath;
-	char *wsk;
-	char **tmpinfopaths;		/*for use for sorting */
+	char emptystr[1] = "";
+	char **paths = NULL;
+	char *infopath = NULL, *langpath = NULL;
+	char *c, *dir, *env;
+	char *lang, *langshort = NULL;
+	int ret;
+	unsigned int i, j, maxpaths, numpaths = 0, infolen, langlen;
+	size_t len;
+	struct stat sbuf;
+	ino_t *inodes;
 
-	getcwd(curdir, 1024);
-
-	infopaths = xmalloc(5 * sizeof(char *));
-
-	infopathcount = 0;
-
-	if (getenv("INFOPATH") != NULL)	/* check paths in $INFOPATH variable */
+	/* first concat the paths */
+	env = getenv("INFOPATH");
+	if (env == NULL)
 	{
-		infopath = xmalloc(strlen(getenv("INFOPATH")) + strlen(configuredinfopath) + 100);
-		/*
-		 * +5(well, +100) of overrun buffer, since the following while loop
-		 *  can be coded simplier this way
-		 */
-		wsk = infopath;
-		strcpy(infopath, getenv("INFOPATH"));	/* copy the environmental path string */
-		strcat(infopath, ":");
-		strcat(infopath, configuredinfopath);	/* concatenate the paths from config file to the path string */
+		env = emptystr;
 	}
-	else
+	infolen = strlen(env) + strlen(configuredinfopath) + 2;
+	infopath = (char *) xmalloc( infolen );
+	strcat(infopath, env);
+	strcat(infopath, ":");
+	strcat(infopath, configuredinfopath);
+
+	/* alloc the paths[] array */
+	maxpaths = 3 * (charcount( infopath, ':' ) + 1); // *3 for $LANG
+	paths = (char **) xmalloc( maxpaths * sizeof(char *) );
+
+	/* split at ':' and put the path components into paths[] */
+	c = infopath;
+	while (dir = strsep(&c, ":"))
 	{
-		infopath = xmalloc(strlen(configuredinfopath) + 100);
-		wsk = infopath;
-		strcpy(infopath, configuredinfopath);
-	}
-	infolen = strlen(infopath);
-	for (i = 0; i < infolen; i++)
-		if (infopath[i] == ':')
-			infopath[i] = 0;
-	while (wsk < infopath + infolen)
-	{
-		infopaths = xrealloc(infopaths,(infopathcount + 2) * sizeof(char *));
-		wsklen = strlen(wsk);
-		if (!isininfopath(wsk))
+		/* if this actually is a non-empty string, add it to paths[] */
+		if ( dir && strlen(dir)>0 ) 
 		{
-			if (wsklen)
-			{
-				if (wsk[wsklen - 1] == '/')
-					wsk[wsklen - 1] = 0;
-			}
-			if (lang)
-			{
-				infopaths[infopathcount] = xmalloc(wsklen + strlen(lang) + 2);
-				sprintf(infopaths[infopathcount], "%s/%s", wsk, lang);	/* with $lang */
-				infopathcount++;
-				infopaths[infopathcount] = xmalloc(wsklen + 1);
-				strcpy(infopaths[infopathcount], wsk);	/* without $lang */
-				infopathcount++;
-				infopaths = xrealloc(infopaths, sizeof(char *) *(infopathcount + 5));
-			}
-			else
-			{
-				infopaths[infopathcount] = xmalloc(wsklen + 1);
-				strcpy(infopaths[infopathcount], wsk);
-				infopathcount++;
-				infopaths = xrealloc(infopaths, sizeof(char *) *(infopathcount + 5));
-			}
+			paths[numpaths++] = dir;
 		}
-		wsk += wsklen + 1;	/*this will go to infopath[infolen+1]
-							  at the last token!!! */
 	}
-	xfree(infopath);
-	infopath = 0;
 
-	/* now we should sort our paths so that the national directories come first
-	   before handling, they are interlaced:
-	   .../info1/LANG|.../info1.../info2/LANG|.../info2|... */
-
-	if (lang)
+	/* get the current $LANG, if any (to use for localized info pages) */
+	lang = strdup(getenv("LANG"));
+	/* fix the lang string */
+	for (i=0; lang[i]!='\0'; i++)
 	{
-		tmpinfopaths = xmalloc(infopathcount * sizeof(char *));
-		for (i = 1; i < infopathcount; i += 2)
-			tmpinfopaths[(int)(i / 2) + infopathcount / 2] = infopaths[i];
-		for (i = 0; i < infopathcount; i += 2)
-			tmpinfopaths[(int)(i / 2)] = infopaths[i];
-		xfree(infopaths);
-		infopaths = tmpinfopaths;
+		/* cut off the charset */
+		if (lang[i]=='.') 
+		{
+			lang[i]='\0';
+		}
+		/* if lang is sublocalized (nl_BE or so), also use short version */
+		if (lang[i]=='_')
+		{
+			langshort = strdup(lang);
+			langshort[i] = '\0';
+		}
+	}
+	/* if we have a LANG defined, add paths with this lang to the paths[] */
+	if (lang && strlen(lang)>0 )
+	{
+		/* crude upper limit */
+		langlen = infolen + (strlen(lang)+2) * numpaths + 1;
+		if (langshort!=NULL) langlen *= 2;
+		langpath = (char *) xmalloc( langlen * sizeof(char) );
+
+		c = langpath; 
+		for (i=0; i<numpaths; i++)
+		{
+			/* TODO: check for negative return values of sprintf */
+			len = sprintf(c, "%s/%s", paths[i], lang);
+			/* add the lang specific dir at the beginning */
+			paths[numpaths+i] = paths[i];
+			paths[i] = c;
+
+			c += len+1;
+			
+			if (langshort) 
+			{
+				/* TODO: check for negative return values of sprintf */
+				len = sprintf(c, "%s/%s", paths[numpaths+i], langshort);
+				/* add the lang specific dir at the beginning */
+				paths[2*numpaths+i] = paths[numpaths+i];
+				paths[numpaths+i] = c;
+
+				c += len+1;
+			}
+
+		}
+		numpaths *= (langshort?3:2);
 	}
 
-	/*  infopaths[infopathcount] = xmalloc(5); */
-	/*  strcpy(infopaths[infopathcount], "."); */	/* for ./ */
-	/*  infopathcount++; */
+#ifdef ___DEBUG___
+	/* for debugging */
+	for (i=0; i<numpaths; i++)
+		fprintf(stderr,"--> %s\n", paths[i]);
+#endif
+
+	/* ok, now we have all the (possibly) revelevant paths in paths[] */
+	/* now loop over them, see if they are valid and if they are duplicates*/
+	inodes = (ino_t *) xmalloc( maxpaths * sizeof(ino_t *) );
+	numpaths = 0;
+	len = 0;
+	for (i=0; i< maxpaths; i++)
+	{
+		/* stat() the dir */
+		ret = stat( paths[i], &sbuf);
+		/* and see if it could be opened */
+		if (ret < 0)
+		{
+#ifdef ___DEBUG___
+			fprintf(stderr, "error while opening `%s': %s\n", 
+					paths[i], strerror(errno) );
+#endif 
+			paths[i] = NULL;
+			inodes[i] = 0;
+		}
+		else
+		{
+			inodes[i] = sbuf.st_ino;
+		}
+
+		/* now check if this path is a duplicate */
+		for (j=0; j<i; j++)
+		{
+			if (inodes[j]==inodes[i]) paths[i] = NULL;
+		}
+
+		/* calculate the total number of vali paths and the size of teh strings */
+		if (paths[i]!=NULL) 
+		{
+			numpaths++;
+			len += strlen(paths[i]) + 1;
+		}
+	}
+
+
+	/* and alloc and copy to global var */
+	infopathcount = numpaths;
+	infopaths = (char **) xmalloc( numpaths * sizeof(char *) );
+	c = (char *) xmalloc( len * sizeof(char) );
+	j=0;
+	for (i=0; i<maxpaths; i++)
+	{
+		if (paths[i]!=NULL)
+		{
+			/* copy path to c buffer */
+			strcpy(c, paths[i]);	
+			infopaths[j++] = c;
+			c += strlen(paths[i]) + 1;
+		}
+	}
+	
+
+	xfree(infopath);
+	xfree(langpath);
+	xfree(paths);
+	xfree(lang);
+	xfree(langshort);
+	xfree(inodes);
+
+#ifdef ___DEBUG___
+	/* for debugging */
+	fprintf(stderr, "%i valid info paths found:\n", infopathcount);
+	for (i=0; i<infopathcount; i++)
+		if (infopaths[i]) fprintf(stderr,"--> %s\n", infopaths[i]);
+#endif
+
+
 }
+
+
+
 	void
 create_indirect_tag_table()
 {

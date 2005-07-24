@@ -2,6 +2,11 @@
 #define __FILEHANDLING_FUNCTIONS_H
 
 #include <dirent.h>
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <unistd.h>
+#include <errno.h>
+
 
 #define INFO_TAG 0x1f
 #define INDIRECT_TAG 0x7f
