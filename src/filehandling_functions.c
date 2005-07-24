@@ -875,7 +875,7 @@ initpaths()
 			lang[i]='\0';
 		}
 		/* if lang is sublocalized (nl_BE or so), also use short version */
-		if (lang[i]=='_')
+		if (lang[i]=='_' && langshort==NULL)
 		{
 			langshort = strdup(lang);
 			langshort[i] = '\0';
@@ -1154,3 +1154,4 @@ strip_compression_suffix(char *file)	/* removes trailing .gz, .bz2, etc. */
 		}
 	}
 }
+
