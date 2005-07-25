@@ -44,7 +44,7 @@ AH_TEMPLATE([HAS_READLINE],
 	[ Defined if found readline ])
 
 AC_DEFUN([AC_CHECK_READLINE],[
-	search_readline=false
+	search_readline=true
 	has_readline=false
 
 dnl	CFLAGS=${CFLAGS--O}
@@ -72,6 +72,18 @@ dnl	CFLAGS=${CFLAGS--O}
 		AC_SEARCH_READLINE()
 	fi
 
+	if $has_readline
+	then
+		AC_READLINE_VERSION()
+		if test $readline_version -ge 5
+		then
+			AC_DEFINE(HAS_READLINE)
+		else
+			AC_MSG_RESULT(Readline version $readline_version is too old; needs at least version 5)
+		fi
+	fi
+
+
 
 ])
 	
@@ -87,17 +99,36 @@ AC_DEFUN([AC_READLINE], [
  	    READLINE_LIBS="$3"
 	    READLINE_INCLUDES="$4"
 	    search_readline=false
-            AC_DEFINE(HAS_READLINE)
             has_readline=true
 	fi
     fi
 ])
 
 AC_DEFUN([AC_SEARCH_READLINE], [
-    AC_CHECKING("location of readline.h file")
+    AC_CHECKING(location of readline.h file)
 
     AC_READLINE(/usr/include, readline.h, -lreadline,, "readline on /usr/include")
     AC_READLINE(/usr/include/readline, readline.h, -lreadline, -I/usr/include/readline, "readline on /usr/include/readline")
     AC_READLINE(/usr/local/include, readline.h, -L/usr/local/lib -lreadline, -I/usr/local/include, "readline on /usr/local")
     AC_READLINE(/usr/local/include/readline, readline.h, -L/usr/local/lib -L/usr/local/lib/readline -lreadline, -I/usr/local/include/readline, "readline on /usr/local/include/readline")
 ] ) 
+
+AC_DEFUN([AC_READLINE_VERSION], [
+	AC_CHECKING(for readline version)
+	readline_version=unknown
+cat > conftest.$ac_ext <<EOF
+[#]line __oline__ "configure"
+#include "confdefs.h"
+#include <readline.h>
+#undef VERSION
+VERSION:RL_VERSION_MAJOR.RL_VERSION_MINOR
+EOF
+	if (eval "$ac_cpp $READLINE_INCLUDES conftest.$ac_ext") 2>&AC_FD_CC |
+	  egrep "VERSION:" >conftest.out 2>&1; then
+changequote(,)dnl
+		readline_version=`cat conftest.out|sed -e 's/ //g' -e 's/^VERSION://' -e 's/\..*$//'`
+changequote([,])dnl
+	fi
+	rm -rf conftest*
+	AC_MSG_RESULT($readline_version)
+] )
