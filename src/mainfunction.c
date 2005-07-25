@@ -546,7 +546,20 @@ work(char ***message, char **type, long *lines, FILE * id, int tag_table_pos)
 				curs_set(0);
 				noecho();
 				attrset(normal);
-				pinfo_re_comp(token);	/* compile the read token */
+				/* compile the read token */
+				if (pinfo_re_comp(token) != 0)
+				{
+					/* print error message */
+					attrset(bottomline);
+					mymvhline(maxy - 1, 0, ' ', maxx);
+					move(maxy - 1, 0);
+					printw(_("Invalid regular expression;"));
+					printw(" ");
+					printw(_("Press any key to continue..."));
+					getch();
+					goto skip_search;
+					
+				}
 				/* scan for the token in the following lines.  */
 				for (i = pos + 1; i < Lines; i++)
 				{
