@@ -1120,7 +1120,18 @@ manualwork()
 #endif
 				attrset(normal);
 				/* compile regexp expression */
-				pinfo_re_comp(token);
+				if (pinfo_re_comp(token) != 0)
+				{
+					/* print error message */
+					attrset(bottomline);
+					mymvhline(maxy - 1, 0, ' ', maxx);
+					move(maxy - 1, 0);
+					printw(_("Invalid regular expression;"));
+					printw(" ");
+					printw(_("Press any key to continue..."));
+					getch();
+					goto skip_search;
+				}
 				/* and search for it in all subsequential lines */
 				for (i = manualpos + 1; i < ManualLines - 1; i++)
 				{

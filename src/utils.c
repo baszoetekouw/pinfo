@@ -353,7 +353,8 @@ waitforgetch()
 	select(1, &rdfs, NULL, NULL, NULL);
 }
 
-void
+/* returns 0 on success, 1 on error */
+int
 pinfo_re_comp(char *name)
 {
 #ifdef ___DONT_USE_REGEXP_SEARCH___
@@ -363,6 +364,7 @@ pinfo_re_comp(char *name)
 		pinfo_re_pattern = 0;
 	}
 	pinfo_re_pattern = strdup(name);
+	return 0;
 #else
 	if (pinfo_re_offset == -1)
 	{
@@ -376,7 +378,7 @@ pinfo_re_comp(char *name)
 	{
 		regfree(&h_regexp[pinfo_re_offset]);
 	}
-	regcomp(&h_regexp[pinfo_re_offset], name, REG_ICASE);
+	return regcomp(&h_regexp[pinfo_re_offset], name, REG_ICASE);
 #endif
 }
 

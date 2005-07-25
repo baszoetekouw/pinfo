@@ -13,7 +13,7 @@ extern char *pinfo_re_pattern;
 #endif
 
 /* wrappers for re_comp and re_exec */
-void pinfo_re_comp (char *name);
+int pinfo_re_comp (char *name);
 int pinfo_re_exec (char *name);
 
 /* user defined getch, capable of handling ALT keybindings */
