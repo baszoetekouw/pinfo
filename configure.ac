@@ -45,7 +45,7 @@ AC_ISC_POSIX
 AC_C_CONST
 
 # Checks for library functions.
-AC_CHECK_FUNCS(strdup strstr)
+AC_CHECK_FUNCS(strdup strstr strsep)
 AC_CHECK_FUNCS(getopt_long snprintf)
 AM_CONDITIONAL(HAVE_SNPRINTF,test "x$ac_cv_func_snprintf" = "xyes")
 
