@@ -21,14 +21,6 @@ char *pinfo_re_pattern = 0;
 int pinfo_re_offset = -1;
 #endif
 
-/*
- * Readline does not work well here. VT100 screen is ruined then.
- *
- * But if you want enable readline at compile time
- * [ ./configure --with-readline ]
- *
- */
-
 #ifdef HAS_READLINE
 #include <readline/readline.h>
 #include <readline/history.h>
@@ -216,37 +208,49 @@ checkfilename(char *filename)
 	}
 }
 
+#ifdef HAS_READLINE
+/* custom function that readline will use to display text */
+void
+my_rl_display()
+{
+	/* go to the bottom line, empty it, and print the prompt and buffer */
+	attrset(bottomline);
+	mymvhline(maxy - 1, 0, ' ', maxx);
+	move(maxy-1,0);
+	printw("%s%s", rl_prompt, rl_line_buffer);
+	refresh();
+}
+#endif
+
 char *
 getstring(char *prompt)
 {
-	/*
-	 * As above -- readline is dangerous ;)
-	 * But if you want enable readline at compile time
-	 * [ ./configure --with-readline ]
-	 *
-	 */
-
-#ifndef HAS_READLINE
-
-	move(maxy - 1, 0);
-	return readlinewrapper(prompt);
-
-#else
-
 	char *buf;
-	TERMINAL *term = cur_term;
+
+#ifdef HAS_READLINE
+
 	curs_set(1);
 	move(maxy - 1, 0);
 	refresh();
-	sigblock(sigmask(SIGINT) | sigmask(SIGPIPE));
+
+	rl_readline_name = PACKAGE;
+	
+	/* set display function for readline to my_rl_display and call readline */
+	rl_redisplay_function = my_rl_display;
 	buf = readline(prompt);
-	cur_term = term;
-	sigblock(sigmask(SIGPIPE));
-	add_history(buf);
+	if (buf && *buf) 
+		add_history(buf);
+	
 	curs_set(0);
-	return buf;
+
+#else
+
+	move(maxy - 1, 0);
+	buf = readlinewrapper(prompt);
+
 #endif
 
+	return buf;
 }
 
 void

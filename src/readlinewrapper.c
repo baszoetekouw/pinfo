@@ -11,6 +11,8 @@ int rlhistorypos = 0;
 char *
 readlinewrapper(char *prompt)
 {
+	/* number of keys pressed */
+	int numkeys = 0;
 	/* initial buffer for the read line */
 	char *buf = xmalloc(1024);
 	/* start coords of input line */
@@ -44,7 +46,10 @@ readlinewrapper(char *prompt)
 	strcpy(rlhistory[rlhistorylen - 1], buf);
 	/* call history to be present */
 	if (CallReadlineHistory)
+	{
 		ungetch(KEY_UP);
+		numkeys = -1;
+	}
 
 	while (key != '\n')
 	{
@@ -101,8 +106,8 @@ readlinewrapper(char *prompt)
 						/*  recall value from history to input buf */
 						strcpy(buf, rlhistory[rlhistorypos - 1]);
 					}
-				if (cursor > strlen(buf))
-					cursor = strlen(buf);
+				cursor = strlen(buf);
+				numkeys = -1;
 				break;
 			/* forwards-history call */
 			case KEY_DOWN:
@@ -112,8 +117,8 @@ readlinewrapper(char *prompt)
 						rlhistorypos++;
 						strcpy(buf, rlhistory[rlhistorypos - 1]);
 					}
-				if (cursor > strlen(buf))
-					cursor = strlen(buf);
+				cursor = strlen(buf);
+				numkeys = -1;
 				break;
 				/* eliminate nonprintable chars */
 			case '\n':
@@ -133,6 +138,19 @@ readlinewrapper(char *prompt)
 			default:
 				if (key >= 32)
 				{
+					/* if this is the first key, delete the buffer */
+					if (numkeys==0 && cursor!=0)
+					{
+						for (i=0; buf[i]!=0; i++)
+							buf[i] = 0;
+						cursor = 0;
+						/* and empty the line */
+						move(origy, origx);
+						for (i = origx; i < maxx; i++)
+							addch(' ');
+						move(origy, origx + cursor);
+					}
+					
 					/* if the cursor is not at the last pos */
 					if (strlen(buf + cursor))
 					{
@@ -159,6 +177,8 @@ readlinewrapper(char *prompt)
 		move(origy, origx);
 		addstr(buf);
 		move(origy, origx + cursor);
+
+		numkeys++;
 
 	}
 	strcpy(rlhistory[rlhistorylen - 1], buf);
