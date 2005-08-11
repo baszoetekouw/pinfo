@@ -851,7 +851,7 @@ initpaths()
 	char **paths = NULL;
 	char *infopath = NULL, *langpath = NULL;
 	char *c, *dir, *env;
-	char *rawlang, *lang, *langshort = NULL;
+	char *rawlang = NULL, *lang = NULL, *langshort = NULL;
 	int ret;
 	unsigned int i, j, maxpaths, numpaths = 0, infolen, langlen;
 	size_t len;
