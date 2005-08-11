@@ -3,6 +3,7 @@
  *
  *  Copyright (C) 1999  Przemek Borys <pborys@dione.ids.pl>
  *  Copyright (C) 2005  Bas Zoetekouw <bas@debian.org>
+ *  Copyright (C) 2005  Nathanael Nerode <neroden@gcc.gnu.org>
  *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of version 2 of the GNU General Public License as
@@ -850,7 +851,7 @@ initpaths()
 	char **paths = NULL;
 	char *infopath = NULL, *langpath = NULL;
 	char *c, *dir, *env;
-	char *lang, *langshort = NULL;
+	char *rawlang, *lang, *langshort = NULL;
 	int ret;
 	unsigned int i, j, maxpaths, numpaths = 0, infolen, langlen;
 	size_t len;
@@ -885,20 +886,23 @@ initpaths()
 	}
 
 	/* get the current $LANG, if any (to use for localized info pages) */
-	lang = strdup(getenv("LANG"));
-	/* fix the lang string */
-	for (i=0; lang[i]!='\0'; i++)
-	{
-		/* cut off the charset */
-		if (lang[i]=='.') 
+	rawlang = getenv("LANG");
+	if (rawlang) {
+		lang = strdup(rawlang);
+		/* fix the lang string */
+		for (i=0; lang[i]!='\0'; i++)
 		{
-			lang[i]='\0';
-		}
-		/* if lang is sublocalized (nl_BE or so), also use short version */
-		if (lang[i]=='_' && langshort==NULL)
-		{
-			langshort = strdup(lang);
-			langshort[i] = '\0';
+			/* cut off the charset */
+			if (lang[i]=='.') 
+			{
+				lang[i]='\0';
+			}
+			/* if lang is sublocalized (nl_BE or so), also use short version */
+			if (lang[i]=='_' && langshort==NULL)
+			{
+				langshort = strdup(lang);
+				langshort[i] = '\0';
+			}
 		}
 	}
 	/* if we have a LANG defined, add paths with this lang to the paths[] */
