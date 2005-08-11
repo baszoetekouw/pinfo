@@ -3,6 +3,7 @@
  *
  *  Copyright (C) 1999  Przemek Borys <pborys@dione.ids.pl>
  *  Copyright (C) 2005  Bas Zoetekouw <bas@debian.org>
+ *  Copyright 2005  Nathanael Nerode <neroden@gcc.gnu.org>
  *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of version 2 of the GNU General Public License as
@@ -120,15 +121,23 @@ showscreen(char **message, char *type, long lines, long pos, long cursor, int co
 /*
  * prints a line, taking care for the horizontal scrolling.
  *  if the string fits in the window, it is drawn. If not,
- *  it is either cut, or completely ommited.
+ *  it is either cut, or completely omitted.
  */
 void
 info_addstr(int y, int x, char *txt, int column, int txtlen)
 {
+  int maxy, maxx;
+  getmaxyx(stdscr, maxy, maxx);
+  /* Use maxx and mvaddnstr to force clipping.
+   * Fairly blunt instrument, but the best I could come up with.
+   * Breaks in the presence of tabs; I don't see how to handle them. */
 	if (x>column)
-		mvaddstr(y,x-column,txt);
+		mvaddnstr(y,x-column,txt, maxx-(x-column) );
 	else if (x+txtlen>column)
-		mvaddstr(y,0,txt+(column-x));
+		mvaddnstr(y,0,txt+(column-x), maxx );
+#ifdef __DEBUG__
+  refresh();
+#endif /* __DEBUG__ */
 }
 
 void
