@@ -73,6 +73,9 @@ void copy_stripped_from_regexp (char *src, char *dest);
 /* Block until something's on STDIN */
 void waitforgetch ();
 
+/* Handle SIGWINCH */
+void handlewinch ();
+
 /* is curses screen open? */
 extern int curses_open;
 

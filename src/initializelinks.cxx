@@ -218,7 +218,7 @@ initializelinks(char *line1, char *line2, int line)
 	char *tmp;
 	char *notestart = 0, *urlstart = 0, *urlend = 0;
 	char *quotestart = 0, *quoteend = 0;
-	char *buf = xmalloc(strlen(line1) + strlen(line2) + 1);
+	char *buf = (char*)xmalloc(strlen(line1) + strlen(line2) + 1);
 	/* required to sort properly the hyperlinks from current line only */
 	long initialhyperobjectcount = hyperobjectcount;
 	int changed;
@@ -252,9 +252,9 @@ initializelinks(char *line1, char *line2, int line)
 						{
 							changed = 1;
 							if (!hyperobjectcount)
-								hyperobjects = xmalloc(sizeof(HyperObject));
+								hyperobjects = (HyperObject*)xmalloc(sizeof(HyperObject));
 							else
-								hyperobjects = xrealloc(hyperobjects, sizeof(HyperObject) *(hyperobjectcount + 1));
+								hyperobjects = (HyperObject*)xrealloc(hyperobjects, sizeof(HyperObject) *(hyperobjectcount + 1));
 							hyperobjects[hyperobjectcount].line = line;
 							hyperobjects[hyperobjectcount].col = calculate_len(buf, quotestart + 1);
 							hyperobjects[hyperobjectcount].breakpos = -1;	/* default */
@@ -287,9 +287,9 @@ initializelinks(char *line1, char *line2, int line)
 		{
 			urlend = findurlend(urlstart);	/* always successful */
 			if (!hyperobjectcount)
-				hyperobjects = xmalloc(sizeof(HyperObject));
+				hyperobjects = (HyperObject*)xmalloc(sizeof(HyperObject));
 			else
-				hyperobjects = xrealloc(hyperobjects, sizeof(HyperObject) *(hyperobjectcount + 1));
+				hyperobjects = (HyperObject*)xrealloc(hyperobjects, sizeof(HyperObject) *(hyperobjectcount + 1));
 			hyperobjects[hyperobjectcount].line = line;
 			hyperobjects[hyperobjectcount].col = calculate_len(line1, urlstart);
 			hyperobjects[hyperobjectcount].breakpos = -1;
@@ -327,9 +327,9 @@ initializelinks(char *line1, char *line2, int line)
 		if (tmp != NULL)
 		{
 			if (!hyperobjectcount)
-				hyperobjects = xmalloc(sizeof(HyperObject));
+				hyperobjects = (HyperObject*)xmalloc(sizeof(HyperObject));
 			else
-				hyperobjects = xrealloc(hyperobjects, sizeof(HyperObject) *(hyperobjectcount + 1));
+				hyperobjects = (HyperObject*)xrealloc(hyperobjects, sizeof(HyperObject) *(hyperobjectcount + 1));
 			if (line1[2] == '(')	/* if cross-info link */
 			{
 				char *end = strchr(line1, ')');
@@ -408,9 +408,9 @@ initializelinks(char *line1, char *line2, int line)
 						long FilenameLen =(long)(end - start - 1);
 						long NodenameLen =(long)(dot - end - 1);
 						if (!hyperobjectcount)
-							hyperobjects = xmalloc(sizeof(HyperObject));
+							hyperobjects = (HyperObject*)xmalloc(sizeof(HyperObject));
 						else
-							hyperobjects = xrealloc(hyperobjects, sizeof(HyperObject) *(hyperobjectcount + 1));
+							hyperobjects = (HyperObject*)xrealloc(hyperobjects, sizeof(HyperObject) *(hyperobjectcount + 1));
 						strncpy(hyperobjects[hyperobjectcount].file,
 								start + 1, FilenameLen);
 						hyperobjects[hyperobjectcount].file[FilenameLen] = 0;
@@ -438,9 +438,9 @@ handle_no_file_menu_label:
 					long NodenameLen;
 					int goodHit = 0;	/* has val of 1, if it's a good hit */
 					if (!hyperobjectcount)
-						hyperobjects = xmalloc(sizeof(HyperObject));
+						hyperobjects = (HyperObject*)xmalloc(sizeof(HyperObject));
 					else
-						hyperobjects = xrealloc(hyperobjects, sizeof(HyperObject) *(hyperobjectcount + 1));
+						hyperobjects = (HyperObject*)xrealloc(hyperobjects, sizeof(HyperObject) *(hyperobjectcount + 1));
 
 					start = tmp + 1;	/* move after the padding spaces */
 					while (isspace(*start))
@@ -494,9 +494,9 @@ handlenote:
 			if (tmp != NULL)
 			{
 				if (!hyperobjectcount)
-					hyperobjects = xmalloc(sizeof(HyperObject));
+					hyperobjects = (HyperObject*)xmalloc(sizeof(HyperObject));
 				else
-					hyperobjects = xrealloc(hyperobjects, sizeof(HyperObject) *(hyperobjectcount + 1));
+					hyperobjects = (HyperObject*)xrealloc(hyperobjects, sizeof(HyperObject) *(hyperobjectcount + 1));
 				if (notestart[6] == '(')	/* if cross-info link */
 				{
 					char *end = strchr(notestart, ')');
@@ -605,9 +605,9 @@ handlenote:
 							long FilenameLen =(long)(end - start - 1);
 							long NodenameLen =(long)(dot - end - 1);
 							if (!hyperobjectcount)
-								hyperobjects = xmalloc(sizeof(HyperObject));
+								hyperobjects = (HyperObject*)xmalloc(sizeof(HyperObject));
 							else
-								hyperobjects = xrealloc(hyperobjects, sizeof(HyperObject) *(hyperobjectcount + 1));
+								hyperobjects = (HyperObject*)xrealloc(hyperobjects, sizeof(HyperObject) *(hyperobjectcount + 1));
 							strncpy(hyperobjects[hyperobjectcount].file,
 									start + 1, FilenameLen);
 							hyperobjects[hyperobjectcount].file[FilenameLen] = 0;
@@ -647,9 +647,9 @@ handle_no_file_note_label:
 						long NodenameLen;
 						int goodHit = 0;
 						if (!hyperobjectcount)
-							hyperobjects = xmalloc(sizeof(HyperObject));
+							hyperobjects = (HyperObject*)xmalloc(sizeof(HyperObject));
 						else
-							hyperobjects = xrealloc(hyperobjects, sizeof(HyperObject) *(hyperobjectcount + 1));
+							hyperobjects = (HyperObject*)xrealloc(hyperobjects, sizeof(HyperObject) *(hyperobjectcount + 1));
 
 						start = tmp + 1;	/* move after the padding spaces */
 						while (isspace(*start))
@@ -717,9 +717,9 @@ handle_no_file_note_label:
 	{
 		urlend = findurlend(urlstart);	/* always successful */
 		if (!hyperobjectcount)
-			hyperobjects = xmalloc(sizeof(HyperObject));
+			hyperobjects = (HyperObject*)xmalloc(sizeof(HyperObject));
 		else
-			hyperobjects = xrealloc(hyperobjects, sizeof(HyperObject) *(hyperobjectcount + 1));
+			hyperobjects = (HyperObject*)xrealloc(hyperobjects, sizeof(HyperObject) *(hyperobjectcount + 1));
 		hyperobjects[hyperobjectcount].line = line;
 		hyperobjects[hyperobjectcount].col = calculate_len(line1, urlstart);
 		hyperobjects[hyperobjectcount].breakpos = -1;
@@ -738,9 +738,9 @@ handle_no_file_note_label:
 	{
 		urlend = findurlend(urlstart);	/* always successful */
 		if (!hyperobjectcount)
-			hyperobjects = xmalloc(sizeof(HyperObject));
+			hyperobjects = (HyperObject*)xmalloc(sizeof(HyperObject));
 		else
-			hyperobjects = xrealloc(hyperobjects, sizeof(HyperObject) *(hyperobjectcount + 1));
+			hyperobjects = (HyperObject*)xrealloc(hyperobjects, sizeof(HyperObject) *(hyperobjectcount + 1));
 		hyperobjects[hyperobjectcount].line = line;
 		hyperobjects[hyperobjectcount].col = calculate_len(line1, urlstart);
 		hyperobjects[hyperobjectcount].breakpos = -1;

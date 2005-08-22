@@ -40,7 +40,7 @@ printnode(char ***message, long *lines)
 	/* printer fd */
 	FILE *prnFD;
 	/* temporary buffer */
-	char *buf = xmalloc(1024);
+	char *buf = (char*)xmalloc(1024);
 
 	prnFD = popen(printutility, "w");
 

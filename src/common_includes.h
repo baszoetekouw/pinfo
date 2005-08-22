@@ -39,6 +39,7 @@
 #include <sys/stat.h>
 #include <pwd.h>
 #include <grp.h>
+#include <ctype.h>
 
 #ifdef HAVE_CONFIG_H
 #include "config.h"

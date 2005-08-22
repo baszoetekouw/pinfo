@@ -3,7 +3,7 @@
  *
  *  Copyright (C) 1999  Przemek Borys <pborys@dione.ids.pl>
  *  Copyright (C) 2005  Bas Zoetekouw <bas@debian.org>
- *  Copyright (C) 2005  Nathanael Nerode <neroden@gcc.gnu.org>
+ *  Copyright 2005  Nathanael Nerode <neroden@gcc.gnu.org>
  *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of version 2 of the GNU General Public License as
@@ -154,7 +154,7 @@ dirpage_lookup(char **type, char ***message, long *lines,
 										tmp++;
 									if (strlen(name))
 									{
-										*first_node = xmalloc(strlen(tmp) + 1);
+										*first_node = (char*)xmalloc(strlen(tmp) + 1);
 										strcpy((*first_node), tmp);
 									}
 									if (id)
@@ -232,24 +232,24 @@ read_item(FILE * id, char **type, char ***buf, long *lines)
 									 */
 	while (fgetc(id) != '\n');	/* then skip the trailing `\n' */
 
-	Type = xmalloc(1024);	/* read the header line */
+	Type = (char*)xmalloc(1024);	/* read the header line */
 	fgets(Type, 1024, id);
-	Type = xrealloc(Type, strlen(Type) + 1);
+	Type = (char*)xrealloc(Type, strlen(Type) + 1);
 	Lines = 0;			/* set number of lines to 0 */
 
-	Buf = xmalloc(sizeof(char **));	/* initial buffer allocation */
+	Buf = (char**)xmalloc(sizeof(char **));	/* initial buffer allocation */
 	do
 	{
 		if (feof(id))		/* don't read after eof in info file */
 			break;
 		if (Lines)		/* make a reallocation for new input line */
 		{
-			Buf[Lines] = xrealloc(Buf[Lines], strlen(Buf[Lines]) + 1);
+			Buf[Lines] = (char*)xrealloc(Buf[Lines], strlen(Buf[Lines]) + 1);
 		}
 		Lines++;			/* increase the read lines number */
 
-		Buf = xrealloc(Buf, sizeof(char **) *(Lines + 1));
-		Buf[Lines] = xmalloc(1024);
+		Buf = (char**)xrealloc(Buf, sizeof(char **) *(Lines + 1));
+		Buf[Lines] = (char*)xmalloc(1024);
 		Buf[Lines][0] = 0;
 
 		if (fgets(Buf[Lines], 1024, id) == NULL)		/*
@@ -266,7 +266,7 @@ read_item(FILE * id, char **type, char ***buf, long *lines)
 	if (Lines)			/* added for simplifing two-line ismenu and isnote functs */
 	{
 		strcpy(Buf[Lines], "\n");
-		Buf[Lines] = xrealloc(Buf[Lines], strlen(Buf[Lines]) + 1);
+		Buf[Lines] = (char*)xrealloc(Buf[Lines], strlen(Buf[Lines]) + 1);
 	}
 
 	fseek(id, -2, SEEK_CUR);
@@ -281,7 +281,7 @@ load_indirect(char **message, long lines)
 	long i;
 	char *wsk;
 	int cut = 0;			/* number of invalid entries */
-	indirect = xmalloc((lines + 1) * sizeof(Indirect));
+	indirect = (Indirect*)xmalloc((lines + 1) * sizeof(Indirect));
 	for (i = 1; i < lines; i++)
 	{
 		char *check;
@@ -324,7 +324,7 @@ load_tag_table(char **message, long lines)
 	 */
 	if (strcasecmp("(Indirect)", message[1]) == 0)
 		is_indirect = 1;
-	tag_table = xmalloc((lines + 1) * sizeof(TagTable));
+	tag_table = (TagTable*)xmalloc((lines + 1) * sizeof(TagTable));
 	for (i = 1; i < lines - is_indirect; i++)
 	{
 		char *check;
@@ -353,7 +353,7 @@ load_tag_table(char **message, long lines)
 			 * original: sprintf(tag_table[i-cut].nodename,"%s",wsk);
 			 * below is a faster version.
 			 */
-			res = memcpy(tag_table[i - cut].nodename, wsk, j =(size_t)(wsk1 - wsk));
+			res = (char*)memcpy(tag_table[i - cut].nodename, wsk, j =(size_t)(wsk1 - wsk));
 			(*(res += j + 1)) = 0;
 			(*wsk1) = INDIRECT_TAG;
 			wsk1++;
@@ -384,7 +384,7 @@ seek_indirect(FILE * id)
 	int finito = 0;
 	long seek_pos;
 	int input;
-	char *type = xmalloc(1024);
+	char *type = (char*)xmalloc(1024);
 	fseek(id, 0, SEEK_SET);
 	while (!finito)		/*
 						 * scan through the file, searching for "indirect:"
@@ -433,7 +433,7 @@ seek_tag_table(FILE * id,int quiet)
 	int finito = 0;
 	long seek_pos;
 	int input;
-	char *type = xmalloc(1024);
+	char *type = (char*)xmalloc(1024);
 	fseek(id, 0, SEEK_SET);
 	/*
 	 * Scan through the file, searching for a string
@@ -521,7 +521,7 @@ opendirfile(int number)
 	char command[1128];		/* holds command to evaluate for decompression of file */
 	int i, j;
 	char *tmpfilename;
-	int *fileendentries = xmalloc(infopathcount * sizeof(int));
+	int *fileendentries = (int*)xmalloc(infopathcount * sizeof(int));
 	int dir_found = 0;
 	int dircount = 0;
 	int lang_found;
@@ -614,7 +614,7 @@ opendirfile(int number)
 		fseek(id, 0, SEEK_END);
 		filelen = ftell(id);
 
-		tmp = xmalloc(filelen);
+		tmp = (char*)xmalloc(filelen);
 		fseek(id, 0, SEEK_SET);
 		fread(tmp, 1, filelen, id);
 		fclose(id);
@@ -676,7 +676,7 @@ FILE *
 openinfo(char *filename, int number)
 {
 	FILE *id = NULL;
-	char *buf = xmalloc(1024);	/* holds local copy of filename */
+	char *buf = (char*) xmalloc(1024);	/* holds local copy of filename */
 	char *bufend;			/* points at the trailing 0 of initial name */
 	char command[1128];		/* holds command to evaluate for decompression of file */
 	int i, j, twoloops;
@@ -797,7 +797,7 @@ addrawpath(char *filename)
 	if (i < 0)
 		pos = -1;
 
-	infopaths = xrealloc(infopaths,(infopathcount + 3) *(sizeof(char *)));
+	infopaths = (char**)xrealloc(infopaths,(infopathcount + 3) *(sizeof(char *)));
 	for (i = infopathcount; i > 0; i--)	/* move entries to the right */
 		infopaths[i] = infopaths[i - 1];
 
@@ -1048,13 +1048,13 @@ create_indirect_tag_table()
 	void
 create_tag_table(FILE * id)
 {
-	char *buf = xmalloc(1024);
+	char *buf = (char*)xmalloc(1024);
 	long oldpos;
 	fseek(id, 0, SEEK_SET);
 	if (!tag_table)
-		tag_table = xmalloc((TagTableEntries + 2) * sizeof(TagTable));
+		tag_table = (TagTable*)xmalloc((TagTableEntries + 2) * sizeof(TagTable));
 	else
-		tag_table = xrealloc(tag_table,(TagTableEntries + 2) * sizeof(TagTable));
+		tag_table = (TagTable*)xrealloc(tag_table,(TagTableEntries + 2) * sizeof(TagTable));
 	while (!feof(id))
 	{
 		if (fgetc(id) == INFO_TAG)	/* We've found a node entry! */
@@ -1069,7 +1069,7 @@ create_tag_table(FILE * id)
 			 */
 			if (fgets(buf, 1024, id) == NULL)
 			{
-				tag_table = xrealloc(tag_table, sizeof(TagTable) *(TagTableEntries + 1));
+				tag_table = (TagTable*)xrealloc(tag_table, sizeof(TagTable) *(TagTableEntries + 1));
 				strcpy(tag_table[TagTableEntries].nodename, "12#!@#4");
 				tag_table[TagTableEntries].offset = 0;
 			}
@@ -1093,7 +1093,7 @@ create_tag_table(FILE * id)
 						{
 							if ((buf[j] == ',') ||(buf[j] == '\n'))
 							{
-								tag_table = xrealloc(tag_table, sizeof(TagTable) *(TagTableEntries + 1));
+								tag_table = (TagTable*)xrealloc(tag_table, sizeof(TagTable) *(TagTableEntries + 1));
 								buf[j] = 0;
 								buflen = j;
 								strcpy(tag_table[TagTableEntries].nodename, buf + i + 2);

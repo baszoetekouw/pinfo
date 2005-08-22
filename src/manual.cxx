@@ -157,7 +157,7 @@ set_initial_history(char *name)
 	char *name1 = strdup(name);
 
 	/* one object of array */
-	manualhistory = xmalloc(sizeof(manhistory));
+	manualhistory = (manhistory*)xmalloc(sizeof(manhistory));
 	/* filter trailing spaces */
 	while ((len > 1) &&(isspace(name1[len - 1])))
 	{
@@ -199,7 +199,7 @@ construct_manualname(char *buf, int which)
 		/* normal manual reference */
 		if (manuallinks[which].section_mark < HTTPSECTION)
 		{
-			char *base = xmalloc(1024);
+			char *base = (char*)xmalloc(1024);
 			char *ptr;
 			int tmppos;
 			strcpy(base, manual[manuallinks[which].line - 1]);
@@ -221,7 +221,7 @@ construct_manualname(char *buf, int which)
 		/* url reference */
 		else
 		{
-			char *base = xmalloc(1024);
+			char *base = (char*)xmalloc(1024);
 			char *ptr, *eptr;
 			int tmppos;
 			int namelen = strlen(manuallinks[which].name);
@@ -339,7 +339,7 @@ handlemanual(char *name)
 				prev = end + 1;
 			}
 
-			ignored_entries =(char **) xmalloc(ignored_items * sizeof(char **));
+			ignored_entries =(char **) (char*)xmalloc(ignored_items * sizeof(char **));
 			ignored_entries[0] = ignoredmacros;
 			prev = ignoredmacros;
 			i = 0;
@@ -564,7 +564,7 @@ handlemanual(char *name)
 					if (!historical)
 					{
 						manualhistorylength++;
-						manualhistory = xrealloc(manualhistory,(manualhistorylength + 2) * sizeof(manhistory));
+						manualhistory = (manhistory*)xrealloc(manualhistory,(manualhistorylength + 2) * sizeof(manhistory));
 						/*
 						 * we can write so since this code applies
 						 * only when it's not a history call
@@ -611,9 +611,9 @@ loadmanual(FILE * id)
 	int carryflag = 0;
 	manualpos = 0;
 	manual_free_buffers();
-	manual = xmalloc(sizeof(char *));
-	manuallinks = xmalloc(sizeof(manuallinks));
-	manual[ManualLines] = xmalloc(1024);
+	manual = (char**)xmalloc(sizeof(char *));
+	manuallinks = (manuallink*)xmalloc(sizeof(manuallinks));
+	manual[ManualLines] = (char*)xmalloc(1024);
 
 	/* we read until eof */
 	while (!feof(id))
@@ -655,11 +655,11 @@ loadmanual(FILE * id)
 		else
 		{
 			int manlinelen = strlen(manual[ManualLines]);
-			manual[ManualLines] = xrealloc(manual[ManualLines],
+			manual[ManualLines] = (char*)xrealloc(manual[ManualLines],
 					manlinelen + 10);
 
 			/* temporary variable for determining hypertextuality of fields */
-			tmp = xmalloc(manlinelen + 10);
+			tmp = (char*)xmalloc(manlinelen + 10);
 
 			strcpy(tmp, manual[ManualLines]);
 
@@ -679,8 +679,8 @@ loadmanual(FILE * id)
 			 * and realloc manual to add an empty space for
 			 * next entry of manual line
 			 */
-			manual = xrealloc(manual,(ManualLines + 5) * sizeof(char *));
-			manual[ManualLines] = xmalloc(1024);
+			manual = (char**)xrealloc(manual,(ManualLines + 5) * sizeof(char *));
+			manual[ManualLines] = (char*)xmalloc(1024);
 		}
 	}
 
@@ -717,12 +717,12 @@ man_initializelinks(char *tmp, int carry)
 	{
 		/* always successfull */
 		urlend = findurlend(urlstart);
-		manuallinks = xrealloc(manuallinks, sizeof(manuallink) *(ManualLinks + 3));
+		manuallinks = (manuallink*)xrealloc(manuallinks, sizeof(manuallink) *(ManualLinks + 3));
 		manuallinks[ManualLinks].line = ManualLines;
 		manuallinks[ManualLinks].col = urlstart - tmp;
 		strcpy(manuallinks[ManualLinks].section, "HTTPSECTION");
 		manuallinks[ManualLinks].section_mark = HTTPSECTION;
-		manuallinks[ManualLinks].name = xmalloc(urlend - urlstart + 10);
+		manuallinks[ManualLinks].name = (char*)xmalloc(urlend - urlstart + 10);
 		strncpy(manuallinks[ManualLinks].name, urlstart, urlend - urlstart);
 		manuallinks[ManualLinks].name[urlend - urlstart] = 0;
 		if (ishyphen(manuallinks[ManualLinks].name[urlend - urlstart - 1]))
@@ -736,12 +736,12 @@ man_initializelinks(char *tmp, int carry)
 	{
 		/* always successfull */
 		urlend = findurlend(urlstart);
-		manuallinks = xrealloc(manuallinks, sizeof(manuallink) *(ManualLinks + 3));
+		manuallinks = (manuallink*)xrealloc(manuallinks, sizeof(manuallink) *(ManualLinks + 3));
 		manuallinks[ManualLinks].line = ManualLines;
 		manuallinks[ManualLinks].col = urlstart - tmp;
 		strcpy(manuallinks[ManualLinks].section, "FTPSECTION");
 		manuallinks[ManualLinks].section_mark = FTPSECTION;
-		manuallinks[ManualLinks].name = xmalloc(urlend - urlstart + 10);
+		manuallinks[ManualLinks].name = (char*)xmalloc(urlend - urlstart + 10);
 		strncpy(manuallinks[ManualLinks].name, urlstart, urlend - urlstart);
 		manuallinks[ManualLinks].name[urlend - urlstart] = 0;
 		if (ishyphen(manuallinks[ManualLinks].name[urlend - urlstart - 1]))
@@ -755,12 +755,12 @@ man_initializelinks(char *tmp, int carry)
 	{
 		/* always successfull */
 		urlend = findurlend(urlstart);
-		manuallinks = xrealloc(manuallinks, sizeof(manuallink) *(ManualLinks + 3));
+		manuallinks = (manuallink*)xrealloc(manuallinks, sizeof(manuallink) *(ManualLinks + 3));
 		manuallinks[ManualLinks].line = ManualLines;
 		manuallinks[ManualLinks].col = urlstart - tmp;
 		strcpy(manuallinks[ManualLinks].section, "MAILSECTION");
 		manuallinks[ManualLinks].section_mark = MAILSECTION;
-		manuallinks[ManualLinks].name = xmalloc(urlend - urlstart + 10);
+		manuallinks[ManualLinks].name = (char*)xmalloc(urlend - urlstart + 10);
 		strncpy(manuallinks[ManualLinks].name, urlstart, urlend - urlstart);
 		manuallinks[ManualLinks].name[urlend - urlstart] = 0;
 		if (ishyphen(manuallinks[ManualLinks].name[urlend - urlstart - 1]))
@@ -787,7 +787,7 @@ man_initializelinks(char *tmp, int carry)
 			if ((temp = strchr(link, ')')))
 			{
 				char *p_t1, *p_t;
-				p_t = p_t1 = xmalloc((strlen(link) + 10) * sizeof(char));
+				p_t = p_t1 = (char*)xmalloc((strlen(link) + 10) * sizeof(char));
 				for (++link; link != temp; *p_t++ = *link++);
 				*p_t = '\0';
 				link -=(strlen(p_t1) + sizeof(char));
@@ -843,7 +843,7 @@ man_initializelinks(char *tmp, int carry)
 
 							break;
 					}
-					manuallinks = xrealloc(manuallinks, sizeof(manuallink) *(ManualLinks + 3));
+					manuallinks = (manuallink*)xrealloc(manuallinks, sizeof(manuallink) *(ManualLinks + 3));
 					manuallinks[ManualLinks].line = ManualLines;
 					manuallinks[ManualLinks].col = i;
 					if (LongManualLinks)
@@ -858,7 +858,7 @@ man_initializelinks(char *tmp, int carry)
 						manuallinks[ManualLinks].section[1] = 0;
 					}
 					manuallinks[ManualLinks].section_mark = 0;
-					manuallinks[ManualLinks].name = xmalloc((breakpos - i) + 10);
+					manuallinks[ManualLinks].name = (char*)xmalloc((breakpos - i) + 10);
 					strcpy(manuallinks[ManualLinks].name, tmp + i);
 					tmp[breakpos] = tempchar;
 
@@ -975,7 +975,7 @@ manualwork()
 			if ((key == keys.goto_1) ||
 					(key == keys.goto_2))
 			{
-				manuallinks = xrealloc(manuallinks,(ManualLinks + 1) *(sizeof(manuallink) + 3));
+				manuallinks = (manuallink*)xrealloc(manuallinks,(ManualLinks + 1) *(sizeof(manuallink) + 3));
 
 				/* get user's value */
 				attrset(bottomline);
@@ -1119,7 +1119,7 @@ manualwork()
 				}
 				else
 				{
-					token = xmalloc(strlen(searchagain.lastsearch) + 1);
+					token = (char*)xmalloc(strlen(searchagain.lastsearch) + 1);
 					strcpy(token, searchagain.lastsearch);
 					searchagain.search = 0;
 				}		/* end of searchagain handler */
@@ -1155,7 +1155,7 @@ manualwork()
 				/* and search for it in all subsequential lines */
 				for (i = manualpos + 1; i < ManualLines - 1; i++)
 				{
-					tmp = xmalloc(strlen(manual[i]) + strlen(manual[i + 1]) + 10);
+					tmp = (char*)xmalloc(strlen(manual[i]) + strlen(manual[i + 1]) + 10);
 					/*
 					 * glue two following lines together, to find expres- sions
 					 * split up into two lines
@@ -1388,7 +1388,7 @@ skip_search:
 						if (!strncmp(manuallinks[selected].section, "HTTPSECTION", 11))
 						{
 							int buflen;
-							char *tempbuf = xmalloc(1024);
+							char *tempbuf = (char*)xmalloc(1024);
 							strcpy(tempbuf, httpviewer);
 							strcat(tempbuf, " ");
 							buflen = strlen(tempbuf);
@@ -1401,7 +1401,7 @@ skip_search:
 						else if (!strncmp(manuallinks[selected].section, "FTPSECTION", 10))
 						{
 							int buflen;
-							char *tempbuf = xmalloc(1024);
+							char *tempbuf = (char*)xmalloc(1024);
 							strcpy(tempbuf, ftpviewer);
 							strcat(tempbuf, " ");
 							buflen = strlen(tempbuf);
@@ -1414,7 +1414,7 @@ skip_search:
 						else if (!strncmp(manuallinks[selected].section, "MAILSECTION", 11))
 						{
 							int buflen;
-							char *tempbuf = xmalloc(1024);
+							char *tempbuf = (char*)xmalloc(1024);
 							strcpy(tempbuf, maileditor);
 							strcat(tempbuf, " ");
 							buflen = strlen(tempbuf);

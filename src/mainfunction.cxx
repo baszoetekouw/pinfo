@@ -260,9 +260,9 @@ work(char ***message, char **type, long *lines, FILE * id, int tag_table_pos)
 			if ((key == keys.dirpage_1) ||
 					(key == keys.dirpage_2))
 			{
-				rval.file = malloc(10);
+				rval.file = (char*)malloc(10);
 				strcpy(rval.file, "dir");
-				rval.node = malloc(2);
+				rval.node = (char*)malloc(2);
 				strcpy(rval.node, "");
 				aftersearch = 0;
 				return rval;
@@ -298,7 +298,7 @@ work(char ***message, char **type, long *lines, FILE * id, int tag_table_pos)
 				}
 				else /* it IS searchagain */
 				{
-					token = xmalloc(strlen(searchagain.lastsearch) + 1);
+					token = (char*)xmalloc(strlen(searchagain.lastsearch) + 1);
 					/* allocate space for token */
 					strcpy(token, searchagain.lastsearch);
 					/* copy the token from searchagain buffer */
@@ -353,7 +353,7 @@ work(char ***message, char **type, long *lines, FILE * id, int tag_table_pos)
 							fseek(fd, FirstNodeOffset, SEEK_SET);
 						starttokenpos = ftell(fd);
 
-						tmp = xmalloc(filelen - starttokenpos + 10);	/* read data */
+						tmp = (char*)xmalloc(filelen - starttokenpos + 10);	/* read data */
 						fread(tmp, 1, filelen - starttokenpos, fd);
 						tmp[filelen - starttokenpos + 1] = 0;
 
@@ -447,7 +447,7 @@ work(char ***message, char **type, long *lines, FILE * id, int tag_table_pos)
 					starttokenpos = ftell(id);
 
 					/* read data */
-					tmp = xmalloc(filelen - starttokenpos + 10);
+					tmp = (char*)xmalloc(filelen - starttokenpos + 10);
 					fread(tmp, 1, filelen - starttokenpos, id);
 					tmp[filelen - starttokenpos + 1] = 0;
 
@@ -530,9 +530,9 @@ work(char ***message, char **type, long *lines, FILE * id, int tag_table_pos)
 					infohistory.pos[infohistory.length] = pos;
 					infohistory.cursor[infohistory.length] = cursor;
 					infohistory.menu[infohistory.length] = infomenu;
-					rval.node = xmalloc(strlen(tag_table[return_value].nodename) + 1);
+					rval.node = (char*)xmalloc(strlen(tag_table[return_value].nodename) + 1);
 					strcpy(rval.node, tag_table[return_value].nodename);
-					rval.file = xmalloc(1);
+					rval.file = (char*)xmalloc(1);
 					rval.file[0] = 0;
 					return rval;
 				}
@@ -554,7 +554,7 @@ work(char ***message, char **type, long *lines, FILE * id, int tag_table_pos)
 				}
 				else
 				{
-					token = xmalloc(strlen(searchagain.lastsearch) + 1);
+					token = (char*)xmalloc(strlen(searchagain.lastsearch) + 1);
 					strcpy(token, searchagain.lastsearch);
 					searchagain.search = 0;
 				}		/* end of searchagain handler */
@@ -583,7 +583,7 @@ work(char ***message, char **type, long *lines, FILE * id, int tag_table_pos)
 				/* scan for the token in the following lines.  */
 				for (i = pos + 1; i < Lines; i++)
 				{
-					tmp = xmalloc(strlen(Message[i]) + strlen(Message[i + 1]) + 2);
+					tmp = (char*)xmalloc(strlen(Message[i]) + strlen(Message[i + 1]) + 2);
 					/*
 					 * glue two following lines into one -- to find matches
 					 * split up into two lines.
@@ -661,9 +661,9 @@ skip_search:
 					infohistory.pos[infohistory.length] = pos;
 					infohistory.cursor[infohistory.length] = cursor;
 					infohistory.menu[infohistory.length] = infomenu;
-					rval.node = xmalloc(strlen(tag_table[return_value].nodename) + 1);
+					rval.node = (char*)xmalloc(strlen(tag_table[return_value].nodename) + 1);
 					strcpy(rval.node, tag_table[return_value].nodename);
-					rval.file = xmalloc(1);
+					rval.file = (char*)xmalloc(1);
 					rval.file[0] = 0;
 					aftersearch = 0;
 					return rval;
@@ -682,7 +682,7 @@ skip_search:
 						/* if they're in the right order...  */
 						if (gotoendptr > gotostartptr)
 						{
-							rval.file = xmalloc(gotoendptr - gotostartptr + 1);
+							rval.file = (char*)xmalloc(gotoendptr - gotostartptr + 1);
 							strncpy(rval.file, gotostartptr + 1, gotoendptr - gotostartptr - 1);
 							rval.file[gotoendptr - gotostartptr - 1] = 0;
 							gotoendptr++;
@@ -692,7 +692,7 @@ skip_search:
 									break;
 								gotoendptr++;
 							}	/* skip spaces */
-							rval.node = xmalloc(strlen(gotoendptr) + 1);
+							rval.node = (char*)xmalloc(strlen(gotoendptr) + 1);
 							strcpy(rval.node, gotoendptr);
 							xfree(token);
 							token = 0;
@@ -703,11 +703,11 @@ skip_search:
 					/* handle the `file.info' format of crossinfo goto. */
 					else if (strstr(token, ".info"))
 					{
-						rval.file = xmalloc(strlen(token) + 1);
+						rval.file = (char*)xmalloc(strlen(token) + 1);
 						strcpy(rval.file, token);
 						xfree(token);
 						token = 0;
-						rval.node = xmalloc(5);
+						rval.node = (char*)xmalloc(5);
 						strcpy(rval.node, "");
 						aftersearch = 0;
 						return rval;
@@ -730,7 +730,7 @@ skip_search:
 			if ((key == keys.prevnode_1) ||	/* goto previous node */
 					(key == keys.prevnode_2))
 			{
-				token = xmalloc(strlen(Type));
+				token = (char*)xmalloc(strlen(Type));
 				getprevnode(Type, token);
 				return_value = gettagtablepos(token);
 				xfree(token);
@@ -740,9 +740,9 @@ skip_search:
 					infohistory.pos[infohistory.length] = pos;
 					infohistory.cursor[infohistory.length] = cursor;
 					infohistory.menu[infohistory.length] = infomenu;
-					rval.node = xmalloc(strlen(tag_table[return_value].nodename) + 1);
+					rval.node = (char*)xmalloc(strlen(tag_table[return_value].nodename) + 1);
 					strcpy(rval.node, tag_table[return_value].nodename);
-					rval.file = xmalloc(1);
+					rval.file = (char*)xmalloc(1);
 					rval.file[0] = 0;
 					aftersearch = 0;
 					return rval;
@@ -752,7 +752,7 @@ skip_search:
 			if ((key == keys.nextnode_1) ||	/* goto next node */
 					(key == keys.nextnode_2))
 			{
-				token = xmalloc(strlen(Type));
+				token = (char*)xmalloc(strlen(Type));
 				getnextnode(Type, token);
 				return_value = gettagtablepos(token);
 				xfree(token);
@@ -762,9 +762,9 @@ skip_search:
 					infohistory.pos[infohistory.length] = pos;
 					infohistory.cursor[infohistory.length] = cursor;
 					infohistory.menu[infohistory.length] = infomenu;
-					rval.node = xmalloc(strlen(tag_table[return_value].nodename) + 1);
+					rval.node = (char*)xmalloc(strlen(tag_table[return_value].nodename) + 1);
 					strcpy(rval.node, tag_table[return_value].nodename);
-					rval.file = xmalloc(1);
+					rval.file = (char*)xmalloc(1);
 					rval.file[0] = 0;
 					aftersearch = 0;
 					return rval;
@@ -774,7 +774,7 @@ skip_search:
 			if ((key == keys.upnode_1) ||		/* goto up node */
 					(key == keys.upnode_2))
 			{
-				token = xmalloc(strlen(Type));
+				token = (char*)xmalloc(strlen(Type));
 				getupnode(Type, token);
 				if (strncmp(token, "(dir)", 5) == 0)
 				{
@@ -791,9 +791,9 @@ skip_search:
 						infohistory.cursor[infohistory.length] = cursor;
 						infohistory.menu[infohistory.length] = infomenu;
 					}
-					rval.node = xmalloc(strlen(tag_table[return_value].nodename) + 1);
+					rval.node = (char*)xmalloc(strlen(tag_table[return_value].nodename) + 1);
 					strcpy(rval.node, tag_table[return_value].nodename);
-					rval.file = xmalloc(1);
+					rval.file = (char*)xmalloc(1);
 					rval.file[0] = 0;
 					aftersearch = 0;
 					return rval;
@@ -955,9 +955,9 @@ skip_search:
 				infohistory.pos[infohistory.length] = pos;
 				infohistory.cursor[infohistory.length] = cursor;
 				infohistory.menu[infohistory.length] = infomenu;
-				rval.node = xmalloc(strlen(FirstNodeName) + 1);
+				rval.node = (char*)xmalloc(strlen(FirstNodeName) + 1);
 				strcpy(rval.node, FirstNodeName);
-				rval.file = xmalloc(1);
+				rval.file = (char*)xmalloc(1);
 				rval.file[0] = 0;
 				aftersearch = 0;
 				return rval;
@@ -971,9 +971,9 @@ skip_search:
 					dellastinfohistory();	/* remove history entry for this node */
 					/* now we deal with the previous node history entry */
 
-					rval.node = xmalloc(strlen(infohistory.node[infohistory.length]) + 1);
+					rval.node = (char*)xmalloc(strlen(infohistory.node[infohistory.length]) + 1);
 					strcpy(rval.node, infohistory.node[infohistory.length]);
-					rval.file = xmalloc(strlen(infohistory.file[infohistory.length]) + 1);
+					rval.file = (char*)xmalloc(strlen(infohistory.file[infohistory.length]) + 1);
 					strcpy(rval.file, infohistory.file[infohistory.length]);
 
 					npos = infohistory.pos[infohistory.length];
@@ -1001,9 +1001,9 @@ skip_search:
 						toggled_by_menu = 0;
 						if (hyperobjects[cursor].type < 4)	/* normal info link */
 						{
-							rval.node = xmalloc(strlen(hyperobjects[cursor].node) + 1);
+							rval.node = (char*)xmalloc(strlen(hyperobjects[cursor].node) + 1);
 							strcpy(rval.node, hyperobjects[cursor].node);
-							rval.file = xmalloc(strlen(hyperobjects[cursor].file) + 1);
+							rval.file = (char*)xmalloc(strlen(hyperobjects[cursor].file) + 1);
 							strcpy(rval.file, hyperobjects[cursor].file);
 							aftersearch = 0;
 							return rval;
@@ -1012,7 +1012,7 @@ skip_search:
 						{
 							if (hyperobjects[cursor].type == 4)	/* http */
 							{
-								char *tempbuf = xmalloc(strlen(hyperobjects[cursor].node) + strlen(httpviewer) + 10);
+								char *tempbuf = (char*)xmalloc(strlen(hyperobjects[cursor].node) + strlen(httpviewer) + 10);
 								strcpy(tempbuf, httpviewer);
 								strcat(tempbuf, " ");
 								strcat(tempbuf, hyperobjects[cursor].node);
@@ -1023,7 +1023,7 @@ skip_search:
 							}
 							else if (hyperobjects[cursor].type == 5)	/* ftp */
 							{
-								char *tempbuf = xmalloc(strlen(hyperobjects[cursor].node) + strlen(ftpviewer) + 10);
+								char *tempbuf = (char*)xmalloc(strlen(hyperobjects[cursor].node) + strlen(ftpviewer) + 10);
 								strcpy(tempbuf, ftpviewer);
 								strcat(tempbuf, " ");
 								strcat(tempbuf, hyperobjects[cursor].node);
@@ -1034,7 +1034,7 @@ skip_search:
 							}
 							else if (hyperobjects[cursor].type == 6)	/* mail */
 							{
-								char *tempbuf = xmalloc(strlen(hyperobjects[cursor].node) + strlen(maileditor) + 10);
+								char *tempbuf = (char*)xmalloc(strlen(hyperobjects[cursor].node) + strlen(maileditor) + 10);
 								strcpy(tempbuf, maileditor);
 								strcat(tempbuf, " ");
 								strcat(tempbuf, hyperobjects[cursor].node);

@@ -20,6 +20,7 @@
  ***************************************************************************/
 
 #include "common_includes.h"
+#include "utils.h"
 
 RCSID(PKG_VER "$Id$")
 
@@ -101,7 +102,7 @@ main(int argc, char *argv[])
 		if (argc == 1)
 		{
 			id = openinfo("dir", 0);
-			curfile = xmalloc(150);
+			curfile = (char*)xmalloc(150);
 			strcpy(curfile, "dir");
 			strcpy(filename, "dir");
 		}
@@ -150,7 +151,7 @@ main(int argc, char *argv[])
 						printf(_("--node option used without argument\n"));
 						exit(1);
 					}
-					pinfo_start_node = malloc(strlen(optarg) + 1);
+					pinfo_start_node = (char*)malloc(strlen(optarg) + 1);
 					strcpy(pinfo_start_node, optarg);
 					break;
 				/* rcfile */
@@ -292,7 +293,7 @@ main(int argc, char *argv[])
 			}
 
 			/* leave some space for `.info' suffix */
-			curfile = xmalloc(strlen(filename) + 100);
+			curfile = (char*)xmalloc(strlen(filename) + 100);
 			strcpy(curfile, filename);
 		}
 
@@ -452,7 +453,7 @@ main(int argc, char *argv[])
 								xfree(curfile);
 								curfile = 0;
 							}
-							curfile = xmalloc(strlen(work_return_value.file) + 150);
+							curfile = (char*)xmalloc(strlen(work_return_value.file) + 150);
 							strcpy(curfile, work_return_value.file);
 							freeindirect();
 							/* find the indirect entry */
@@ -549,7 +550,7 @@ strip_file_from_info_suffix(char *file)
 char *
 addinfosuffix(char *info)
 {
-	char *withsuffix = xmalloc(strlen(info) + 150);
+	char *withsuffix = (char*)xmalloc(strlen(info) + 150);
 	strcpy(withsuffix, info);
 	if (strlen(info) == 3)
 	{

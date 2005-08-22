@@ -188,7 +188,7 @@ xrealloc(void *ptr, size_t size)
 	return value;
 }
 
-inline void
+void
 initlocale()
 {
 #ifdef ___DEBUG___
@@ -395,9 +395,9 @@ pinfo_re_comp(char *name)
 	{
 		pinfo_re_offset = h_regexp_num;
 		if (!h_regexp_num)
-			h_regexp = malloc(sizeof(regex_t));
+			h_regexp = (regex_t*)malloc(sizeof(regex_t));
 		else
-			h_regexp = realloc(h_regexp, sizeof(regex_t) *(h_regexp_num + 1));
+			h_regexp = (regex_t*)realloc(h_regexp, sizeof(regex_t) *(h_regexp_num + 1));
 	}
 	else
 	{

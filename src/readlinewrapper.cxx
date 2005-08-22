@@ -34,7 +34,7 @@ readlinewrapper(char *prompt)
 	/* number of keys pressed */
 	int numkeys = 0;
 	/* initial buffer for the read line */
-	char *buf = xmalloc(1024);
+	char *buf = (char*)xmalloc(1024);
 	/* start coords of input line */
 	int origx, origy;
 	/* cursor position in input string */
@@ -58,10 +58,10 @@ readlinewrapper(char *prompt)
 	rlhistorypos = rlhistorylen;
 	/* alloc memory for this entry */
 	if (!rlhistory)
-		rlhistory = xmalloc(sizeof(char *));
+		rlhistory = (char**)xmalloc(sizeof(char *));
 	else
-		rlhistory = xrealloc(rlhistory, sizeof(char *) * rlhistorylen);
-	rlhistory[rlhistorylen - 1] = xmalloc(1024);
+		rlhistory = (char**)xrealloc(rlhistory, sizeof(char *) * rlhistorylen);
+	rlhistory[rlhistorylen - 1] = (char*)xmalloc(1024);
 	/* and copy there the current value of input line */
 	strcpy(rlhistory[rlhistorylen - 1], buf);
 	/* call history to be present */
@@ -175,7 +175,7 @@ readlinewrapper(char *prompt)
 					if (strlen(buf + cursor))
 					{
 						char *tmp = 0;
-						tmp = xmalloc(strlen(buf + cursor) + 1);
+						tmp = (char*)xmalloc(strlen(buf + cursor) + 1);
 						strcpy(tmp, buf + cursor);
 						buf[cursor] = key;
 						buf[cursor + 1] = 0;
@@ -204,7 +204,7 @@ readlinewrapper(char *prompt)
 	strcpy(rlhistory[rlhistorylen - 1], buf);
 	if (strlen(buf))
 	{
-		rlhistory[rlhistorylen - 1] = xrealloc(rlhistory[rlhistorylen - 1],
+		rlhistory[rlhistorylen - 1] = (char*)xrealloc(rlhistory[rlhistorylen - 1],
 				strlen(rlhistory[rlhistorylen - 1]) + 1);
 	}
 	else
@@ -213,6 +213,6 @@ readlinewrapper(char *prompt)
 		rlhistorylen--;
 		rlhistorypos = rlhistorylen;
 	}
-	buf = xrealloc(buf, strlen(buf) + 1);
+	buf = (char*)xrealloc(buf, strlen(buf) + 1);
 	return buf;
 }

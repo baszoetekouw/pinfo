@@ -5,19 +5,19 @@
 bin_PROGRAMS = pinfo
 
 
-pinfo_COMMON_SRC = pinfo.c \
-		colors.c \
-		datatypes.c \
-		filehandling_functions.c \
-		keyboard.c \
-		mainfunction.c \
-		manual.c \
-		menu_and_note_utils.c \
-		parse_config.c \
-		regexp_search.c \
-		signal_handler.c \
-		utils.c \
-		video.c \
+pinfo_COMMON_SRC = pinfo.cxx \
+		colors.cxx \
+		datatypes.cxx \
+		filehandling_functions.cxx \
+		keyboard.cxx \
+		mainfunction.cxx \
+		manual.cxx \
+		menu_and_note_utils.cxx \
+		parse_config.cxx \
+		regexp_search.cxx \
+		signal_handler.cxx \
+		utils.cxx \
+		video.cxx \
 		colors.h \
 		common_includes.h \
 		datatypes.h \
@@ -31,16 +31,16 @@ pinfo_COMMON_SRC = pinfo.c \
 		signal_handler.h \
 		utils.h \
 		video.h \
-		initializelinks.c \
+		initializelinks.cxx \
 		initializelinks.h \
-		printinfo.c \
+		printinfo.cxx \
 		printinfo.h \
 		localestuff.h \
 		rcsid.h
 
-pinfo_READLINE = readlinewrapper.c readlinewrapper.h 
-pinfo_SNPRINTF = snprintf.c # snprintf.h
-pinfo_SIGBLOCK = sigblock.c sigblock.h
+pinfo_READLINE = readlinewrapper.cxx readlinewrapper.h 
+pinfo_SNPRINTF = snprintf.cxx # snprintf.h
+pinfo_SIGBLOCK = sigblock.cxx sigblock.h
 
 if HAS_READLINE
 pinfo_READLINE_OBJ = 

@@ -702,9 +702,9 @@ parse_line(char *line)
 			char *tmp = strdup(temp);
 			remove_quotes(tmp);
 			if (!h_regexp_num)
-				h_regexp = malloc(sizeof(regex_t));
+				h_regexp = (regex_t*)malloc(sizeof(regex_t));
 			else
-				h_regexp = realloc(h_regexp, sizeof(regex_t) *(h_regexp_num + 1));
+				h_regexp = (regex_t*)realloc(h_regexp, sizeof(regex_t) *(h_regexp_num + 1));
 			regcomp(&h_regexp[h_regexp_num], tmp, 0);
 			free(tmp);
 			h_regexp_num++;

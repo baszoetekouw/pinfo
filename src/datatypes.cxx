@@ -95,26 +95,26 @@ addinfohistory(char *file, char *node, int cursor, int menu, int pos)
 	if (!infohistory.length)
 	{
 		infohistory.length++;
-		infohistory.node = xmalloc(sizeof(char *) * 2);
+		infohistory.node = (char**)xmalloc(sizeof(char *) * 2);
 		infohistory.node[0] = 0;
-		infohistory.file = xmalloc(sizeof(char *) * 2);
+		infohistory.file = (char**)xmalloc(sizeof(char *) * 2);
 		infohistory.file[0] = 0;
-		infohistory.pos = xmalloc(sizeof(int) * 2);
-		infohistory.cursor = xmalloc(sizeof(int) * 2);
-		infohistory.menu = xmalloc(sizeof(int) * 2);
+		infohistory.pos = (int*)xmalloc(sizeof(int) * 2);
+		infohistory.cursor = (int*)xmalloc(sizeof(int) * 2);
+		infohistory.menu = (int*)xmalloc(sizeof(int) * 2);
 	}
 	else
 	{
 		infohistory.length++;
-		infohistory.node = xrealloc(infohistory.node, sizeof(char *) *(infohistory.length + 1));
-		infohistory.file = xrealloc(infohistory.file, sizeof(char *) *(infohistory.length + 1));
-		infohistory.pos = xrealloc(infohistory.pos, sizeof(int) *(infohistory.length + 1));
-		infohistory.cursor = xrealloc(infohistory.cursor, sizeof(int) *(infohistory.length + 1));
-		infohistory.menu = xrealloc(infohistory.menu, sizeof(int) *(infohistory.length + 1));
+		infohistory.node = (char**)xrealloc(infohistory.node, sizeof(char *) *(infohistory.length + 1));
+		infohistory.file = (char**)xrealloc(infohistory.file, sizeof(char *) *(infohistory.length + 1));
+		infohistory.pos = (int*)xrealloc(infohistory.pos, sizeof(int) *(infohistory.length + 1));
+		infohistory.cursor = (int*)xrealloc(infohistory.cursor, sizeof(int) *(infohistory.length + 1));
+		infohistory.menu = (int*)xrealloc(infohistory.menu, sizeof(int) *(infohistory.length + 1));
 	}
-	infohistory.node[infohistory.length] = xmalloc(strlen(node) + 1);
+	infohistory.node[infohistory.length] = (char*)xmalloc(strlen(node) + 1);
 	strcpy(infohistory.node[infohistory.length], node);
-	infohistory.file[infohistory.length] = xmalloc(strlen(file) + 1);
+	infohistory.file[infohistory.length] = (char*)xmalloc(strlen(file) + 1);
 	strcpy(infohistory.file[infohistory.length], file);
 	infohistory.pos[infohistory.length] = pos;
 	infohistory.cursor[infohistory.length] = cursor;
@@ -143,11 +143,11 @@ dellastinfohistory()
 			infohistory.length--;
 		if (infohistory.length)
 		{
-			infohistory.node = xrealloc(infohistory.node, sizeof(char *) *(infohistory.length + 1));
-			infohistory.file = xrealloc(infohistory.file, sizeof(char *) *(infohistory.length + 1));
-			infohistory.pos = xrealloc(infohistory.pos, sizeof(int) *(infohistory.length + 1));
-			infohistory.cursor = xrealloc(infohistory.cursor, sizeof(int) *(infohistory.length + 1));
-			infohistory.menu = xrealloc(infohistory.menu, sizeof(int) *(infohistory.length + 1));
+			infohistory.node = (char**)xrealloc(infohistory.node, sizeof(char *) *(infohistory.length + 1));
+			infohistory.file = (char**)xrealloc(infohistory.file, sizeof(char *) *(infohistory.length + 1));
+			infohistory.pos = (int*)xrealloc(infohistory.pos, sizeof(int) *(infohistory.length + 1));
+			infohistory.cursor = (int*)xrealloc(infohistory.cursor, sizeof(int) *(infohistory.length + 1));
+			infohistory.menu = (int*)xrealloc(infohistory.menu, sizeof(int) *(infohistory.length + 1));
 		}
 		else
 		{

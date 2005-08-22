@@ -3,6 +3,7 @@
 #*
 #*  Copyright (C) 1999  Przemek Borys <pborys@dione.ids.pl>
 #*  Copyright (C) 2005  Bas Zoetekouw <bas@debian.org>
+#*  Copyright 2005  Nathanael Nerode <neroden@gcc.gnu.org>
 #*
 #*  This program is free software; you can redistribute it and/or modify
 #*  it under the terms of version 2 of the GNU General Public License as
@@ -34,8 +35,8 @@ AC_REVISION([$Revision$])
 # put the config into config.h
 AC_CONFIG_HEADERS([config.h])
 
-# id main dir by src/pinfo.c file
-AC_CONFIG_SRCDIR([src/pinfo.c])
+# id main dir by src/pinfo.cxx file
+AC_CONFIG_SRCDIR([src/pinfo.cxx])
 # helper scripts are in tools/
 AC_CONFIG_AUX_DIR([tools])
 
@@ -58,6 +59,8 @@ AM_ACLOCAL_INCLUDE(macros)
 ####################################################
 # find C compiler
 AC_PROG_CC
+# find C++ compiler
+AC_PROG_CXX
 
 # set correct LIBS for (almost obsolete) INTERACTIVE UNIX
 AC_ISC_POSIX

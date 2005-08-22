@@ -53,8 +53,8 @@ substitutestr(char *src, char *dest, char *from, char *to)
 void
 addtopline(char *type, int column)
 {
-	char *buf1 = xmalloc(strlen(type) + 50);
-	char *buf2 = xmalloc(strlen(type) + 50);
+	char *buf1 = (char*)xmalloc(strlen(type) + 50);
+	char *buf2 = (char*)xmalloc(strlen(type) + 50);
 	int buf2len;
 	strcpy(buf1, type);
 
@@ -213,7 +213,7 @@ info_add_highlights(int pos, int cursor, long lines, int column, char **message)
 			{
 				if (hyperobjects[i].breakpos == -1)
 				{
-					char *buf=xmalloc(hyperobjects[i].filelen+hyperobjects[i].nodelen+3);
+					char *buf=(char*)xmalloc(hyperobjects[i].filelen+hyperobjects[i].nodelen+3);
 					snprintf(buf,hyperobjects[i].filelen+hyperobjects[i].nodelen+3,
 							"(%s)%s",hyperobjects[i].file,hyperobjects[i].node);
 					info_addstr(1 + hyperobjects[i].line - pos,
