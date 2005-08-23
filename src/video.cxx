@@ -29,52 +29,36 @@ RCSID("$Id$")
 
 void info_add_highlights(int pos, int cursor, long lines, int column, char **message);
 
-void
-substitutestr(char *src, char *dest, char *from, char *to)
-	/*
-	 * Utility for substituting strings in given string.
-	 * Used for internationalization of info headers.
-	 */
-{
-	char *start = strstr(src, from);
-	char tmp;
-	if (!start)
-		strcpy(dest, src);
-	else
-	{
-		tmp = *start;
-		*start = 0;
-		strcpy(dest, src);
-		strcat(dest, to);
-		*start = tmp;
-		start += strlen(from);
-		strcat(dest, start);
+/*
+ * Replace first occurence of substring in string.
+ * Used for internationalization of info headers.
+ */
+static void
+substitutestring(string& strbuf, string find, string replace) {
+ 	string::size_type loc = strbuf.find(find);
+	if (loc != string::npos) {
+		strbuf.replace(loc, find.length(), replace);
 	}
 }
 
 void
-addtopline(char *type, int column)
+addtopline(char *type, string::size_type column)
 {
-	char *buf1 = (char*)xmalloc(strlen(type) + 50);
-	char *buf2 = (char*)xmalloc(strlen(type) + 50);
-	int buf2len;
-	strcpy(buf1, type);
+	string strbuf = type;
 
-	substitutestr(buf1, buf2, "File:", _("File:"));
-	substitutestr(buf2, buf1, "Node:", _("Node:"));
-	substitutestr(buf1, buf2, "Next:", _("Next:"));
-	substitutestr(buf2, buf1, "Prev:", _("Prev:"));
-	substitutestr(buf1, buf2, "Up:", _("Up:"));
+	substitutestring(strbuf,"File:", _("File:"));
+	substitutestring(strbuf, "Node:", _("Node:"));
+	substitutestring(strbuf, "Next:", _("Next:"));
+	substitutestring(strbuf, "Prev:", _("Prev:"));
+	substitutestring(strbuf, "Up:", _("Up:"));
 	attrset(topline);
-	mymvhline(0, 0, ' ', maxx);	/* pads line with spaces -- estetic */
-	buf2len=strlen(buf2);
-	if (buf2len)
-		buf2[buf2len - 1] = '\0';
-	if (buf2len>column)
-		mvaddstr(0, 0, buf2+column);
+	mymvhline(0, 0, ' ', maxx);	/* pads line with spaces -- aesthetic */
+	if (strbuf.length() > column) {
+		string clipped;
+		clipped = strbuf.substr(column, string::npos);
+		mvaddstr(0, 0, clipped.c_str());
+	}
 	attrset(normal);
-	xfree(buf1);
-	xfree(buf2);
 }
 
 void
@@ -128,7 +112,7 @@ showscreen(char **message, char *type, long lines, long pos, long cursor, int co
  *  Does not alter the string passed to it.
  */
 void
-info_addstring(int y, int x, string txt, int column)
+info_addstring(int y, string::size_type x, string txt, string::size_type column)
 {
   int maxy, maxx;
   getmaxyx(stdscr, maxy, maxx);
@@ -243,8 +227,9 @@ info_add_highlights(int pos, int cursor, long lines, int column, char **message)
 				char *str = message[i];
 				while (!regexec(&h_regexp[j], str, 1, pmatch, 0))
 				{
-					int n = pmatch[0].rm_eo - pmatch[0].rm_so, k;
-					int y = i - pos + 1, x = calculate_len(message[i], pmatch[0].rm_so + str);
+					int n = pmatch[0].rm_eo - pmatch[0].rm_so;
+					int y = i - pos + 1;
+					int x = calculate_len(message[i], pmatch[0].rm_so + str);
 					int txtoffset = pmatch[0].rm_so + str - message[i];
 					char tmp;
 					tmp = message[i][x + n];
