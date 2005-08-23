@@ -50,7 +50,7 @@ freetagtable()
 void
 getnextnode(char *type, char *node)
 {
-	int j, coloncount = 0;
+	int j;
 #ifndef ___USE_STATIC___
 	char *tmp = xmalloc(strlen(type) + 1);
 #else
@@ -85,7 +85,7 @@ getnextnode(char *type, char *node)
 void
 getprevnode(char *type, char *node)
 {
-	int j, coloncount = 0;
+	int j;
 #ifndef ___USE_STATIC___
 	char *tmp = xmalloc(strlen(type) + 1);
 #else
@@ -120,7 +120,7 @@ getprevnode(char *type, char *node)
 void
 getupnode(char *type, char *node)
 {
-	int j, coloncount = 0;
+	int j;
 #ifndef ___USE_STATIC___
 	char *tmp = xmalloc(strlen(type) + 1);
 #else
@@ -156,7 +156,7 @@ getupnode(char *type, char *node)
 void
 getnodename(char *type, char *node)
 {
-	int j, coloncount = 0;
+	int j;
 #ifndef ___USE_STATIC___
 	char *tmp = xmalloc(strlen(type) + 1);
 #else

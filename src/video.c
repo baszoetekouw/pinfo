@@ -273,7 +273,7 @@ info_add_highlights(int pos, int cursor, long lines, int column, char **message)
 				char *str = message[i];
 				while (!regexec(&h_regexp[j], str, 1, pmatch, 0))
 				{
-					int n = pmatch[0].rm_eo - pmatch[0].rm_so, k;
+					int n = pmatch[0].rm_eo - pmatch[0].rm_so;
 					int y = i - pos + 1, x = calculate_len(message[i], pmatch[0].rm_so + str);
 					int txtoffset = pmatch[0].rm_so + str - message[i];
 					char tmp;

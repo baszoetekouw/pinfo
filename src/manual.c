@@ -223,7 +223,6 @@ construct_manualname(char *buf, int which)
 		{
 			char *base = xmalloc(1024);
 			char *ptr, *eptr;
-			int tmppos;
 			int namelen = strlen(manuallinks[which].name);
 			strcpy(base, manual[manuallinks[which].line + 1]);
 			strip_manual(base);
@@ -1705,7 +1704,7 @@ label_skip_other:;
 			char *tmpstr = strippedline;
 			while (!regexec(&h_regexp[j], tmpstr, 1, pmatch, 0))
 			{
-				int n = pmatch[0].rm_eo - pmatch[0].rm_so, k;
+				int n = pmatch[0].rm_eo - pmatch[0].rm_so;
 				int rx = pmatch[0].rm_so + tmpstr - strippedline;
 				int curY, curX;
 				char tmpchr;
@@ -1801,7 +1800,7 @@ add_highlights()
 					attrset(url);
 				if (manuallinks[i].carry == 1)
 				{
-					int x, y, ltline = manuallinks[i].line + 1;
+					int ltline = manuallinks[i].line + 1;
 					/*
 					 * the split part to find is lying down
 					 * to the line defined in manlinks(line+1)

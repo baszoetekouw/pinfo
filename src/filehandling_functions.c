@@ -679,7 +679,7 @@ openinfo(char *filename, int number)
 	char *buf = xmalloc(1024);	/* holds local copy of filename */
 	char *bufend;			/* points at the trailing 0 of initial name */
 	char command[1128];		/* holds command to evaluate for decompression of file */
-	int i, j, twoloops;
+	int i, j;
 	char *tmpfilename;
 
 	if (strncmp(filename, "dir", 3) == 0)
