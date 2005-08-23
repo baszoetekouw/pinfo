@@ -42,12 +42,10 @@ char *pinfo_re_pattern = 0;
 int pinfo_re_offset = -1;
 #endif
 
-#ifdef HAS_READLINE
+/* Readline */
 #include <readline/readline.h>
 #include <readline/history.h>
 #include <term.h>
-/* HAS_READLINE */
-#endif
 
 
 /*
@@ -229,7 +227,6 @@ checkfilename(char *filename)
 	}
 }
 
-#ifdef HAS_READLINE
 /* custom function that readline will use to display text */
 void
 my_rl_display()
@@ -241,14 +238,11 @@ my_rl_display()
 	printw("%s%s", rl_prompt, rl_line_buffer);
 	refresh();
 }
-#endif
 
 char *
 getstring(char *prompt)
 {
 	char *buf;
-
-#ifdef HAS_READLINE
 
 	curs_set(1);
 	move(maxy - 1, 0);
@@ -263,13 +257,6 @@ getstring(char *prompt)
 		add_history(buf);
 	
 	curs_set(0);
-
-#else
-
-	move(maxy - 1, 0);
-	buf = readlinewrapper(prompt);
-
-#endif
 
 	return buf;
 }

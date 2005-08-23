@@ -103,7 +103,9 @@ AC_PROG_LIBTOOL
 ####################################################
 # readline
 AC_CHECK_READLINE
-AM_CONDITIONAL(HAS_READLINE, test "$has_readline" = true)
+if test "$has_readline" = false; then
+  AC_MSG_ERROR([Readline not found.  You need readline to compile pinfo])
+fi
 
 # curses
 AC_CHECK_CURSES
