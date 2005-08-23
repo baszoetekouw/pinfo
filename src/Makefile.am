@@ -9,7 +9,6 @@ pinfo_COMMON_SRC = pinfo.c \
 		colors.c \
 		datatypes.c \
 		filehandling_functions.c \
-		keyboard.c \
 		mainfunction.c \
 		manual.c \
 		menu_and_note_utils.c \
