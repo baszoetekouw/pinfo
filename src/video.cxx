@@ -22,6 +22,8 @@
 
 
 #include "common_includes.h"
+#include <string>
+using std::string;
 
 RCSID("$Id$")
 
@@ -119,25 +121,41 @@ showscreen(char **message, char *type, long lines, long pos, long cursor, int co
 }
 
 /*
- * prints a line, taking care for the horizontal scrolling.
- *  if the string fits in the window, it is drawn. If not,
+ *  Prints a line, taking care for the horizontal scrolling.
+ *  If the string fits in the window, it is drawn. If not,
  *  it is either cut, or completely omitted.
+ *
+ *  Does not alter the string passed to it.
  */
 void
-info_addstr(int y, int x, char *txt, int column, int txtlen)
+info_addstring(int y, int x, string txt, int column)
 {
   int maxy, maxx;
   getmaxyx(stdscr, maxy, maxx);
   /* Use maxx and mvaddnstr to force clipping.
    * Fairly blunt instrument, but the best I could come up with.
    * Breaks in the presence of tabs; I don't see how to handle them. */
-	if (x>column)
-		mvaddnstr(y,x-column,txt, maxx-(x-column) );
-	else if (x+txtlen>column)
-		mvaddnstr(y,0,txt+(column-x), maxx );
+	if (x > column)
+		mvaddnstr(y, x-column, txt.c_str(), maxx-(x-column) );
+	else if (x + txt.length() > column) {
+		string clipped;
+		clipped = txt;
+		clipped.erase(0, column - x);
+		mvaddnstr(y, 0, clipped.c_str(), maxx );
+  }
 #ifdef __DEBUG__
   refresh();
 #endif /* __DEBUG__ */
+}
+/*
+ * Wrapper for the above for unconverted routines.
+ */
+void
+info_addstr(int y, int x, char *txt, int column, int txtlen)
+{
+  string newtxt;
+  newtxt.assign(txt, txtlen);
+  info_addstring(y, x, newtxt, column);
 }
 
 void
@@ -146,114 +164,66 @@ info_add_highlights(int pos, int cursor, long lines, int column, char **message)
 	int i, j;
 	for (i = 0; i < hyperobjectcount; i++)
 	{
-		if ((hyperobjects[i].line >= pos) &&
-				(hyperobjects[i].line < pos +(maxy - 2)))
-		{
-			/* first part of if's sets the required attributes */
-			if (hyperobjects[i].type < 2)		/* menu */
-			{
-				if (i == cursor)
-					attrset(menuselected);
-				else
-					attrset(menu);
-			}
-			else if (hyperobjects[i].type < 4)	/* note */
-			{
-				if (i == cursor)
-					attrset(noteselected);
-				else
-					attrset(note);
-			}
-			else if (hyperobjects[i].type < HIGHLIGHT)	/* url */
-			{
-				if (i == cursor)
-					attrset(urlselected);
-				else
-					attrset(url);
-			}
-			else /* quoted text -- highlight it */
-			{
-				attrset(infohighlight);
-			}
-			/* now we start actual drawing */
-			if (hyperobjects[i].file[0] == 0)
-			{
-				if (hyperobjects[i].breakpos == -1)
-				{
-					info_addstr(1 + hyperobjects[i].line - pos,
-							hyperobjects[i].col,
-							hyperobjects[i].node,
-							column,
-							hyperobjects[i].nodelen);
+		if ((hyperobjects[i].line < pos) ||
+				(hyperobjects[i].line >= pos +(maxy - 2)))
+			continue; /* Off screen */
 
-				}
-				else
-				{
-					char tmp = hyperobjects[i].node[hyperobjects[i].breakpos];
-					hyperobjects[i].node[hyperobjects[i].breakpos] = 0;
-					info_addstr(1 + hyperobjects[i].line - pos,
-							hyperobjects[i].col,
-							hyperobjects[i].node,
-							column,
-							hyperobjects[i].breakpos);
-					hyperobjects[i].node[hyperobjects[i].breakpos] = tmp;
-					j = hyperobjects[i].breakpos;
-					/* skip leading spaces after newline */
-					while (hyperobjects[i].node[j] == ' ')
-						j++;
-					if (hyperobjects[i].line - pos + 3 < maxy)
-						info_addstr(1 + hyperobjects[i].line - pos + 1,
-								j - hyperobjects[i].breakpos,
-								hyperobjects[i].node + j,
-								column,
-								hyperobjects[i].nodelen-j);
-				}
-			}
+		/* first set of ifs sets the required attributes */
+		if (hyperobjects[i].type < 2)	{	/* menu */
+			if (i == cursor)
+				attrset(menuselected);
 			else
-			{
-				if (hyperobjects[i].breakpos == -1)
-				{
-					char *buf=(char*)xmalloc(hyperobjects[i].filelen+hyperobjects[i].nodelen+3);
-					snprintf(buf,hyperobjects[i].filelen+hyperobjects[i].nodelen+3,
-							"(%s)%s",hyperobjects[i].file,hyperobjects[i].node);
-					info_addstr(1 + hyperobjects[i].line - pos,
-							hyperobjects[i].col,
-							buf,
-							column,
-							hyperobjects[i].filelen+hyperobjects[i].nodelen+2);
-					xfree(buf);
-				}
-				else
-				{
-					static char buf[1024];
-					char tmp;
-					strcpy(buf, "(");
-					strcat(buf, hyperobjects[i].file);
-					strcat(buf, ")");
-					strcat(buf, hyperobjects[i].node);
-					tmp = buf[hyperobjects[i].breakpos];
-					buf[hyperobjects[i].breakpos] = 0;
-					info_addstr(1 + hyperobjects[i].line - pos,
-							hyperobjects[i].col,
-							buf,
-							column,
-							hyperobjects[i].breakpos+2);
-					buf[hyperobjects[i].breakpos] = tmp;
-					j = hyperobjects[i].breakpos;
-					/* skip leading spaces after newline */
-					while (buf[j] == ' ')
-						j++;
-					if (hyperobjects[i].line - pos + 3 < maxy)
-						info_addstr(1 + hyperobjects[i].line - pos + 1,
-								j - hyperobjects[i].breakpos,
-								buf + j,
-								column,
-								hyperobjects[i].filelen+hyperobjects[i].nodelen+2-j);
-				}
-			}
-			attrset(normal);
+				attrset(menu);
+		} else if (hyperobjects[i].type < 4) {	/* note */
+			if (i == cursor)
+				attrset(noteselected);
+			else
+				attrset(note);
+		}	else if (hyperobjects[i].type < HIGHLIGHT) {	/* url */
+			if (i == cursor)
+				attrset(urlselected);
+			else
+				attrset(url);
+		} else  { /* quoted text -- highlight it */
+			attrset(infohighlight);
 		}
+
+		/* now we start actual drawing */
+		string mynode;
+		if (hyperobjects[i].file[0] == 0) {
+			mynode.assign(hyperobjects[i].node, hyperobjects[i].nodelen);
+		} else {
+			mynode.assign("(");
+			mynode.append(hyperobjects[i].file, hyperobjects[i].filelen);
+			mynode.append(")");
+			mynode.append(hyperobjects[i].node, hyperobjects[i].nodelen);
+		}
+		if (hyperobjects[i].breakpos == -1) {
+			info_addstring(1 + hyperobjects[i].line - pos,
+					hyperobjects[i].col,
+					mynode,
+					column);
+		} else {
+			string part1, part2;
+			part1 = mynode.substr(0, hyperobjects[i].breakpos);
+			info_addstring(1 + hyperobjects[i].line - pos,
+					hyperobjects[i].col,
+					part1,
+					column);
+			j = hyperobjects[i].breakpos;
+			/* skip leading spaces after newline */
+			while (mynode[j] == ' ')
+				j++;
+			part2 = mynode.substr(j, string::npos);
+			if (hyperobjects[i].line - pos + 3 < maxy)
+				info_addstring(1 + hyperobjects[i].line - pos + 1,
+						j - hyperobjects[i].breakpos,
+						part2,
+						column);
+		}
+		attrset(normal);
 	}
+
 #ifndef ___DONT_USE_REGEXP_SEARCH___
 	if ((h_regexp_num) ||(aftersearch))
 	{
