@@ -109,7 +109,6 @@ calculate_len(char *start, char *end)
 void
 freelinks()			/* frees space allocated previously by node-links */
 {
-	int i;
 	if ((hyperobjects)&&(hyperobjectcount))
 		xfree(hyperobjects);
 	hyperobjects = 0;
