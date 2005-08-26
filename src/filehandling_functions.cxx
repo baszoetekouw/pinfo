@@ -32,7 +32,30 @@ typedef struct
 }
 Suffixes;
 
-char * basename(char *filename);
+void
+basename_and_dirname(string filename, string& basename, string& dirname)
+{
+	/* Dirname should end with a slash, or be empty. */
+	string::size_type index = filename.rfind('/');
+	if (index == string::npos) {
+		basename = filename;
+		dirname = "";
+	} else {
+		basename = filename.substr(index + 1);
+		dirname = filename.substr(0, index);
+	}
+}
+
+void
+basename(string filename, string& basename_str)
+{
+	string::size_type index = filename.rfind('/');
+	if (index == string::npos) {
+		basename_str = filename;
+	} else {
+		basename_str = filename.substr(index + 1);
+	}
+}
 
 
 /******************************************************************************
@@ -70,13 +93,18 @@ matchfile(char **buf, char *name)
 {
 #define Buf	(*buf)
 	DIR *dir;
-	char *bname=basename(name);
+	string name_string = name;
+	string basename_string;
+	string dirname_string;
+	basename_and_dirname(name_string, basename_string, dirname_string);
+
+	const char *bname = basename_string.c_str();
 	struct dirent *dp;
 	int namelen = strlen(bname);
 	int matched = 0;
 	if (Buf[strlen(Buf)-1]!='/')
 		strcat(Buf,"/");
-	strncat(Buf,name,bname-name);
+	strcat(Buf,dirname_string.c_str());
 	dir = opendir(Buf);	/* here we always have '/' at end */
 	if (dir == NULL)
 		return 1;
@@ -643,20 +671,6 @@ opendirfile(int number)
 	return NULL;
 }
 
-char *
-basename(char *filename)
-{
-	int len = strlen(filename);
-	char *a = filename + len;
-	while (a > filename)
-	{
-		a--;
-		if (*a == '/')
-			return a + 1;
-	}
-	return filename;		/* when it was a basename */
-}
-
 /*
  * Note: openinfo is a function for reading info files, and putting
  * uncompressed content into a temporary filename.  For a flexibility, there
@@ -717,7 +731,10 @@ openinfo(char *filename, int number)
 			{
 				strcpy(buf, filenameprefix);	/* build a filename */
 				strcat(buf, "/");
-				strcat(buf, basename(filename));
+				string filename_string = filename;
+				string basename_string;
+				basename(filename_string, basename_string);
+				strcat(buf, basename_string.c_str());
 			}
 		}
 		else
@@ -772,7 +789,7 @@ openinfo(char *filename, int number)
 	return 0;
 }
 
-	void
+void
 addrawpath(char *filename)
 {
 	int len = strlen(filename);
@@ -805,7 +822,7 @@ addrawpath(char *filename)
 		filename[pos] = tmp;
 }
 
-	int
+int
 isininfopath(char *name)
 {
 	int i;
