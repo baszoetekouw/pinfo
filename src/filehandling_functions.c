@@ -748,7 +748,7 @@ openinfo(char *filename, int number)
 				filenameprefix = strdup(buf);
 				{			/* small scope for removal of filename */
 					int prefixi, prefixlen = strlen(filenameprefix);
-					for (prefixi = prefixlen; prefixi--; prefixi > 0)
+					for (prefixi = prefixlen; prefixi > 0; prefixi--)
 						if (filenameprefix[prefixi] == '/')
 						{
 							filenameprefix[prefixi] = 0;
