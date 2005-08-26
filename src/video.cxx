@@ -131,16 +131,6 @@ info_addstring(int y, string::size_type x, string txt, string::size_type column)
   refresh();
 #endif /* __DEBUG__ */
 }
-/*
- * Wrapper for the above for unconverted routines.
- */
-void
-info_addstr(int y, int x, char *txt, int column, int txtlen)
-{
-  string newtxt;
-  newtxt.assign(txt, txtlen);
-  info_addstring(y, x, newtxt, column);
-}
 
 void
 info_add_highlights(int pos, int cursor, long lines, int column, char **message)

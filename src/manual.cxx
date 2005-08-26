@@ -24,6 +24,8 @@ RCSID("$Id$")
 
 #include <ctype.h>
 #include <sys/stat.h>
+#include <string>
+using std::string;
 
 #define HTTPSECTION 100
 #define FTPSECTION 101
@@ -151,7 +153,7 @@ manual_free_buffers()
 
 /* initialize history variables for manual pages.  */
 void
-set_initial_history(char *name)
+set_initial_history(const char *name)
 {
 	int len = strlen(name), i;
 	char *name1 = strdup(name);
@@ -243,7 +245,7 @@ construct_manualname(char *buf, int which)
 
 /* this is something like main() function for the manual viewer code.  */
 int
-handlemanual(char * const name)
+handlemanual(string name)
 {
 	int return_value = 0;
 	struct stat statbuf;
@@ -283,7 +285,7 @@ handlemanual(char * const name)
 	if (!plain_apropos)
 		snprintf(cmd, 255, "man %s %s %s > %s",
 				ManOptions,
-				name,
+				name.c_str(),
 				StderrRedirection,
 				tmpfilename1);
 	if ((plain_apropos) ||(system(cmd) != 0))
@@ -298,7 +300,7 @@ handlemanual(char * const name)
 		{
 			printf(_("Calling apropos \n"));
 			apropos_tempfilename = tempnam("/tmp", NULL);
-			snprintf(cmd, 255, "apropos %s > %s", name, apropos_tempfilename);
+			snprintf(cmd, 255, "apropos %s > %s", name.c_str(), apropos_tempfilename);
 			if (system(cmd) != 0)
 			{
 				printf(_("Nothing apropiate\n"));
@@ -315,7 +317,7 @@ handlemanual(char * const name)
 	init_curses();
 
 
-	set_initial_history(name);
+	set_initial_history(name.c_str());
 	/* load manual to memory */
 	loadmanual(id);
 	fclose(id);

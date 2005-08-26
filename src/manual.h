@@ -21,8 +21,9 @@
 
 #ifndef __MANUAL_H
 #define __MANUAL_H
+#include <string>
 
 /* passes control to the manual code */
-int handlemanual (char *name);
+int handlemanual (std::string);
 
 #endif

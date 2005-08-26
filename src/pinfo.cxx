@@ -50,7 +50,7 @@ char *addinfosuffix(char *file);
 void checksu();
 
 /* Get options.  Split out of main() to shorten it. */
-int
+void
 getopts(int argc, char *argv[], string& filename_string, FILE** id) {
 #ifdef HAVE_GETOPT_LONG
 	static struct option long_options[] =
@@ -144,10 +144,7 @@ getopts(int argc, char *argv[], string& filename_string, FILE** id) {
 						filename_string.append(argv[i]);
 						filename_string.append(" ");
 					}
-					char filename[256];
-					strncpy(filename, filename_string.c_str(), 200);
-					exit(handlemanual(filename));
-					/* This is weird in the extreme!!! Fixme. */
+					exit(handlemanual(filename_string));
 				}
 			case 'f':
 			case 'r':
@@ -177,11 +174,10 @@ getopts(int argc, char *argv[], string& filename_string, FILE** id) {
 				break;
 			case 'p':
 				{
-					char filename[256];
 					use_apropos = 1;
 					plain_apropos = 1;
-					strncpy(filename, argv[argc - 1], 200);
-					exit(handlemanual(filename));
+					string filename_string = argv[argc - 1];
+					exit(handlemanual(filename_string));
 					/* Again, really really weird.  FIXME. */
 				}
 				break;
@@ -244,22 +240,24 @@ main(int argc, char *argv[]) {
 		{
 			if (verbose)
 				printf(_("Looking for man page...\n"));
-			strcpy(filename, "");
+			string filename_string;
 			/*
 			 * pass all arguments to the `man' command(manhandler calls
 			 * `man')
 			 */
 			for (int i = 1; i < argc; i++)
 			{
-				strcat(filename, argv[i]);
-				strcat(filename, " ");
+				filename_string.append(argv[i]);
+				filename_string.append(" ");
 			}
-			exit(handlemanual(filename));
+			exit(handlemanual(filename_string));
 		}
 
+	/* Break out getopts to make main() smaller */
 	string filename_string;
 	FILE** idptr = &id;
 	getopts(argc, argv, filename_string, idptr);
+
 	if (filename_string != "") {
 		strncpy(filename, filename_string.c_str(), 200);
 	}
@@ -328,7 +326,8 @@ main(int argc, char *argv[]) {
 	if (id == NULL)
 	{
 		printf(_("Error: could not open info file, trying manual\n"));
-		exit(handlemanual(filename));
+		string filename_string = filename;
+		exit(handlemanual(filename_string));
 	}
 	/* search for indirect entries, if any */
 	if (seek_indirect(id))
@@ -369,7 +368,8 @@ main(int argc, char *argv[]) {
 			if (TagTableEntries < 1)
 			{
 				printf(_("This doesn't look like info file...\n"));
-				exit(handlemanual(filename));
+				string filename_string = filename;
+				exit(handlemanual(filename_string));
 			}
 		}
 		else
