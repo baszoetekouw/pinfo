@@ -21,14 +21,17 @@
 
 #include "common_includes.h"
 
-RCSID ("$Id$")
+RCSID("$Id$")
+
 #include <regex.h>
 #include <ctype.h>
-     char *safe_user = "nobody";
-     char *safe_group = "nobody";
+
+char *safe_user = "nobody";
+char *safe_group = "nobody";
 
 #ifndef HAVE_CURS_SET
-     void curs_set (int a)
+void
+curs_set(int a)
 {
 }
 #endif
@@ -66,412 +69,439 @@ int curses_open = 0;
 int shell_cursor = 1;
 
 void
-xfree (void *ptr)
+xfree(void *ptr)
 {
 #ifdef ___DEBUG___
-  int i, j;
-  int flag = 0;
-  unsigned long msize = 0;
-  for (i = 0; i < addrescount; i++)
-    msize += msizes[i];
-  fprintf (stderr, "Size: %lu, count: %ld, freeing %lu\n", msize, addrescount,
-	   (unsigned long) ptr);
-  for (i = 0; i < addrescount; i++)
-    if (malloc_addr[i] == (unsigned long) ptr) {
-      flag = 1;
-      for (j = i + 1; j < addrescount; j++) {
-	malloc_addr[j - 1] = malloc_addr[j];
-	msizes[j - 1] = msizes[j];
-      }
-      addrescount--;
-      break;
-    }
-  if (flag == 0) {
-    fprintf (stderr, "ERROR!!!\n");
-    getchar ();
-  }
+	int i, j;
+	int flag = 0;
+	unsigned long msize = 0;
+	for (i = 0; i < addrescount; i++)
+		msize += msizes[i];
+	fprintf(stderr, "Size: %lu, count: %ld, freeing %lu\n", msize, addrescount,(unsigned long) ptr);
+	for (i = 0; i < addrescount; i++)
+		if (malloc_addr[i] ==(unsigned long) ptr)
+		{
+			flag = 1;
+			for (j = i + 1; j < addrescount; j++)
+			{
+				malloc_addr[j - 1] = malloc_addr[j];
+				msizes[j - 1] = msizes[j];
+			}
+			addrescount--;
+			break;
+		}
+	if (flag == 0)
+	{
+		fprintf(stderr, "ERROR!!!\n");
+		getchar();
+	}
 /* ___DEBUG___ */
 #endif
-  free (ptr);
+	free(ptr);
 }
 
 void *
-xmalloc (size_t size)
+xmalloc(size_t size)
 {
-  register void *value = malloc (size);
+	register void *value = malloc(size);
 #ifdef ___DEBUG___
-  unsigned long msize = 0;
-  int i;
+	unsigned long msize = 0;
+	int i;
 /* ___DEBUG___ */
 #endif
-  if (value == 0) {
-    closeprogram ();
-    printf (_("Virtual memory exhausted\n"));
-    exit (1);
-  }
+	if (value == 0)
+	{
+		closeprogram();
+		printf(_("Virtual memory exhausted\n"));
+		exit(1);
+	}
 #ifdef ___DEBUG___
-  for (i = 0; i < addrescount; i++)
-    msize += msizes[i];
-  fprintf (stderr, "Size %lu, count: %ld, allocated %lu\n", msize,
-	   addrescount, (unsigned long) value);
-  malloc_addr[addrescount] = (unsigned long) value;
-  msizes[addrescount] = size;
-  if (addrescount < 1000)
-    addrescount++;
-  else {
-    fprintf (stderr, "trace buffer exhausted\n");
-  }
+	for (i = 0; i < addrescount; i++)
+		msize += msizes[i];
+	fprintf(stderr, "Size %lu, count: %ld, allocated %lu\n", msize, addrescount,(unsigned long) value);
+	malloc_addr[addrescount] =(unsigned long) value;
+	msizes[addrescount] = size;
+	if (addrescount < 1000)
+		addrescount++;
+	else
+	{
+		fprintf(stderr, "trace buffer exhausted\n");
+	}
 /* ___DEBUG___ */
 #endif
-  memset (value, 0, size);
-  return value;
+	memset(value, 0, size);
+	return value;
 }
 
 void *
-xrealloc (void *ptr, size_t size)
+xrealloc(void *ptr, size_t size)
 {
 #ifdef ___DEBUG___
-  int i, j, flag = 0;
-  register void *value;
-  unsigned long msize = 0;
-  for (i = 0; i < addrescount; i++)
-    msize += msizes[i];
-  fprintf (stderr, "Size: %lu, count: %ld, reallocating %lu to ", msize,
-	   addrescount, (unsigned long) ptr);
-  for (i = 0; i < addrescount; i++)
-    if (malloc_addr[i] == (unsigned long) ptr) {
-      flag = 1;
-      for (j = i + 1; j < addrescount; j++) {
-	malloc_addr[j - 1] = malloc_addr[j];
-	msizes[j - 1] = msizes[j];
-      }
-      addrescount--;
-      break;
-    }
-  if (flag == 0) {
-    fprintf (stderr, "ERROR!!!\n");
-    getchar ();
-  }
-  value = realloc (ptr, size);
+	int i, j, flag = 0;
+	register void *value;
+	unsigned long msize = 0;
+	for (i = 0; i < addrescount; i++)
+		msize += msizes[i];
+	fprintf(stderr, "Size: %lu, count: %ld, reallocating %lu to ", msize, addrescount,(unsigned long) ptr);
+	for (i = 0; i < addrescount; i++)
+		if (malloc_addr[i] ==(unsigned long) ptr)
+		{
+			flag = 1;
+			for (j = i + 1; j < addrescount; j++)
+			{
+				malloc_addr[j - 1] = malloc_addr[j];
+				msizes[j - 1] = msizes[j];
+			}
+			addrescount--;
+			break;
+		}
+	if (flag == 0)
+	{
+		fprintf(stderr, "ERROR!!!\n");
+		getchar();
+	}
+	value = realloc(ptr, size);
 #else
-  register void *value = realloc (ptr, size + 1024);
+	register void *value = realloc(ptr, size + 1024);
 /* ___DEBUG___ */
 #endif
-  if (value == 0) {
-    closeprogram ();
-    printf (_("Virtual memory exhausted\n"));
-    exit (1);
-  }
+	if (value == 0)
+	{
+		closeprogram();
+		printf(_("Virtual memory exhausted\n"));
+		exit(1);
+	}
 #ifdef ___DEBUG___
-  fprintf (stderr, "%lu, with size %lu\n", (unsigned long) value,
-	   (unsigned long) size);
-  malloc_addr[addrescount] = (unsigned long) value;
-  msizes[addrescount] = size;
-  if (addrescount < 1000)
-    addrescount++;
-  else {
-    fprintf (stderr, "trace buffer exhausted\n");
-  }
+	fprintf(stderr, "%lu, with size %lu\n",(unsigned long) value,(unsigned long) size);
+	malloc_addr[addrescount] =(unsigned long) value;
+	msizes[addrescount] = size;
+	if (addrescount < 1000)
+		addrescount++;
+	else
+	{
+		fprintf(stderr, "trace buffer exhausted\n");
+	}
 /* ___DEBUG___ */
 #endif
-  return value;
+	return value;
 }
 
 void
-initlocale ()
+initlocale()
 {
 #ifdef ___DEBUG___
-  int i;
-  for (i = 0; i < 1000; i++)
-    malloc_addr[i] = 0;
+	int i;
+	for (i = 0; i < 1000; i++)
+		malloc_addr[i] = 0;
 /* ___DEBUG___ */
 #endif
-  sbrk (100000);
-  setlocale (LC_ALL, "");
-  bindtextdomain (PACKAGE, LOCALEDIR);
-  textdomain (PACKAGE);
+	sbrk(100000);
+	setlocale(LC_ALL, "");
+	bindtextdomain(PACKAGE, LOCALEDIR);
+	textdomain(PACKAGE);
 }
 
 void
-mymvhline (int y, int x, char ch, int len)
+mymvhline(int y, int x, char ch, int len)
 {
-  int i;
-  for (i = 0; i < len; i++)
-    mvaddch (y, x + i, ch);
+	int i;
+	for (i = 0; i < len; i++)
+		mvaddch(y, x + i, ch);
 }
 
 void
-checkfilename (char *filename)
+checkfilename(char *filename)
 {
-  if ((strchr (filename, '<')) ||
-      (strchr (filename, '>')) ||
-      (strchr (filename, '|')) ||
-      (strchr (filename, '(')) ||
-      (strchr (filename, ')')) ||
-      (strchr (filename, '!')) ||
-      (strchr (filename, '`')) ||
-      (strchr (filename, '&')) || (strchr (filename, ';'))) {
-    printf (_("Illegal characters in filename!\n*** %s\n"), filename);
-    exit (1);
-  }
+	if ((strchr(filename, '<')) ||
+			(strchr(filename, '>')) ||
+			(strchr(filename, '|')) ||
+			(strchr(filename, '(')) ||
+			(strchr(filename, ')')) ||
+			(strchr(filename, '!')) ||
+			(strchr(filename, '`')) ||
+			(strchr(filename, '&')) ||
+			(strchr(filename, ';')))
+	{
+		printf(_("Illegal characters in filename!\n*** %s\n"), filename);
+		exit(1);
+	}
 }
 
 /* custom function that readline will use to display text */
 void
-my_rl_display ()
+my_rl_display()
 {
-  /* go to the bottom line, empty it, and print the prompt and buffer */
-  attrset (bottomline);
-  mymvhline (maxy - 1, 0, ' ', maxx);
-  move (maxy - 1, 0);
-  printw ("%s%s", rl_prompt, rl_line_buffer);
-  refresh ();
+	/* go to the bottom line, empty it, and print the prompt and buffer */
+	attrset(bottomline);
+	mymvhline(maxy - 1, 0, ' ', maxx);
+	move(maxy-1,0);
+	printw("%s%s", rl_prompt, rl_line_buffer);
+	refresh();
 }
 
 char *
-getstring (char *prompt)
+getstring(char *prompt)
 {
-  char *buf;
+	char *buf;
 
-  curs_set (1);
-  move (maxy - 1, 0);
-  refresh ();
+	curs_set(1);
+	move(maxy - 1, 0);
+	refresh();
 
-  rl_readline_name = PACKAGE;
+	rl_readline_name = PACKAGE;
+	
+	/* set display function for readline to my_rl_display and call readline */
+	rl_redisplay_function = my_rl_display;
+	buf = readline(prompt);
+	if (buf && *buf) 
+		add_history(buf);
+	
+	curs_set(0);
 
-  /* set display function for readline to my_rl_display and call readline */
-  rl_redisplay_function = my_rl_display;
-  buf = readline (prompt);
-  if (buf && *buf)
-    add_history (buf);
-
-  curs_set (0);
-
-  return buf;
+	return buf;
 }
 
 void
-init_curses ()
+init_curses()
 {
-  initscr ();
-  noecho ();
-  cbreak ();
-  keypad (stdscr, TRUE);
-  /*  meta(stdscr, TRUE); */
-  initcolors ();
-  shell_cursor = curs_set (0);
+	initscr();
+	noecho();
+	cbreak();
+	keypad(stdscr, TRUE);
+	/*  meta(stdscr, TRUE); */
+	initcolors();
+	shell_cursor = curs_set(0);
 #ifdef NCURSES_MOUSE_VERSION
-  mousemask (BUTTON1_CLICKED | BUTTON1_DOUBLE_CLICKED, NULL);
+	mousemask(BUTTON1_CLICKED | BUTTON1_DOUBLE_CLICKED, NULL);
 /* NCURSES_MOUSE_VERSION */
 #endif
-  curses_open = 1;
+	curses_open = 1;
 }
 
 
 void
-closeprogram ()
+closeprogram()
 {
-  if (curses_open)
-    myendwin ();
-  if (ClearScreenAtExit)
-    system ("clear");
-  else
-    printf ("\n");
-  if (tmpfilename1) {
-    unlink (tmpfilename1);
-    xfree (tmpfilename1);
-  }
-  if (tmpfilename2) {
-    unlink (tmpfilename2);
-    xfree (tmpfilename2);
-  }
+	if (curses_open)
+		myendwin();
+	if (ClearScreenAtExit)
+		system("clear");
+	else
+		printf("\n");
+	if (tmpfilename1)
+	{
+		unlink(tmpfilename1);
+		xfree(tmpfilename1);
+	}
+	if (tmpfilename2)
+	{
+		unlink(tmpfilename2);
+		xfree(tmpfilename2);
+	}
 }
 
 int
-gettagtablepos_search_internal (char *node, int left, int right)
+gettagtablepos_search_internal(char *node, int left, int right)
 {
-  /* left+(right-left)/2 */
-  int thispos = left + ((right - left) >> 1);
-  int compare_result =
-    compare_tag_table_string (tag_table[thispos].nodename, node);
-  if (compare_result == 0)
-    return thispos;
-  else {
-    if (left == right)
-      return -1;
-    if (compare_result > 0) {
-      if (thispos > left)
-	return gettagtablepos_search_internal (node, left, thispos - 1);
-      else
+	/* left+(right-left)/2 */
+	int thispos = left +((right - left) >> 1);
+	int compare_result = compare_tag_table_string(tag_table[thispos].nodename, node);
+	if (compare_result == 0)
+		return thispos;
+	else
+	{
+		if (left == right)
+			return -1;
+		if (compare_result > 0)
+		{
+			if (thispos > left)
+				return gettagtablepos_search_internal(node, left, thispos - 1);
+			else
+				return -1;
+		}
+		else if (compare_result < 0)
+		{
+			if (thispos < right)
+				return gettagtablepos_search_internal(node, thispos + 1, right);
+			else
+				return -1;
+		}
+	}
 	return -1;
-    } else if (compare_result < 0) {
-      if (thispos < right)
-	return gettagtablepos_search_internal (node, thispos + 1, right);
-      else
-	return -1;
-    }
-  }
-  return -1;
 }
 
 int
-gettagtablepos (char *node)
+gettagtablepos(char *node)
 {
-  /* strip spaces from the beginning */
-  while (1) {
-    if ((*node != ' ') && (*node != '\t'))
-      break;
-    node++;
-  }
-  return gettagtablepos_search_internal (node, 1, TagTableEntries);
+	/* strip spaces from the beginning */
+	while (1)
+	{
+		if ((*node != ' ') &&(*node != '\t'))
+			break;
+		node++;
+	}
+	return gettagtablepos_search_internal(node, 1, TagTableEntries);
 }
 
 int
-pinfo_getch ()
+pinfo_getch()
 {
-  int key = getch ();
-  /* following key will be alt's value */
-  if (key == META_KEY) {
-    key = getch ();
-    key |= 0x200;
-  }
-  return key;
+	int key = getch();
+	/* following key will be alt's value */
+	if (key == META_KEY)
+	{
+		key = getch();
+		key |= 0x200;
+	}
+	return key;
 }
 
 void
-waitforgetch ()
+waitforgetch()
 {
-  fd_set rdfs;
-  FD_ZERO (&rdfs);
-  FD_SET (0, &rdfs);
-  select (1, &rdfs, NULL, NULL, NULL);
+	fd_set rdfs;
+	FD_ZERO(&rdfs);
+	FD_SET(0, &rdfs);
+	select(1, &rdfs, NULL, NULL, NULL);
 }
 
 /* returns 0 on success, 1 on error */
 int
-pinfo_re_comp (char *name)
+pinfo_re_comp(char *name)
 {
 #ifdef ___DONT_USE_REGEXP_SEARCH___
-  if (pinfo_re_pattern) {
-    free (pinfo_re_pattern);
-    pinfo_re_pattern = 0;
-  }
-  pinfo_re_pattern = strdup (name);
-  return 0;
+	if (pinfo_re_pattern)
+	{
+		free(pinfo_re_pattern);
+		pinfo_re_pattern = 0;
+	}
+	pinfo_re_pattern = strdup(name);
+	return 0;
 #else
-  if (pinfo_re_offset == -1) {
-    pinfo_re_offset = h_regexp_num;
-    if (!h_regexp_num)
-      h_regexp = (regex_t *) malloc (sizeof (regex_t));
-    else
-      h_regexp =
-	(regex_t *) realloc (h_regexp, sizeof (regex_t) * (h_regexp_num + 1));
-  } else {
-    regfree (&h_regexp[pinfo_re_offset]);
-  }
-  return regcomp (&h_regexp[pinfo_re_offset], name, REG_ICASE);
+	if (pinfo_re_offset == -1)
+	{
+		pinfo_re_offset = h_regexp_num;
+		if (!h_regexp_num)
+			h_regexp = (regex_t*)malloc(sizeof(regex_t));
+		else
+			h_regexp = (regex_t*)realloc(h_regexp, sizeof(regex_t) *(h_regexp_num + 1));
+	}
+	else
+	{
+		regfree(&h_regexp[pinfo_re_offset]);
+	}
+	return regcomp(&h_regexp[pinfo_re_offset], name, REG_ICASE);
 #endif
 }
 
 int
-pinfo_re_exec (char *name)
+pinfo_re_exec(char *name)
 {
 #ifdef ___DONT_USE_REGEXP_SEARCH___
-  char *found;
-  if (pinfo_re_pattern) {
-    found = strstr (name, pinfo_re_pattern);
-    if (found != NULL)
-      return 1;
-    else
-      return 0;
-  }
+	char *found;
+	if (pinfo_re_pattern)
+	{
+		found = strstr(name, pinfo_re_pattern);
+		if (found != NULL)
+			return 1;
+		else
+			return 0;
+	}
 #else
-  regmatch_t pmatch[1];
-  return !regexec (&h_regexp[pinfo_re_offset], name, 1, pmatch, 0);
+	regmatch_t pmatch[1];
+	return !regexec(&h_regexp[pinfo_re_offset], name, 1, pmatch, 0);
 #endif
 }
 
 int
-yesno (char *prompt, int def)
+yesno(char *prompt, int def)
 {
-  char *yes = _("yes");
-  char *no = _("no");
-  int key;
+	char *yes = _("yes");
+	char *no = _("no");
+	int key;
 
-  attrset (bottomline);
-  mymvhline (maxy - 1, 0, ' ', maxx);
-  move (maxy - 1, 0);
-  /* if default answer is yes */
-  if (def)
-    printw ("%s([%c]/%c)", prompt, *yes, *no);
-  else
-    printw ("%s([%c]/%c)", prompt, *no, *yes);
-  nodelay (stdscr, FALSE);
-  while (1) {
-    key = getch ();
-    if (key == ERR)
-      return -1;
-    if (is_enter_key (key))
-      break;
-    else {
-      if (tolower (key) == tolower (*yes)) {
-	def = 1;
-	break;
-      } else {
-	if (tolower (key) == tolower (*no)) {
-	  def = 0;
-	  break;
-	} else
-	  beep ();
-      }
-    }
-  }
+	attrset(bottomline);
+	mymvhline(maxy - 1, 0, ' ', maxx);
+	move(maxy - 1, 0);
+	/* if default answer is yes */
+	if (def)
+		printw("%s([%c]/%c)", prompt, *yes, *no);
+	else
+		printw("%s([%c]/%c)", prompt, *no, *yes);
+	nodelay(stdscr, FALSE);
+	while (1)
+	{
+		key = getch();
+		if (key == ERR)
+			return -1;
+		if (is_enter_key(key))
+			break;
+		else
+		{
+			if (tolower(key) == tolower(*yes))
+			{
+				def = 1;
+				break;
+			}
+			else
+			{
+				if (tolower(key) == tolower(*no))
+				{
+					def = 0;
+					break;
+				}
+				else
+					beep();
+			}
+		}
+	}
 
-  nodelay (stdscr, TRUE);
-  if (def)
-    addstr (yes);
-  else
-    addstr (no);
-  attrset (normal);
-  return def;
+	nodelay(stdscr, TRUE);
+	if (def)
+		addstr(yes);
+	else
+		addstr(no);
+	attrset(normal);
+	return def;
 }
 
 void
-myclrtoeol ()
+myclrtoeol()
 {
-  int x, y, i;
-  getyx (stdscr, y, x);
-  for (i = x; i < maxx; i++)
-    mvaddch (y, i, ' ');
+	int x, y, i;
+	getyx(stdscr, y, x);
+	for (i = x; i < maxx; i++)
+		mvaddch(y, i, ' ');
 }
 
 void
-copy_stripped_from_regexp (char *src, char *dest)
+copy_stripped_from_regexp(char *src, char *dest)
 {
-  char *forbidden = "*.\\()[]\n";
-  while (strchr (forbidden, *src) == NULL) {
-    if (*src == 0)
-      break;
-    *dest = *src;
-    src++;
-    dest++;
-  }
-  *dest = 0;
+	char *forbidden = "*.\\()[]\n";
+	while (strchr(forbidden, *src) == NULL)
+	{
+		if (*src == 0)
+			break;
+		*dest = *src;
+		src++;
+		dest++;
+	}
+	*dest = 0;
 }
 
 void
-myendwin ()
+myendwin()
 {
-  curs_set (shell_cursor);
-  endwin ();
+	curs_set(shell_cursor);
+	endwin();
 }
 
 void
-handlewinch ()
+handlewinch()
 {
-  myendwin ();
-  init_curses ();
-  doupdate ();
-  getmaxyx (stdscr, maxy, maxx);
-  ungetch (keys.refresh_1);
+	myendwin();
+	init_curses();
+	doupdate();
+	getmaxyx(stdscr, maxy, maxx);
+	ungetch(keys.refresh_1);
 }

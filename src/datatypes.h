@@ -35,54 +35,54 @@
 
 typedef struct
 {
-  char lastsearch[256];		/* last searched regexp */
-  char type;			/* type of the last search (global/local) */
-  int search;			/* if true -- search again */
+	char lastsearch[256];	/* last searched regexp */
+	char type;				/* type of the last search (global/local) */
+	int search;				/* if true -- search again */
 }
 SearchAgain;
 
 typedef struct
 {
-  char filename[256];		/* name of file, where's the given offset */
-  long offset;			/* offset of the node */
+	char filename[256];		/* name of file, where's the given offset */
+	long offset;			/* offset of the node */
 }
 Indirect;
 
 typedef struct
 {
-  char nodename[256];		/* name of the node */
-  long offset;			/* offset of the node */
+	char nodename[256];		/* name of the node */
+	long offset;			/* offset of the node */
 }
 TagTable;
 
 typedef struct
 {
-  int length;
-  char **node;			/* array of history of nodes */
-  char **file;			/* array of history of files, associated with given nodes */
-  int *pos;			/* history of pos offsets in viewed nodes */
-  int *cursor;			/* history of cursor offsets in viewed nodes */
-  int *menu;			/* history of menu positions (in sequential reading) in viewed nodes */
+	int length;
+	char **node;	/* array of history of nodes */
+	char **file;	/* array of history of files, associated with given nodes */
+	int *pos;		/* history of pos offsets in viewed nodes */
+	int *cursor;	/* history of cursor offsets in viewed nodes */
+	int *menu;		/* history of menu positions (in sequential reading) in viewed nodes */
 }
 InfoHistory;
 
 typedef struct
 {
-  int line;			/* line number of the place where the link is */
-  int col;			/* column number ----||---- */
-  int breakpos;			/* col number, where the links breaks to next line */
-  int type;			/* type of link: 0 -  * menu::,
-				   1 -  * Comment: menu.
-				   2 -  *note note::
-				   3 -  *note Comment: note.
-				   4 -  http url
-				   5 -  ftp url
-				   6 -  mailto url */
-  char node[256];		/* name of the referenced node */
-  int nodelen;			/* length of string node */
-  char file[256];		/* name of the referenced file -- none=this file */
-  int filelen;			/* length of string file */
-  int tagtableoffset;		/* offset in tag table */
+	int line;			/* line number of the place where the link is */
+	int col;			/* column number ----||---- */
+	int breakpos;		/* col number, where the links breaks to next line */
+	int type;			/* type of link: 0 -  * menu::,
+						   1 -  * Comment: menu.
+						   2 -  *note note::
+						   3 -  *note Comment: note.
+						   4 -  http url
+						   5 -  ftp url
+						   6 -  mailto url */
+	char node[256];		/* name of the referenced node */
+	int nodelen;		/* length of string node */
+	char file[256];		/* name of the referenced file -- none=this file */
+	int filelen;		/* length of string file */
+	int tagtableoffset;	/* offset in tag table */
 }
 HyperObject;
 

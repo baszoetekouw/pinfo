@@ -53,7 +53,7 @@ void read_item (FILE * id, char **type, char ***buf, long *lines);
 /* searches for indirect entry of info file */
 int seek_indirect (FILE * id);
 /* as above, but with tag table entry */
-int seek_tag_table (FILE * id, int quiet);
+int seek_tag_table (FILE * id,int quiet);
 /*
  * loads indirect table (from a special node, stored in message, of lines
  * length)
@@ -81,8 +81,9 @@ void create_indirect_tag_table ();
  *          line
  * lines: pointer to long, which holds the number of lines in dir entry
  */
-FILE *dirpage_lookup (char **type, char ***message, long *lines,
-		      char *filename, char **first_node);
+FILE *
+dirpage_lookup (char **type, char ***message, long *lines,
+		char *filename, char **first_node);
 
 /* removes trailing .gz, .bz2, etc. */
 void strip_compression_suffix (char *file);

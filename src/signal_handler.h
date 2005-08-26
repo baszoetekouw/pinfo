@@ -21,5 +21,5 @@
 
 #ifndef __SIGNAL_HANDLER_H
 #define __SIGNAL_HANDLER_H
-void install_signal_handlers ();	/* handles various signals, coming to pinfo */
+void install_signal_handlers ();		/* handles various signals, coming to pinfo */
 #endif
