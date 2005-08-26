@@ -20,6 +20,10 @@
  ***************************************************************************/
 #include "common_includes.h"
 
+#ifndef HAVE_SIGBLOCK
+#include "sigblock.h"
+#endif
+
 RCSID("$Id$")
 
 #include <termios.h>
@@ -44,7 +48,7 @@ handle_window_resize(int signum)
 }
 
 void
-signal_handler()
+install_signal_handlers()
 {
 	signal(SIGINT, handle_crash);	/* handle ^C */
 	signal(SIGTERM, handle_crash);	/* handle soft kill */

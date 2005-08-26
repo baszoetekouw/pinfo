@@ -52,18 +52,12 @@
 #include "menu_and_note_utils.h"
 #include "mainfunction.h"
 #include "utils.h"
-#include "signal_handler.h"
 #include "colors.h"
 #include "regexp_search.h"
 #include "manual.h"
 #include "parse_config.h"
 #include "keyboard.h"
 #include "initializelinks.h"
-#include "printinfo.h"
-
-#ifndef HAVE_SIGBLOCK
-#include "sigblock.h"
-#endif
 
 /* I hear voices, that it is needed by RH5.2 ;) */
 #define _REGEX_RE_COMP

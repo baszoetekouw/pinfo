@@ -19,6 +19,7 @@
  *  USA
  ***************************************************************************/
 #include "common_includes.h"
+#include "printinfo.h"
 
 RCSID("$Id$")
 

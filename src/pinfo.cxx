@@ -20,6 +20,7 @@
  ***************************************************************************/
 
 #include "common_includes.h"
+#include "signal_handler.h"
 #include "utils.h"
 
 RCSID(PKG_VER "$Id$")
@@ -85,7 +86,7 @@ main(int argc, char *argv[])
 		{0, 0, 0, 0}};
 #endif
 		/* take care of SIGSEGV, SIGTERM, SIGINT */
-		signal_handler();
+		install_signal_handlers();
 		searchagain.type = 0;
 		searchagain.search = 0;
 		initlocale();
