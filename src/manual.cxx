@@ -223,7 +223,6 @@ construct_manualname(char *buf, int which)
 		{
 			char *base = (char*)xmalloc(1024);
 			char *ptr, *eptr;
-			int tmppos;
 			int namelen = strlen(manuallinks[which].name);
 			strcpy(base, manual[manuallinks[which].line + 1]);
 			strip_manual(base);
@@ -248,19 +247,12 @@ handlemanual(char * const name)
 {
 	int return_value = 0;
 	struct stat statbuf;
-	FILE *id, *source;
+	FILE *id;
 
-	char **ignored_entries;
 	char manualname[256];
 	char cmd[256];
-	char location[256];
-	char line[1025];
 	char *raw_tempfilename = 0;
 	char *apropos_tempfilename = 0;
-	char *end, *prev;
-	size_t macroline_size;
-	int ignored_items = 0, i = 0;
-	char zipped = 0;
 
 	if (tmpfilename1)
 	{
@@ -1553,7 +1545,7 @@ label_skip_other:;
 			char *tmpstr = strippedline;
 			while (!regexec(&h_regexp[j], tmpstr, 1, pmatch, 0))
 			{
-				int n = pmatch[0].rm_eo - pmatch[0].rm_so, k;
+				int n = pmatch[0].rm_eo - pmatch[0].rm_so;
 				int rx = pmatch[0].rm_so + tmpstr - strippedline;
 				int curY, curX;
 				char tmpchr;
@@ -1649,7 +1641,7 @@ add_highlights()
 					attrset(url);
 				if (manuallinks[i].carry == 1)
 				{
-					int x, y, ltline = manuallinks[i].line + 1;
+					int ltline = manuallinks[i].line + 1;
 					/*
 					 * the split part to find is lying down
 					 * to the line defined in manlinks(line+1)
