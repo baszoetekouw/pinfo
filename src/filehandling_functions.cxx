@@ -21,7 +21,8 @@
  ***************************************************************************/
 
 #include "common_includes.h"
-
+#include <string>
+using std::string;
 RCSID("$Id$")
 
 typedef struct
@@ -278,32 +279,25 @@ read_item(FILE * id, char **type, char ***buf, long *lines)
 void
 load_indirect(char **message, long lines)
 {
-	long i;
-	char *wsk;
 	int cut = 0;			/* number of invalid entries */
 	indirect = (Indirect*)xmalloc((lines + 1) * sizeof(Indirect));
-	for (i = 1; i < lines; i++)
-	{
-		char *check;
-		wsk = message[i];
-		check = wsk + strlen(wsk);
-		while (*(++wsk) != ':')	/* check if this line keeps a real entry */
-		{
-			if (wsk == check)	/*
-								 * make sure wsk won't go out of range
-								 * in case the wsk would be corrupted.
-								 */
-				break;
+	for (long i = 1; i < lines; i++) {
+		string wsk_string = message[i];
+		unsigned int n = 0;
+		/* Find the first colon, but not in position 0 */
+		n = wsk_string.find(':', 1);
+		if (n == string::npos) {
+			/* No colon.  Invalid entry. */
+			cut++;			/* if the entry was invalid, make indirect count shorter */
+		} else {
+			string filename;
+			filename = wsk_string.substr(0, n);
+			strncpy(indirect[i - cut].filename, filename.c_str(), 200);
+
+			string remainder;
+			remainder = wsk_string.substr(n + 2, string::npos);
+			indirect[i - cut].offset = atoi(remainder.c_str());
 		}
-		if (*wsk)			/* if the entry holds some data... */
-		{
-			(*wsk) = 0;
-			strncpy(indirect[i - cut].filename, message[i], 200);
-			(*wsk) = ':';
-			indirect[i - cut].offset = atoi(wsk + 2);
-		}
-		else
-			cut++;			/* if the entry was invalid, make inirect count shorter */
 	}
 	IndirectEntries = lines - 1 - cut;
 }

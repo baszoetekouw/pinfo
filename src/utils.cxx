@@ -49,7 +49,7 @@ int pinfo_re_offset = -1;
 
 
 /*
- * the bellow define enables malloc/realloc/free logging to stderr.
+ * the below define enables malloc/realloc/free logging to stderr.
  * They start to log their argument values.
  *
  * #define ___DEBUG___
