@@ -29,8 +29,8 @@
  */
 typedef struct
 {
-	char *node;		/* name of node */
-	char *file;		/* name of file, where the node is */
+  char *node;			/* name of node */
+  char *file;			/* name of file, where the node is */
 }
 WorkRVal;
 
@@ -47,5 +47,5 @@ extern int aftersearch;
  * tag_table_pos: position in tag table of the current node (needed for history)
  */
 WorkRVal work (char ***message, char **type, long *lines,
-		FILE * id, int tag_table_pos);
+	       FILE * id, int tag_table_pos);
 #endif
