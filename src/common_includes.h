@@ -61,16 +61,6 @@
 #include "initializelinks.h"
 #include "printinfo.h"
 
-/*
- * Readline isn't safe for nonlinux terminals (i.e. vt100)
- * But if you have readline linked with ncurses you may enable readline with
- * ./configure --with-readline
- *
- */
-#ifndef HAS_READLINE
-#include "readlinewrapper.h"
-#endif /* HAS_READLINE */
-
 #ifndef HAVE_SIGBLOCK
 #include "sigblock.h"
 #endif

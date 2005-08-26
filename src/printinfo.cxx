@@ -20,6 +20,8 @@
  ***************************************************************************/
 
 #include "common_includes.h"
+#include <string>
+using std::string;
 
 RCSID("$Id$")
 
@@ -31,72 +33,57 @@ RCSID("$Id$")
 void
 printnode(char ***message, long *lines)
 {
-#define Message	(*message)
-#define Lines	(*lines)
-
-	/* counter, to point at what highlights are already * handled */
-	int highlight = 0;
-	int i, j;
 	/* printer fd */
 	FILE *prnFD;
-	/* temporary buffer */
-	char *buf = (char*)xmalloc(1024);
 
 	prnFD = popen(printutility, "w");
 
 	/* scan through all lines */
-	for (i = 1; i < Lines; i++)
-	{
+	for (int i = 1; i < (*lines); i++) {
 		/*
-		 * this says, where the printer's head is
-		 * right now.(offset in cols from the
-		 * beginning of line
+		 * This says where the printer's head is right now,
+		 * offset in columns from the beginning of the line
 		 */
 		int lineprinted = 0;
 		/*
-		 * let's handle the highlights, which belong to our(i'th) line.
+		 * Handle the highlights which belong to our (i'th) line.
 		 */
-		while (hyperobjects[highlight].line <= i)
-		{
+		int highlight = 0; /* counter to track which highlights have been handled */
+		while (hyperobjects[highlight].line <= i) {
+			string mynode;
 			/* build a complete highlighted text */
 			if (hyperobjects[highlight].file[0] == 0)
-				strcpy(buf, hyperobjects[highlight].node);
-			else
-			{
-				strcpy(buf, "(");
-				strcat(buf, hyperobjects[highlight].file);
-				strcat(buf, ")");
-				strcat(buf, hyperobjects[highlight].node);
+				mynode = hyperobjects[highlight].node;
+			else {
+				mynode.assign("(");
+				mynode.append(hyperobjects[highlight].file);
+				mynode.append(")");
+				mynode.append(hyperobjects[highlight].node);
 			}
 			/* if it's a contiunuation of last's line highlight */
-			if (hyperobjects[highlight].line == i - 1)
-			{
+			if (hyperobjects[highlight].line == i - 1) {
 				int length = 1;
 				if (hyperobjects[highlight].breakpos == -1)
-					length = strlen(buf) -
-						hyperobjects[highlight].breakpos;
-				fprintf(prnFD, "%s", buf + length -
-						hyperobjects[highlight].breakpos);
-				lineprinted += strlen(buf + length -
-						hyperobjects[highlight].breakpos);
-			}
-			else if (hyperobjects[highlight].line == i)
-			{
-				for (j = 0; j < hyperobjects[highlight].col - lineprinted; j++)
-					fprintf(prnFD, " ");
-				fprintf(prnFD, "%s", buf);
-				lineprinted = hyperobjects[highlight].col +
-					strlen(buf);
+					length = mynode.length() - hyperobjects[highlight].breakpos;
+				string trimmed;
+				trimmed = mynode.substr(length - hyperobjects[highlight].breakpos,
+				                        string::npos);
+				fputs(trimmed.c_str(), prnFD);
+				lineprinted += trimmed.length();
+			} else if (hyperobjects[highlight].line == i) {
+				for (int j = 0; j < hyperobjects[highlight].col - lineprinted; j++)
+					fputc(' ', prnFD);
+				fputs(mynode.c_str(), prnFD);
+				lineprinted = hyperobjects[highlight].col + mynode.length();
 			}
 			if (highlight < hyperobjectcount - 1)
 				highlight++;
 			else
 				break;
 		}
-		fprintf(prnFD, "\r%s", Message[i]);
+		/* Carriage return and print the whole line. */
+		fputc('\r', prnFD);
+		fputs( (*message)[i], prnFD);
 	}
 	pclose(prnFD);
-	xfree(buf);
-#undef Message
-#undef Lines
 }
