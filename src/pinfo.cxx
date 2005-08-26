@@ -135,16 +135,17 @@ getopts(int argc, char *argv[], string& filename_string, FILE** id) {
 				exit(0);
 			case 'm':
 				{
-					char filename[256];
 					checksu();
 					if (verbose)
 						printf(_("Looking for man page...\n"));
-					strcpy(filename, "");
+					filename_string = "";
 					for (int i = optind; i < argc; i++)
 					{
-						strcat(filename, argv[i]);
-						strcat(filename, " ");
+						filename_string.append(argv[i]);
+						filename_string.append(" ");
 					}
+					char filename[256];
+					strncpy(filename, filename_string.c_str(), 200);
 					exit(handlemanual(filename));
 					/* This is weird in the extreme!!! Fixme. */
 				}
