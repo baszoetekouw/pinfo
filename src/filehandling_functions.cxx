@@ -42,7 +42,7 @@ basename_and_dirname(string filename, string& basename, string& dirname)
 		dirname = "";
 	} else {
 		basename = filename.substr(index + 1);
-		dirname = filename.substr(0, index);
+		dirname = filename.substr(0, index + 1);
 	}
 }
 
@@ -787,34 +787,22 @@ openinfo(char *filename, int number)
 void
 addrawpath(char *filename)
 {
-	int len = strlen(filename);
-	int i, pos;
-	char tmp;
-	for (i = len; i >= 0; i--)
-	{
-		if (filename[i] == '/')
-		{
-			tmp = filename[i+1];
-			filename[i+1] = 0;
-			pos = i+1;
-			break;
-		}
-	}
-	if (i < 0)
-		pos = -1;
+	string filename_string;
+	filename_string = filename;
+	/* Cut the filename after the last slash. */
+	string::size_type index = filename_string.rfind('/');
+	string dirstring;
+	if (index != string::npos)
+		dirstring = filename_string.substr(0, index + 1);
+	else
+		dirstring = "./"; /* If no directory part, use current directory */
 
 	infopaths = (char**)xrealloc(infopaths,(infopathcount + 3) *(sizeof(char *)));
-	for (i = infopathcount; i > 0; i--)	/* move entries to the right */
+	for (int i = infopathcount; i > 0; i--)	/* move entries to the right */
 		infopaths[i] = infopaths[i - 1];
 
-	if (pos > 0)
-		infopaths[0]=strdup(filename);	/* add new(raw) entry */
-	else
-		infopaths[0]=strdup("./");
+	infopaths[0]=strdup(dirstring.c_str());	/* add new(raw) entry */
 	infopathcount++;
-
-	if (pos > 0)			/* recreate original filename */
-		filename[pos] = tmp;
 }
 
 int
