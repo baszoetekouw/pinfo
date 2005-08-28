@@ -156,7 +156,8 @@ getopts(int argc, char *argv[], string& filename_string, FILE** id) {
 					/* security check */
 					checkfilename(filename);
 					/* add the raw path to searchpath */
-					addrawpath(filename);
+					string filename_string = filename;
+					addrawpath(filename_string);
 					tmp = filename + strlen(filename) - 1;
 					/* later, openinfo automaticaly adds them */
 					strip_compression_suffix(filename);
@@ -306,7 +307,8 @@ main(int argc, char *argv[]) {
 				(strncmp(filename,"./",2)==0)||
 				(filename[0]=='/'))
 		{
-			addrawpath(filename);
+			string filename_string = filename;
+			addrawpath(filename_string);
 		}
 
 		/* leave some space for `.info' suffix */

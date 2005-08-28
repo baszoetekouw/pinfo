@@ -28,12 +28,13 @@
 #include <unistd.h>
 #include <errno.h>
 
+#include <string>
 
 #define INFO_TAG 0x1f
 #define INDIRECT_TAG 0x7f
 
 void initpaths ();
-void addrawpath (char *filename);
+void addrawpath (const std::string filename);
 
 /*  seek to a node in certain info file */
 void seeknode (int tag_table_pos, FILE ** Id);

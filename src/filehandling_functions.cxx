@@ -785,13 +785,11 @@ openinfo(char *filename, int number)
 }
 
 void
-addrawpath(char *filename)
+addrawpath(const string filename_string)
 {
-	string filename_string;
-	filename_string = filename;
-	/* Cut the filename after the last slash. */
-	string::size_type index = filename_string.rfind('/');
+	/* Get the portion up to the last slash. */
 	string dirstring;
+	string::size_type index = filename_string.rfind('/');
 	if (index != string::npos)
 		dirstring = filename_string.substr(0, index + 1);
 	else
