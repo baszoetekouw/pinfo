@@ -515,7 +515,7 @@ seek_tag_table(FILE * id,int quiet)
 }
 
 inline void
-buildcommand(char *dest, char *command, char *filename, const char *tmpfilename)
+buildcommand(char *dest, const char *command, const char *filename, const char *tmpfilename)
 {
 	strcpy(dest, command);
 	strcat(dest, " ");
@@ -525,7 +525,7 @@ buildcommand(char *dest, char *command, char *filename, const char *tmpfilename)
 }
 
 inline void
-builddircommand(char *dest, char *command, char *filename, const char *tmpfilename)
+builddircommand(char *dest, const char *command, const char *filename, const char *tmpfilename)
 {
 	strcpy(dest, command);
 	strcat(dest, " ");
@@ -538,10 +538,9 @@ FILE *
 opendirfile(int number)
 {
 	FILE *id = NULL;
-	char buf[1024];		/* holds local copy of filename */
-	char *bufend;			/* points at the trailing 0 of initial name */
+	string bufstr;
 	char command[1128];		/* holds command to evaluate for decompression of file */
-	int i, j;
+	int i;
 	char *tmpfilename;
 	int *fileendentries = (int*)xmalloc(infopathcount * sizeof(int));
 	int dir_found = 0;
@@ -562,24 +561,26 @@ opendirfile(int number)
 	for (i = 0; i < infopathcount; i++)	/* go through all paths */
 	{
 		lang_found = 0;
-		strcpy(buf, infopaths[i]);	/* build a filename */
-		strcat(buf, "/");
-		if (getenv("LANG") != NULL)
-			strcat(buf, getenv("LANG"));
-		strcat(buf, "/dir");
-		/*
-		 * remember the bufend to make it
-		 * possible later to glue compression suffixes.
-		 */
-		bufend = buf;
-		bufend += strlen(buf);
-		for (j = 0; j < SuffixesNumber; j++)	/* go through all suffixes */
+		bufstr = infopaths[i];
+		bufstr += '/';
+
+		char* getenv_lang;
+		getenv_lang = getenv("LANG");
+		if (getenv_lang != NULL)
+			bufstr += getenv_lang;
+		bufstr += "/dir";
+
+		for (int j = 0; j < SuffixesNumber; j++)	/* go through all suffixes */
 		{
-			strcat(buf, suffixes[j].suffix);
-			if ((id = fopen(buf, "r")) != NULL)
-			{
+			string bufstr_with_suffix;
+			bufstr_with_suffix = bufstr;
+			bufstr_with_suffix += suffixes[j].suffix;
+
+			id = fopen(bufstr_with_suffix.c_str(), "r");
+			if (id != NULL) {
 				fclose(id);
-				builddircommand(command, suffixes[j].command, buf, tmpfilename);
+				builddircommand(command, suffixes[j].command,
+												bufstr_with_suffix.c_str(), tmpfilename);
 				system(command);
 				lstat(tmpfilename, &status);
 				fileendentries[dircount] = status.st_size;
@@ -587,35 +588,29 @@ opendirfile(int number)
 				dir_found = 1;
 				lang_found = 1;
 			}
-			(*bufend) = 0;
 		}
 
 		/* same as above, but without $LANG support */
 		if (!lang_found)
 		{
-			strcpy(buf, infopaths[i]);	/* build a filename */
-			strcat(buf, "/");
-			strcat(buf, "dir");
-			/*
-			 * remember the bufend to make it possible later to glue
-			 * compression suffixes.
-			 */
-			bufend = buf;
-			bufend += strlen(buf);
-			for (j = 0; j < SuffixesNumber; j++)	/* go through all suffixes */
+			bufstr = infopaths[i];
+			bufstr += "/dir";
+
+			for (int j = 0; j < SuffixesNumber; j++)	/* go through all suffixes */
 			{
-				strcat(buf, suffixes[j].suffix);
-				if ((id = fopen(buf, "r")) != NULL)
-				{
+				string bufstr_with_suffix;
+				bufstr_with_suffix += suffixes[j].suffix;
+				id = fopen(bufstr_with_suffix.c_str(), "r");
+				if (id != NULL) {
 					fclose(id);
-					builddircommand(command, suffixes[j].command, buf, tmpfilename);
+					builddircommand(command, suffixes[j].command,
+													bufstr_with_suffix.c_str(), tmpfilename);
 					system(command);
 					lstat(tmpfilename, &status);
 					fileendentries[dircount] = status.st_size;
 					dircount++;
 					dir_found = 1;
 				}
-				(*bufend) = 0;
 			}
 		}
 	}
