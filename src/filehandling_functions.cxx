@@ -112,9 +112,11 @@ matchfile(char **buf, char *name)
 	{
 		if (strncmp(dp->d_name, bname, namelen) == 0)
 		{
-			char *tmp = strdup(dp->d_name);
+			string tmp_string = dp->d_name;
+			strip_compression_suffix(tmp_string);
+
+			char *tmp = strdup(tmp_string.c_str());
 			int dl;
-			strip_compression_suffix(tmp);
 			dl = strlen(tmp);
 			if ((!isdigit(tmp[dl - 1])) &&(!isalpha(tmp[namelen])))
 				/* if it's not eg. info-2.gz, but info.gz, the primary page
@@ -676,7 +678,7 @@ opendirfile(int number)
  * *filenameprefix and then in the rest of userdefined paths.
  */
 FILE *
-openinfo(char *filename, int number)
+openinfo(const char *filename, int number)
 {
 	FILE *id = NULL;
 	char *buf = (char*) xmalloc(1024);	/* holds local copy of filename */
@@ -735,7 +737,9 @@ openinfo(char *filename, int number)
 		else
 		{
 			strcpy(buf, infopaths[i]);	/* build a filename */
-			if (matchfile(&buf, filename) == 1)	/* no match found in this directory */
+			char* filename_fixme = NULL;
+			filename_fixme = strdup(filename); /* big memory leak */
+			if (matchfile(&buf, filename_fixme) == 1)	/* no match found in this directory */
 				continue;
 		}
 		bufend = buf;
@@ -1153,20 +1157,23 @@ seeknode(int tag_table_pos, FILE ** Id)
 #undef id
 }
 
-	void
-strip_compression_suffix(char *file)	/* removes trailing .gz, .bz2, etc. */
+/*
+ * Strip one trailing .gz, .bz2, etc.
+ * Operates in place.
+ */
+void
+strip_compression_suffix(string& filename)
 {
-	char *found = 0;
-	int j;
-	for (j = 0; j < SuffixesNumber; j++)
+	for (int j = 0; j < SuffixesNumber; j++)
 	{
-		if (found = strstr(file, suffixes[j].suffix))
-		{
-			if (*(found + strlen(suffixes[j].suffix)) == 0)
-			{
-				*found = 0;
-				break;
-			}
+		string::size_type suffix_len =  strlen(suffixes[j].suffix);
+		if (    (filename.length() >= suffix_len)
+		     && (filename.substr(filename.length() - suffix_len)
+		         == suffixes[j].suffix)
+		   ) {
+			/* Truncate string. */
+			filename.resize(filename.length() - suffix_len);
+			break;
 		}
 	}
 }

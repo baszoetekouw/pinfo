@@ -63,7 +63,7 @@ void load_indirect (char **message, long lines);
 /* loads tag table (as above) */
 void load_tag_table (char **message, long lines);
 /* opens info file */
-FILE *openinfo (char *filename, int number);
+FILE *openinfo (const char *filename, int number);
 /* opens dir info file */
 FILE *opendirfile (int number);
 
@@ -87,6 +87,9 @@ dirpage_lookup (char **type, char ***message, long *lines,
 		char *filename, char **first_node);
 
 /* removes trailing .gz, .bz2, etc. */
-void strip_compression_suffix (char *file);
+void strip_compression_suffix (std::string& filename);
+
+/* Gets the base file name from a filename-with-directory */
+void basename (std::string filename, std::string& basename_str);
 
 #endif

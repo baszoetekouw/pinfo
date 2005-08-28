@@ -27,6 +27,8 @@
 #include <string>
 using std::string;
 
+// #include "filehandling_functions.h"
+
 RCSID(PKG_VER "$Id$")
 
 #ifdef HAVE_GETOPT_LONG
@@ -139,37 +141,29 @@ getopts(int argc, char *argv[], string& filename_string, FILE** id) {
 					checksu();
 					if (verbose)
 						printf(_("Looking for man page...\n"));
-					filename_string = "";
+					string man_filename_string = "";
 					for (int i = optind; i < argc; i++)
 					{
-						filename_string.append(argv[i]);
-						filename_string.append(" ");
+						man_filename_string.append(argv[i]);
+						man_filename_string.append(" ");
 					}
-					exit(handlemanual(filename_string));
+					exit(handlemanual(man_filename_string));
 				}
 			case 'f':
 			case 'r':
 				{
-					char filename[256];
-					char *tmp;
-					strncpy(filename, argv[argc - 1], 200);
+					filename_string = argv[argc - 1];
 					/* Check for unsafe filenames */
-					string filename_string = filename;
 					checkfilename(filename_string);
 					/* add the raw path to searchpath */
 					addrawpath(filename_string);
 
-					tmp = filename + strlen(filename) - 1;
-					/* later, openinfo automaticaly adds them */
-					strip_compression_suffix(filename);
-					/* get basename */
-					while ((tmp > filename) &&(*tmp != '/'))
-						tmp--;
-					if (*tmp == '/')
-						tmp++;
-					/* and try it without '.info' suffix */
-					(*id) = openinfo(tmp, 0);
-					filename_string = filename;
+					/* Strip suffix in place.  Later, openinfo tries adding all of them */
+					strip_compression_suffix(filename_string);
+					/* Get basename, and pass to openinfo */
+					string basename_string;
+					basename(filename_string, basename_string);
+					(*id) = openinfo(basename_string.c_str(), 0);
 				}
 				break;
 			case 'a':
@@ -179,8 +173,8 @@ getopts(int argc, char *argv[], string& filename_string, FILE** id) {
 				{
 					use_apropos = 1;
 					plain_apropos = 1;
-					string filename_string = argv[argc - 1];
-					exit(handlemanual(filename_string));
+					string man_filename_string = argv[argc - 1];
+					exit(handlemanual(man_filename_string));
 					/* Again, really really weird.  FIXME. */
 				}
 				break;
