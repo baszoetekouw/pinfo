@@ -89,11 +89,10 @@ qsort_cmp(const void *base, const void *compared)
 }
 
 int
-matchfile(char **buf, char *name)
+matchfile(char **buf, const string name_string)
 {
 #define Buf	(*buf)
 	DIR *dir;
-	string name_string = name;
 	string basename_string;
 	string dirname_string;
 	basename_and_dirname(name_string, basename_string, dirname_string);
@@ -737,9 +736,8 @@ openinfo(const char *filename, int number)
 		else
 		{
 			strcpy(buf, infopaths[i]);	/* build a filename */
-			char* filename_fixme = NULL;
-			filename_fixme = strdup(filename); /* big memory leak */
-			if (matchfile(&buf, filename_fixme) == 1)	/* no match found in this directory */
+			string filename_string = filename;
+			if (matchfile(&buf, filename_string) == 1)	/* no match found in this directory */
 				continue;
 		}
 		bufend = buf;
