@@ -153,11 +153,12 @@ getopts(int argc, char *argv[], string& filename_string, FILE** id) {
 					char filename[256];
 					char *tmp;
 					strncpy(filename, argv[argc - 1], 200);
-					/* security check */
-					checkfilename(filename);
-					/* add the raw path to searchpath */
+					/* Check for unsafe filenames */
 					string filename_string = filename;
+					checkfilename(filename_string);
+					/* add the raw path to searchpath */
 					addrawpath(filename_string);
+
 					tmp = filename + strlen(filename) - 1;
 					/* later, openinfo automaticaly adds them */
 					strip_compression_suffix(filename);
@@ -299,15 +300,16 @@ main(int argc, char *argv[]) {
 			}
 		}
 
+		string filename_string = filename;
 		/* security check */
-		checkfilename(filename);
+		checkfilename(filename_string);
 
 		/* autodetect raw filenames */
-		if ((strncmp(filename,"../",3)==0)||
-				(strncmp(filename,"./",2)==0)||
-				(filename[0]=='/'))
+		if (    (filename_string.length() >= 1 && filename_string.substr(0, 1) == "/")
+		     || (filename_string.length() >= 2 && filename_string.substr(0, 2) == "./")
+		     || (filename_string.length() >= 3 && filename_string.substr(0, 3) == "../")
+		   )
 		{
-			string filename_string = filename;
 			addrawpath(filename_string);
 		}
 

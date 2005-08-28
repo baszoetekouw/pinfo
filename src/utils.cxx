@@ -20,6 +20,8 @@
  ***************************************************************************/
 
 #include "common_includes.h"
+#include <string>
+using std::string;
 
 RCSID("$Id$")
 
@@ -209,9 +211,14 @@ mymvhline(int y, int x, char ch, int len)
 		mvaddch(y, x + i, ch);
 }
 
+/*
+ * Check filename for dangerous characters and bail out if
+ * we find any.
+ */
 void
-checkfilename(char *filename)
+checkfilename(const string filename_string)
 {
+	const char * filename = filename_string.c_str();
 	if ((strchr(filename, '<')) ||
 			(strchr(filename, '>')) ||
 			(strchr(filename, '|')) ||

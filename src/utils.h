@@ -22,6 +22,8 @@
 #ifndef __UTILS_H
 #define __UTILS_H
 
+#include <string>
+
 extern char *safe_user;
 extern char *safe_group;
 
@@ -47,8 +49,8 @@ void *xmalloc (size_t size);
 void *xrealloc (void *ptr, size_t size);
 /* initializes GNU locales */
 void initlocale ();
-/* checks if file name does not cause secuirity problems */
-void checkfilename (char *filename);
+/* bail out if file name causes security problems */
+void checkfilename (const std::string filename);
 /* closes the program, and removes temporary files */
 void closeprogram ();
 /* initializes curses interface */
