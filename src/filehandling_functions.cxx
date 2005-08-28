@@ -515,32 +515,11 @@ seek_tag_table(FILE * id,int quiet)
 	return 1;
 }
 
-inline void
-buildcommand(char *dest, const char *command, const char *filename, const char *tmpfilename)
-{
-	strcpy(dest, command);
-	strcat(dest, " ");
-	strcat(dest, filename);
-	strcat(dest, "> ");
-	strcat(dest, tmpfilename);
-}
-
-inline void
-builddircommand(char *dest, const char *command, const char *filename, const char *tmpfilename)
-{
-	strcpy(dest, command);
-	strcat(dest, " ");
-	strcat(dest, filename);
-	strcat(dest, ">> ");
-	strcat(dest, tmpfilename);
-}
-
 FILE *
 opendirfile(int number)
 {
 	FILE *id = NULL;
 	string bufstr;
-	char command[1128];		/* holds command to evaluate for decompression of file */
 	int i;
 	char *tmpfilename;
 	int *fileendentries = (int*)xmalloc(infopathcount * sizeof(int));
@@ -571,6 +550,7 @@ opendirfile(int number)
 			bufstr += getenv_lang;
 		bufstr += "/dir";
 
+		/* FIXME: Duplicated code */
 		for (int j = 0; j < SuffixesNumber; j++)	/* go through all suffixes */
 		{
 			string bufstr_with_suffix;
@@ -580,9 +560,13 @@ opendirfile(int number)
 			id = fopen(bufstr_with_suffix.c_str(), "r");
 			if (id != NULL) {
 				fclose(id);
-				builddircommand(command, suffixes[j].command,
-												bufstr_with_suffix.c_str(), tmpfilename);
-				system(command);
+				/* FIXME: Insecure temp file usage */
+				string command_string = suffixes[j].command;
+				command_string += " ";
+				command_string += bufstr_with_suffix;
+				command_string += ">> ";
+				command_string += tmpfilename;
+				system(command_string.c_str());
 				lstat(tmpfilename, &status);
 				fileendentries[dircount] = status.st_size;
 				dircount++;
@@ -596,7 +580,7 @@ opendirfile(int number)
 		{
 			bufstr = infopaths[i];
 			bufstr += "/dir";
-
+			/* FIXME: Duplicated code */
 			for (int j = 0; j < SuffixesNumber; j++)	/* go through all suffixes */
 			{
 				string bufstr_with_suffix;
@@ -604,9 +588,13 @@ opendirfile(int number)
 				id = fopen(bufstr_with_suffix.c_str(), "r");
 				if (id != NULL) {
 					fclose(id);
-					builddircommand(command, suffixes[j].command,
-													bufstr_with_suffix.c_str(), tmpfilename);
-					system(command);
+					/* FIXME: Insecure temp file usage */
+					string command_string = suffixes[j].command;
+					command_string += " ";
+					command_string += bufstr_with_suffix;
+					command_string += ">> ";
+					command_string += tmpfilename;
+					system(command_string.c_str());
 					lstat(tmpfilename, &status);
 					fileendentries[dircount] = status.st_size;
 					dircount++;
@@ -682,7 +670,6 @@ openinfo(const char *filename, int number)
 	FILE *id = NULL;
 	char *buf = (char*) xmalloc(1024);	/* holds local copy of filename */
 	char *bufend;			/* points at the trailing 0 of initial name */
-	char command[1128];		/* holds command to evaluate for decompression of file */
 	int i, j;
 	char *tmpfilename;
 
@@ -763,8 +750,14 @@ openinfo(const char *filename, int number)
 							break;
 						}
 				}
-				buildcommand(command, suffixes[j].command, buf, tmpfilename);
-				system(command);
+				/* FIXME: Insecure temp file usage */
+				string command_string = suffixes[j].command;
+				command_string += ' ';
+				command_string += buf;
+				command_string += "> ";
+				command_string += tmpfilename;
+				system(command_string.c_str());
+
 				id = fopen(tmpfilename, "r");
 				if (id)
 				{
