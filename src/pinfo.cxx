@@ -44,8 +44,6 @@ char *pinfo_start_node = 0;
 
 /* strip `.info' suffix from  "file" */
 void strip_file_from_info_suffix(char *file);
-/* add `.info' suffix to "file" */
-char *addinfosuffix(char *file);
 
 /* protect against bad, bad macros */
 void checksu();
@@ -425,7 +423,6 @@ main(int argc, char *argv[]) {
 				{
 					char *tmp;
 					fclose(id);
-					/*tmp = addinfosuffix(work_return_value.file); */
 					tmp = strdup(work_return_value.file);
 
 					/* Reset global filenameprefix */
@@ -450,7 +447,6 @@ main(int argc, char *argv[]) {
 						}
 						/* open back the old file */
 						strip_file_from_info_suffix(curfile);
-						/*tmp = addinfosuffix(curfile); */
 						tmp = strdup(curfile);
 						id = openinfo(tmp, 0);
 						xfree(tmp);
@@ -560,22 +556,6 @@ strip_file_from_info_suffix(char *file)
 			*file = 0;
 		}
 	}
-}
-
-char *
-addinfosuffix(char *info)
-{
-	char *withsuffix = (char*)xmalloc(strlen(info) + 150);
-	strcpy(withsuffix, info);
-	if (strlen(info) == 3)
-	{
-		if (strcmp("dir", info) != 0)
-			strcat(withsuffix, ".info");
-	}
-	else
-		strcat(withsuffix, ".info");
-
-	return withsuffix;
 }
 
 /*
