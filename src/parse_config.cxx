@@ -20,6 +20,8 @@
  ***************************************************************************/
 
 #include "common_includes.h"
+#include <string>
+using std::string;
 
 RCSID("$Id$")
 
@@ -101,73 +103,60 @@ struct colours cols =
 int
 parse_config(void)
 {
-	char config_file_name[256], *home = 0;
-	char line[256];
+	string config_file_name;
+	string home;
 	FILE *f;
-	int line_number = 0;
-	if (rcfile != NULL)
-	{
+
+	if (rcfile != NULL) { /* User specified config file */
 		f = fopen(rcfile, "r");
-		if (f == NULL)
-		{
+		if (f == NULL) {
 			fprintf(stderr, _("Can't open config file!\n"));
 			exit(1);
 		}
-	}
-	else
-	{
-		if (rcfile == NULL)
-			if (getenv("HOME"))
-				home = strdup(getenv("HOME"));
-			else
-				home = 0;
-		if (home)
-		{
-			strcpy(config_file_name, home);
-			strcat(config_file_name, "/.pinforc");
-			if (!(f = fopen(config_file_name, "r")))
-			{
-				strcpy(config_file_name, CONFIGDIR);
-				if (!(f = fopen(config_file_name, "r")))
-				{
-					free(home);	/* home is nonzero; see if (home) above */
+	} else { /* rcfile == NULL */
+		char* rawhome = getenv("HOME");
+		if (rawhome != NULL)
+			home = rawhome;
+		if (home != "") {
+			config_file_name = home;
+			config_file_name += "/.pinforc";
+			f = fopen(config_file_name.c_str(), "r");
+			if (f == NULL) {
+				config_file_name = CONFIGDIR;
+				f = fopen(config_file_name.c_str(), "r");
+				if (f == NULL) {
 					return 0;	/* no config file available */
 				}
 			}
-		}
-		else
-		{
-			strcpy(config_file_name, CONFIGDIR);
-			if (!(f = fopen(config_file_name, "r")))
-			{
-				/* free(home);    home is unallocated; see if (home) above */
-				return 0;
+		} else { /* home == "" */
+			config_file_name = CONFIGDIR;
+			f = fopen(config_file_name.c_str(), "r");
+			if (f == NULL) {
+				return 0; /* no config file available */
 			}
 		}
 	}
-	while (!feof(f))
-	{
-		if (!(fgets(line, 255, f)))
-		{
+
+	int line_number = 0;
+	while (!feof(f)) {
+		char line[256];
+		if (!(fgets(line, 255, f))) {
 			fclose(f);
-			if (home)
-				free(home);
 			return 0;
 		}
-		if (parse_line(line))
-		{
+		if (parse_line(line)) {
+			/* Line parse failure */
 			line_number++;
 			fclose(f);
 			fprintf(stderr, _("Parse error in config file on line %d\n"), line_number);
 			exit(1);
-		}
-		else
+		} else {
+			/* Line parsed successfully */
 			line_number++;
+		}
 	}
 
 	fclose(f);
-	if (home)
-		free(home);
 	return 0;
 }
 
