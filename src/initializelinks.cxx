@@ -90,6 +90,8 @@ exists_in_tag_table(char *item)
  * calculates the length of string between start and end, counting `\t' as
  * filling up to 8 chars. (i.e. at line 22 tab will increment the counter by 2
  * [8-(22-int(22/8)*8)] spaces)
+ *
+ * Bugs: this doesn't actually work.  FIXME.
  */
 int
 calculate_len(char *start, char *end)

@@ -220,14 +220,13 @@ info_add_highlights(int pos, int cursor, long lines, int column, char **message)
 					int n = pmatch[0].rm_eo - pmatch[0].rm_so;
 					int y = i - pos + 1;
 					int x = calculate_len(message[i], pmatch[0].rm_so + str);
-					int txtoffset = pmatch[0].rm_so + str - message[i];
-					char tmp;
-					tmp = message[i][x + n];
-					message[i][x + n] = 0;
+					int txtoffset = (str - message[i]) + pmatch[0].rm_so;
+					string tmpstr = message[i];
+					tmpstr.resize(x+n);
+					string tmpstr2 = tmpstr.substr(txtoffset);
 					attrset(searchhighlight);
-					mvaddstr(y, x, message[i] + txtoffset);
+					mvaddstr(y, x, tmpstr2.c_str());
 					attrset(normal);
-					message[i][x + n] = tmp;
 					str = str + pmatch[0].rm_eo;
 				}
 			}
