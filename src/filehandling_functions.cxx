@@ -94,30 +94,29 @@ qsort_cmp(const void *base, const void *compared)
  * Leaves the matching name in buf.
  */
 int
-matchfile(char **buf, const string name_string)
+matchfile(string& buf, const string name_string)
 {
 	string basename_string;
 	string dirname_string;
 	basename_and_dirname(name_string, basename_string, dirname_string);
 
-	if ((*buf)[strlen((*buf))-1]!='/')
-		strcat((*buf),"/");
-	strcat((*buf),dirname_string.c_str());
+	if (buf[buf.length()-1]!='/')
+		buf += "/";
+	buf += dirname_string;
 
 	DIR *dir;
-	dir = opendir((*buf));	/* here we always have '/' at end */
+	dir = opendir(buf.c_str());	/* here we always have '/' at end */
 	if (dir == NULL)
 		return 1;
 
 	struct dirent *dp;
-	while ((dp = readdir(dir)) != NULL) {
+	while (dp = readdir(dir)) { /* Ends loop when NULL is returned */
 		string test_filename = dp->d_name;
 		strip_compression_suffix(test_filename); /* Strip in place */
 		if (test_filename  == basename_string) {
 			/* Matched.  Clean up and return from function. */
-			string toattach = "/";
-			toattach += test_filename;
-			strcat((*buf), toattach.c_str());
+			buf += "/";
+			buf += test_filename;
 			closedir(dir);
 			return 0;
 		}
@@ -710,10 +709,13 @@ openinfo(const char *filename, int number)
 		}
 		else
 		{
-			strcpy(buf, infopaths[i]);	/* build a filename */
+			string fullpathname = infopaths[i];
 			string filename_string = filename;
-			if (matchfile(&buf, filename_string) == 1)	/* no match found in this directory */
+			/* Modify fullpathname in place by suffixing filename -- eeewww */
+			int result = matchfile(fullpathname, filename_string);
+			if (result == 1)	/* no match found in this directory */
 				continue;
+			strcpy(buf, fullpathname.c_str());
 		}
 		bufend = buf;
 		/*
