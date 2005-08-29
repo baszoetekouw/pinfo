@@ -187,14 +187,14 @@ set_initial_history(const char *name)
 
 /* construct man name; take care about carry */
 void
-construct_manualname(char *buf, int which)
+construct_manualname(string& buf, int which)
 {
 	if (!manuallinks[which].carry) {
 		string tmpname = manuallinks[which].name;
 		/* workaround for names starting with '(' */
 		if (tmpname[0] == '(')
 			tmpname.replace(0,1,"");
-		strcpy(buf, tmpname.c_str());
+		buf = tmpname;
 	} else if (manuallinks[which].section_mark < HTTPSECTION) {
 		/* normal manual reference */
 		string tmpstr = manual[manuallinks[which].line - 1];
@@ -220,7 +220,7 @@ construct_manualname(char *buf, int which)
 		tmpstr.replace(0, idx, "");
 	
 		tmpstr.append(manuallinks[which].name);
-		strcpy(buf, tmpstr.c_str());
+		buf = tmpstr;
 	} else {
 		/* URL reference */
 		string tmpstr;
@@ -244,7 +244,7 @@ construct_manualname(char *buf, int which)
 		tmpname.resize(tmpname.length() - 1);
 		tmpname.append(tmpstr);
 
-		strcpy(buf, tmpname.c_str());
+		buf = tmpname;
 	}
 }
 
@@ -256,7 +256,7 @@ handlemanual(string name)
 	struct stat statbuf;
 	FILE *id;
 
-	char manualname[256];
+	string manualname_string; /* Filled by construct_manualname */
 	char cmd[256];
 	char *raw_tempfilename = 0;
 	char *apropos_tempfilename = 0;
@@ -358,11 +358,11 @@ handlemanual(string name)
 			 */
 			if (return_value != -2)
 			{
-				construct_manualname(manualname, return_value);
+				construct_manualname(manualname_string, return_value);
 				snprintf(cmd, 255, "man %s %s %s %s > %s",
 						ManOptions,
 						manuallinks[return_value].section,
-						manualname,
+						manualname_string.c_str(),
 						StderrRedirection,
 						tmpfilename2);
 			}
@@ -417,7 +417,7 @@ handlemanual(string name)
 						 * only when it's not a history call
 						 */
 						strcpy(manualhistory[manualhistorylength].name,
-								manualname);
+								manualname_string.c_str());
 						strcpy(manualhistory[manualhistorylength].sect,
 								manuallinks[return_value].section);
 					}
@@ -1234,42 +1234,39 @@ skip_search:
 					{
 						if (!strncmp(manuallinks[selected].section, "HTTPSECTION", 11))
 						{
-							int buflen;
-							char *tempbuf = (char*)xmalloc(1024);
-							strcpy(tempbuf, httpviewer);
-							strcat(tempbuf, " ");
-							buflen = strlen(tempbuf);
-							construct_manualname(tempbuf + buflen, selected);
+							string tmp_manualname; /* Filled by construct_manualname */
+							construct_manualname(tmp_manualname, selected);
+							string tmp_cmd;
+							tmp_cmd = httpviewer;
+							tmp_cmd += " ";
+							tmp_cmd += tmp_manualname;
 							myendwin();
-							system(tempbuf);
+							system(tmp_cmd.c_str());
 							doupdate();
-							xfree(tempbuf);
 						}
 						else if (!strncmp(manuallinks[selected].section, "FTPSECTION", 10))
 						{
-							int buflen;
-							char *tempbuf = (char*)xmalloc(1024);
-							strcpy(tempbuf, ftpviewer);
-							strcat(tempbuf, " ");
-							buflen = strlen(tempbuf);
-							construct_manualname(tempbuf + buflen, selected);
+							string tmp_manualname; /* Filled by construct_manualname */
+							construct_manualname(tmp_manualname, selected);
+							string tmp_cmd;
+							tmp_cmd = ftpviewer;
+							tmp_cmd += " ";
+							tmp_cmd += tmp_manualname;
 							myendwin();
-							system(tempbuf);
+							system(tmp_cmd.c_str());
 							doupdate();
-							xfree(tempbuf);
 						}
 						else if (!strncmp(manuallinks[selected].section, "MAILSECTION", 11))
 						{
-							int buflen;
-							char *tempbuf = (char*)xmalloc(1024);
-							strcpy(tempbuf, maileditor);
-							strcat(tempbuf, " ");
-							buflen = strlen(tempbuf);
-							construct_manualname(tempbuf + buflen, selected);
+							string tmp_manualname; /* Filled by construct_manualname */
+							construct_manualname(tmp_manualname, selected);
+							string tmp_cmd;
+							tmp_cmd = maileditor;
+							tmp_cmd += " ";
+							tmp_cmd += tmp_manualname;
 							myendwin();
-							system(tempbuf);
+							system(tmp_cmd.c_str());
 							doupdate();
-							xfree(tempbuf);
 						}
 						else
 						{
