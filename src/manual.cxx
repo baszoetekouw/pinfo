@@ -45,8 +45,8 @@ void showmanualscreen();
 void mvaddstr_manual(int y, int x, char *str);
 /* adds highlights to a painted screen */
 void add_highlights();
-/* strips line from formatting characters */
-void strip_manual(char *buf);
+/* strips line of formatting characters */
+void strip_manual(string& buf);
 /*
  * Initialize links in a line .  Links are entries of form reference(section),
  * and are stored in `manuallinks' var, described bellow.
@@ -202,11 +202,13 @@ construct_manualname(char *buf, int which)
 		/* normal manual reference */
 		if (manuallinks[which].section_mark < HTTPSECTION)
 		{
-			char *base = (char*)xmalloc(1024);
-			char *ptr;
+			string base_str = manual[manuallinks[which].line - 1];
+			strip_manual(base_str);
+
+			char* ptr;
 			int tmppos;
-			strcpy(base, manual[manuallinks[which].line - 1]);
-			strip_manual(base);
+			char* base;
+			base = strdup(base_str.c_str());
 			ptr = base + strlen(base) - 3;
 			while (((isalpha(*ptr)) ||(*ptr == '.') ||(*ptr == '_')) &&(ptr > base))
 				ptr--;
@@ -224,11 +226,15 @@ construct_manualname(char *buf, int which)
 		/* url reference */
 		else
 		{
-			char *base = (char*)xmalloc(1024);
-			char *ptr, *eptr;
 			int namelen = strlen(manuallinks[which].name);
-			strcpy(base, manual[manuallinks[which].line + 1]);
-			strip_manual(base);
+
+			string base_str;
+			base_str = manual[manuallinks[which].line + 1];
+			strip_manual(base_str);
+
+			char *base;
+			char *ptr, *eptr;
+			base = strdup(base_str.c_str());
 			ptr = base;
 			/* skip whitespace */
 			while (isspace(*ptr))
@@ -461,7 +467,6 @@ loadmanual(FILE * id)
 	/* we read until eof */
 	while (!feof(id))
 	{
-		char *tmp;
 		/*
 		 * it happens sometimes, that the last line is weird
 		 * and causes sigsegvs by not entering anything to buffer, what
@@ -502,12 +507,12 @@ loadmanual(FILE * id)
 					manlinelen + 10);
 
 			/* temporary variable for determining hypertextuality of fields */
-			tmp = (char*)xmalloc(manlinelen + 10);
+			string tmpstr;
+			tmpstr = manual[ManualLines];
+			strip_manual(tmpstr);
 
-			strcpy(tmp, manual[ManualLines]);
-
-			/* remove formatting chars */
-			strip_manual(tmp);
+			char* tmp;
+			tmp = strdup(tmpstr.c_str());
 			man_initializelinks(tmp, carryflag);
 			carryflag = 0;
 			if (manlinelen > 1)
@@ -745,8 +750,6 @@ manualwork()
 	FILE *pipe;
 	/* a temporary buffer */
 	char *token;
-	/* again the same */
-	char *tmp;
 	/* key, which contains the value entered by user */
 	int key = 0;
 	/* tmp values */
@@ -998,30 +1001,33 @@ manualwork()
 				/* and search for it in all subsequential lines */
 				for (i = manualpos + 1; i < ManualLines - 1; i++)
 				{
-					tmp = (char*)xmalloc(strlen(manual[i]) + strlen(manual[i + 1]) + 10);
+					string tmpstr;
 					/*
 					 * glue two following lines together, to find expres- sions
 					 * split up into two lines
 					 */
-					strcpy(tmp, manual[i]);
-					strcat(tmp, manual[i + 1]);
-					strip_manual(tmp);
+					tmpstr = manual[i];
+					tmpstr += manual[i+1];
+					strip_manual(tmpstr);
 
 					/* execute search */
+					char* tmp = strdup(tmpstr.c_str());
 					if (pinfo_re_exec(tmp))
 					{		/* if found, enter here... */
 						success = 1;
-						strcpy(tmp, manual[i + 1]);
-						strip_manual(tmp);
+						xfree(tmp);
+						string newtmpstr = manual[i + 1];
+						strip_manual(newtmpstr);
 						/*
 						 * if it was found in the second line of the glued
 						 * expression.
 						 */
-						if (pinfo_re_exec(tmp))
+						char* newtmp = strdup(newtmpstr.c_str());
+						if (pinfo_re_exec(newtmp))
 							manualpos = i + 1;
 						else
 							manualpos = i;
-						xfree(tmp);
+						xfree(newtmp);
 						break;
 					}
 					xfree(tmp);
@@ -1479,8 +1485,9 @@ mvaddstr_manual(int y, int x, char *str)
 	static char strippedline[1024];
 	if ((h_regexp_num) ||(manual_aftersearch))
 	{
-		memcpy(strippedline, str, len + 1);
-		strip_manual(strippedline);
+		string strippedline_string = str;
+		strip_manual(strippedline_string);
+		strcpy(strippedline, strippedline_string.c_str());
 	}
 	move(y, x);
 	for (i = 0; i < len; i++)
@@ -1592,11 +1599,11 @@ add_highlights()
 				{
 					int x, y, ltline = manuallinks[i].line - 1;
 					/* find the line, where starts the split link */
-					char *tmpstr = strdup(manual[ltline]);
 					int ltlinelen;
 					char *newlinemark;
-					/* remove boldfaces&italics */
-					strip_manual(tmpstr);
+					string tmp_string = manual[ltline];
+					strip_manual(tmp_string);
+					char *tmpstr = strdup(tmp_string.c_str());
 					/* calculate the length of this line */
 					ltlinelen = strlen(tmpstr);
 					/* set this var to the last character of this line(to an '\n')*/
@@ -1649,9 +1656,11 @@ add_highlights()
 					 * the split part to find is lying down
 					 * to the line defined in manlinks(line+1)
 					 */
-					char *tmpstr = strdup(manual[ltline]);
-					char *wsk = tmpstr, *wskend;
-					strip_manual(tmpstr);
+					string tmp_string = manual[ltline];
+					strip_manual(tmp_string);
+					char *tmpstr = strdup(tmp_string.c_str());
+					char *wsk = tmpstr;
+					char *wskend;
 					/* skip spaces */
 					while (isspace(*wsk))
 						wsk++;
@@ -1676,30 +1685,23 @@ add_highlights()
 	}
 }
 
-/* all variables passed here must have, say 10 bytes of overrun buffer */
+/* Cleanse a line of backspaces; overwrites argument. */
+/* Should probably be rewritten to not overwrite argument. */
 void
-strip_manual(char *buf)
+strip_manual(string& buf)
 {
-	int i, tmpcnt = 0;
-	/* in general, tmp buffer will hold a line stripped from highlight marks */
-	for (i = 0; buf[i] != 0; i++)
+	/* in general, tmp buffer will hold a line with highlight marks stripped */
+	/* Overwrite as we go.  Length will change as we go, too. */
+	for (string::size_type i = 0; i < buf.length(); i++)
 	{
-		/* so we strip the line from "'_',0x8" -- bold marks */
-		if ((buf[i] == '_') &&(buf[i + 1] == 8))
-		{
-			buf[tmpcnt++] = buf[i + 2];
-			i += 2;
-		}
-		/* and 0x8 -- italic marks */
+		/* strip from the line "'_',0x8" -- underline marks */
+		if ((buf[i] == '_') && (buf[i + 1] == 8))
+			buf.replace(i, 2, "");
+		/* and 0x8 -- overstrike marks */
 		else if ((buf[i + 1] == 8) &&(buf[i + 2] == buf[i]))
-		{
-			buf[tmpcnt++] = buf[i];
-			i += 2;
-		}
-		else /* else we don't do anything */
-			buf[tmpcnt++] = buf[i];
+			buf.replace(i, 2, "");
+		/* else we don't do anything */
 	}
-	buf[tmpcnt] = 0;
 }
 
 /*
