@@ -22,6 +22,8 @@
 #ifndef __DATATYPES_H
 #define __DATATYPES_H
 
+#include <string>
+
 #define FREE 0
 #define LOCKED 1
 
@@ -94,7 +96,7 @@ extern int verbose;
  * And this path points to that directory, and openinfo() will try to open the
  * file only in this directory (if this variable is set nonzero)
  */
-extern char *filenameprefix;
+extern std::string filenameprefix;
 
 /* name of http viewer (i.e. lynx) */
 extern char *httpviewer;
@@ -192,8 +194,5 @@ void inithistory ();
 void addinfohistory (char *file, char *node, int cursor, int menu, int pos);
 /* deletes last history entry */
 void dellastinfohistory ();
-
-/* clears the default searchpath for openinfo() */
-void clearfilenameprefix ();
 
 #endif

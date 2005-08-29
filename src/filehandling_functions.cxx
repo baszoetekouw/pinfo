@@ -33,7 +33,7 @@ typedef struct
 Suffixes;
 
 void
-basename_and_dirname(string filename, string& basename, string& dirname)
+basename_and_dirname(const string filename, string& basename, string& dirname)
 {
 	/* Dirname should end with a slash, or be empty. */
 	string::size_type index = filename.rfind('/');
@@ -47,13 +47,25 @@ basename_and_dirname(string filename, string& basename, string& dirname)
 }
 
 void
-basename(string filename, string& basename_str)
+basename(const string filename, string& basename_str)
 {
 	string::size_type index = filename.rfind('/');
 	if (index == string::npos) {
 		basename_str = filename;
 	} else {
 		basename_str = filename.substr(index + 1);
+	}
+}
+
+/* In this one, dirname *doesn't* have a trailing slash. */
+void
+dirname(const string filename, string& dirname_str)
+{
+	string::size_type index = filename.rfind('/');
+	if (index == string::npos) {
+		dirname_str = "";
+	} else {
+		dirname_str = filename.substr(0, index);
 	}
 }
 
@@ -648,8 +660,8 @@ opendirfile(int number)
  * are two temporary files supported, i.e.  one for keeping opened info file,
  * and second for i.e. regexp search across info nodes, which are in other
  * info-subfiles.  The temporary file 1 is refrenced by number=0, and file 2 by
- * number=1 Openinfo by default first tries the path stored in char
- * *filenameprefix and then in the rest of userdefined paths.
+ * number=1 Openinfo by default first tries the path stored in
+ * filenameprefix and then in the rest of userdefined paths.
  */
 FILE *
 openinfo(const char *filename, int number)
@@ -691,7 +703,7 @@ openinfo(const char *filename, int number)
 			 * no filenameprefix, we don't navigate around any specific
 			 * infopage set, so simply scan all directories for a hit
 			 */
-			if (!filenameprefix)
+			if (filenameprefix.empty())
 				continue;
 			else {
 				mybuf = filenameprefix;
@@ -713,17 +725,9 @@ openinfo(const char *filename, int number)
 			id = fopen(buf_with_suffix.c_str(), "r");
 			if (id) {
 				fclose(id);
-				clearfilenameprefix();
-				filenameprefix = strdup(buf_with_suffix.c_str());
-				{			/* small scope for removal of filename */
-					int prefixlen = strlen(filenameprefix);
-					for (int prefixi = prefixlen; prefixi > 0; prefixi--)
-						if (filenameprefix[prefixi] == '/')
-						{
-							filenameprefix[prefixi] = 0;
-							break;
-						}
-				}
+				/* Set global filenameprefix to the dirname of the found file */
+				dirname(buf_with_suffix, filenameprefix);
+
 				/* FIXME: Insecure temp file usage */
 				string command_string = suffixes[j].command;
 				command_string += ' ';
@@ -739,7 +743,7 @@ openinfo(const char *filename, int number)
 				}
 			}
 		}
-		if ((i == -1) &&(filenameprefix))
+		if ((i == -1) && ( !filenameprefix.empty() ))
 			/* if we have a nonzero filename prefix,
 				 that is we view a set of infopages,
 				 we don't want to search for a page

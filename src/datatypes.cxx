@@ -19,12 +19,14 @@
  *  USA
  ***************************************************************************/
 #include "common_includes.h"
+#include <string>
+using std::string;
 
 RCSID("$Id$")
 
 int verbose = 1;
 
-char *filenameprefix = 0;
+string filenameprefix;
 
 char *httpviewer = "lynx";
 char *ftpviewer = "lynx";
@@ -180,12 +182,3 @@ dellastinfohistory()
 	}
 }
 
-void
-clearfilenameprefix()
-{
-	if (filenameprefix)
-	{
-		xfree(filenameprefix);
-		filenameprefix = 0;
-	}
-}

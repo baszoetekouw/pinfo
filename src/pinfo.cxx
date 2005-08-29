@@ -427,7 +427,9 @@ main(int argc, char *argv[]) {
 					fclose(id);
 					/*tmp = addinfosuffix(work_return_value.file); */
 					tmp = strdup(work_return_value.file);
-					clearfilenameprefix();
+
+					/* Reset global filenameprefix */
+					filenameprefix.clear();
 					id = openinfo(tmp, 0);
 					xfree(tmp);
 					tmp = 0;
