@@ -27,17 +27,20 @@ RCSID("$Id$")
 #define MENU_DOT 0
 #define NOTE_DOT 1
 
+/* Unusable with vectors */
+/* Try life without sorting.  :-) FIXME */
+#if 0
 int
 compare_hyperlink(const void *a, const void *b)
 {
 	return ((HyperObject *) a)->col -((HyperObject *) b)->col;
 }
-
 void
 sort_hyperlinks_from_current_line(long startlink, long endlink)
 {
-	qsort(hyperobjects + startlink, endlink - startlink, sizeof(HyperObject), compare_hyperlink);
+	qsort(hyperobjects[startlink], endlink - startlink, sizeof(HyperObject), compare_hyperlink);
 }
+#endif
 
 /*
  * Compares two strings, ignoring whitespaces(tabs, spaces)
@@ -78,9 +81,12 @@ compare_tag_table_string(char *base, char *compared)
  * failure.  It should be optimised...
  */
 inline int
-exists_in_tag_table(char *item)
+exists_in_tag_table(const string item)
 {
-	if (gettagtablepos(item) != -1)
+	char * item_working = strdup(item.c_str());
+	int result = gettagtablepos(item_working);
+	xfree(item_working);
+	if (result != -1)
 		return 1;
 	else
 		return 0;
@@ -113,10 +119,7 @@ calculate_len(char *start, char *end)
 void
 freelinks()			/* frees space allocated previously by node-links */
 {
-	if ((hyperobjects)&&(hyperobjectcount))
-		xfree(hyperobjects);
-	hyperobjects = 0;
-	hyperobjectcount = 0;
+	hyperobjects.clear();
 }
 
 /*
@@ -245,8 +248,6 @@ initializelinks(char *line1, char *line2, int line)
 	char *notestart = 0, *urlstart = 0, *urlend = 0;
 	char *quotestart = 0, *quoteend = 0;
 	char *buf = (char*)xmalloc(strlen(line1) + strlen(line2) + 1);
-	/* required to sort properly the hyperlinks from current line only */
-	long initialhyperobjectcount = hyperobjectcount;
 	int changed;
 	int line1len = strlen(line1);
 
@@ -277,25 +278,20 @@ initializelinks(char *line1, char *line2, int line)
 						if (quoteend)
 						{
 							changed = 1;
-							if (!hyperobjectcount)
-								hyperobjects = (HyperObject*)xmalloc(sizeof(HyperObject));
-							else
-								hyperobjects = (HyperObject*)xrealloc(hyperobjects, sizeof(HyperObject) *(hyperobjectcount + 1));
-							hyperobjects[hyperobjectcount].line = line;
-							hyperobjects[hyperobjectcount].col = calculate_len(buf, quotestart + 1);
-							hyperobjects[hyperobjectcount].breakpos = -1;	/* default */
+							HyperObject my_ho;
+							my_ho.line = line;
+							my_ho.col = calculate_len(buf, quotestart + 1);
+							my_ho.breakpos = -1;	/* default */
 							if (quoteend > buf + line1len)
 							{
-								hyperobjects[hyperobjectcount].breakpos = buf + line1len - quotestart - 1;
+								my_ho.breakpos = buf + line1len - quotestart - 1;
 							}
-							hyperobjects[hyperobjectcount].type = HIGHLIGHT;
-							strncpy(hyperobjects[hyperobjectcount].node, quotestart + 1, quoteend - quotestart - 1);
-							hyperobjects[hyperobjectcount].node[quoteend - quotestart - 1] = 0;
-							strcpy(hyperobjects[hyperobjectcount].file, "");
-							hyperobjects[hyperobjectcount].nodelen=strlen(hyperobjects[hyperobjectcount].node);
-							hyperobjects[hyperobjectcount].filelen=strlen(hyperobjects[hyperobjectcount].file);
-							hyperobjects[hyperobjectcount].tagtableoffset = -1;
-							hyperobjectcount++;
+							my_ho.type = HIGHLIGHT;
+							my_ho.node.assign(quotestart + 1,
+							                          quoteend - quotestart	- 1 );
+							my_ho.file = "";
+							my_ho.tagtableoffset = -1;
+							hyperobjects.push_back(my_ho);
 						}
 					}
 				}
@@ -312,27 +308,19 @@ initializelinks(char *line1, char *line2, int line)
 		if ((urlstart = findemailstart(urlend)) != NULL)
 		{
 			urlend = findurlend(urlstart);	/* always successful */
-			if (!hyperobjectcount)
-				hyperobjects = (HyperObject*)xmalloc(sizeof(HyperObject));
-			else
-				hyperobjects = (HyperObject*)xrealloc(hyperobjects, sizeof(HyperObject) *(hyperobjectcount + 1));
-			hyperobjects[hyperobjectcount].line = line;
-			hyperobjects[hyperobjectcount].col = calculate_len(line1, urlstart);
-			hyperobjects[hyperobjectcount].breakpos = -1;
-			hyperobjects[hyperobjectcount].type = 6;
-			strncpy(hyperobjects[hyperobjectcount].node, urlstart, urlend - urlstart);
-			hyperobjects[hyperobjectcount].node[urlend - urlstart] = 0;
-			strcpy(hyperobjects[hyperobjectcount].file, "");
-			hyperobjects[hyperobjectcount].nodelen=strlen(hyperobjects[hyperobjectcount].node);
-			hyperobjects[hyperobjectcount].filelen=strlen(hyperobjects[hyperobjectcount].file);
-			hyperobjects[hyperobjectcount].tagtableoffset = -1;
-			if (strchr(hyperobjects[hyperobjectcount].node, '.') == NULL)
-			{
-				if (!hyperobjectcount)
-					xfree(hyperobjects);
+			HyperObject my_ho;
+			my_ho.line = line;
+			my_ho.col = calculate_len(line1, urlstart);
+			my_ho.breakpos = -1;
+			my_ho.type = 6;
+			my_ho.node.assign(urlstart, urlend - urlstart);
+			my_ho.file = "";
+			my_ho.tagtableoffset = -1;
+			if (my_ho.node.find('.') == string::npos) {
+				; /* For some reason don't include it in this case -- why? */
+			} else {
+				hyperobjects.push_back(my_ho);
 			}
-			else
-				hyperobjectcount++;
 			changed = 1;
 		}
 
@@ -352,59 +340,39 @@ initializelinks(char *line1, char *line2, int line)
 		tmp = strstr(line1, "::");	/* "* menulink:: comment" */
 		if (tmp != NULL)
 		{
-			if (!hyperobjectcount)
-				hyperobjects = (HyperObject*)xmalloc(sizeof(HyperObject));
-			else
-				hyperobjects = (HyperObject*)xrealloc(hyperobjects, sizeof(HyperObject) *(hyperobjectcount + 1));
 			if (line1[2] == '(')	/* if cross-info link */
 			{
 				char *end = strchr(line1, ')');
 				if ((end != NULL) &&(end < tmp))		/* if the ')' char was found, and was before '::' */
 				{
+					HyperObject my_ho;
+					hyperobjects.push_back(my_ho);
 					long FilenameLen =(long)(end - line1 - 3);
 					long NodenameLen =(long)(tmp - end - 1);
-					strncpy(hyperobjects[hyperobjectcount].file,
-							line1 + 3, FilenameLen);
-					hyperobjects[hyperobjectcount].file[FilenameLen] = 0;
-					strncpy(hyperobjects[hyperobjectcount].node,
-							end + 1, NodenameLen);
-					hyperobjects[hyperobjectcount].node[NodenameLen] = 0;
-					hyperobjects[hyperobjectcount].type = 0;
-					hyperobjects[hyperobjectcount].line = line;
-					hyperobjects[hyperobjectcount].col = 2;
-					hyperobjects[hyperobjectcount].breakpos = -1;
-					hyperobjects[hyperobjectcount].nodelen=strlen(hyperobjects[hyperobjectcount].node);
-					hyperobjects[hyperobjectcount].filelen=strlen(hyperobjects[hyperobjectcount].file);
-					hyperobjectcount++;
+					my_ho.file.assign(line1 + 3, FilenameLen);
+					my_ho.node.assign(end + 1, NodenameLen);
+					my_ho.type = 0;
+					my_ho.line = line;
+					my_ho.col = 2;
+					my_ho.breakpos = -1;
+					hyperobjects.push_back(my_ho);
 				}
 			}
 			else
 				/* if not cross-info link */
 			{
+				HyperObject my_ho;
+				hyperobjects.push_back(my_ho);
 				long NodenameLen =(long)(tmp - line1 - 2);
-				int goodHit = 0;
-				strcpy(hyperobjects[hyperobjectcount].file, "");
-				strncpy(hyperobjects[hyperobjectcount].node,
-						line1 + 2, NodenameLen);
-				hyperobjects[hyperobjectcount].node[NodenameLen] = 0;
-				hyperobjects[hyperobjectcount].type = 0;
-				hyperobjects[hyperobjectcount].line = line;
-				hyperobjects[hyperobjectcount].col = 2;
-				hyperobjects[hyperobjectcount].breakpos = -1;
-				hyperobjects[hyperobjectcount].nodelen=strlen(hyperobjects[hyperobjectcount].node);
-				hyperobjects[hyperobjectcount].filelen=strlen(hyperobjects[hyperobjectcount].file);
-				if (exists_in_tag_table(hyperobjects[hyperobjectcount].node))
+				my_ho.file = "";
+				my_ho.node.assign(line1 + 2, NodenameLen);
+				my_ho.type = 0;
+				my_ho.line = line;
+				my_ho.col = 2;
+				my_ho.breakpos = -1;
+				if (exists_in_tag_table(my_ho.node))
 				{
-					hyperobjectcount++;	/* yep, this was a good hit */
-					goodHit = 1;
-				}
-				if (!goodHit)
-				{
-					if (!hyperobjectcount)
-					{
-						xfree(hyperobjects);
-						hyperobjects = 0;
-					}
+					hyperobjects.push_back(my_ho);
 				}
 			}
 		}
@@ -433,23 +401,14 @@ initializelinks(char *line1, char *line2, int line)
 					{
 						long FilenameLen =(long)(end - start - 1);
 						long NodenameLen =(long)(dot - end - 1);
-						if (!hyperobjectcount)
-							hyperobjects = (HyperObject*)xmalloc(sizeof(HyperObject));
-						else
-							hyperobjects = (HyperObject*)xrealloc(hyperobjects, sizeof(HyperObject) *(hyperobjectcount + 1));
-						strncpy(hyperobjects[hyperobjectcount].file,
-								start + 1, FilenameLen);
-						hyperobjects[hyperobjectcount].file[FilenameLen] = 0;
-						strncpy(hyperobjects[hyperobjectcount].node,
-								end + 1, NodenameLen);
-						hyperobjects[hyperobjectcount].node[NodenameLen] = 0;
-						hyperobjects[hyperobjectcount].type = 1;
-						hyperobjects[hyperobjectcount].line = line;
-						hyperobjects[hyperobjectcount].col = calculate_len(line1, start);
-						hyperobjects[hyperobjectcount].breakpos = -1;
-						hyperobjects[hyperobjectcount].nodelen=strlen(hyperobjects[hyperobjectcount].node);
-						hyperobjects[hyperobjectcount].filelen=strlen(hyperobjects[hyperobjectcount].file);
-						hyperobjectcount++;
+						HyperObject my_ho;
+						my_ho.file.assign(start + 1, FilenameLen);
+						my_ho.node.assign(end + 1, NodenameLen);
+						my_ho.type = 1;
+						my_ho.line = line;
+						my_ho.col = calculate_len(line1, start);
+						my_ho.breakpos = -1;
+						hyperobjects.push_back(my_ho);
 					}
 				}
 				else
@@ -462,38 +421,21 @@ initializelinks(char *line1, char *line2, int line)
 handle_no_file_menu_label:
 				{
 					long NodenameLen;
-					int goodHit = 0;	/* has val of 1, if it's a good hit */
-					if (!hyperobjectcount)
-						hyperobjects = (HyperObject*)xmalloc(sizeof(HyperObject));
-					else
-						hyperobjects = (HyperObject*)xrealloc(hyperobjects, sizeof(HyperObject) *(hyperobjectcount + 1));
+					HyperObject my_ho;
 
 					start = tmp + 1;	/* move after the padding spaces */
 					while (isspace(*start))
 						start++;
 					NodenameLen =(long)(dot - start);
-					strcpy(hyperobjects[hyperobjectcount].file, "");
-					strncpy(hyperobjects[hyperobjectcount].node,
-							start, NodenameLen);
-					hyperobjects[hyperobjectcount].node[NodenameLen] = 0;
-					hyperobjects[hyperobjectcount].type = 1;
-					hyperobjects[hyperobjectcount].line = line;
-					hyperobjects[hyperobjectcount].col = calculate_len(line1, start);
-					hyperobjects[hyperobjectcount].breakpos = -1;
-					hyperobjects[hyperobjectcount].nodelen=strlen(hyperobjects[hyperobjectcount].node);
-					hyperobjects[hyperobjectcount].filelen=strlen(hyperobjects[hyperobjectcount].file);
-					if (exists_in_tag_table(hyperobjects[hyperobjectcount].node))
+					my_ho.file = "";
+					my_ho.node.assign(start, NodenameLen);
+					my_ho.type = 1;
+					my_ho.line = line;
+					my_ho.col = calculate_len(line1, start);
+					my_ho.breakpos = -1;
+					if (exists_in_tag_table(my_ho.node))
 					{
-						hyperobjectcount++;		/* yep, this was a good hit */
-						goodHit = 1;
-					}
-					if (!goodHit)
-					{
-						if (!hyperobjectcount)
-						{
-							xfree(hyperobjects);
-							hyperobjects = 0;
-						}
+						hyperobjects.push_back(my_ho);
 					}
 				}
 			}
@@ -519,91 +461,63 @@ handlenote:
 			tmp = strstr(notestart, "::");	/* "*note notelink:: comment" */
 			if (tmp != NULL)
 			{
-				if (!hyperobjectcount)
-					hyperobjects = (HyperObject*)xmalloc(sizeof(HyperObject));
-				else
-					hyperobjects = (HyperObject*)xrealloc(hyperobjects, sizeof(HyperObject) *(hyperobjectcount + 1));
 				if (notestart[6] == '(')	/* if cross-info link */
 				{
 					char *end = strchr(notestart, ')');
 					if ((end != NULL) &&(end < tmp))	/* if the ')' char was found, and was before '::' */
 					{
+						HyperObject my_ho;
 						long FilenameLen =(long)(end - notestart - 7);
 						long NodenameLen =(long)(tmp - end - 1);
-						strncpy(hyperobjects[hyperobjectcount].file,
-								notestart + 7, FilenameLen);
-						hyperobjects[hyperobjectcount].file[FilenameLen] = 0;
-						strncpy(hyperobjects[hyperobjectcount].node,
-								end + 1, NodenameLen);
-						hyperobjects[hyperobjectcount].node[NodenameLen] = 0;
-						hyperobjects[hyperobjectcount].type = 2;
-						if (notestart + 7 - buf < strlen(line1))
-						{
-							hyperobjects[hyperobjectcount].line = line;
-							hyperobjects[hyperobjectcount].col = calculate_len(buf, notestart + 7);
+						my_ho.file.assign(notestart + 7, FilenameLen);
+						my_ho.node.assign(end + 1, NodenameLen);
+						my_ho.type = 2;
+						if (notestart + 7 - buf < strlen(line1)) {
+							my_ho.line = line;
+							my_ho.col = calculate_len(buf, notestart + 7);
 							/* if the note highlight fits int first line */
 							if (tmp - buf < strlen(line1))
-								hyperobjects[hyperobjectcount].breakpos = -1;
+								my_ho.breakpos = -1;
 								/* we don't need to break highlighting int several lines */
 							else
-								hyperobjects[hyperobjectcount].breakpos = strlen(line1) -(long)(notestart + 7 - buf) + 1;	/* otherwise we need it */
-						}
-						else
-						{
-							hyperobjects[hyperobjectcount].line = line + 1;
-							hyperobjects[hyperobjectcount].col = calculate_len(buf + strlen(line1), notestart + 7);
+								my_ho.breakpos = strlen(line1) -(long)(notestart + 7 - buf) + 1;	/* otherwise we need it */
+						} else {
+							my_ho.line = line + 1;
+							my_ho.col = calculate_len(buf + strlen(line1), notestart + 7);
 							if (tmp - buf < strlen(line1))	/* as above */
-								hyperobjects[hyperobjectcount].breakpos = -1;
-							else if ((hyperobjects[hyperobjectcount].breakpos = strlen(line1) -(long)(notestart + 7 - buf) + 1) == 0)
-								hyperobjects[hyperobjectcount].line--;
+								my_ho.breakpos = -1;
+							else if ((my_ho.breakpos = strlen(line1) -(long)(notestart + 7 - buf) + 1) == 0)
+								my_ho.line--;
 						}
-						hyperobjects[hyperobjectcount].nodelen=strlen(hyperobjects[hyperobjectcount].node);
-						hyperobjects[hyperobjectcount].filelen=strlen(hyperobjects[hyperobjectcount].file);
-						hyperobjectcount++;
+						hyperobjects.push_back(my_ho);
 					}
 				}
 				else /* if not cross-info link */
 				{
+					HyperObject my_ho;
 					long NodenameLen =(long)(tmp - notestart - 6);
-					int goodHit = 0;
-					strcpy(hyperobjects[hyperobjectcount].file, "");
-					strncpy(hyperobjects[hyperobjectcount].node,
-							notestart + 6, NodenameLen);
-					hyperobjects[hyperobjectcount].node[NodenameLen] = 0;
-					hyperobjects[hyperobjectcount].type = 2;
-					hyperobjects[hyperobjectcount].nodelen=strlen(hyperobjects[hyperobjectcount].node);
-					hyperobjects[hyperobjectcount].filelen=strlen(hyperobjects[hyperobjectcount].file);
-					if (notestart + 7 - buf < strlen(line1))
-					{
-						hyperobjects[hyperobjectcount].line = line;
-						hyperobjects[hyperobjectcount].col = calculate_len(buf, notestart + 7) - 1;
+					my_ho.file = "";
+					my_ho.node.assign(notestart + 6, NodenameLen);
+					my_ho.type = 2;
+					if (notestart + 7 - buf < strlen(line1)) {
+						my_ho.line = line;
+						my_ho.col = calculate_len(buf, notestart + 7) - 1;
 						/* if the note highlight fits int first line */
 						if (tmp - buf < strlen(line1))
-							hyperobjects[hyperobjectcount].breakpos = -1;	/* we don't need to break highlighting int several lines */
+							my_ho.breakpos = -1;	/* we don't need to break highlighting int several lines */
 						else
-							hyperobjects[hyperobjectcount].breakpos = strlen(line1) -(long)(notestart + 7 - buf) + 1;	/* otherwise we need it */
-					}
-					else
-					{
-						hyperobjects[hyperobjectcount].line = line + 1;
-						hyperobjects[hyperobjectcount].col = calculate_len(buf + strlen(line1), notestart + 7) - 1;
+							my_ho.breakpos = strlen(line1) -(long)(notestart + 7 - buf) + 1;	/* otherwise we need it */
+					} else {
+						my_ho.line = line + 1;
+						my_ho.col = calculate_len(buf + strlen(line1), notestart + 7) - 1;
 						if (tmp - buf < strlen(line1))	/* as above */
-							hyperobjects[hyperobjectcount].breakpos = -1;
-						else if ((hyperobjects[hyperobjectcount].breakpos = strlen(line1) -(long)(notestart + 7 - buf) + 1) == 0)
-							hyperobjects[hyperobjectcount].line--;
+							my_ho.breakpos = -1;
+						else if ((my_ho.breakpos = strlen(line1) -(long)(notestart + 7 - buf) + 1) == 0)
+							my_ho.line--;
 					}
-					if (exists_in_tag_table(hyperobjects[hyperobjectcount].node))
+					if (exists_in_tag_table(my_ho.node))
 					{
-						hyperobjectcount++;	/* yep, this was a good hit */
-						goodHit = 1;
-					}
-					if (!goodHit)
-					{
-						if (!hyperobjectcount)
-						{
-							xfree(hyperobjects);
-							hyperobjects = 0;
-						}
+						hyperobjects.push_back(my_ho);
 					}
 				}
 			}
@@ -630,35 +544,23 @@ handlenote:
 						{
 							long FilenameLen =(long)(end - start - 1);
 							long NodenameLen =(long)(dot - end - 1);
-							if (!hyperobjectcount)
-								hyperobjects = (HyperObject*)xmalloc(sizeof(HyperObject));
-							else
-								hyperobjects = (HyperObject*)xrealloc(hyperobjects, sizeof(HyperObject) *(hyperobjectcount + 1));
-							strncpy(hyperobjects[hyperobjectcount].file,
-									start + 1, FilenameLen);
-							hyperobjects[hyperobjectcount].file[FilenameLen] = 0;
-							strncpy(hyperobjects[hyperobjectcount].node,
-									end + 1, NodenameLen);
-							hyperobjects[hyperobjectcount].node[NodenameLen] = 0;
-							hyperobjects[hyperobjectcount].type = 3;
-							if (start - buf < strlen(line1))
-							{
-								hyperobjects[hyperobjectcount].line = line;
-								hyperobjects[hyperobjectcount].col = calculate_len(buf, start);
+							HyperObject my_ho;
+							my_ho.file.assign(start + 1, FilenameLen);
+							my_ho.node.assign(end + 1, NodenameLen);
+							my_ho.type = 3;
+							if (start - buf < strlen(line1)) {
+								my_ho.line = line;
+								my_ho.col = calculate_len(buf, start);
 								if (dot - buf < strlen(line1))	/* if the note highlight fits in first line */
-									hyperobjects[hyperobjectcount].breakpos = -1;	/* we don't need to break highlighting int several lines */
+									my_ho.breakpos = -1;	/* we don't need to break highlighting int several lines */
 								else
-									hyperobjects[hyperobjectcount].breakpos = strlen(line1) -(long)(start - buf);	/* otherwise we need it */
+									my_ho.breakpos = strlen(line1) -(long)(start - buf);	/* otherwise we need it */
+							} else {
+								my_ho.line = line + 1;
+								my_ho.col = calculate_len(buf + strlen(line1), start);
+								my_ho.breakpos = -1;
 							}
-							else
-							{
-								hyperobjects[hyperobjectcount].line = line + 1;
-								hyperobjects[hyperobjectcount].col = calculate_len(buf + strlen(line1), start);
-								hyperobjects[hyperobjectcount].breakpos = -1;
-							}
-							hyperobjects[hyperobjectcount].nodelen=strlen(hyperobjects[hyperobjectcount].node);
-							hyperobjects[hyperobjectcount].filelen=strlen(hyperobjects[hyperobjectcount].file);
-							hyperobjectcount++;
+							hyperobjects.push_back(my_ho);
 						}
 					}
 					else
@@ -671,50 +573,33 @@ handlenote:
 handle_no_file_note_label:
 					{
 						long NodenameLen;
-						int goodHit = 0;
-						if (!hyperobjectcount)
-							hyperobjects = (HyperObject*)xmalloc(sizeof(HyperObject));
-						else
-							hyperobjects = (HyperObject*)xrealloc(hyperobjects, sizeof(HyperObject) *(hyperobjectcount + 1));
+						HyperObject my_ho;
 
 						start = tmp + 1;	/* move after the padding spaces */
 						while (isspace(*start))
 							start++;
 						NodenameLen =(long)(dot - start);
-						strcpy(hyperobjects[hyperobjectcount].file, "");
-						strncpy(hyperobjects[hyperobjectcount].node,
-								start, NodenameLen);
-						hyperobjects[hyperobjectcount].node[NodenameLen] = 0;
-						hyperobjects[hyperobjectcount].type = 3;
-						hyperobjects[hyperobjectcount].nodelen=strlen(hyperobjects[hyperobjectcount].node);
-						hyperobjects[hyperobjectcount].filelen=strlen(hyperobjects[hyperobjectcount].file);
+						my_ho.file = "";
+						my_ho.node.assign(start, NodenameLen);
+						my_ho.type = 3;
 						if (start - buf < strlen(line1))
 						{
-							hyperobjects[hyperobjectcount].line = line;
-							hyperobjects[hyperobjectcount].col = calculate_len(buf, start);
+							my_ho.line = line;
+							my_ho.col = calculate_len(buf, start);
 							if (dot - buf < strlen(line1))		/* if the note highlight fits in first line */
-								hyperobjects[hyperobjectcount].breakpos = -1;		/* we don't need to break highlighting int several lines */
+								my_ho.breakpos = -1;		/* we don't need to break highlighting int several lines */
 							else
-								hyperobjects[hyperobjectcount].breakpos = strlen(line1) -(long)(start - buf);	/* otherwise we need it */
+								my_ho.breakpos = strlen(line1) -(long)(start - buf);	/* otherwise we need it */
 						}
 						else
 						{
-							hyperobjects[hyperobjectcount].line = line + 1;
-							hyperobjects[hyperobjectcount].col = calculate_len(strlen(line1) + buf, start);
-							hyperobjects[hyperobjectcount].breakpos = -1;
+							my_ho.line = line + 1;
+							my_ho.col = calculate_len(strlen(line1) + buf, start);
+							my_ho.breakpos = -1;
 						}
-						if (exists_in_tag_table(hyperobjects[hyperobjectcount].node))
+						if (exists_in_tag_table(my_ho.node))
 						{
-							hyperobjectcount++;	/* yep, this was a good hit */
-							goodHit = 1;
-						}
-						if (!goodHit)
-						{
-							if (!hyperobjectcount)
-							{
-								xfree(hyperobjects);
-								hyperobjects = 0;
-							}
+							hyperobjects.push_back(my_ho);
 						}
 					}
 				}
@@ -742,45 +627,31 @@ handle_no_file_note_label:
 	while ((urlstart = strstr(urlend, "http://")) != NULL)
 	{
 		urlend = findurlend(urlstart);	/* always successful */
-		if (!hyperobjectcount)
-			hyperobjects = (HyperObject*)xmalloc(sizeof(HyperObject));
-		else
-			hyperobjects = (HyperObject*)xrealloc(hyperobjects, sizeof(HyperObject) *(hyperobjectcount + 1));
-		hyperobjects[hyperobjectcount].line = line;
-		hyperobjects[hyperobjectcount].col = calculate_len(line1, urlstart);
-		hyperobjects[hyperobjectcount].breakpos = -1;
-		hyperobjects[hyperobjectcount].type = 4;
-		strncpy(hyperobjects[hyperobjectcount].node, urlstart, urlend - urlstart);
-		hyperobjects[hyperobjectcount].node[urlend - urlstart] = 0;
-		strcpy(hyperobjects[hyperobjectcount].file, "");
-		hyperobjects[hyperobjectcount].tagtableoffset = -1;
-		hyperobjects[hyperobjectcount].nodelen=strlen(hyperobjects[hyperobjectcount].node);
-		hyperobjects[hyperobjectcount].filelen=strlen(hyperobjects[hyperobjectcount].file);
-		hyperobjectcount++;
+		HyperObject my_ho;
+		my_ho.line = line;
+		my_ho.col = calculate_len(line1, urlstart);
+		my_ho.breakpos = -1;
+		my_ho.type = 4;
+		my_ho.node.assign(urlstart, urlend - urlstart);
+		my_ho.file = "";
+		my_ho.tagtableoffset = -1;
+		hyperobjects.push_back(my_ho);
 	}
 	/* ftp:// */
 	urlend = line1;
 	while ((urlstart = strstr(urlend, "ftp://")) != NULL)
 	{
 		urlend = findurlend(urlstart);	/* always successful */
-		if (!hyperobjectcount)
-			hyperobjects = (HyperObject*)xmalloc(sizeof(HyperObject));
-		else
-			hyperobjects = (HyperObject*)xrealloc(hyperobjects, sizeof(HyperObject) *(hyperobjectcount + 1));
-		hyperobjects[hyperobjectcount].line = line;
-		hyperobjects[hyperobjectcount].col = calculate_len(line1, urlstart);
-		hyperobjects[hyperobjectcount].breakpos = -1;
-		hyperobjects[hyperobjectcount].type = 5;
-		strncpy(hyperobjects[hyperobjectcount].node, urlstart, urlend - urlstart);
-		hyperobjects[hyperobjectcount].node[urlend - urlstart] = 0;
-		strcpy(hyperobjects[hyperobjectcount].file, "");
-		hyperobjects[hyperobjectcount].tagtableoffset = -1;
-		hyperobjects[hyperobjectcount].nodelen=strlen(hyperobjects[hyperobjectcount].node);
-		hyperobjects[hyperobjectcount].filelen=strlen(hyperobjects[hyperobjectcount].file);
-		hyperobjectcount++;
+		HyperObject my_ho;
+		my_ho.line = line;
+		my_ho.col = calculate_len(line1, urlstart);
+		my_ho.breakpos = -1;
+		my_ho.type = 5;
+		my_ho.node.assign(urlstart, urlend - urlstart);
+		my_ho.file = "";
+		my_ho.tagtableoffset = -1;
+		hyperobjects.push_back(my_ho);
 	}
-	if (initialhyperobjectcount != hyperobjectcount)
-		sort_hyperlinks_from_current_line(initialhyperobjectcount, hyperobjectcount);
 	if (buf)
 	{
 		xfree(buf);

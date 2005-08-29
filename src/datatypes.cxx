@@ -20,7 +20,9 @@
  ***************************************************************************/
 #include "common_includes.h"
 #include <string>
+#include <vector>
 using std::string;
+using std::vector;
 
 RCSID("$Id$")
 
@@ -42,7 +44,7 @@ char *tmpfilename2 = 0;
 
 SearchAgain searchagain;
 
-HyperObject *hyperobjects = 0;
+vector<HyperObject> hyperobjects;
 int hyperobjectcount = 0;
 
 Indirect *indirect = 0;

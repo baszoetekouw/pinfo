@@ -23,6 +23,7 @@
 #define __DATATYPES_H
 
 #include <string>
+#include <vector>
 
 #define FREE 0
 #define LOCKED 1
@@ -68,7 +69,7 @@ typedef struct
 }
 InfoHistory;
 
-typedef struct
+typedef struct HyperObject
 {
 	int line;			/* line number of the place where the link is */
 	int col;			/* column number ----||---- */
@@ -80,10 +81,8 @@ typedef struct
 						   4 -  http url
 						   5 -  ftp url
 						   6 -  mailto url */
-	char node[256];		/* name of the referenced node */
-	int nodelen;		/* length of string node */
-	char file[256];		/* name of the referenced file -- none=this file */
-	int filelen;		/* length of string file */
+	std::string node;		/* name of the referenced node */
+	std::string file;		/* name of the referenced file -- empty=this file */
 	int tagtableoffset;	/* offset in tag table */
 }
 HyperObject;
@@ -124,7 +123,7 @@ extern char *tmpfilename2;
 extern SearchAgain searchagain;
 
 /* an array of references for info */
-extern HyperObject *hyperobjects;
+extern std::vector<HyperObject> hyperobjects;
 extern int hyperobjectcount;
 /* an array of indirect entries [1 to n] */
 extern Indirect *indirect;

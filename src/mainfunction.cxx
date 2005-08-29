@@ -77,7 +77,7 @@ work(char ***message, char **type, long *lines, FILE * id, int tag_table_pos)
 	maxx = 80;
 	maxy = 25;
 #endif /*  getmaxyx */
-	/* free memory allocated previously by hypertext links */
+	/* Clear old hyperlink info */
 	freelinks();
 	for (i = 1; i < Lines; i++)	/* initialize node-links for every line */
 	{
@@ -816,7 +816,7 @@ skip_search:
 				cursorchanged = 0;
 				if (cursor != -1)	/* if we must handle cursor... */
 				{
-					if ((cursor > 0) &&(hyperobjectcount))	/* if we really must handle it ;) */
+					if ((cursor > 0) &&(hyperobjects.size()))	/* if we really must handle it ;) */
 						/*
 						 * look if there's a cursor(link) pos available above,
 						 * and if it is visible now.
@@ -841,7 +841,7 @@ skip_search:
 					if (pos > 2)	/* lower the nodepos */
 						pos--;
 					/* and scan for a hyperlink in the new line */
-					for (i = 0; i < hyperobjectcount; i++)
+					for (i = 0; i < hyperobjects.size(); i++)
 					{
 						if (hyperobjects[i].line == pos)
 						{
@@ -861,7 +861,7 @@ skip_search:
 				pos = Lines -(maxy - 2);
 				if (pos < 1)
 					pos = 1;
-				cursor = hyperobjectcount - 1;
+				cursor = hyperobjects.size() - 1;
 			}
 			/*==========================================================================*/
 			if ((key == keys.pgdn_1) ||
@@ -875,12 +875,12 @@ skip_search:
 				else if (Lines -(maxy - 2) >= 1)
 				{
 					pos = Lines -(maxy - 2);
-					cursor = hyperobjectcount - 1;
+					cursor = hyperobjects.size() - 1;
 				}
 				else
 				{
 					pos = 1;
-					cursor = hyperobjectcount - 1;
+					cursor = hyperobjects.size() - 1;
 				}
 			}
 			/*==========================================================================*/
@@ -919,8 +919,8 @@ skip_search:
 					(key == keys.down_2))	/* top+bottom line \|/ */
 			{
 				cursorchanged = 0;	/* works similar to keys.up */
-				if (cursor < hyperobjectcount)
-					for (i = cursor + 1; i < hyperobjectcount; i++)
+				if (cursor < hyperobjects.size())
+					for (i = cursor + 1; i < hyperobjects.size(); i++)
 					{
 						if ((hyperobjects[i].line >= pos) &&
 								(hyperobjects[i].line < pos +(maxy - 2)))
@@ -937,7 +937,7 @@ skip_search:
 				{
 					if (pos <= Lines -(maxy - 2))
 						pos++;
-					for (i = cursor + 1; i < hyperobjectcount; i++)
+					for (i = cursor + 1; i < hyperobjects.size(); i++)
 					{
 						if ((hyperobjects[i].line >= pos) &&
 								(hyperobjects[i].line < pos +(maxy - 2)))
@@ -997,7 +997,7 @@ skip_search:
 				infohistory.menu[infohistory.length] = infomenu;
 				if (!toggled_by_menu)
 					infohistory.menu[infohistory.length] = cursor;
-				if ((cursor >= 0) &&(cursor < hyperobjectcount))
+				if ((cursor >= 0) &&(cursor < hyperobjects.size()))
 					if ((hyperobjects[cursor].line >= pos) &&
 							(hyperobjects[cursor].line < pos +(maxy - 2)) ||
 							(toggled_by_menu))
@@ -1005,10 +1005,10 @@ skip_search:
 						toggled_by_menu = 0;
 						if (hyperobjects[cursor].type < 4)	/* normal info link */
 						{
-							rval.node = (char*)xmalloc(strlen(hyperobjects[cursor].node) + 1);
-							strcpy(rval.node, hyperobjects[cursor].node);
-							rval.file = (char*)xmalloc(strlen(hyperobjects[cursor].file) + 1);
-							strcpy(rval.file, hyperobjects[cursor].file);
+							rval.node = (char*)xmalloc(hyperobjects[cursor].node.length() + 1);
+							strcpy(rval.node, hyperobjects[cursor].node.c_str());
+							rval.file = (char*)xmalloc(hyperobjects[cursor].file.length() + 1);
+							strcpy(rval.file, hyperobjects[cursor].file.c_str());
 							aftersearch = 0;
 							return rval;
 						}
@@ -1016,10 +1016,10 @@ skip_search:
 						{
 							if (hyperobjects[cursor].type == 4)	/* http */
 							{
-								char *tempbuf = (char*)xmalloc(strlen(hyperobjects[cursor].node) + strlen(httpviewer) + 10);
+								char *tempbuf = (char*)xmalloc(hyperobjects[cursor].node.length() + strlen(httpviewer) + 10);
 								strcpy(tempbuf, httpviewer);
 								strcat(tempbuf, " ");
-								strcat(tempbuf, hyperobjects[cursor].node);
+								strcat(tempbuf, hyperobjects[cursor].node.c_str());
 								myendwin();
 								system(tempbuf);
 								doupdate();
@@ -1027,10 +1027,10 @@ skip_search:
 							}
 							else if (hyperobjects[cursor].type == 5)	/* ftp */
 							{
-								char *tempbuf = (char*)xmalloc(strlen(hyperobjects[cursor].node) + strlen(ftpviewer) + 10);
+								char *tempbuf = (char*)xmalloc(hyperobjects[cursor].node.length() + strlen(ftpviewer) + 10);
 								strcpy(tempbuf, ftpviewer);
 								strcat(tempbuf, " ");
-								strcat(tempbuf, hyperobjects[cursor].node);
+								strcat(tempbuf, hyperobjects[cursor].node.c_str());
 								myendwin();
 								system(tempbuf);
 								doupdate();
@@ -1038,10 +1038,10 @@ skip_search:
 							}
 							else if (hyperobjects[cursor].type == 6)	/* mail */
 							{
-								char *tempbuf = (char*)xmalloc(strlen(hyperobjects[cursor].node) + strlen(maileditor) + 10);
+								char *tempbuf = (char*)xmalloc(hyperobjects[cursor].node.length() + strlen(maileditor) + 10);
 								strcpy(tempbuf, maileditor);
 								strcat(tempbuf, " ");
-								strcat(tempbuf, hyperobjects[cursor].node);
+								strcat(tempbuf, hyperobjects[cursor].node.c_str());
 								myendwin();
 								system("clear");
 								system(tempbuf);
@@ -1085,7 +1085,7 @@ skip_search:
 							{
 								if (hyperobjects[i].col <= mouse.x - 1)
 								{
-									if (hyperobjects[i].col + strlen(hyperobjects[i].node) + strlen(hyperobjects[i].file) >= mouse.x - 1)
+									if (hyperobjects[i].col + hyperobjects[i].node.length() + hyperobjects[i].file.length() >= mouse.x - 1)
 									{
 										if (hyperobjects[i].type < HIGHLIGHT)
 										{
@@ -1098,13 +1098,13 @@ skip_search:
 							}
 						}
 						if (!done)
-							for (i = cursor; i < hyperobjectcount; i++)
+							for (i = cursor; i < hyperobjects.size(); i++)
 							{
 								if (hyperobjects[i].line == mouse.y + pos - 1)
 								{
 									if (hyperobjects[i].col <= mouse.x - 1)
 									{
-										if (hyperobjects[i].col + strlen(hyperobjects[i].node) + strlen(hyperobjects[i].file) >= mouse.x - 1)
+										if (hyperobjects[i].col + hyperobjects[i].node.length() + hyperobjects[i].file.length() >= mouse.x - 1)
 										{
 											if (hyperobjects[i].type < HIGHLIGHT)
 											{
@@ -1132,7 +1132,7 @@ skip_search:
 							{
 								if (hyperobjects[i].col <= mouse.x - 1)
 								{
-									if (hyperobjects[i].col + strlen(hyperobjects[i].node) + strlen(hyperobjects[i].file) >= mouse.x - 1)
+									if (hyperobjects[i].col + hyperobjects[i].node.length() + hyperobjects[i].file.length() >= mouse.x - 1)
 									{
 										if (hyperobjects[i].type < HIGHLIGHT)
 										{
@@ -1145,13 +1145,13 @@ skip_search:
 							}
 						}
 						if (!done)
-							for (i = cursor; i < hyperobjectcount; i++)
+							for (i = cursor; i < hyperobjects.size(); i++)
 							{
 								if (hyperobjects[i].line == mouse.y + pos - 1)
 								{
 									if (hyperobjects[i].col <= mouse.x - 1)
 									{
-										if (hyperobjects[i].col + strlen(hyperobjects[i].node) + strlen(hyperobjects[i].file) >= mouse.x - 1)
+										if (hyperobjects[i].col + hyperobjects[i].node.length() + hyperobjects[i].file.length() >= mouse.x - 1)
 										{
 											if (hyperobjects[i].type < HIGHLIGHT)
 											{
@@ -1194,12 +1194,12 @@ void
 next_infomenu()
 {
 	int i;
-	if (hyperobjectcount == 0)
+	if (hyperobjects.size() == 0)
 	{
 		infomenu = -1;
 		return;
 	}
-	for (i = infomenu + 1; i < hyperobjectcount; i++)
+	for (i = infomenu + 1; i < hyperobjects.size(); i++)
 	{
 		if (hyperobjects[i].type <= 1)	/* menu item */
 		{
@@ -1214,7 +1214,7 @@ void
 rescan_cursor()
 {
 	int i;
-	for (i = 0; i < hyperobjectcount; i++)
+	for (i = 0; i < hyperobjects.size(); i++)
 	{
 		if ((hyperobjects[i].line >= pos) &&
 				(hyperobjects[i].line < pos +(maxy - 2)))

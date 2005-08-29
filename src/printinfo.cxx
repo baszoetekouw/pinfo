@@ -56,10 +56,10 @@ printnode(char ***message, long *lines)
 			if (hyperobjects[highlight].file[0] == 0)
 				mynode = hyperobjects[highlight].node;
 			else {
-				mynode.assign("(");
-				mynode.append(hyperobjects[highlight].file);
-				mynode.append(")");
-				mynode.append(hyperobjects[highlight].node);
+				mynode = "(";
+				mynode += hyperobjects[highlight].file;
+				mynode += ")";
+				mynode += hyperobjects[highlight].node;
 			}
 			/* if it's a contiunuation of last's line highlight */
 			if (hyperobjects[highlight].line == i - 1) {
@@ -77,7 +77,7 @@ printnode(char ***message, long *lines)
 				fputs(mynode.c_str(), prnFD);
 				lineprinted = hyperobjects[highlight].col + mynode.length();
 			}
-			if (highlight < hyperobjectcount - 1)
+			if (highlight < hyperobjects.size() - 1)
 				highlight++;
 			else
 				break;

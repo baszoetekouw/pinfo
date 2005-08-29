@@ -136,7 +136,7 @@ void
 info_add_highlights(int pos, int cursor, long lines, int column, char **message)
 {
 	int i, j;
-	for (i = 0; i < hyperobjectcount; i++)
+	for (i = 0; i < hyperobjects.size(); i++)
 	{
 		if ((hyperobjects[i].line < pos) ||
 				(hyperobjects[i].line >= pos +(maxy - 2)))
@@ -164,13 +164,13 @@ info_add_highlights(int pos, int cursor, long lines, int column, char **message)
 
 		/* now we start actual drawing */
 		string mynode;
-		if (hyperobjects[i].file[0] == 0) {
-			mynode.assign(hyperobjects[i].node, hyperobjects[i].nodelen);
+		if (hyperobjects[i].file == "") {
+			mynode = hyperobjects[i].node;
 		} else {
-			mynode.assign("(");
-			mynode.append(hyperobjects[i].file, hyperobjects[i].filelen);
-			mynode.append(")");
-			mynode.append(hyperobjects[i].node, hyperobjects[i].nodelen);
+			mynode = "(";
+			mynode += hyperobjects[i].file;
+			mynode += ")";
+			mynode += hyperobjects[i].node;
 		}
 		if (hyperobjects[i].breakpos == -1) {
 			info_addstring(1 + hyperobjects[i].line - pos,

@@ -538,7 +538,6 @@ main(int argc, char *argv[]) {
 	fclose(id);
 	closeprogram();
 	/* free's at the end are optional, but look nice :) */
-	freelinks();
 	freeitem(&type, &message, &lines);
 	freetagtable();
 	freeindirect();
