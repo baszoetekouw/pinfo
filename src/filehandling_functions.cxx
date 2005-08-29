@@ -522,7 +522,6 @@ opendirfile(int number)
 {
 	FILE *id = NULL;
 	char *tmpfilename;
-	int *fileendentries = (int*)xmalloc(infopathcount * sizeof(int));
 	int dir_found = 0;
 	int dircount = 0;
 	struct stat status;
@@ -538,6 +537,7 @@ opendirfile(int number)
 		tmpfilename = tmpfilename1;	/* later we will refere only to tmp1 */
 	}
 
+	int *fileendentries = (int*)xmalloc(infopathcount * sizeof(int));
 	for (int i = 0; i < infopathcount; i++)	{ /* go through all paths */
 		int lang_found = 0;
 		for (int k = 0; k <= 1; k++) { /* Two passes: with and without LANG */
@@ -559,7 +559,6 @@ opendirfile(int number)
 				bufstr += "/dir";
 			}
 
-			/* FIXME: Duplicated code */
 			for (int j = 0; j < SuffixesNumber; j++) { /* go through all suffixes */
 				string bufstr_with_suffix;
 				bufstr_with_suffix = bufstr;
@@ -626,13 +625,14 @@ opendirfile(int number)
 		}
 		fputc(INFO_TAG, id);
 		fputc('\n', id);
-		xfree(fileendentries);
 		fclose(id);
 		id = fopen(tmpfilename, "r");
 		xfree(tmp);
 
+		xfree(fileendentries);
 		return id;
 	}
+	xfree(fileendentries);
 	return NULL;
 }
 
