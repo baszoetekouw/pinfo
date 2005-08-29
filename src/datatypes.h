@@ -37,7 +37,7 @@
 
 typedef struct
 {
-	char lastsearch[256];	/* last searched regexp */
+	std::string lastsearch;	/* last searched regexp */
 	char type;				/* type of the last search (global/local) */
 	int search;				/* if true -- search again */
 }

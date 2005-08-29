@@ -192,7 +192,8 @@ construct_manualname(char *buf, int which)
 	if (!manuallinks[which].carry)
 	{
 		/* workaround for names starting with '(' */
-		if (manuallinks[which].name[0] == '(') strcpy(buf, manuallinks[which].name + 1);
+		if (manuallinks[which].name[0] == '(')
+			strcpy(buf, manuallinks[which].name + 1);
 		else strcpy(buf, manuallinks[which].name);
 		return;
 	}
@@ -956,13 +957,13 @@ manualwork()
 				if (!searchagain.search)
 				{
 					token = getstring(_("Enter regexp: "));
-					strcpy(searchagain.lastsearch, token);
+					searchagain.lastsearch = token;
 					searchagain.type = key;
 				}
 				else
 				{
-					token = (char*)xmalloc(strlen(searchagain.lastsearch) + 1);
-					strcpy(token, searchagain.lastsearch);
+					token = (char*)xmalloc(searchagain.lastsearch.length() + 1);
+					strcpy(token, searchagain.lastsearch.c_str());
 					searchagain.search = 0;
 				}		/* end of searchagain handler */
 				if (strlen(token) == 0)

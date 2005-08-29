@@ -291,7 +291,7 @@ work(char ***message, char **type, long *lines, FILE * id, int tag_table_pos)
 				if (!searchagain.search)	/* if searchagain key wasn't hit */
 				{
 					token = getstring(_("Enter regexp: "));	/* get the token */
-					strcpy(searchagain.lastsearch, token);	/* and save it to searchagain buffer */
+					searchagain.lastsearch = token;	/* and save it to searchagain buffer */
 					/*
 					 * give a hint, which key to ungetch to call this procedure
 					 * by searchagain
@@ -300,9 +300,9 @@ work(char ***message, char **type, long *lines, FILE * id, int tag_table_pos)
 				}
 				else /* it IS searchagain */
 				{
-					token = (char*)xmalloc(strlen(searchagain.lastsearch) + 1);
+					token = (char*)xmalloc(searchagain.lastsearch.length() + 1);
 					/* allocate space for token */
-					strcpy(token, searchagain.lastsearch);
+					strcpy(token, searchagain.lastsearch.c_str());
 					/* copy the token from searchagain buffer */
 					searchagain.search = 0;
 					/* reset the searchagain swith(until it's set again
@@ -551,13 +551,13 @@ work(char ***message, char **type, long *lines, FILE * id, int tag_table_pos)
 				if (!searchagain.search)	/* searchagain handler. see totalsearch */
 				{
 					token = getstring(_("Enter regexp: "));
-					strcpy(searchagain.lastsearch, token);
+					searchagain.lastsearch = token;
 					searchagain.type = key;
 				}
 				else
 				{
-					token = (char*)xmalloc(strlen(searchagain.lastsearch) + 1);
-					strcpy(token, searchagain.lastsearch);
+					token = (char*)xmalloc(searchagain.lastsearch.length() + 1);
+					strcpy(token, searchagain.lastsearch.c_str());
 					searchagain.search = 0;
 				}		/* end of searchagain handler */
 				if (strlen(token) == 0)
