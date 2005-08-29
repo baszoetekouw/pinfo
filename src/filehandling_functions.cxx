@@ -110,7 +110,7 @@ matchfile(string& buf, const string name_string)
 		return 1;
 
 	struct dirent *dp;
-	while (dp = readdir(dir)) { /* Ends loop when NULL is returned */
+	while ((dp = readdir(dir))) { /* Ends loop when NULL is returned */
 		string test_filename = dp->d_name;
 		strip_compression_suffix(test_filename); /* Strip in place */
 		if (test_filename  == basename_string) {
@@ -655,14 +655,10 @@ FILE *
 openinfo(const char *filename, int number)
 {
 	FILE *id = NULL;
-	char *buf = (char*) xmalloc(1024);	/* holds local copy of filename */
-	char *bufend;			/* points at the trailing 0 of initial name */
-	int i, j;
 	char *tmpfilename;
 
 	if (strncmp(filename, "dir", 3) == 0)
 	{
-		xfree(buf);
 		return opendirfile(number);
 	}
 
@@ -687,53 +683,41 @@ openinfo(const char *filename, int number)
 		tmpfilename = tmpfilename2;	/* later we will refere only to tmp2 */
 	}
 
-	for (i = -1; i < infopathcount; i++)	/* go through all paths */
-	{
-		if (i == -1)
-		{
+	for (int i = -1; i < infopathcount; i++) { /* go through all paths */
+		string mybuf;
+		string filename_string = filename;
+		if (i == -1) {
 			/*
 			 * no filenameprefix, we don't navigate around any specific
 			 * infopage set, so simply scan all directories for a hit
 			 */
 			if (!filenameprefix)
 				continue;
-			else
-			{
-				strcpy(buf, filenameprefix);	/* build a filename */
-				strcat(buf, "/");
-				string filename_string = filename;
+			else {
+				mybuf = filenameprefix;
+				mybuf += "/";
 				string basename_string;
 				basename(filename_string, basename_string);
-				strcat(buf, basename_string.c_str());
+				mybuf += basename_string;
 			}
-		}
-		else
-		{
-			string fullpathname = infopaths[i];
-			string filename_string = filename;
-			/* Modify fullpathname in place by suffixing filename -- eeewww */
-			int result = matchfile(fullpathname, filename_string);
+		} else {
+			mybuf = infopaths[i];
+			/* Modify mybuf in place by suffixing filename -- eeewww */
+			int result = matchfile(mybuf, filename_string);
 			if (result == 1)	/* no match found in this directory */
 				continue;
-			strcpy(buf, fullpathname.c_str());
 		}
-		bufend = buf;
-		/*
-		 * remember the bufend to make it possible later to glue compression
-		 * suffixes.
-		 */
-		bufend += strlen(buf);
-		for (j = 0; j < SuffixesNumber; j++)	/* go through all suffixes */
-		{
-			strcat(buf, suffixes[j].suffix);
-			if ((id = fopen(buf, "r")) != NULL)
-			{
+		for (int j = 0; j < SuffixesNumber; j++) { /* go through all suffixes */
+			string buf_with_suffix = mybuf;
+			buf_with_suffix += suffixes[j].suffix;
+			id = fopen(buf_with_suffix.c_str(), "r");
+			if (id) {
 				fclose(id);
 				clearfilenameprefix();
-				filenameprefix = strdup(buf);
+				filenameprefix = strdup(buf_with_suffix.c_str());
 				{			/* small scope for removal of filename */
-					int prefixi, prefixlen = strlen(filenameprefix);
-					for (prefixi = prefixlen; prefixi > 0; prefixi--)
+					int prefixlen = strlen(filenameprefix);
+					for (int prefixi = prefixlen; prefixi > 0; prefixi--)
 						if (filenameprefix[prefixi] == '/')
 						{
 							filenameprefix[prefixi] = 0;
@@ -743,7 +727,7 @@ openinfo(const char *filename, int number)
 				/* FIXME: Insecure temp file usage */
 				string command_string = suffixes[j].command;
 				command_string += ' ';
-				command_string += buf;
+				command_string += buf_with_suffix;
 				command_string += "> ";
 				command_string += tmpfilename;
 				system(command_string.c_str());
@@ -751,21 +735,19 @@ openinfo(const char *filename, int number)
 				id = fopen(tmpfilename, "r");
 				if (id)
 				{
-					xfree(buf);
 					return id;
 				}
 			}
-			(*bufend) = 0;
 		}
-		if ((i == -1) &&(filenameprefix))	/* if we have a nonzero filename prefix,
-											   that is we view a set of infopages,
-											   we don't want to search for a page
-											   in all directories, but only in
-											   the prefix directory. Therefore
-											   break here. */
+		if ((i == -1) &&(filenameprefix))
+			/* if we have a nonzero filename prefix,
+				 that is we view a set of infopages,
+				 we don't want to search for a page
+				 in all directories, but only in
+				 the prefix directory. Therefore
+				 break here. */
 			break;
 	}
-	xfree(buf);
 	return 0;
 }
 
@@ -853,7 +835,7 @@ initpaths()
 
 	/* split at ':' and put the path components into paths[] */
 	c = infopath;
-	while (dir = strsep(&c, ":"))
+	while ((dir = strsep(&c, ":")))
 	{
 		/* if this actually is a non-empty string, add it to paths[] */
 		if ( dir && strlen(dir)>0 ) 
