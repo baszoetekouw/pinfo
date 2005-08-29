@@ -35,5 +35,5 @@ void mvaddstr_note (int y, int x, char *line, char *nline, int linenumber);
 /* prints selected note option */
 void mvaddstr_note_selected (int y, int x, char *line, char *nline, int linenumber);
 /* adds top line of info page */
-void addtopline (char *type, std::string::size_type column);
+void addtopline (std::string type, std::string::size_type column);
 #endif

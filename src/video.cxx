@@ -42,7 +42,7 @@ substitutestring(string& strbuf, string find, string replace) {
 }
 
 void
-addtopline(char *type, string::size_type column)
+addtopline(const string type, string::size_type column)
 {
 	string strbuf = type;
 

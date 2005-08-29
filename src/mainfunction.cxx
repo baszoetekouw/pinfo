@@ -111,7 +111,8 @@ work(char ***message, char **type, long *lines, FILE * id, int tag_table_pos)
 	npos = -1;			/* turn off the `next-time' pos/cursor modifiers */
 	ncursor = -1;
 	nmenu = -1;
-	addtopline(Type,infocolumn);
+	string type_str = Type;
+	addtopline(type_str,infocolumn);
 	while (1)
 	{
 		/*
@@ -133,7 +134,8 @@ work(char ***message, char **type, long *lines, FILE * id, int tag_table_pos)
 		{
 			handlewinch();
 			winchanged = 0;
-			addtopline(Type,infocolumn);
+			string type_str = Type;
+			addtopline(type_str,infocolumn);
 			key = pinfo_getch();
 		}
 		/***************************** keyboard handling ****************************/
@@ -1052,14 +1054,17 @@ skip_search:
 			/*==========================================================================*/
 			if ((key == keys.left_1) ||(key == keys.left_2))
 			{
-				if (infocolumn>0) infocolumn--;
-				addtopline(Type,infocolumn);
+				if (infocolumn>0)
+					infocolumn--;
+				string typestr = Type;
+				addtopline(typestr,infocolumn);
 			}
 			/*==========================================================================*/
 			if ((key == keys.right_1) ||(key == keys.right_2))
 			{
 				infocolumn++;
-				addtopline(Type,infocolumn);
+				string typestr = Type;
+				addtopline(typestr,infocolumn);
 			}
 			/*==========================================================================*/
 			/**************************** end of keyboard handling **********************/
