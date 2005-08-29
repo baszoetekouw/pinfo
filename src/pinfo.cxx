@@ -27,8 +27,6 @@
 #include <string>
 using std::string;
 
-// #include "filehandling_functions.h"
-
 RCSID(PKG_VER "$Id$")
 
 #ifdef HAVE_GETOPT_LONG

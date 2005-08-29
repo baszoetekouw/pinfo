@@ -88,54 +88,42 @@ qsort_cmp(const void *base, const void *compared)
 	return compare_tag_table_string(cbase, ccompared);
 }
 
+/*
+ * Looks for name_string -- appended to buf!
+ * Returns 0 if it finds a match, 1 if not.
+ * Leaves the matching name in buf.
+ */
 int
 matchfile(char **buf, const string name_string)
 {
-#define Buf	(*buf)
-	DIR *dir;
 	string basename_string;
 	string dirname_string;
 	basename_and_dirname(name_string, basename_string, dirname_string);
 
-	const char *bname = basename_string.c_str();
-	struct dirent *dp;
-	int namelen = strlen(bname);
-	int matched = 0;
-	if (Buf[strlen(Buf)-1]!='/')
-		strcat(Buf,"/");
-	strcat(Buf,dirname_string.c_str());
-	dir = opendir(Buf);	/* here we always have '/' at end */
+	if ((*buf)[strlen((*buf))-1]!='/')
+		strcat((*buf),"/");
+	strcat((*buf),dirname_string.c_str());
+
+	DIR *dir;
+	dir = opendir((*buf));	/* here we always have '/' at end */
 	if (dir == NULL)
 		return 1;
-	while ((dp = readdir(dir)) != NULL)
-	{
-		if (strncmp(dp->d_name, bname, namelen) == 0)
-		{
-			string tmp_string = dp->d_name;
-			strip_compression_suffix(tmp_string);
 
-			char *tmp = strdup(tmp_string.c_str());
-			int dl;
-			dl = strlen(tmp);
-			if ((!isdigit(tmp[dl - 1])) &&(!isalpha(tmp[namelen])))
-				/* if it's not eg. info-2.gz, but info.gz, the primary page
-				 * && it's not a different name(eg. gdbm instead gdb) */
-			{
-				if ((!matched) ||(strlen(tmp) < matched))
-				{
-					Buf[strlen(Buf) - matched - 1] = '\0';
-					strcat(Buf, "/");
-					strcat(Buf, tmp);
-					matched = strlen(tmp);
-				}
-			}
+	struct dirent *dp;
+	while ((dp = readdir(dir)) != NULL) {
+		string test_filename = dp->d_name;
+		strip_compression_suffix(test_filename); /* Strip in place */
+		if (test_filename  == basename_string) {
+			/* Matched.  Clean up and return from function. */
+			string toattach = "/";
+			toattach += test_filename;
+			strcat((*buf), toattach.c_str());
+			closedir(dir);
+			return 0;
 		}
 	}
 	closedir(dir);
-	if (matched)
-		return 0;
 	return 1;
-#undef Buf
 }
 
 FILE *
