@@ -189,64 +189,62 @@ set_initial_history(const char *name)
 void
 construct_manualname(char *buf, int which)
 {
-	if (!manuallinks[which].carry)
-	{
+	if (!manuallinks[which].carry) {
+		string tmpname = manuallinks[which].name;
 		/* workaround for names starting with '(' */
-		if (manuallinks[which].name[0] == '(')
-			strcpy(buf, manuallinks[which].name + 1);
-		else strcpy(buf, manuallinks[which].name);
-		return;
-	}
-	else
-	{
+		if (tmpname[0] == '(')
+			tmpname.replace(0,1,"");
+		strcpy(buf, tmpname.c_str());
+	} else if (manuallinks[which].section_mark < HTTPSECTION) {
 		/* normal manual reference */
-		if (manuallinks[which].section_mark < HTTPSECTION)
-		{
-			string base_str = manual[manuallinks[which].line - 1];
-			strip_manual(base_str);
+		string tmpstr = manual[manuallinks[which].line - 1];
+		strip_manual(tmpstr);
 
-			char* ptr;
-			int tmppos;
-			char* base;
-			base = strdup(base_str.c_str());
-			ptr = base + strlen(base) - 3;
-			while (((isalpha(*ptr)) ||(*ptr == '.') ||(*ptr == '_')) &&(ptr > base))
-				ptr--;
-			/* workaround for man pages with leading '(' see svgalib man pages */
-			if (*ptr == '(')
-				ptr++;
-			strcpy(buf, ptr);
-			tmppos = strlen(buf);
-			/* TODO: check the following statement */
-			if (tmppos > 1);
-			buf[tmppos - 2] = 0;
-			strcat(buf, manuallinks[which].name);
-			xfree(base);
+		string::size_type idx;
+		/* Delete last two characters (e.g. .1) FIXME */
+		tmpstr.resize(tmpstr.length() - 2);
+		/* Find tail with decent characters */
+		idx = tmpstr.length() - 1;
+		while (    (    (isalpha(tmpstr[idx]))
+		             || (tmpstr[idx] == '.')
+		             || (tmpstr[idx] == '_')
+		           )
+					  && (idx > 0)
+		      ) {
+			idx--;
 		}
-		/* url reference */
-		else
-		{
-			int namelen = strlen(manuallinks[which].name);
+		/* workaround for man pages with leading '(' see svgalib man pages */
+		if (tmpstr[idx] == '(')
+			idx++;
+		/* Delete characters before tail */
+		tmpstr.replace(0, idx, "");
+	
+		tmpstr.append(manuallinks[which].name);
+		strcpy(buf, tmpstr.c_str());
+	} else {
+		/* URL reference */
+		string tmpstr;
+		tmpstr = manual[manuallinks[which].line + 1];
+		strip_manual(tmpstr);
 
-			string base_str;
-			base_str = manual[manuallinks[which].line + 1];
-			strip_manual(base_str);
+		/* skip whitespace */
+		string::size_type idx = 0;
+		while (isspace(tmpstr[idx]))
+			idx++;
+		tmpstr.replace(0, idx, "");
 
-			char *base;
-			char *ptr, *eptr;
-			base = strdup(base_str.c_str());
-			ptr = base;
-			/* skip whitespace */
-			while (isspace(*ptr))
-				ptr++;
-			eptr = findurlend(ptr);
-			*eptr = 0;
-			strcpy(buf, manuallinks[which].name);
-			/* cut the hyphen */
-			buf[namelen - 1] = 0;
-			strcat(buf, ptr);
-			xfree(base);
-		}
+		/* Cut off anything past the URL end */
+		string::size_type urlend_idx = findurlend(tmpstr);
+		tmpstr.resize(urlend_idx);
+
+		/* Prepend manuallinks[which].name, with its
+		 * trailing hyphen removed
+		 */
+		string tmpname = manuallinks[which].name;
+		tmpname.resize(tmpname.length() - 1);
+		tmpname.append(tmpstr);
+
+		strcpy(buf, tmpname.c_str());
 	}
 }
 

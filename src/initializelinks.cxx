@@ -19,6 +19,8 @@
  *  USA
  ***************************************************************************/
 #include "common_includes.h"
+#include <string>
+using std::string;
 
 RCSID("$Id$")
 
@@ -117,6 +119,7 @@ freelinks()			/* frees space allocated previously by node-links */
 
 /*
  * Finds url end.  It is recognized by an invalid character.
+ * FIXME: That's not a sufficient test.
  */
 char *
 findurlend(char *str)
@@ -132,6 +135,28 @@ findurlend(char *str)
 			end--;
 	}
 	return end;
+}
+
+/*
+ * Returns index of the first non-URL character (or length, if there
+ * is no non-URL character)
+ */
+string::size_type
+findurlend(const string str)
+{
+	const char* allowedchars =
+		"QWERTYUIOPASDFGHJKLZXCVBNMqwertyuiopasdfghjklzxcvbnm1234567890-_/~.%=|:@­";
+
+	string::size_type idx;
+	idx = str.find_first_not_of(allowedchars);
+	if (idx == string::npos) {
+		/* All allowed characters! */
+		return str.length();
+	}
+	if ( (str.length() > 0) && (idx > 0) && (str[idx-1] == '.') ) {
+		idx--;
+	}
+	return idx;
 }
 
 /*

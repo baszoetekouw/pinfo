@@ -29,6 +29,8 @@ void initializelinks (char *line1, char *line2, int line);
  * returns a pointer to the found place.
  */
 char *findurlend (char *str);
+std::string::size_type findurlend (std::string str);
+
 /* scans for the beginning of username. Returns a pointer to it.  */
 char *findemailstart (char *str);
 /* strcmp, which is insensitive to whitespaces */
