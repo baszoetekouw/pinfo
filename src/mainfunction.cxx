@@ -20,7 +20,8 @@
  ***************************************************************************/
 #include "common_includes.h"
 #include "printinfo.h"
-
+#include <string>
+using std::string;
 RCSID("$Id$")
 
 #include <ctype.h>
@@ -337,8 +338,8 @@ work(char ***message, char **type, long *lines, FILE * id, int tag_table_pos)
 					long filelen;
 					for (j = indirectstart; j <= IndirectEntries; j++)
 					{
-						fd = openinfo(indirect[j].filename, 1);	/* get file
-																	 * length. */
+						string tmpstr = indirect[j].filename;
+						fd = openinfo(tmpstr, 1);	/* get file length. */
 						fseek(fd, 0, SEEK_END);
 						filelen = ftell(fd);
 

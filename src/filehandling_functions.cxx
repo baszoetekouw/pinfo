@@ -193,7 +193,8 @@ dirpage_lookup(char **type, char ***message, long *lines,
 									id = 0;
 									if (!strstr(file, ".info"))
 										strcat(file, ".info");
-									id = openinfo(file, 0);
+									string tmpstr = file;
+									id = openinfo(tmpstr, 0);
 									goodHit = 1;
 									if ((nameend - Message[i]) - 2 == filenamelen)	/* the name matches perfectly to the query */
 										perfectHit = 1;	/* stop searching for another matches, and use this one */
@@ -645,12 +646,12 @@ opendirfile(int number)
  * filenameprefix and then in the rest of userdefined paths.
  */
 FILE *
-openinfo(const char *filename, int number)
+openinfo(const string filename, int number)
 {
 	FILE *id = NULL;
 	char *tmpfilename;
 
-	if (strncmp(filename, "dir", 3) == 0)
+	if (filename == "dir")
 	{
 		return opendirfile(number);
 	}
@@ -678,7 +679,6 @@ openinfo(const char *filename, int number)
 
 	for (int i = -1; i < infopathcount; i++) { /* go through all paths */
 		string mybuf;
-		string filename_string = filename;
 		if (i == -1) {
 			/*
 			 * no filenameprefix, we don't navigate around any specific
@@ -690,13 +690,13 @@ openinfo(const char *filename, int number)
 				mybuf = filenameprefix;
 				mybuf += "/";
 				string basename_string;
-				basename(filename_string, basename_string);
+				basename(filename, basename_string);
 				mybuf += basename_string;
 			}
 		} else {
 			mybuf = infopaths[i];
 			/* Modify mybuf in place by suffixing filename -- eeewww */
-			int result = matchfile(mybuf, filename_string);
+			int result = matchfile(mybuf, filename);
 			if (result == 1)	/* no match found in this directory */
 				continue;
 		}
@@ -971,7 +971,8 @@ create_indirect_tag_table()
 	int i, j, initial;
 	for (i = 1; i <= IndirectEntries; i++)
 	{
-		id = openinfo(indirect[i].filename, 1);
+		string tmpstr = indirect[i].filename;
+		id = openinfo(tmpstr, 1);
 		initial = TagTableEntries + 1;
 		if (id)
 		{
@@ -1079,7 +1080,8 @@ seeknode(int tag_table_pos, FILE ** Id)
 			{
 				long off = tag_table[tag_table_pos].offset - indirect[i].offset + FirstNodeOffset - 4;
 				fclose(id);
-				id = openinfo(indirect[i].filename, 0);
+				string tmpstr = indirect[i].filename;
+				id = openinfo(tmpstr, 0);
 				if (id == NULL)
 				{
 					closeprogram();

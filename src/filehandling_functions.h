@@ -63,7 +63,7 @@ void load_indirect (char **message, long lines);
 /* loads tag table (as above) */
 void load_tag_table (char **message, long lines);
 /* opens info file */
-FILE *openinfo (const char *filename, int number);
+FILE *openinfo (const std::string filename, int number);
 /* opens dir info file */
 FILE *opendirfile (int number);
 

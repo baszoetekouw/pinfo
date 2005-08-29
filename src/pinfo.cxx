@@ -159,7 +159,7 @@ getopts(int argc, char *argv[], string& filename_string, FILE** id) {
 					/* Get basename, and pass to openinfo */
 					string basename_string;
 					basename(filename_string, basename_string);
-					(*id) = openinfo(basename_string.c_str(), 0);
+					(*id) = openinfo(basename_string, 0);
 				}
 				break;
 			case 'a':
@@ -309,8 +309,10 @@ main(int argc, char *argv[]) {
 	}
 
 	/* no rawpath has been opened */
-	if (id == NULL)
-		id = openinfo(filename, 0);
+	if (id == NULL) {
+		string tmpstr = filename;
+		id = openinfo(tmpstr, 0);
+	}
 
 	/* try to lookup the name in dir file */
 	if (id == NULL)
@@ -421,15 +423,14 @@ main(int argc, char *argv[]) {
 				}
 				else /* open new info file */
 				{
-					char *tmp;
 					fclose(id);
-					tmp = strdup(work_return_value.file);
-
+					string tmpstr;
+					tmpstr = work_return_value.file;
 					/* Reset global filenameprefix */
 					filenameprefix.clear();
-					id = openinfo(tmp, 0);
-					xfree(tmp);
-					tmp = 0;
+					id = openinfo(tmpstr, 0);
+
+					char *tmp = NULL;
 					/* if the file doesn't exist */
 					if (id == NULL)
 					{
@@ -447,10 +448,9 @@ main(int argc, char *argv[]) {
 						}
 						/* open back the old file */
 						strip_file_from_info_suffix(curfile);
-						tmp = strdup(curfile);
-						id = openinfo(tmp, 0);
-						xfree(tmp);
-						tmp = 0;
+						string tmpstr = curfile;
+						id = openinfo(tmpstr, 0);
+						tmp = NULL;
 						if (id == NULL)
 						{
 							closeprogram();
