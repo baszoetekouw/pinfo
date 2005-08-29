@@ -518,13 +518,10 @@ FILE *
 opendirfile(int number)
 {
 	FILE *id = NULL;
-	string bufstr;
-	int i;
 	char *tmpfilename;
 	int *fileendentries = (int*)xmalloc(infopathcount * sizeof(int));
 	int dir_found = 0;
 	int dircount = 0;
-	int lang_found;
 	struct stat status;
 
 	if (number == 0)		/* initialize tmp filename for file 1 */
@@ -537,53 +534,34 @@ opendirfile(int number)
 		tmpfilename1 = tempnam("/tmp", NULL);
 		tmpfilename = tmpfilename1;	/* later we will refere only to tmp1 */
 	}
-	for (i = 0; i < infopathcount; i++)	/* go through all paths */
-	{
-		lang_found = 0;
-		bufstr = infopaths[i];
-		bufstr += '/';
 
-		char* getenv_lang;
-		getenv_lang = getenv("LANG");
-		if (getenv_lang != NULL)
-			bufstr += getenv_lang;
-		bufstr += "/dir";
-
-		/* FIXME: Duplicated code */
-		for (int j = 0; j < SuffixesNumber; j++)	/* go through all suffixes */
-		{
-			string bufstr_with_suffix;
-			bufstr_with_suffix = bufstr;
-			bufstr_with_suffix += suffixes[j].suffix;
-
-			id = fopen(bufstr_with_suffix.c_str(), "r");
-			if (id != NULL) {
-				fclose(id);
-				/* FIXME: Insecure temp file usage */
-				string command_string = suffixes[j].command;
-				command_string += " ";
-				command_string += bufstr_with_suffix;
-				command_string += ">> ";
-				command_string += tmpfilename;
-				system(command_string.c_str());
-				lstat(tmpfilename, &status);
-				fileendentries[dircount] = status.st_size;
-				dircount++;
-				dir_found = 1;
-				lang_found = 1;
+	for (int i = 0; i < infopathcount; i++)	{ /* go through all paths */
+		int lang_found = 0;
+		for (int k = 0; k <= 1; k++) { /* Two passes: with and without LANG */
+			string bufstr;
+			if (k == 0) {
+				char* getenv_lang = getenv("LANG");
+				/* If no LANG, skip this pass */
+				if (getenv_lang == NULL)
+					continue;
+				bufstr = infopaths[i];
+				bufstr += '/';
+				bufstr += getenv_lang;
+				bufstr += "/dir";
+			} else { /* k == 1 */
+				/* If we found one with LANG, skip this pass */
+				if (lang_found)
+					continue;
+				bufstr = infopaths[i];
+				bufstr += "/dir";
 			}
-		}
 
-		/* same as above, but without $LANG support */
-		if (!lang_found)
-		{
-			bufstr = infopaths[i];
-			bufstr += "/dir";
 			/* FIXME: Duplicated code */
-			for (int j = 0; j < SuffixesNumber; j++)	/* go through all suffixes */
-			{
+			for (int j = 0; j < SuffixesNumber; j++) { /* go through all suffixes */
 				string bufstr_with_suffix;
+				bufstr_with_suffix = bufstr;
 				bufstr_with_suffix += suffixes[j].suffix;
+
 				id = fopen(bufstr_with_suffix.c_str(), "r");
 				if (id != NULL) {
 					fclose(id);
@@ -598,6 +576,7 @@ opendirfile(int number)
 					fileendentries[dircount] = status.st_size;
 					dircount++;
 					dir_found = 1;
+					lang_found = 1;
 				}
 			}
 		}
