@@ -125,7 +125,9 @@ matchfile(string& buf, const string name_string)
 	while ((dp = readdir(dir))) { /* Ends loop when NULL is returned */
 		string test_filename = dp->d_name;
 		strip_compression_suffix(test_filename); /* Strip in place */
-		if (test_filename  == basename_string) {
+		string basename_info = basename_string;
+		basename_info += ".info";
+		if (test_filename  == basename_info) {
 			/* Matched.  Clean up and return from function. */
 			buf += "/";
 			buf += test_filename;
@@ -1113,6 +1115,10 @@ strip_compression_suffix(string& filename)
 	for (int j = 0; j < SuffixesNumber; j++)
 	{
 		string::size_type suffix_len =  strlen(suffixes[j].suffix);
+		if (suffix_len == 0) {
+			/* Nothing is a suffix, but that gives an early false positive. */
+			continue;
+		}
 		if (    (filename.length() >= suffix_len)
 		     && (filename.substr(filename.length() - suffix_len)
 		         == suffixes[j].suffix)
