@@ -23,6 +23,7 @@
 #include "common_includes.h"
 #include <string>
 using std::string;
+
 RCSID("$Id$")
 
 typedef struct
@@ -793,7 +794,9 @@ initpaths()
 {
 	char **paths = NULL;
 	char *langpath = NULL;
-	char *rawlang = NULL, *lang = NULL, *langshort = NULL;
+	char *rawlang = NULL;
+	string lang;
+	string langshort;
 	char* c;
 	int ret;
 	unsigned int i, j, maxpaths, numpaths = 0, langlen;
@@ -834,48 +837,45 @@ initpaths()
 	/* get the current $LANG, if any (to use for localized info pages) */
 	rawlang = getenv("LANG");
 	if (rawlang) {
-		lang = strdup(rawlang);
+		lang = rawlang;
 		/* fix the lang string */
-		for (i=0; lang[i]!='\0'; i++)
-		{
-			/* cut off the charset */
-			if (lang[i]=='.') 
-			{
-				lang[i]='\0';
-			}
-			/* if lang is sublocalized (nl_BE or so), also use short version */
-			if (lang[i]=='_' && langshort==NULL)
-			{
-				langshort = strdup(lang);
-				langshort[i] = '\0';
-			}
+		/* cut off the charset */
+		string::size_type idx = lang.find('.');
+		if (idx != string::npos) {
+			lang.resize(idx);
+		}
+		/* if lang is sublocalized (nl_BE or so), also use short version */
+		idx = lang.find('_');
+		if (idx != string::npos) {
+			langshort = lang;
+			langshort.resize(idx);
 		}
 	}
 
 	/* if we have a LANG defined, add paths with this lang to the paths[] */
-	if (lang && strlen(lang)>0 )
+	if (lang != "")
 	{
 		/* crude upper limit */
 		langlen = strlen(env) + configuredinfopath.length() + 2
-						  + (strlen(lang)+2) * numpaths + 1;
-		if (langshort!=NULL) langlen *= 2;
+						  + (lang.length()+2) * numpaths + 1;
+		if (langshort != "") langlen *= 2;
 		langpath = (char *) xmalloc( langlen * sizeof(char) );
 
 		c = langpath; 
 		for (i=0; i<numpaths; i++)
 		{
 			/* TODO: check for negative return values of sprintf */
-			len = sprintf(c, "%s/%s", paths[i], lang);
+			len = sprintf(c, "%s/%s", paths[i], lang.c_str());
 			/* add the lang specific dir at the beginning */
 			paths[numpaths+i] = paths[i];
 			paths[i] = c;
 
 			c += len+1;
 			
-			if (langshort) 
+			if (langshort != "") 
 			{
 				/* TODO: check for negative return values of sprintf */
-				len = sprintf(c, "%s/%s", paths[numpaths+i], langshort);
+				len = sprintf(c, "%s/%s", paths[numpaths+i], langshort.c_str());
 				/* add the lang specific dir at the beginning */
 				paths[2*numpaths+i] = paths[numpaths+i];
 				paths[numpaths+i] = c;
@@ -884,7 +884,7 @@ initpaths()
 			}
 
 		}
-		numpaths *= (langshort?3:2);
+		numpaths *= ( (langshort!="") ? 3 : 2);
 	}
 
 #ifdef ___DEBUG___
@@ -951,8 +951,6 @@ initpaths()
 
 	xfree(langpath);
 	xfree(paths);
-	xfree(lang);
-	xfree(langshort);
 	xfree(inodes);
 
 #ifdef ___DEBUG___
