@@ -791,11 +791,10 @@ charcount(const char *str, const char ch)
 void
 initpaths()
 {
-	char emptystr[1] = "";
 	char **paths = NULL;
 	char *langpath = NULL;
-	char *c, *dir, *env;
 	char *rawlang = NULL, *lang = NULL, *langshort = NULL;
+	char* c;
 	int ret;
 	unsigned int i, j, maxpaths, numpaths = 0, langlen;
 	size_t len;
@@ -803,13 +802,12 @@ initpaths()
 	ino_t *inodes;
 
 	/* first concat the paths */
-	env = getenv("INFOPATH");
-	if (env == NULL)
-	{
-		env = emptystr;
-	}
 	string infopath;
-	infopath = env; 
+	char* env = getenv("INFOPATH");
+	if (env != NULL)
+	{
+		infopath = env; 
+	}
 	infopath += ":"; /* FIXME: what if one of the two is blank? */
 	infopath += configuredinfopath;
 
@@ -818,16 +816,19 @@ initpaths()
 	paths = (char **) xmalloc( maxpaths * sizeof(char *) );
 
 	/* split at ':' and put the path components into paths[] */
-	c = strdup(infopath.c_str());
-	while ((dir = strsep(&c, ":")))
-	{
+	string::size_type stop_idx;
+	string::size_type start_idx = 0;
+	do {
+		stop_idx = infopath.find(":");
+		string dir = infopath.substr(start_idx, stop_idx);
 		/* if this actually is a non-empty string, add it to paths[] */
-		if ( dir && strlen(dir)>0 ) 
-		{
-			paths[numpaths++] = dir;
+		if (dir.length() > 0) {
+			paths[numpaths] = strdup(dir.c_str());
+			numpaths++;
 		}
-	}
-	xfree(c);
+		start_idx = stop_idx + 1;
+	} while (stop_idx != string::npos) ;
+
 
 	/* get the current $LANG, if any (to use for localized info pages) */
 	rawlang = getenv("LANG");
@@ -849,6 +850,7 @@ initpaths()
 			}
 		}
 	}
+
 	/* if we have a LANG defined, add paths with this lang to the paths[] */
 	if (lang && strlen(lang)>0 )
 	{
