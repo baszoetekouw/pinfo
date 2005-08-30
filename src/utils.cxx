@@ -216,20 +216,19 @@ mymvhline(int y, int x, char ch, int len)
  * we find any.
  */
 void
-checkfilename(const string filename_string)
+checkfilename(const string filename)
 {
-	const char * filename = filename_string.c_str();
-	if ((strchr(filename, '<')) ||
-			(strchr(filename, '>')) ||
-			(strchr(filename, '|')) ||
-			(strchr(filename, '(')) ||
-			(strchr(filename, ')')) ||
-			(strchr(filename, '!')) ||
-			(strchr(filename, '`')) ||
-			(strchr(filename, '&')) ||
-			(strchr(filename, ';')))
-	{
-		printf(_("Illegal characters in filename!\n*** %s\n"), filename);
+	if ( (filename.find('<') != string::npos) ||
+	     (filename.find('>') != string::npos) ||
+	     (filename.find('|') != string::npos) ||
+	     (filename.find('(') != string::npos) ||
+	     (filename.find(')') != string::npos) ||
+	     (filename.find('!') != string::npos) ||
+	     (filename.find('`') != string::npos) ||
+	     (filename.find('&') != string::npos) ||
+	     (filename.find(';') != string::npos)
+     ) {
+		printf(_("Illegal characters in filename!\n*** %s\n"), filename.c_str());
 		exit(1);
 	}
 }

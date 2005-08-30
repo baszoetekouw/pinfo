@@ -192,11 +192,11 @@ getopts(int argc, char *argv[], string& filename_string, FILE** id) {
 int
 main(int argc, char *argv[]) {
 	int filenotfound = 0;
-	char filename[256];
 	WorkRVal work_return_value =
 	{0, 0};
 	int userdefinedrc = 0;
 	FILE *id = NULL;
+	string filename_string;
 	/* line count in message */
 	long lines = 0;
 	/* this will hold node's text */
@@ -225,7 +225,7 @@ main(int argc, char *argv[]) {
 		id = openinfo("dir", 0);
 		curfile = (char*)xmalloc(150);
 		strcpy(curfile, "dir");
-		strcpy(filename, "dir");
+		filename_string = "dir";
 	}
 	if ((strlen(argv[0]) >= 3)||(use_manual))
 		/* handle any 'man' alias to 'pinfo' */
@@ -247,50 +247,45 @@ main(int argc, char *argv[]) {
 		}
 
 	/* Break out getopts to make main() smaller */
-	string filename_string;
 	FILE** idptr = &id;
 	getopts(argc, argv, filename_string, idptr);
 
-	if (filename_string != "") {
-		strncpy(filename, filename_string.c_str(), 200);
-	}
-
 	checksu();
 	initpaths();
+
 	if (argc > 1) {
 #ifdef HAVE_GETOPT_LONG
 		if (optind < argc)
 		{
 			/* the paths will be searched by openinfo() */
-			strncpy(filename, argv[optind], 200);
+			filename_string = argv[optind];
 		}
 		else
 		{
-			strcpy(filename, "dir");
+			filename_string = "dir";
 		}
-
 #else
 		/* the paths will be searched by openinfo() */
-		strncpy(filename, argv[argc - 1], 200);
+		filename_string = argv[argc - 1];
 #endif
-		if (filename[0]=='(')
+
+		if ( (filename_string.length() > 0) && (filename_string[0]=='(') )
 		{
-			int fnamelen=strlen(filename);
-			/* erase the leading '(' */
-			for (int i=0;i<fnamelen;i++)
-				filename[i]=filename[i+1];
-			int j;
-			for (j=0;filename[j]!=')';j++);
-			/* leave the filename part in filename */
-			filename[j]=0;
-			/* copy the node content to pinfo_start_node */
-			if (!pinfo_start_node)
-			{
-				pinfo_start_node=strdup(&filename[j+1]);
+			string::size_type j = filename_string.find(')');
+			if (j != string::npos) {
+				/* Looks like filename and node. */
+				/* copy the node content to pinfo_start_node */
+				if (!pinfo_start_node)
+				{
+					pinfo_start_node=strdup(filename_string.substr(j+1).c_str());
+				}
+				/* leave the filename part in filename */
+				filename_string.resize(j);
+				/* and erase the leading '(' */
+				filename_string.erase(0);
 			}
 		}
 
-		string filename_string = filename;
 		/* security check */
 		checkfilename(filename_string);
 
@@ -304,8 +299,13 @@ main(int argc, char *argv[]) {
 		}
 
 		/* leave some space for `.info' suffix */
-		curfile = (char*)xmalloc(strlen(filename) + 100);
-		strcpy(curfile, filename);
+		curfile = (char*)xmalloc(filename_string.length() + 100);
+		strcpy(curfile, filename_string.c_str());
+	}
+
+	char filename[256]; /* FIXME; still needs conversion */
+	if (filename_string != "") {
+		strncpy(filename, filename_string.c_str(), 200);
 	}
 
 	/* no rawpath has been opened */

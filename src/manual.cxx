@@ -193,7 +193,7 @@ construct_manualname(string& buf, int which)
 		string tmpname = manuallinks[which].name;
 		/* workaround for names starting with '(' */
 		if (tmpname[0] == '(')
-			tmpname.replace(0,1,"");
+			tmpname.erase(0);
 		buf = tmpname;
 	} else if (manuallinks[which].section_mark < HTTPSECTION) {
 		/* normal manual reference */
@@ -217,7 +217,7 @@ construct_manualname(string& buf, int which)
 		if (tmpstr[idx] == '(')
 			idx++;
 		/* Delete characters before tail */
-		tmpstr.replace(0, idx, "");
+		tmpstr.erase(0, idx);
 	
 		tmpstr.append(manuallinks[which].name);
 		buf = tmpstr;
@@ -231,7 +231,7 @@ construct_manualname(string& buf, int which)
 		string::size_type idx = 0;
 		while (isspace(tmpstr[idx]))
 			idx++;
-		tmpstr.replace(0, idx, "");
+		tmpstr.erase(0, idx);
 
 		/* Cut off anything past the URL end */
 		string::size_type urlend_idx = findurlend(tmpstr);
@@ -1719,10 +1719,10 @@ strip_manual(string& buf)
 	{
 		/* strip from the line "'_',0x8" -- underline marks */
 		if ((buf[i] == '_') && (buf[i + 1] == 8))
-			buf.replace(i, 2, "");
+			buf.erase(i, 2);
 		/* and 0x8 -- overstrike marks */
 		else if ((buf[i + 1] == 8) &&(buf[i + 2] == buf[i]))
-			buf.replace(i, 2, "");
+			buf.erase(i, 2);
 		/* else we don't do anything */
 	}
 }
