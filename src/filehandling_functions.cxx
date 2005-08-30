@@ -819,8 +819,9 @@ initpaths()
 	string::size_type stop_idx;
 	string::size_type start_idx = 0;
 	do {
-		stop_idx = infopath.find(":");
-		string dir = infopath.substr(start_idx, stop_idx);
+		stop_idx = infopath.find(':', start_idx);
+		string dir;
+		dir  = infopath.substr(start_idx, stop_idx - start_idx);
 		/* if this actually is a non-empty string, add it to paths[] */
 		if (dir.length() > 0) {
 			paths[numpaths] = strdup(dir.c_str());
