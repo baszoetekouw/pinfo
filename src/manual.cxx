@@ -83,9 +83,9 @@ int manwidthChanged = 0;	/* this flag indicates whether the env variable
 typedef struct manhistory
 {
 	/* name of a manual */
-	char name[256];
+	string name;
 	/* section */
-	char sect[32];
+	string sect;
 	/* what was last selected on this page */
 	int selected;
 	/* what was the last manualpos */
@@ -166,9 +166,9 @@ set_initial_history(const char *name)
 
 	manhistory my_hist;
 	/* filename->name */
-	strcpy(my_hist.name, &name1[i]);
+	my_hist.name = name1[i];
 	/* section unknown */
-	strcpy(my_hist.sect, "");
+	my_hist.sect = "";
 	/* selected unknown */
 	my_hist.selected = -1;
 	/* pos=0 */
@@ -369,7 +369,7 @@ handlemanual(string name)
 					fclose(id);
 					continue;
 				}
-				if (manualhistory[manualhistory.size() - 2].sect[0] == 0) {
+				if (manualhistory[manualhistory.size() - 2].sect == "") {
 					cmd_string += manualhistory[manualhistory.size() - 2].name;
 				} else {
 					cmd_string += manualhistory[manualhistory.size() - 2].sect;
@@ -410,10 +410,8 @@ handlemanual(string name)
 						 * we can write so since this code applies
 						 * only when it's not a history call
 						 */
-						strcpy(my_hist.name,
-								manualname_string.c_str());
-						strcpy(my_hist.sect,
-								manuallinks[return_value].section.c_str());
+						my_hist.name = manualname_string;
+						my_hist.sect = manuallinks[return_value].section;
 					}
 					/* loading manual page and its defaults... */
 					loadmanual(id);
@@ -649,7 +647,7 @@ man_initializelinks(char *tmp, int carry)
 					 */
 
 					/* a small check */
-					if (!((use_apropos) &&(manualhistory.size() - 1 == 0)))
+					if (!((use_apropos) && (manualhistory.size() - 1 == 0)))
 					{
 						/*
 						 * In English: if the name of the link is the name of
@@ -657,12 +655,14 @@ man_initializelinks(char *tmp, int carry)
 						 * current section or if we don't know the current
 						 * section, then...
 						 */
-						if ((!strcasecmp(&tmp[i], manualhistory[manualhistory.size() - 1].name))
-								&&((!strcasecmp(p_t1, manualhistory[manualhistory.size() - 1].sect))
-									||(manualhistory[manualhistory.size() - 1].sect[0] == 0)
-									||(!strcmp(manualhistory[manualhistory.size() - 1].sect, " "))))
-
+						if (    (!strcasecmp(&tmp[i], manualhistory[manualhistory.size() - 1].name.c_str()))
+								 && (    (!strcasecmp(p_t1, manualhistory[manualhistory.size() - 1].sect.c_str()))
+									    || (manualhistory[manualhistory.size() - 1].sect == "")
+									    || (manualhistory[manualhistory.size() - 1].sect == " ")
+						        )
+						   ) {
 							break;
+						}
 					}
 					manuallink my_link;
 					my_link.line = ManualLines;
