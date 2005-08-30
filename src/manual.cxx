@@ -287,12 +287,17 @@ handlemanual(string name)
 	maxy = 25;
 #endif /* getmaxyx */
 
-	if (!plain_apropos)
-		snprintf(cmd, 255, "man %s %s %s > %s",
-				ManOptions.c_str(),
-				name.c_str(),
-				StderrRedirection.c_str(),
-				tmpfilename1);
+	if (!plain_apropos) {
+		string cmd_string = "man ";
+		cmd_string += ManOptions;
+		cmd_string += " ";
+		cmd_string += name;
+		cmd_string += " ";
+		cmd_string += StderrRedirection;
+		cmd_string += " > ";
+		cmd_string += tmpfilename1;
+		strncpy(cmd, cmd_string.c_str(), 255);
+	}
 	if ((plain_apropos) ||(system(cmd) != 0))
 	{
 		if (!plain_apropos)
@@ -305,7 +310,11 @@ handlemanual(string name)
 		{
 			printf(_("Calling apropos \n"));
 			apropos_tempfilename = tempnam("/tmp", NULL);
-			snprintf(cmd, 255, "apropos %s > %s", name.c_str(), apropos_tempfilename);
+			string cmd_string = "apropos ";
+			cmd_string += name;
+			cmd_string += " > ";
+			cmd_string += apropos_tempfilename;
+			strncpy(cmd, cmd_string.c_str(), 255);
 			if (system(cmd) != 0)
 			{
 				printf(_("Nothing apropiate\n"));
@@ -359,12 +368,17 @@ handlemanual(string name)
 			if (return_value != -2)
 			{
 				construct_manualname(manualname_string, return_value);
-				snprintf(cmd, 255, "man %s %s %s %s > %s",
-						ManOptions.c_str(),
-						manuallinks[return_value].section,
-						manualname_string.c_str(),
-						StderrRedirection.c_str(),
-						tmpfilename2);
+				string cmd_string = "man ";
+				cmd_string += ManOptions;
+				cmd_string += " ";
+				cmd_string += manuallinks[return_value].section;
+				cmd_string += " ";
+				cmd_string += manualname_string;
+				cmd_string += " ";
+				cmd_string += StderrRedirection;
+				cmd_string += " > ";
+				cmd_string += tmpfilename2;
+				strncpy(cmd, cmd_string.c_str(), 255);
 			}
 			else /* key_back was pressed */
 			{
@@ -376,19 +390,29 @@ handlemanual(string name)
 					fclose(id);
 					continue;
 				}
-				if (manualhistory[manualhistorylength].sect[0] == 0)
-					snprintf(cmd, 255, "man %s %s %s > %s",
-							ManOptions.c_str(),
-							manualhistory[manualhistorylength].name,
-							StderrRedirection.c_str(),
-							tmpfilename2);
-				else
-					snprintf(cmd, 255, "man %s %s %s %s > %s",
-							ManOptions.c_str(),
-							manualhistory[manualhistorylength].sect,
-							manualhistory[manualhistorylength].name,
-							StderrRedirection.c_str(),
-							tmpfilename2);
+				if (manualhistory[manualhistorylength].sect[0] == 0) {
+					string cmd_string = "man ";
+					cmd_string += ManOptions;
+					cmd_string += " ";
+					cmd_string += manualhistory[manualhistorylength].name;
+					cmd_string += " ";
+					cmd_string += StderrRedirection;
+					cmd_string += " > ";
+					cmd_string += tmpfilename2;
+					strncpy(cmd, cmd_string.c_str(), 255);
+				} else {
+					string cmd_string = "man ";
+					cmd_string += ManOptions;
+					cmd_string += " ";
+					cmd_string += manualhistory[manualhistorylength].sect;
+					cmd_string += " ";
+					cmd_string += manualhistory[manualhistorylength].name;
+					cmd_string += " ";
+					cmd_string += StderrRedirection;
+					cmd_string += " > ";
+					cmd_string += tmpfilename2;
+					strncpy(cmd, cmd_string.c_str(), 255);
+				}
 				/*
 				 * flag to make sure, that
 				 * manualwork will refresh the variables manualpos and selected
@@ -400,7 +424,11 @@ handlemanual(string name)
 			stat(tmpfilename2, &statbuf);
 			if (statbuf.st_size > 0)
 			{
-				snprintf(cmd, 255, "mv %s %s", tmpfilename2, tmpfilename1);
+				string cmd_string = "mv ";
+				cmd_string += tmpfilename2;
+				cmd_string += " ";
+				cmd_string += tmpfilename1;
+				strncpy(cmd, cmd_string.c_str(), 255);
 				/* create tmp file containing man page */
 				system(cmd);
 				/* open man page */
