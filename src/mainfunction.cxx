@@ -43,6 +43,66 @@ int aftersearch = 0;
 int toggled_by_menu = 0;
 long pos, cursor, infomenu, infocolumn=0;
 
+
+
+/* Inline support functions formerly in menu_and_note_utils.cxx */
+
+/*
+ * Read the `$foo' header entry
+ * Eliminates former duplicate code
+ */
+
+#define ERRNODE "ERR@!#$$@#!%%^#@!OR"
+
+static inline void
+get_foo_node(const char * const foo, char *type, char *node)
+{
+	string tmpstr = type;
+	string::size_type start_idx;
+	start_idx = tmpstr.find(foo);
+	if (start_idx == string::npos) {
+		strcpy(node, ERRNODE);
+		return;
+	}
+
+	start_idx += strlen(foo);
+	string::size_type end_idx;
+	end_idx = tmpstr.find_first_of(",\n", start_idx);
+	if (end_idx != string::npos) {
+		strcpy(node, tmpstr.substr(start_idx, end_idx - start_idx).c_str() );
+	}
+}
+
+/* read the `Next:' header entry */
+static inline void
+getnextnode(char *type, char *node)
+{
+	get_foo_node("Next: ", type, node);
+}
+
+/* read the `Prev:' header entry */
+static inline void
+getprevnode(char *type, char *node)
+{
+	get_foo_node("Prev: ", type, node);
+}
+
+/* read the `Up:' header entry */
+static inline void
+getupnode(char *type, char *node)
+{
+	get_foo_node("Up: ", type, node);
+}
+
+/* read the `Node:' header entry */
+static inline void
+getnodename(char *type, char *node)
+{
+	get_foo_node("Node: ", type, node);
+}
+
+/* Main work functions */
+
 WorkRVal
 work(char ***message, char **type, long *lines, FILE * id, int tag_table_pos)
 {
