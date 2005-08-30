@@ -332,7 +332,6 @@ initializelinks(char *line1, char *line2, int line)
 				if ((end != NULL) &&(end < tmp))		/* if the ')' char was found, and was before '::' */
 				{
 					HyperObject my_ho;
-					hyperobjects.push_back(my_ho);
 					long FilenameLen =(long)(end - line1 - 3);
 					long NodenameLen =(long)(tmp - end - 1);
 					my_ho.file.assign(line1 + 3, FilenameLen);
@@ -348,7 +347,6 @@ initializelinks(char *line1, char *line2, int line)
 				/* if not cross-info link */
 			{
 				HyperObject my_ho;
-				hyperobjects.push_back(my_ho);
 				long NodenameLen =(long)(tmp - line1 - 2);
 				my_ho.file = "";
 				my_ho.node.assign(line1 + 2, NodenameLen);
