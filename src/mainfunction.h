@@ -21,16 +21,18 @@
 
 #ifndef __MAINFUNCTION_H
 #define __MAINFUNCTION_H
+#include <string>
 
 /*
  * return value type for work(). it is the name of node, where to go, after
  * viewing of current node ends. (viewing always takes place inside of the
  * work() function
  */
-typedef struct
+typedef struct WorkRVal
 {
-	char *node;		/* name of node */
-	char *file;		/* name of file, where the node is */
+	bool keep_going; /* Keep going? */
+	std::string node;		/* name of node */
+	std::string file;		/* name of file, where the node is */
 }
 WorkRVal;
 

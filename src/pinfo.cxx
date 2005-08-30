@@ -192,8 +192,7 @@ getopts(int argc, char *argv[], string& filename_string, FILE** id) {
 int
 main(int argc, char *argv[]) {
 	int filenotfound = 0;
-	WorkRVal work_return_value =
-	{0, 0};
+	WorkRVal work_return_value;
 	int userdefinedrc = 0;
 	FILE *id = NULL;
 	string filename_string;
@@ -401,35 +400,31 @@ main(int argc, char *argv[]) {
 		else
 			filenotfound = 0;
 		work_return_value = work(&message, &type, &lines, id, tag_table_pos);
-		if (work_return_value.node)
+		if (work_return_value.keep_going)
 		{
 			/* no cross-file link selected */
 			if (work_return_value.file[0] == 0)
 			{
-				int tmppos = gettagtablepos(work_return_value.node);
+				int tmppos = gettagtablepos(work_return_value.node.c_str());
 				if (tmppos != -1)
 					tag_table_pos = tmppos;
 			}
 			else /* file was specified */
 			{
-				string another_tmpstr = work_return_value.file;
-				strip_info_suffix_from_file(another_tmpstr);
-				work_return_value.file = strdup(another_tmpstr.c_str()); /* FIXME memleak */
+				strip_info_suffix_from_file(work_return_value.file);
 				/* file name was the same with the file currently viewed */
 				if (curfile == work_return_value.file)
 				{
-					int tmppos = gettagtablepos(work_return_value.node);
+					int tmppos = gettagtablepos(work_return_value.node.c_str());
 					if (tmppos != -1)
 						tag_table_pos = tmppos;
 				}
 				else /* open new info file */
 				{
 					fclose(id);
-					string tmpstr;
-					tmpstr = work_return_value.file;
 					/* Reset global filenameprefix */
 					filenameprefix.clear();
-					id = openinfo(tmpstr, 0);
+					id = openinfo(work_return_value.file, 0);
 
 					char *tmp = NULL;
 					/* if the file doesn't exist */
@@ -461,10 +456,6 @@ main(int argc, char *argv[]) {
 					}
 					else /* if we succeeded in opening new file */
 					{
-						if (curfile != "")
-						{
-							curfile = "";
-						}
 						curfile = work_return_value.file;
 						freeindirect();
 						/* find the indirect entry */
@@ -518,9 +509,9 @@ main(int argc, char *argv[]) {
 							else
 								return 1;
 						}
-						if (work_return_value.node[0] != 0)
+						if (work_return_value.node != "")
 						{
-							int tmptagtablepos = gettagtablepos(work_return_value.node);
+							int tmptagtablepos = gettagtablepos(work_return_value.node.c_str()	);
 							if (tmptagtablepos != -1)
 								tag_table_pos = tmptagtablepos;
 							else
@@ -533,7 +524,7 @@ main(int argc, char *argv[]) {
 			}			/* end: file name was specified */
 		}			/* end: node was specified in work return value */
 	}
-	while (work_return_value.node);
+	while (work_return_value.keep_going);
 	fclose(id);
 	closeprogram();
 	/* free's at the end are optional, but look nice :) */
