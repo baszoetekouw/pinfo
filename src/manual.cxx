@@ -1518,8 +1518,8 @@ label_skip_other:;
 		   a searched regexp to highlight */
 		for (int j = 0; j < maxregexp; j++)
 		{
-			char* strippedline = strdup(strippedline_string.c_str());
-			char* tmpstr = strippedline;
+			const char* strippedline = strippedline_string.c_str();
+			const char* tmpstr = strippedline;
 			while (!regexec(&h_regexp[j], tmpstr, 1, pmatch, 0))
 			{
 				int n = pmatch[0].rm_eo - pmatch[0].rm_so;
@@ -1536,7 +1536,6 @@ label_skip_other:;
 				tmpstr = tmpstr + pmatch[0].rm_eo;
 				move(curY, curX);
 			}
-			free(strippedline);
 		}
 	}
 #endif

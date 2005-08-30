@@ -665,13 +665,12 @@ parse_line(char *line)
 		{
 			string tmpstr = temp;
 			string tmpstr2 = remove_quotes(tmpstr);
-			char *tmp = strdup(tmpstr2.c_str());
+			const char *tmp = tmpstr2.c_str();
 			if (!h_regexp_num)
 				h_regexp = (regex_t*)malloc(sizeof(regex_t));
 			else
 				h_regexp = (regex_t*)realloc(h_regexp, sizeof(regex_t) *(h_regexp_num + 1));
 			regcomp(&h_regexp[h_regexp_num], tmp, 0);
-			free(tmp);
 			h_regexp_num++;
 		}
 		else

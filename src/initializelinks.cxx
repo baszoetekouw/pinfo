@@ -69,9 +69,7 @@ compare_tag_table_string(char *base, char *compared)
 inline int
 exists_in_tag_table(const string item)
 {
-	char * item_working = strdup(item.c_str());
-	int result = gettagtablepos(item_working);
-	xfree(item_working);
+	int result = gettagtablepos(item.c_str());
 	if (result != -1)
 		return 1;
 	else
