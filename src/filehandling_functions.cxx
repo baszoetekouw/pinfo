@@ -142,7 +142,7 @@ matchfile(string& buf, const string name_string)
 
 FILE *
 dirpage_lookup(char **type, char ***message, long *lines,
-		const string filename, char **first_node)
+		const string filename, string& first_node)
 {
 #define Type	(*type)
 #define Message	(*message)
@@ -192,8 +192,7 @@ dirpage_lookup(char **type, char ***message, long *lines,
 			string::size_type idx = 0;
 			while (isspace(name[idx]))
 				idx++;
-			string trimmed = name.substr(idx);
-			*first_node = strdup(trimmed.c_str());
+			first_node = name.substr(idx);
 		}
 		if (id)
 			fclose(id);	/* we don't need dirfile/badly matched infofile open anymore */

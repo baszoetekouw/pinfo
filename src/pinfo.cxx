@@ -40,7 +40,7 @@ int DontHandleWithoutTagTable = 0;
 string curfile;
 
 /* node specified by --node option */
-char *pinfo_start_node = 0;
+string pinfo_start_node;
 
 /* strip `.info' suffix from  "file" */
 void strip_info_suffix_from_file(string& file);
@@ -92,8 +92,7 @@ getopts(int argc, char *argv[], string& filename_string, FILE** id) {
 					printf(_("--node option used without argument\n"));
 					exit(1);
 				}
-				pinfo_start_node = (char*)malloc(strlen(optarg) + 1);
-				strcpy(pinfo_start_node, optarg);
+				pinfo_start_node = optarg;
 				break;
 			/* rcfile */
 			case 1:
@@ -273,9 +272,8 @@ main(int argc, char *argv[]) {
 			if (j != string::npos) {
 				/* Looks like filename and node. */
 				/* copy the node content to pinfo_start_node */
-				if (!pinfo_start_node)
-				{
-					pinfo_start_node=strdup(filename_string.substr(j+1).c_str());
+				if (pinfo_start_node == "") {
+					pinfo_start_node = filename_string.substr(j+1);
 				}
 				/* leave the filename part in filename */
 				filename_string.resize(j);
@@ -310,7 +308,7 @@ main(int argc, char *argv[]) {
 	if (id == NULL)
 	{
 		id = dirpage_lookup(&type, &message, &lines, filename_string,
-												&pinfo_start_node);
+												pinfo_start_node);
 	}
 
 	/* if still nothing, try to use man page instead */
@@ -363,9 +361,9 @@ main(int argc, char *argv[]) {
 			return 1;
 	}
 
-	if (pinfo_start_node)
+	if (pinfo_start_node != "")
 	{
-		tag_table_pos = gettagtablepos(pinfo_start_node);
+		tag_table_pos = gettagtablepos(pinfo_start_node.c_str());
 		if (tag_table_pos == -1)
 		{
 			printf(_("Specified node does not exist...\n"));

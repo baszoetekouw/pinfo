@@ -85,7 +85,7 @@ void create_indirect_tag_table ();
  */
 FILE *
 dirpage_lookup (char **type, char ***message, long *lines,
-		const std::string filename, char **first_node);
+		const std::string filename, std::string& first_node);
 
 /* removes trailing .gz, .bz2, etc. */
 void strip_compression_suffix (std::string& filename);
