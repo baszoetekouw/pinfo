@@ -98,17 +98,17 @@ extern int verbose;
 extern std::string filenameprefix;
 
 /* name of http viewer (i.e. lynx) */
-extern char *httpviewer;
+extern std::string httpviewer;
 /* name of ftp viewer */
-extern char *ftpviewer;
+extern std::string ftpviewer;
 /* name of maileditor */
-extern char *maileditor;
+extern std::string maileditor;
 /* name of the printing utility */
-extern char *printutility;
+extern std::string printutility;
 /* man sections, considered to be highlighted  as links */
-extern char *manlinks;
+extern std::string manlinks;
 /* configured paths to infopages */
-extern char *configuredinfopath;
+extern std::string configuredinfopath;
 /* groff/troff macros which are removed while preformatting manual page */
 extern char *ignoredmacros;
 /* a user specified rc file */
@@ -165,9 +165,9 @@ extern int ForceManualTagTable;
  * of 3) */
 extern int LongManualLinks;
 /* options passed to the `man' program */
-extern char *ManOptions;
+extern std::string ManOptions;
 /* shell code to redirect stderr output */
-extern char *StderrRedirection;
+extern std::string StderrRedirection;
 /* convert 0xb7 values in man pages to 'o'? */
 extern int FilterB7;
 /* determines if pinfo should ask for quit confirmation */

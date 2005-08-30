@@ -30,12 +30,12 @@ int verbose = 1;
 
 string filenameprefix;
 
-char *httpviewer = "lynx";
-char *ftpviewer = "lynx";
-char *maileditor = "mail";
-char *printutility = "lpr";
-char *manlinks = "1:8:2:3:4:5:6:7:9:n:l:p:o:3X11:3Xt:3X:3x";
-char *configuredinfopath = "/usr/share/info:/usr/local/share/info:/opt/info";
+string httpviewer = "lynx";
+string ftpviewer = "lynx";
+string maileditor = "mail";
+string printutility = "lpr";
+string manlinks = "1:8:2:3:4:5:6:7:9:n:l:p:o:3X11:3Xt:3X:3x";
+string configuredinfopath = "/usr/share/info:/usr/local/share/info:/opt/info";
 char *ignoredmacros = 0;
 char *rcfile = NULL;
 
@@ -58,8 +58,8 @@ int CutManHeaders = 0;
 int CutEmptyManLines = 0;
 int ForceManualTagTable = 0;
 int LongManualLinks = 0;
-char *ManOptions = "";
-char *StderrRedirection = "2> /dev/null";
+string ManOptions = "";
+string StderrRedirection = "2> /dev/null";
 int FilterB7 = 0;
 int ConfirmQuit = 0;
 int QuitConfirmDefault = 0;

@@ -28,8 +28,8 @@ RCSID("$Id$")
 #include <regex.h>
 #include <ctype.h>
 
-char *safe_user = "nobody";
-char *safe_group = "nobody";
+string safe_user = "nobody";
+string safe_group = "nobody";
 
 #ifndef HAVE_CURS_SET
 void

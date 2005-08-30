@@ -91,7 +91,6 @@ int parse_config (void);
 int parse_line (char *line);
 char *str_toupper (char *s);
 char *skip_whitespace (char *s);
-char *remove_quotes (char *str);
 
 #ifndef ___DONT_USE_REGEXP_SEARCH___
 extern regex_t *h_regexp;	/* regexps to highlight */

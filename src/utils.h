@@ -24,8 +24,8 @@
 
 #include <string>
 
-extern char *safe_user;
-extern char *safe_group;
+extern std::string safe_user;
+extern std::string safe_group;
 
 #ifndef HAVE_CURS_SET
 void curs_set (int a);

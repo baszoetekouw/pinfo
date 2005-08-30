@@ -52,7 +52,7 @@ void strip_manual(string& buf);
  * and are stored in `manuallinks' var, described bellow.
  */
 void man_initializelinks(char *line, int carry);
-int is_in_manlinks(char *in, char *find);
+int is_in_manlinks(string in, char *find);
 
 void printmanual(char **Message, long Lines);
 
@@ -289,9 +289,9 @@ handlemanual(string name)
 
 	if (!plain_apropos)
 		snprintf(cmd, 255, "man %s %s %s > %s",
-				ManOptions,
+				ManOptions.c_str(),
 				name.c_str(),
-				StderrRedirection,
+				StderrRedirection.c_str(),
 				tmpfilename1);
 	if ((plain_apropos) ||(system(cmd) != 0))
 	{
@@ -360,10 +360,10 @@ handlemanual(string name)
 			{
 				construct_manualname(manualname_string, return_value);
 				snprintf(cmd, 255, "man %s %s %s %s > %s",
-						ManOptions,
+						ManOptions.c_str(),
 						manuallinks[return_value].section,
 						manualname_string.c_str(),
-						StderrRedirection,
+						StderrRedirection.c_str(),
 						tmpfilename2);
 			}
 			else /* key_back was pressed */
@@ -378,16 +378,16 @@ handlemanual(string name)
 				}
 				if (manualhistory[manualhistorylength].sect[0] == 0)
 					snprintf(cmd, 255, "man %s %s %s > %s",
-							ManOptions,
+							ManOptions.c_str(),
 							manualhistory[manualhistorylength].name,
-							StderrRedirection,
+							StderrRedirection.c_str(),
 							tmpfilename2);
 				else
 					snprintf(cmd, 255, "man %s %s %s %s > %s",
-							ManOptions,
+							ManOptions.c_str(),
 							manualhistory[manualhistorylength].sect,
 							manualhistory[manualhistorylength].name,
-							StderrRedirection,
+							StderrRedirection.c_str(),
 							tmpfilename2);
 				/*
 				 * flag to make sure, that
@@ -1704,12 +1704,12 @@ strip_manual(string& buf)
  * manual sections.
  */
 int
-is_in_manlinks(char *in, char *find)
+is_in_manlinks(string in_str, char *find)
 {
 	char *copy, *token;
 	const char delimiters[] = ":";
 
-	copy = strdup(in);
+	copy = strdup(in_str.c_str());
 	if ((strcmp(find,(token = strtok(copy, delimiters))) != 0))
 	{
 		while ((token = strtok(NULL, delimiters)))
@@ -1741,7 +1741,7 @@ printmanual(char **Message, long Lines)
 	FILE *prnFD;
 	int i;
 
-	prnFD = popen(printutility, "w");
+	prnFD = popen(printutility.c_str(), "w");
 
 	/* scan through all lines */
 	for (i = 0; i < Lines; i++)

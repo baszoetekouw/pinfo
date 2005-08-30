@@ -1016,8 +1016,8 @@ skip_search:
 						{
 							if (hyperobjects[cursor].type == 4)	/* http */
 							{
-								char *tempbuf = (char*)xmalloc(hyperobjects[cursor].node.length() + strlen(httpviewer) + 10);
-								strcpy(tempbuf, httpviewer);
+								char *tempbuf = (char*)xmalloc(hyperobjects[cursor].node.length() + httpviewer.length() + 10);
+								strcpy(tempbuf, httpviewer.c_str());
 								strcat(tempbuf, " ");
 								strcat(tempbuf, hyperobjects[cursor].node.c_str());
 								myendwin();
@@ -1027,8 +1027,8 @@ skip_search:
 							}
 							else if (hyperobjects[cursor].type == 5)	/* ftp */
 							{
-								char *tempbuf = (char*)xmalloc(hyperobjects[cursor].node.length() + strlen(ftpviewer) + 10);
-								strcpy(tempbuf, ftpviewer);
+								char *tempbuf = (char*)xmalloc(hyperobjects[cursor].node.length() + ftpviewer.length() + 10);
+								strcpy(tempbuf, ftpviewer.c_str());
 								strcat(tempbuf, " ");
 								strcat(tempbuf, hyperobjects[cursor].node.c_str());
 								myendwin();
@@ -1038,8 +1038,8 @@ skip_search:
 							}
 							else if (hyperobjects[cursor].type == 6)	/* mail */
 							{
-								char *tempbuf = (char*)xmalloc(hyperobjects[cursor].node.length() + strlen(maileditor) + 10);
-								strcpy(tempbuf, maileditor);
+								char *tempbuf = (char*)xmalloc(hyperobjects[cursor].node.length() + maileditor.length() + 10);
+								strcpy(tempbuf, maileditor.c_str());
 								strcat(tempbuf, " ");
 								strcat(tempbuf, hyperobjects[cursor].node.c_str());
 								myendwin();

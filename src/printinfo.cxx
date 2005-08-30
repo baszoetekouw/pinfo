@@ -37,7 +37,7 @@ printnode(char ***message, long *lines)
 	/* printer fd */
 	FILE *prnFD;
 
-	prnFD = popen(printutility, "w");
+	prnFD = popen(printutility.c_str(), "w");
 
 	/* scan through all lines */
 	for (int i = 1; i < (*lines); i++) {

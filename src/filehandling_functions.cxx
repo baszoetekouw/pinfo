@@ -808,11 +808,11 @@ initpaths()
 	{
 		env = emptystr;
 	}
-	infolen = strlen(env) + strlen(configuredinfopath) + 2;
+	infolen = strlen(env) + configuredinfopath.length() + 2;
 	infopath = (char *) xmalloc( infolen );
 	strcat(infopath, env);
 	strcat(infopath, ":");
-	strcat(infopath, configuredinfopath);
+	strcat(infopath, configuredinfopath.c_str());
 
 	/* alloc the paths[] array */
 	maxpaths = 3 * (charcount( infopath, ':' ) + 1); // *3 for $LANG

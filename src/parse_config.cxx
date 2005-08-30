@@ -20,6 +20,7 @@
  ***************************************************************************/
 
 #include "common_includes.h"
+#include "datatypes.h"
 #include <string>
 using std::string;
 
@@ -38,10 +39,9 @@ extern int DontHandleWithoutTagTable;
 extern int use_manual;
 extern int use_raw_filename;
 extern int quote_ignored;
-extern char *httpviewer;
-extern char *ftpviewer;
-extern char *maileditor;
-extern char *manlinks;
+extern string httpviewer;
+extern string ftpviewer;
+extern string maileditor;
 extern char *ignoredmacros;
 
 struct keybindings keys =
@@ -99,6 +99,9 @@ struct colours cols =
 	COLOR_YELLOW,	COLOR_BLACK,	BOLD,		NO_BLINK	/* search highlight */
 };
 #endif /* NO_COLOR_CURSES */
+
+/* Forward declarations */
+string remove_quotes(const string);
 
 int
 parse_config(void)
@@ -584,8 +587,8 @@ parse_line(char *line)
 		temp = strtok(NULL, "\n");
 		if (temp)
 		{
-			httpviewer = strdup(temp);
-			remove_quotes(httpviewer);
+			string tmpstr = temp;
+			httpviewer = remove_quotes(tmpstr);
 		}
 		else
 			return 1;
@@ -595,8 +598,8 @@ parse_line(char *line)
 		temp = strtok(NULL, "\n");
 		if (temp)
 		{
-			ftpviewer = strdup(temp);
-			remove_quotes(ftpviewer);
+			string tmpstr = temp;
+			ftpviewer = remove_quotes(tmpstr);
 		}
 		else
 			return 1;
@@ -606,8 +609,8 @@ parse_line(char *line)
 		temp = strtok(NULL, "\n");
 		if (temp)
 		{
-			maileditor = strdup(temp);
-			remove_quotes(maileditor);
+			string tmpstr = temp;
+			maileditor = remove_quotes(tmpstr);
 		}
 		else
 			return 1;
@@ -617,8 +620,8 @@ parse_line(char *line)
 		temp = strtok(NULL, "\n");
 		if (temp)
 		{
-			printutility = strdup(temp);
-			remove_quotes(printutility);
+			string tmpstr = temp;
+			printutility = remove_quotes(tmpstr);
 		}
 		else
 			return 1;
@@ -628,8 +631,8 @@ parse_line(char *line)
 		temp = strtok(NULL, "\n");
 		if (temp)
 		{
-			ManOptions = strdup(temp);
-			remove_quotes(ManOptions);
+			string tmpstr = temp;
+			ManOptions = remove_quotes(tmpstr);
 		}
 		else
 			return 1;
@@ -639,8 +642,8 @@ parse_line(char *line)
 		temp = strtok(NULL, "\n");
 		if (temp)
 		{
-			StderrRedirection = strdup(temp);
-			remove_quotes(StderrRedirection);
+			string tmpstr = temp;
+			StderrRedirection = remove_quotes(tmpstr);
 		}
 		else
 			return 1;
@@ -665,8 +668,8 @@ parse_line(char *line)
 		temp = strtok(NULL, "\n");
 		if (temp)
 		{
-			manlinks = strdup(temp);
-			remove_quotes(manlinks);
+			string tmpstr = temp;
+			manlinks = remove_quotes(tmpstr);
 		}
 		else
 			return 1;
@@ -676,8 +679,8 @@ parse_line(char *line)
 		temp = strtok(NULL, "\n");
 		if (temp)
 		{
-			configuredinfopath = strdup(temp);
-			remove_quotes(configuredinfopath);
+			string tmpstr = temp;
+			configuredinfopath = remove_quotes(tmpstr);
 		}
 		else
 			return 1;
@@ -688,8 +691,9 @@ parse_line(char *line)
 		temp = strtok(NULL, "\n");
 		if (temp)
 		{
-			char *tmp = strdup(temp);
-			remove_quotes(tmp);
+			string tmpstr = temp;
+			string tmpstr2 = remove_quotes(tmpstr);
+			char *tmp = strdup(tmpstr2.c_str());
 			if (!h_regexp_num)
 				h_regexp = (regex_t*)malloc(sizeof(regex_t));
 			else
@@ -707,9 +711,8 @@ parse_line(char *line)
 		temp = strtok(NULL, "\n");
 		if (temp)
 		{
-			char *tmp = strdup(temp);
-			remove_quotes(tmp);
-			safe_user = tmp;
+			string tmpstr = temp;
+			safe_user = remove_quotes(tmpstr);
 		}
 		else
 			return 1;
@@ -719,9 +722,8 @@ parse_line(char *line)
 		temp = strtok(NULL, "\n");
 		if (temp)
 		{
-			char *tmp = strdup(temp);
-			remove_quotes(tmp);
-			safe_group = tmp;
+			string tmpstr = temp;
+			safe_group = remove_quotes(tmpstr);
 		}
 		else
 			return 1;
@@ -747,8 +749,9 @@ parse_line(char *line)
 		temp = strtok(NULL, "\n");
 		if (temp)
 		{
-			ignoredmacros = strdup(temp);
-			remove_quotes(ignoredmacros);
+			string tmpstr = temp;
+			string tmpstr2 = remove_quotes(tmpstr);
+			ignoredmacros = strdup(tmpstr2.c_str());
 			if (ignoredmacros[0] == '\t' || ignoredmacros[0] == ' '
 					|| !strncasecmp(ignoredmacros, "FALSE", 5))
 				ignoredmacros[0] = '\0';
@@ -965,14 +968,16 @@ skip_whitespace(char *str)
 	return str + i;
 }
 
-char *
-remove_quotes(char *str)
-{
-	int i = 0;
-
-	for (i = 0; i < strlen(str); i++)
-		if (str[i] == '\"')
-			str[i] = ' ';
-
-	return str;
+/*
+ * Return a version of a string with quotes replaced with spaces.
+ * Why?  No idea.
+ */
+string
+remove_quotes(const string str) {
+	string result = str;
+	for (string::size_type i = 0; i < result.length(); i++) {
+		if (result[i] == '\"')
+			result[i] = ' ';
+	}
+	return result;
 }

@@ -570,12 +570,12 @@ checksu()
 
 	if (!getegid() || !getgid())
 	{
-		grwd = getgrnam(safe_group);
+		grwd = getgrnam(safe_group.c_str());
 		if (!grwd)
 		{
 			if (verbose)
 			{
-				printf(_("Security warning: Unable to get GID of group called: %s\n"), safe_group);
+				printf(_("Security warning: Unable to get GID of group called: %s\n"), safe_group.c_str());
 				sleep(1);
 			}
 		}
@@ -590,12 +590,12 @@ checksu()
 
 	if (!geteuid() || !getuid())
 	{
-		pswd = getpwnam(safe_user);
+		pswd = getpwnam(safe_user.c_str());
 		if (!pswd)
 		{
 			if (verbose)
 			{
-				printf(_("Security warning: Unable to get UID of user called: %s\n"), safe_user);
+				printf(_("Security warning: Unable to get UID of user called: %s\n"), safe_user.c_str());
 				sleep(1);
 			}
 		}
