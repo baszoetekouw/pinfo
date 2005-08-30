@@ -27,6 +27,8 @@ RCSID("$Id$")
 #include <sys/stat.h>
 #include <string>
 using std::string;
+#include <vector>
+using std::vector;
 
 #define HTTPSECTION 100
 #define FTPSECTION 101
@@ -96,7 +98,7 @@ manhistory *manualhistory = 0;
 int manualhistorylength = 0;
 
 /* this structure describes a hyperlink in manual viewer */
-typedef struct
+typedef struct manuallink
 {			/* struct for hypertext references */
 	int line;		/* line of the manpage, where the reference is */
 	/* column of that line */
@@ -112,10 +114,7 @@ typedef struct
 manuallink;
 
 /* a set of manual references of man page */
-manuallink *manuallinks = 0;
-
-/* number of found manual references in man page */
-int ManualLinks = 0;
+vector<manuallink> manuallinks;
 
 /* semaphore for checking if it's a history(left arrow) call */
 int historical = 0;
@@ -139,15 +138,13 @@ manual_free_buffers()
 		ManualLines = 0;
 	}
 	/* ...and for the list of manual hypertext */
-	if (manuallinks)
+	if (manuallinks.size() > 0)
 	{				/* links */
-		for (i = 0; i < ManualLinks; i++)
+		for (i = 0; i < manuallinks.size(); i++)
 		{
 			xfree(manuallinks[i].name);
 		}
-		xfree(manuallinks);
-		manuallinks = 0;
-		ManualLinks = 0;
+		manuallinks.clear();
 		selected = -1;
 	}
 }
@@ -465,7 +462,7 @@ loadmanual(FILE * id)
 	manualpos = 0;
 	manual_free_buffers();
 	manual = (char**)xmalloc(sizeof(char *));
-	manuallinks = (manuallink*)xmalloc(sizeof(manuallinks));
+	manuallinks.clear();
 	manual[ManualLines] = (char*)xmalloc(1024);
 
 	/* we read until eof */
@@ -547,7 +544,10 @@ compare_manuallink(const void *a, const void *b)
 void
 sort_manuallinks_from_current_line(long startlink, long endlink)
 {
+/* Can't do this with a std::vector.  FIXME */
+#if 0
 	qsort(manuallinks + startlink, endlink - startlink, sizeof(manuallink), compare_manuallink);
+#endif
 }
 
 
@@ -559,7 +559,7 @@ man_initializelinks(char *tmp, int carry)
 	int tmpcnt = strlen(tmp) + 1;
 	char *link = tmp;
 	char *urlstart, *urlend;
-	long initialManualLinks = ManualLinks;
+	long initialManualLinks = manuallinks.size();
 	int i, b;
 	/******************************************************************************
 	 * handle url refrences                                                       *
@@ -569,60 +569,61 @@ man_initializelinks(char *tmp, int carry)
 	{
 		/* always successfull */
 		urlend = findurlend(urlstart);
-		manuallinks = (manuallink*)xrealloc(manuallinks, sizeof(manuallink) *(ManualLinks + 3));
-		manuallinks[ManualLinks].line = ManualLines;
-		manuallinks[ManualLinks].col = urlstart - tmp;
-		strcpy(manuallinks[ManualLinks].section, "HTTPSECTION");
-		manuallinks[ManualLinks].section_mark = HTTPSECTION;
-		manuallinks[ManualLinks].name = (char*)xmalloc(urlend - urlstart + 10);
-		strncpy(manuallinks[ManualLinks].name, urlstart, urlend - urlstart);
-		manuallinks[ManualLinks].name[urlend - urlstart] = 0;
-		if (ishyphen(manuallinks[ManualLinks].name[urlend - urlstart - 1]))
-			manuallinks[ManualLinks].carry = 1;
+		manuallink my_link;
+		my_link.line = ManualLines;
+		my_link.col = urlstart - tmp;
+		strcpy(my_link.section, "HTTPSECTION");
+		my_link.section_mark = HTTPSECTION;
+		my_link.name = (char*)xmalloc(urlend - urlstart + 10);
+		strncpy(my_link.name, urlstart, urlend - urlstart);
+		my_link.name[urlend - urlstart] = 0;
+		if (ishyphen(my_link.name[urlend - urlstart - 1]))
+			my_link.carry = 1;
 		else
-			manuallinks[ManualLinks].carry = 0;
-		ManualLinks++;
+			my_link.carry = 0;
+		manuallinks.push_back(my_link);
 	}
 	urlend = tmp;
 	while ((urlstart = strstr(urlend, "ftp://")) != NULL)
 	{
 		/* always successfull */
 		urlend = findurlend(urlstart);
-		manuallinks = (manuallink*)xrealloc(manuallinks, sizeof(manuallink) *(ManualLinks + 3));
-		manuallinks[ManualLinks].line = ManualLines;
-		manuallinks[ManualLinks].col = urlstart - tmp;
-		strcpy(manuallinks[ManualLinks].section, "FTPSECTION");
-		manuallinks[ManualLinks].section_mark = FTPSECTION;
-		manuallinks[ManualLinks].name = (char*)xmalloc(urlend - urlstart + 10);
-		strncpy(manuallinks[ManualLinks].name, urlstart, urlend - urlstart);
-		manuallinks[ManualLinks].name[urlend - urlstart] = 0;
-		if (ishyphen(manuallinks[ManualLinks].name[urlend - urlstart - 1]))
-			manuallinks[ManualLinks].carry = 1;
+		manuallink my_link;
+		my_link.line = ManualLines;
+		my_link.col = urlstart - tmp;
+		strcpy(my_link.section, "FTPSECTION");
+		my_link.section_mark = FTPSECTION;
+		my_link.name = (char*)xmalloc(urlend - urlstart + 10);
+		strncpy(my_link.name, urlstart, urlend - urlstart);
+		my_link.name[urlend - urlstart] = 0;
+		if (ishyphen(my_link.name[urlend - urlstart - 1]))
+			my_link.carry = 1;
 		else
-			manuallinks[ManualLinks].carry = 0;
-		ManualLinks++;
+			my_link.carry = 0;
+		manuallinks.push_back(my_link);
 	}
 	urlend = tmp;
 	while ((urlstart = findemailstart(urlend)) != NULL)
 	{
 		/* always successfull */
 		urlend = findurlend(urlstart);
-		manuallinks = (manuallink*)xrealloc(manuallinks, sizeof(manuallink) *(ManualLinks + 3));
-		manuallinks[ManualLinks].line = ManualLines;
-		manuallinks[ManualLinks].col = urlstart - tmp;
-		strcpy(manuallinks[ManualLinks].section, "MAILSECTION");
-		manuallinks[ManualLinks].section_mark = MAILSECTION;
-		manuallinks[ManualLinks].name = (char*)xmalloc(urlend - urlstart + 10);
-		strncpy(manuallinks[ManualLinks].name, urlstart, urlend - urlstart);
-		manuallinks[ManualLinks].name[urlend - urlstart] = 0;
-		if (ishyphen(manuallinks[ManualLinks].name[urlend - urlstart - 1]))
-			manuallinks[ManualLinks].carry = 1;
+		manuallink my_link;
+		my_link.line = ManualLines;
+		my_link.col = urlstart - tmp;
+		strcpy(my_link.section, "MAILSECTION");
+		my_link.section_mark = MAILSECTION;
+		my_link.name = (char*)xmalloc(urlend - urlstart + 10);
+		strncpy(my_link.name, urlstart, urlend - urlstart);
+		my_link.name[urlend - urlstart] = 0;
+		if (ishyphen(my_link.name[urlend - urlstart - 1]))
+			my_link.carry = 1;
 		else
-			manuallinks[ManualLinks].carry = 0;
+			my_link.carry = 0;
 
 		/* there should be a dot in e-mail domain */
-		if (strchr(manuallinks[ManualLinks].name, '.') != NULL)
-			ManualLinks++;
+		if (strchr(my_link.name, '.') != NULL) {
+			manuallinks.push_back(my_link);
+		}
 	}
 	/******************************************************************************
 	 * handle normal manual refrences -- reference(section)                       *
@@ -695,23 +696,23 @@ man_initializelinks(char *tmp, int carry)
 
 							break;
 					}
-					manuallinks = (manuallink*)xrealloc(manuallinks, sizeof(manuallink) *(ManualLinks + 3));
-					manuallinks[ManualLinks].line = ManualLines;
-					manuallinks[ManualLinks].col = i;
+					manuallink my_link;
+					my_link.line = ManualLines;
+					my_link.col = i;
 					if (LongManualLinks)
 					{
 						for (b = 1; link[b] != ')'; b++)
-							manuallinks[ManualLinks].section[b - 1] = tolower(link[b]);
-						manuallinks[ManualLinks].section[b - 1] = 0;
+							my_link.section[b - 1] = tolower(link[b]);
+						my_link.section[b - 1] = 0;
 					}
 					else
 					{
-						manuallinks[ManualLinks].section[0] = link[1];
-						manuallinks[ManualLinks].section[1] = 0;
+						my_link.section[0] = link[1];
+						my_link.section[1] = 0;
 					}
-					manuallinks[ManualLinks].section_mark = 0;
-					manuallinks[ManualLinks].name = (char*)xmalloc((breakpos - i) + 10);
-					strcpy(manuallinks[ManualLinks].name, tmp + i);
+					my_link.section_mark = 0;
+					my_link.name = (char*)xmalloc((breakpos - i) + 10);
+					strcpy(my_link.name, tmp + i);
 					tmp[breakpos] = tempchar;
 
 					/* check whether this is a carry'ed entry(i.e. in the
@@ -724,11 +725,11 @@ man_initializelinks(char *tmp, int carry)
 								break;
 					}
 					if (b >= 0)
-						manuallinks[ManualLinks].carry = 0;
+						my_link.carry = 0;
 					else
-						manuallinks[ManualLinks].carry = carry;
+						my_link.carry = carry;
 					/* increase the number of entries */
-					ManualLinks++;
+					manuallinks.push_back(my_link);
 				}		/*... if (in man links) */
 				xfree((void *) p_t1);
 			}
@@ -739,11 +740,12 @@ man_initializelinks(char *tmp, int carry)
 		{
 			break;
 		}
-	}
-	/* do this line until strchr() won't find a '(' in string */
-	while (link != NULL);
-	if (initialManualLinks != ManualLinks)
-		sort_manuallinks_from_current_line(initialManualLinks, ManualLinks);
+	} while (link != NULL);
+	/* do this loop until strchr() won't find a '(' in string */
+
+	/* FIXME: Doesn't work with std::vector */
+	if (initialManualLinks != manuallinks.size())
+		sort_manuallinks_from_current_line(initialManualLinks, manuallinks.size());
 }
 
 /* viewer function. Handles keyboard actions--main event loop */
@@ -825,14 +827,14 @@ manualwork()
 			if ((key == keys.goto_1) ||
 					(key == keys.goto_2))
 			{
-				manuallinks = (manuallink*)xrealloc(manuallinks,(ManualLinks + 1) *(sizeof(manuallink) + 3));
+				manuallink my_link;
 
 				/* get user's value */
 				attrset(bottomline);
 				move(maxy - 1, 0);
 				echo();
 				curs_set(1);
-				manuallinks[ManualLinks].name = getstring(_("Enter manual name: "));
+				my_link.name = getstring(_("Enter manual name: "));
 				curs_set(0);
 				noecho();
 				move(maxy - 1, 0);
@@ -845,13 +847,13 @@ manualwork()
 #endif
 				attrset(normal);
 
-				manuallinks[ManualLinks].carry = 0;
-				manuallinks[ManualLinks].section_mark = 0;
-				strcpy(manuallinks[ManualLinks].section, " ");
-				manuallinks[ManualLinks].line = -1;
-				manuallinks[ManualLinks].col = -1;
-				ManualLinks++;
-				return ManualLinks - 1;
+				my_link.carry = 0;
+				my_link.section_mark = 0;
+				strcpy(my_link.section, " ");
+				my_link.line = -1;
+				my_link.col = -1;
+				manuallinks.push_back(my_link);
+				return manuallinks.size() - 1;
 			}
 			/*====================================================*/
 			if ((key == keys.goline_1) ||
@@ -1099,7 +1101,7 @@ skip_search:
 					if (manualpos >= 1)
 						manualpos--;
 					/* and scan for selected again :) */
-					for (i = 0; i < ManualLinks; i++)
+					for (i = 0; i < manuallinks.size(); i++)
 					{
 						if (manuallinks[i].line == manualpos)
 						{
@@ -1116,7 +1118,7 @@ skip_search:
 				manualpos = ManualLines -(maxy - 1);
 				if (manualpos < 0)
 					manualpos = 0;
-				selected = ManualLinks - 1;
+				selected = manuallinks.size() - 1;
 			}
 			/*=====================================================*/
 			if ((key == keys.nextnode_1) ||
@@ -1156,12 +1158,12 @@ skip_search:
 				else if (ManualLines -(maxy - 1) >= 1)
 				{
 					manualpos = ManualLines -(maxy - 1);
-					selected = ManualLinks - 1;
+					selected = manuallinks.size() - 1;
 				}
 				else
 				{
 					manualpos = 0;
-					selected = ManualLinks - 1;
+					selected = manuallinks.size() - 1;
 				}
 			}
 			/*=====================================================*/
@@ -1193,8 +1195,8 @@ skip_search:
 			if ((key == keys.down_1) || (key == keys.down_2))
 			{
 				selectedchanged = 0;
-				if (selected < ManualLinks)
-					for (i = selected + 1; i < ManualLinks; i++)
+				if (selected < manuallinks.size())
+					for (i = selected + 1; i < manuallinks.size(); i++)
 					{
 						if ((manuallinks[i].line >= manualpos) &&
 								(manuallinks[i].line < manualpos +(maxy - 2)))
@@ -1208,8 +1210,8 @@ skip_search:
 				{
 					if (manualpos < ManualLines -(maxy - 1))
 						manualpos++;
-					if (selected < ManualLinks)
-						for (i = selected + 1; i < ManualLinks; i++)
+					if (selected < manuallinks.size())
+						for (i = selected + 1; i < manuallinks.size(); i++)
 						{
 							if ((manuallinks[i].line >= manualpos) &&
 									(manuallinks[i].line < manualpos +(maxy - 2)))
@@ -1314,7 +1316,7 @@ skip_search:
 							}
 						}
 						if (!done)
-							for (i = selected; i < ManualLinks; i++)
+							for (i = selected; i < manuallinks.size(); i++)
 							{
 								if (manuallinks[i].line == mouse.y + manualpos - 1)
 								{
@@ -1355,7 +1357,7 @@ skip_search:
 							}
 						}
 						if (!done)
-							for (i = selected; i < ManualLinks; i++)
+							for (i = selected; i < manuallinks.size(); i++)
 							{
 								if (manuallinks[i].line == mouse.y + manualpos - 1)
 								{
@@ -1402,7 +1404,7 @@ void
 rescan_selected()
 {
 	int i;
-	for (i = 0; i < ManualLinks; i++)
+	for (i = 0; i < manuallinks.size(); i++)
 	{
 		if ((manuallinks[i].line >= manualpos) &&
 				(manuallinks[i].line < manualpos +(maxy - 1)))
@@ -1581,7 +1583,7 @@ add_highlights()
 {
 	int i;
 	/* scan through the visible objects */
-	for (i = 0; i < ManualLinks; i++)
+	for (i = 0; i < manuallinks.size(); i++)
 	{
 		/* if the object is on the current screen */
 		if ((manuallinks[i].line >= manualpos) &&
