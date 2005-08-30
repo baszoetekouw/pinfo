@@ -192,17 +192,6 @@ else
 	AC_DEFINE(HIDECURSOR,TRUE,[don't show cursor])
 fi
 
-# If pinfo is too slow, the below definition will resign from dynamical
-# allocation in critical places, and replace it with static buffers which
-# should save few instructions to CPU ;)
-## TODO: do we still need this with current computing powers?
-AC_ARG_ENABLE(use_static,
-	[  --disable-static        enable using static buffers ], ,
-	enable_use_static=yes) 
-if test "x$enable_use_static" = "xyes" ; then
-	AC_DEFINE(___USE_STATIC___, 1, [don't use dynamic buffer])
-fi
-
 # do you want to use regexp searches?
 ## TODO: this should really be a command line/config file option
 AC_ARG_WITH(regexp_search,

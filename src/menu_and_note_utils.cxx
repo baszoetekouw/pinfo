@@ -51,11 +51,7 @@ void
 getnextnode(char *type, char *node)
 {
 	int j;
-#ifndef ___USE_STATIC___
 	char *tmp = xmalloc(strlen(type) + 1);
-#else
-	static char tmp[1024 + 1];
-#endif
 	char *wsk;
 	strcpy(tmp, type);
 	wsk = strstr(tmp, "Next: ");
@@ -70,15 +66,11 @@ getnextnode(char *type, char *node)
 		{
 			wsk[j] = 0;
 			strcpy(node, wsk + 6);
-#ifndef ___USE_STATIC___
 			xfree(tmp);
-#endif
 			return;
 		}
 	}
-#ifndef ___USE_STATIC___
 	xfree(tmp);
-#endif
 }
 
 /* read the `Prev:' header entry */
@@ -86,11 +78,7 @@ void
 getprevnode(char *type, char *node)
 {
 	int j;
-#ifndef ___USE_STATIC___
 	char *tmp = xmalloc(strlen(type) + 1);
-#else
-	static char tmp[1024 + 1];
-#endif
 	char *wsk;
 	strcpy(tmp, type);
 	wsk = strstr(tmp, "Prev: ");
@@ -105,15 +93,11 @@ getprevnode(char *type, char *node)
 		{
 			wsk[j] = 0;
 			strcpy(node, wsk + 6);
-#ifndef ___USE_STATIC___
 			xfree(tmp);
-#endif
 			return;
 		}
 	}
-#ifndef ___USE_STATIC___
 	xfree(tmp);
-#endif
 }
 
 /* read the `Up:' header entry */
@@ -121,11 +105,7 @@ void
 getupnode(char *type, char *node)
 {
 	int j;
-#ifndef ___USE_STATIC___
 	char *tmp = xmalloc(strlen(type) + 1);
-#else
-	static char tmp[1024 + 1];
-#endif
 	char *wsk;
 	strcpy(tmp, type);
 	wsk = strstr(tmp, "Up: ");
@@ -140,15 +120,11 @@ getupnode(char *type, char *node)
 		{
 			wsk[j] = 0;
 			strcpy(node, wsk + 4);
-#ifndef ___USE_STATIC___
 			xfree(tmp);
-#endif
 			return;
 		}
 	}
-#ifndef ___USE_STATIC___
 	xfree(tmp);
-#endif
 }
 
 
@@ -157,11 +133,7 @@ void
 getnodename(char *type, char *node)
 {
 	int j;
-#ifndef ___USE_STATIC___
 	char *tmp = xmalloc(strlen(type) + 1);
-#else
-	static char tmp[1024 + 1];
-#endif
 	char *wsk;
 	strcpy(tmp, type);
 	wsk = strstr(tmp, "Node: ");
@@ -176,13 +148,9 @@ getnodename(char *type, char *node)
 		{
 			wsk[j] = 0;
 			strcpy(node, wsk + 6);
-#ifndef ___USE_STATIC___
 			xfree(tmp);
-#endif
 			return;
 		}
 	}
-#ifndef ___USE_STATIC___
 	xfree(tmp);
-#endif
 }

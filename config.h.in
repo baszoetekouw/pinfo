@@ -327,9 +327,6 @@
 /* Don't use regexp search engine */
 #undef ___DONT_USE_REGEXP_SEARCH___
 
-/* don't use dynamic buffer */
-#undef ___USE_STATIC___
-
 /* Define to empty if `const' does not conform to ANSI C. */
 #undef const
 
