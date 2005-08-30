@@ -793,11 +793,11 @@ initpaths()
 {
 	char emptystr[1] = "";
 	char **paths = NULL;
-	char *infopath = NULL, *langpath = NULL;
+	char *langpath = NULL;
 	char *c, *dir, *env;
 	char *rawlang = NULL, *lang = NULL, *langshort = NULL;
 	int ret;
-	unsigned int i, j, maxpaths, numpaths = 0, infolen, langlen;
+	unsigned int i, j, maxpaths, numpaths = 0, langlen;
 	size_t len;
 	struct stat sbuf;
 	ino_t *inodes;
@@ -808,18 +808,17 @@ initpaths()
 	{
 		env = emptystr;
 	}
-	infolen = strlen(env) + configuredinfopath.length() + 2;
-	infopath = (char *) xmalloc( infolen );
-	strcat(infopath, env);
-	strcat(infopath, ":");
-	strcat(infopath, configuredinfopath.c_str());
+	string infopath;
+	infopath = env; 
+	infopath += ":"; /* FIXME: what if one of the two is blank? */
+	infopath += configuredinfopath;
 
 	/* alloc the paths[] array */
-	maxpaths = 3 * (charcount( infopath, ':' ) + 1); // *3 for $LANG
+	maxpaths = 3 * (charcount( infopath.c_str(), ':' ) + 1); // *3 for $LANG
 	paths = (char **) xmalloc( maxpaths * sizeof(char *) );
 
 	/* split at ':' and put the path components into paths[] */
-	c = infopath;
+	c = strdup(infopath.c_str());
 	while ((dir = strsep(&c, ":")))
 	{
 		/* if this actually is a non-empty string, add it to paths[] */
@@ -828,6 +827,7 @@ initpaths()
 			paths[numpaths++] = dir;
 		}
 	}
+	xfree(c);
 
 	/* get the current $LANG, if any (to use for localized info pages) */
 	rawlang = getenv("LANG");
@@ -853,7 +853,8 @@ initpaths()
 	if (lang && strlen(lang)>0 )
 	{
 		/* crude upper limit */
-		langlen = infolen + (strlen(lang)+2) * numpaths + 1;
+		langlen = strlen(env) + configuredinfopath.length() + 2
+						  + (strlen(lang)+2) * numpaths + 1;
 		if (langshort!=NULL) langlen *= 2;
 		langpath = (char *) xmalloc( langlen * sizeof(char) );
 
@@ -945,7 +946,6 @@ initpaths()
 	}
 	
 
-	xfree(infopath);
 	xfree(langpath);
 	xfree(paths);
 	xfree(lang);
