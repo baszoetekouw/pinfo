@@ -341,8 +341,6 @@ load_tag_table(char **message, long lines)
 	long i;
 	char *wsk, *wsk1;
 	int is_indirect = 0;
-	register unsigned int j;
-	register char *res;
 	int cut = 0;			/* holds the number of corrupt lines */
 
 	/*
@@ -376,12 +374,9 @@ load_tag_table(char **message, long lines)
 		if (wsk1 < check)
 		{
 			(*wsk1) = 0;
-			/*
-			 * original: sprintf(tag_table[i-cut].nodename,"%s",wsk);
-			 * below is a faster version.
-			 */
-			res = (char*)memcpy(tag_table[i - cut].nodename, wsk, j =(size_t)(wsk1 - wsk));
-			(*(res += j + 1)) = 0;
+			strcpy(tag_table[i - cut].nodename, wsk);
+			(*(tag_table[i - cut].nodename + (wsk1 - wsk) + 1)) = 0; 
+				/* Just terminating the bugger */
 			(*wsk1) = INDIRECT_TAG;
 			wsk1++;
 			tag_table[i - cut].offset = atoi(wsk1);
