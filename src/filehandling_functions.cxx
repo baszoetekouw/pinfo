@@ -26,13 +26,6 @@ using std::string;
 
 RCSID("$Id$")
 
-typedef struct
-{
-	char *suffix;
-	char *command;
-}
-Suffixes;
-
 void
 basename_and_dirname(const string filename, string& basename, string& dirname)
 {
@@ -77,6 +70,13 @@ dirname(const string filename, string& dirname_str)
  * file. I.e. you don't do anything to plain `.info' suffix; for a `.info.gz'  *
  * you dump the file through `gunzip -d -c', etc.                              *
  ******************************************************************************/
+
+typedef struct Suffixes
+{
+	const char *suffix;
+	const char *command;
+}
+Suffixes;
 
 #define SuffixesNumber 4
 
@@ -142,70 +142,72 @@ matchfile(string& buf, const string name_string)
 
 FILE *
 dirpage_lookup(char **type, char ***message, long *lines,
-		const char *filename, char **first_node)
+		const string filename, char **first_node)
 {
 #define Type	(*type)
 #define Message	(*message)
 #define Lines	(*lines)
 	FILE *id = 0;
-	int filenamelen = strlen(filename);
-	int goodHit = 0, perfectHit = 0;
-	char name[256];
-	char file[256];
-	int i;
+	bool goodHit = false;
 	id = opendirfile(0);
 	if (!id)
 		return 0;
 	read_item(id, type, message, lines);
-	for (i = 1; i < Lines; i++)	/* initialize node-links for every line */
-	{
-		if ((Message[i][0] == '*') &&(Message[i][1] == ' ') &&(!perfectHit))
-		{
-			char *nameend = strchr(Message[i], ':');
-			if (nameend)
-			{
-				if (*(nameend + 1) != ':')	/* form: `* name:(file)node.' */
-				{
-					char *filestart = strchr(nameend, '(');
-					if (filestart)
-					{
-						char *fileend = strchr(filestart, ')');
-						if (fileend)
-						{
-							char *dot = strchr(fileend, '.');
-							if (dot)
-							{
-								if (strncmp(filename, Message[i] + 2, filenamelen) == 0)
-								{
-									char *tmp = name;
-									strncpy(file, filestart + 1, fileend - filestart - 1);
-									file[fileend - filestart - 1] = 0;
-									strncpy(name, fileend + 1, dot - fileend - 1);
-									name[dot - fileend - 1] = 0;
-									while (isspace(*tmp))
-										tmp++;
-									if (strlen(name))
-									{
-										*first_node = (char*)xmalloc(strlen(tmp) + 1);
-										strcpy((*first_node), tmp);
-									}
-									if (id)
-										fclose(id);	/* we don't need dirfile/badly matched infofile open anymore */
-									id = 0;
-									if (!strstr(file, ".info"))
-										strcat(file, ".info");
-									string tmpstr = file;
-									id = openinfo(tmpstr, 0);
-									goodHit = 1;
-									if ((nameend - Message[i]) - 2 == filenamelen)	/* the name matches perfectly to the query */
-										perfectHit = 1;	/* stop searching for another matches, and use this one */
-								}
-							}
-						}
-					}
-				}
-			}
+	for (int i = 1; i < Lines; i++)	{ /* search through all lines */
+		/* we want: `* name:(file)node.' */
+		string this_line = Message[i];
+		if (    (this_line.length() < 2)
+		     || (this_line[0] != '*')
+		     || (this_line[1] != ' ')
+		   ) {
+			continue;
 		}
+		if (this_line.compare(2, filename.length(), filename) != 0) {
+			/* Wrong file */
+			continue;
+		}
+		string::size_type nameend = this_line.find(':');
+		if (    (nameend == string::npos)
+			   || (this_line.length() == nameend + 1)
+			   || (this_line[nameend + 1] == ':')
+			   ) {
+			continue;
+		}
+		string::size_type filestart = this_line.find('(', nameend + 1);
+		if (filestart == string::npos) {
+			continue;
+		}
+		string::size_type fileend = this_line.find(')', filestart);
+		if (fileend == string::npos) {
+			continue;
+		}
+		string::size_type dot = this_line.find('.', fileend);
+		if (dot == string::npos) {
+			continue;
+		}
+		/* It looks like a match. */
+		string file(this_line, filestart + 1, fileend - filestart - 2);
+		string name(this_line, fileend + 1, dot - fileend - 2);
+		if (name != "") {
+			string::size_type idx = 0;
+			while (isspace(name[idx]))
+				idx++;
+			string trimmed = name.substr(idx);
+			*first_node = strdup(trimmed.c_str());
+		}
+		if (id)
+			fclose(id);	/* we don't need dirfile/badly matched infofile open anymore */
+		id = 0;
+		if (file.find(".info") == string::npos) {
+			file += ".info";
+		}
+		id = openinfo(file, 0);
+		goodHit = true;
+		if ((nameend - 2) == filename.length()) {
+				/* the name matches perfectly to the query */
+				/* stop searching for another match, and use this one */
+				break;	
+			}
 	}
 	if (!goodHit)
 	{

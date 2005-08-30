@@ -242,7 +242,7 @@ findemailstart(char *str)
 	return 0;
 }
 
-	void
+void
 initializelinks(char *line1, char *line2, int line)
 {
 	char *tmp;

@@ -309,7 +309,7 @@ main(int argc, char *argv[]) {
 	/* try to lookup the name in dir file */
 	if (id == NULL)
 	{
-		id = dirpage_lookup(&type, &message, &lines, filename_string.c_str(),
+		id = dirpage_lookup(&type, &message, &lines, filename_string,
 												&pinfo_start_node);
 	}
 
