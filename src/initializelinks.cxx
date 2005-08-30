@@ -28,21 +28,6 @@ RCSID("$Id$")
 #define MENU_DOT 0
 #define NOTE_DOT 1
 
-/* Unusable with vectors */
-/* Try life without sorting.  :-) FIXME */
-#if 0
-int
-compare_hyperlink(const void *a, const void *b)
-{
-	return ((HyperObject *) a)->col -((HyperObject *) b)->col;
-}
-void
-sort_hyperlinks_from_current_line(long startlink, long endlink)
-{
-	qsort(hyperobjects[startlink], endlink - startlink, sizeof(HyperObject), compare_hyperlink);
-}
-#endif
-
 /*
  * Compares two strings, ignoring whitespaces(tabs, spaces)
  */

@@ -535,22 +535,6 @@ loadmanual(FILE * id)
 
 }
 
-int
-compare_manuallink(const void *a, const void *b)
-{
-	return ((manuallink *) a)->col -((manuallink *) b)->col;
-}
-
-void
-sort_manuallinks_from_current_line(long startlink, long endlink)
-{
-/* Can't do this with a std::vector.  FIXME */
-#if 0
-	qsort(manuallinks + startlink, endlink - startlink, sizeof(manuallink), compare_manuallink);
-#endif
-}
-
-
 /* initializes hyperlinks in manual */
 void
 man_initializelinks(char *tmp, int carry)
@@ -742,10 +726,6 @@ man_initializelinks(char *tmp, int carry)
 		}
 	} while (link != NULL);
 	/* do this loop until strchr() won't find a '(' in string */
-
-	/* FIXME: Doesn't work with std::vector */
-	if (initialManualLinks != manuallinks.size())
-		sort_manuallinks_from_current_line(initialManualLinks, manuallinks.size());
 }
 
 /* viewer function. Handles keyboard actions--main event loop */
