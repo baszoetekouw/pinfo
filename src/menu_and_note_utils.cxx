@@ -3,6 +3,7 @@
  *
  *  Copyright (C) 1999  Przemek Borys <pborys@dione.ids.pl>
  *  Copyright (C) 2005  Bas Zoetekouw <bas@debian.org>
+ *  Copyright 2005  Nathanael Nerode <neroden@gcc.gnu.org>
  *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of version 2 of the GNU General Public License as
@@ -20,6 +21,8 @@
  ***************************************************************************/
 
 #include "common_includes.h"
+#include <string>
+using std::string;
 
 RCSID("$Id$")
 
@@ -45,86 +48,49 @@ freetagtable()
 	TagTableEntries = 0;
 }
 
+/*
+ * Read the `$foo' header entry
+ * Eliminates former duplicate code
+ */
+static inline void
+get_foo_node(const char * const foo, char *type, char *node)
+{
+	string tmpstr = type;
+	string::size_type start_idx;
+	start_idx = tmpstr.find(foo);
+	if (start_idx == string::npos) {
+		strcpy(node, ERRNODE);
+		return;
+	}
+
+	start_idx += strlen(foo);
+	string::size_type end_idx;
+	end_idx = tmpstr.find_first_of(",\n", start_idx);
+	if (end_idx != string::npos) {
+		strcpy(node, tmpstr.substr(start_idx, end_idx - start_idx).c_str() );
+	}
+	/* Otherwise what?  EOF? */
+}
 
 /* read the `Next:' header entry */
 void
 getnextnode(char *type, char *node)
 {
-	int j;
-	char *tmp = (char*)xmalloc(strlen(type) + 1);
-	char *wsk;
-	strcpy(tmp, type);
-	wsk = strstr(tmp, "Next: ");
-	if (wsk == 0)
-	{
-		strcpy(node, ERRNODE);
-		return;
-	}
-	for (j = 6; wsk[j] != 0; j++)
-	{
-		if ((wsk[j] == ',') ||(wsk[j] == '\n'))
-		{
-			wsk[j] = 0;
-			strcpy(node, wsk + 6);
-			xfree(tmp);
-			return;
-		}
-	}
-	xfree(tmp);
+	get_foo_node("Next: ", type, node);
 }
 
 /* read the `Prev:' header entry */
 void
 getprevnode(char *type, char *node)
 {
-	int j;
-	char *tmp = (char*)xmalloc(strlen(type) + 1);
-	char *wsk;
-	strcpy(tmp, type);
-	wsk = strstr(tmp, "Prev: ");
-	if (wsk == 0)
-	{
-		strcpy(node, ERRNODE);
-		return;
-	}
-	for (j = 6; wsk[j] != 0; j++)
-	{
-		if ((wsk[j] == ',') ||(wsk[j] == '\n'))
-		{
-			wsk[j] = 0;
-			strcpy(node, wsk + 6);
-			xfree(tmp);
-			return;
-		}
-	}
-	xfree(tmp);
+	get_foo_node("Prev: ", type, node);
 }
 
 /* read the `Up:' header entry */
 void
 getupnode(char *type, char *node)
 {
-	int j;
-	char *tmp = (char*)xmalloc(strlen(type) + 1);
-	char *wsk;
-	strcpy(tmp, type);
-	wsk = strstr(tmp, "Up: ");
-	if (wsk == 0)
-	{
-		strcpy(node, ERRNODE);
-		return;
-	}
-	for (j = 4; wsk[j] != 0; j++)
-	{
-		if ((wsk[j] == ',') ||(wsk[j] == '\n'))
-		{
-			wsk[j] = 0;
-			strcpy(node, wsk + 4);
-			xfree(tmp);
-			return;
-		}
-	}
-	xfree(tmp);
+	get_foo_node("Up: ", type, node);
 }
 
 
@@ -132,25 +98,5 @@ getupnode(char *type, char *node)
 void
 getnodename(char *type, char *node)
 {
-	int j;
-	char *tmp = (char*)xmalloc(strlen(type) + 1);
-	char *wsk;
-	strcpy(tmp, type);
-	wsk = strstr(tmp, "Node: ");
-	if (wsk == 0)
-	{
-		strcpy(node, ERRNODE);
-		return;
-	}
-	for (j = 6; wsk[j] != 0; j++)
-	{
-		if ((wsk[j] == ',') ||(wsk[j] == '\n'))
-		{
-			wsk[j] = 0;
-			strcpy(node, wsk + 6);
-			xfree(tmp);
-			return;
-		}
-	}
-	xfree(tmp);
+	get_foo_node("Node: ", type, node);
 }
