@@ -258,7 +258,6 @@ handlemanual(string name)
 	FILE *id;
 
 	string manualname_string; /* Filled by construct_manualname */
-	char cmd[256];
 	char *raw_tempfilename = 0;
 	char *apropos_tempfilename = 0;
 
@@ -297,47 +296,44 @@ handlemanual(string name)
 		cmd_string += StderrRedirection;
 		cmd_string += " > ";
 		cmd_string += tmpfilename1;
-		strncpy(cmd, cmd_string.c_str(), 255);
-	}
-	if ((plain_apropos) ||(system(cmd) != 0))
-	{
-		if (!plain_apropos)
-		{
+
+		int cmd_result;
+		cmd_result = system(cmd_string.c_str());
+		if (cmd_result != 0) {
 			unlink(tmpfilename1);
 			printf(_("Error: No manual page found\n"));
+			plain_apropos = 1; /* Fallback */
+		} else {
+			id = fopen(tmpfilename1, "r");
 		}
+	}
+	if (plain_apropos) {
 		plain_apropos = 0;
-		if (use_apropos)
-		{
-			printf(_("Calling apropos \n"));
-			apropos_tempfilename = tempnam("/tmp", NULL);
-			string cmd_string = "apropos ";
-			cmd_string += name;
-			cmd_string += " > ";
-			cmd_string += apropos_tempfilename;
-			strncpy(cmd, cmd_string.c_str(), 255);
-			if (system(cmd) != 0)
-			{
-				printf(_("Nothing apropiate\n"));
-				unlink(apropos_tempfilename);
-				return 1;
-			}
+		if (!use_apropos) {
+			return 1;
+		}
+		printf(_("Calling apropos \n"));
+		apropos_tempfilename = tempnam("/tmp", NULL);
+		string cmd_string = "apropos ";
+		cmd_string += name;
+		cmd_string += " > ";
+		cmd_string += apropos_tempfilename;
+		if (system(cmd_string.c_str()) != 0) {
+			printf(_("Nothing apropiate\n"));
+			unlink(apropos_tempfilename);
+			return 1;
+		} else {
 			id = fopen(apropos_tempfilename, "r");
 		}
-		else
-			return 1;
 	}
-	else
-		id = fopen(tmpfilename1, "r");
-	init_curses();
 
+	init_curses();
 
 	set_initial_history(name.c_str());
 	/* load manual to memory */
 	loadmanual(id);
 	fclose(id);
-	do
-	{
+	do {
 		/* manualwork handles all actions when viewing man page */
 		return_value = manualwork();
 #ifdef getmaxyx
@@ -366,20 +362,15 @@ handlemanual(string name)
 			 * key_back is not pressed; and return_value is an offset to
 			 * manuallinks
 			 */
+			string cmd_string = "man ";
+			cmd_string += ManOptions;
+			cmd_string += " ";
 			if (return_value != -2)
 			{
 				construct_manualname(manualname_string, return_value);
-				string cmd_string = "man ";
-				cmd_string += ManOptions;
-				cmd_string += " ";
 				cmd_string += manuallinks[return_value].section;
 				cmd_string += " ";
 				cmd_string += manualname_string;
-				cmd_string += " ";
-				cmd_string += StderrRedirection;
-				cmd_string += " > ";
-				cmd_string += tmpfilename2;
-				strncpy(cmd, cmd_string.c_str(), 255);
 			}
 			else /* key_back was pressed */
 			{
@@ -392,27 +383,11 @@ handlemanual(string name)
 					continue;
 				}
 				if (manualhistory[manualhistorylength].sect[0] == 0) {
-					string cmd_string = "man ";
-					cmd_string += ManOptions;
-					cmd_string += " ";
 					cmd_string += manualhistory[manualhistorylength].name;
-					cmd_string += " ";
-					cmd_string += StderrRedirection;
-					cmd_string += " > ";
-					cmd_string += tmpfilename2;
-					strncpy(cmd, cmd_string.c_str(), 255);
 				} else {
-					string cmd_string = "man ";
-					cmd_string += ManOptions;
-					cmd_string += " ";
 					cmd_string += manualhistory[manualhistorylength].sect;
 					cmd_string += " ";
 					cmd_string += manualhistory[manualhistorylength].name;
-					cmd_string += " ";
-					cmd_string += StderrRedirection;
-					cmd_string += " > ";
-					cmd_string += tmpfilename2;
-					strncpy(cmd, cmd_string.c_str(), 255);
 				}
 				/*
 				 * flag to make sure, that
@@ -421,7 +396,11 @@ handlemanual(string name)
 				 */
 				historical = 1;
 			}
-			system(cmd);
+			cmd_string += " ";
+			cmd_string += StderrRedirection;
+			cmd_string += " > ";
+			cmd_string += tmpfilename2;
+			system(cmd_string.c_str());
 			stat(tmpfilename2, &statbuf);
 			if (statbuf.st_size > 0)
 			{
@@ -429,9 +408,8 @@ handlemanual(string name)
 				cmd_string += tmpfilename2;
 				cmd_string += " ";
 				cmd_string += tmpfilename1;
-				strncpy(cmd, cmd_string.c_str(), 255);
 				/* create tmp file containing man page */
-				system(cmd);
+				system(cmd_string.c_str());
 				/* open man page */
 				id = fopen(tmpfilename1, "r");
 				if (id != NULL)
@@ -466,14 +444,13 @@ handlemanual(string name)
 					return_value = -1;
 			}
 		}
-	}
-	while (return_value != -1);
+	} while (return_value != -1);
 	if (apropos_tempfilename)
 		unlink(apropos_tempfilename);
 	/* we were using temporary */
 	if (raw_tempfilename)
 		unlink(raw_tempfilename);
-	/* raw-manpage for scaning */
+	/* raw-manpage for scanning */
 	return 0;
 }
 
