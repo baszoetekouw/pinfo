@@ -307,8 +307,8 @@ read_item(FILE * id, char **type, char ***buf, long *lines)
 #undef Type
 #undef Buf
 #undef Lines
-
 }
+
 void
 load_indirect(char **message, long lines)
 {
@@ -320,11 +320,8 @@ load_indirect(char **message, long lines)
 		if (n == string::npos) {
 			; /* No colon.  Invalid entry. */
 		} else {
-			string filename;
-			filename = wsk_string.substr(0, n);
 			Indirect my_entry;
-			strncpy(my_entry.filename, filename.c_str(), 200);
-
+			my_entry.filename = wsk_string.substr(0, n);
 			string remainder = wsk_string.substr(n + 2, string::npos);
 			my_entry.offset = atoi(remainder.c_str());
 			indirect.push_back(my_entry);
@@ -958,11 +955,10 @@ void
 create_indirect_tag_table()
 {
 	FILE *id = 0;
-	int i, j, initial;
-	for (i = 0; i < indirect.size(); i++)
+	int initial;
+	for (string::size_type i = 0; i < indirect.size(); i++)
 	{
-		string tmpstr = indirect[i].filename;
-		id = openinfo(tmpstr, 1);
+		id = openinfo(indirect[i].filename, 1);
 		initial = TagTableEntries + 1;
 		if (id)
 		{
@@ -971,7 +967,7 @@ create_indirect_tag_table()
 			FirstNodeName = tag_table[1].nodename;
 		}
 		fclose(id);
-		for (j = initial; j <= TagTableEntries; j++)
+		for (int j = initial; j <= TagTableEntries; j++)
 		{
 			tag_table[j].offset +=(indirect[i].offset - FirstNodeOffset);
 		}
@@ -1071,8 +1067,7 @@ seeknode(int tag_table_pos, FILE ** Id)
 			{
 				long off = tag_table[tag_table_pos].offset - indirect[i].offset + FirstNodeOffset - 4;
 				fclose(id);
-				string tmpstr = indirect[i].filename;
-				id = openinfo(tmpstr, 0);
+				id = openinfo(indirect[i].filename, 0);
 				if (id == NULL)
 				{
 					closeprogram();

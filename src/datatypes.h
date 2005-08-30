@@ -47,8 +47,8 @@ SearchAgain;
 
 typedef struct Indirect
 {
-	char filename[256];		/* name of file, where's the given offset */
 	long offset;			/* offset of the node */
+	std::string filename;		/* name of file, wherein the given offset is */
 }
 Indirect;
 

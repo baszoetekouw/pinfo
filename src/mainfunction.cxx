@@ -23,6 +23,9 @@
 #include "printinfo.h"
 #include <string>
 using std::string;
+#include <vector>
+using std::vector;
+
 RCSID("$Id$")
 
 #include <ctype.h>
@@ -33,7 +36,8 @@ RCSID("$Id$")
 
 void rescan_cursor();	/* set the cursor to 1st item on visible screen */
 void next_infomenu();	/* go to the next menu item for sequential reading */
-int getnodeoffset(int tag_table_pos, int *Indstart);	/* get node offset in file */
+int getnodeoffset(int tag_table_pos,
+			vector<Indirect>::size_type& indirectstart);	/* get node offset in file */
 
 int aftersearch = 0;
 /*
@@ -41,7 +45,10 @@ int aftersearch = 0;
  * caused by the sequential auto-pgdn reading code
  */
 int toggled_by_menu = 0;
-long pos, cursor, infomenu, infocolumn=0;
+long pos, infomenu;
+long infocolumn=0;
+
+vector<HyperObject>::size_type cursor;
 
 
 
@@ -107,8 +114,8 @@ work(char ***message, char **type, long *lines, FILE * id, int tag_table_pos)
 #define Type	(*type)
 	static WorkRVal rval;
 	FILE *pipe;
-	int i, fileoffset, j;
-	int indirectstart = -1;
+	int fileoffset;
+	vector<Indirect>::size_type indirectstart = -1;
 	int cursorchanged = 0;
 	int key = 0;
 	int return_value;
@@ -129,7 +136,7 @@ work(char ***message, char **type, long *lines, FILE * id, int tag_table_pos)
 #endif /*  getmaxyx */
 	/* Clear old hyperlink info */
 	freelinks();
-	for (i = 1; i < Lines; i++)	/* initialize node-links for every line */
+	for (int i = 1; i < Lines; i++)	/* initialize node-links for every line */
 	{
 		initializelinks(Message[i], Message[i + 1], i);
 	}
@@ -254,7 +261,7 @@ work(char ***message, char **type, long *lines, FILE * id, int tag_table_pos)
 							 */
 				{
 					int digit_val = 1;
-					for (i = 0; token[i] != 0; i++)
+					for (int i = 0; token[i] != 0; i++)
 					{
 						if (!isdigit(token[i]))
 							digit_val = 0;
@@ -294,7 +301,7 @@ work(char ***message, char **type, long *lines, FILE * id, int tag_table_pos)
 				pipe = popen(token, "w");	/* open pipe */
 				if (pipe != NULL)
 				{
-					for (i = 1; i <= Lines; i++)	/* and flush the msg to stdin */
+					for (int i = 1; i <= Lines; i++)	/* and flush the msg to stdin */
 						fprintf(pipe, "%s", Message[i]);
 					pclose(pipe);
 					getchar();
@@ -366,11 +373,11 @@ work(char ***message, char **type, long *lines, FILE * id, int tag_table_pos)
 
 				/* Calculate current info file offset...  */
 				fileoffset = 0;
-				for (i = 1; i <= pos + 1; i++)	/* count the length of curnode */
+				for (int i = 1; i <= pos + 1; i++)	/* count the length of curnode */
 					fileoffset += strlen(Message[i]);
 				fileoffset += strlen(Type);	/* add also header length */
 
-				fileoffset += getnodeoffset(tag_table_pos, &indirectstart);	/* also load the variable indirectstart */
+				fileoffset += getnodeoffset(tag_table_pos, indirectstart);	/* also load the variable indirectstart */
 
 				/* Searching part...  */
 				aftersearch = 0;
@@ -384,10 +391,10 @@ work(char ***message, char **type, long *lines, FILE * id, int tag_table_pos)
 					long tokenpos;
 					long starttokenpos;
 					long filelen;
-					for (j = indirectstart; j < indirect.size(); j++)
+					for (vector<Indirect>::size_type j = indirectstart;
+					     j < indirect.size(); j++)
 					{
-						string tmpstr = indirect[j].filename;
-						fd = openinfo(tmpstr, 1);	/* get file length. */
+						fd = openinfo(indirect[j].filename, 1);	/* get file length. */
 						fseek(fd, 0, SEEK_END);
 						filelen = ftell(fd);
 
@@ -419,7 +426,7 @@ work(char ***message, char **type, long *lines, FILE * id, int tag_table_pos)
 							{	/* local scope for tmpvar, matched */
 								int tmpvar = 0, matched = 0;
 								tag_table[0].offset = 0;
-								for (i = TagTableEntries; i >= 1; i--)
+								for (int i = TagTableEntries; i >= 1; i--)
 								{
 									if ((tag_table[i].offset > tag_table[tmpvar].offset) &&
 											((tag_table[i].offset - indirect[j].offset + FirstNodeOffset) <= tokenpos))
@@ -514,7 +521,7 @@ work(char ***message, char **type, long *lines, FILE * id, int tag_table_pos)
 						{		/* local scope for tmpvar, matched */
 							int tmpvar = 0, matched = 0;
 							tag_table[0].offset = 0;
-							for (i = TagTableEntries; i >= 1; i--)
+							for (int i = TagTableEntries; i >= 1; i--)
 							{
 								if ((tag_table[i].offset > tag_table[tmpvar].offset) &&
 										(tag_table[i].offset <= tokenpos))
@@ -630,7 +637,7 @@ work(char ***message, char **type, long *lines, FILE * id, int tag_table_pos)
 					
 				}
 				/* scan for the token in the following lines.  */
-				for (i = pos + 1; i < Lines; i++)
+				for (int i = pos + 1; i < Lines; i++)
 				{
 					tmp = (char*)xmalloc(strlen(Message[i]) + strlen(Message[i + 1]) + 2);
 					/*
@@ -694,7 +701,7 @@ skip_search:
 				curs_set(0);
 				noecho();
 				attrset(normal);
-				for (i = 1; i <= TagTableEntries; i++)
+				for (int i = 1; i <= TagTableEntries; i++)
 				{
 					/* if the name was found in the tag table */
 					if (strcmp(token, tag_table[i].nodename) == 0)
@@ -848,14 +855,15 @@ skip_search:
 					(key == keys.up_2))
 			{
 				cursorchanged = 0;
-				if (cursor != -1)	/* if we must handle cursor... */
-				{
-					if ((cursor > 0) &&(hyperobjects.size()))	/* if we really must handle it ;) */
+				if (cursor != (vector<HyperObject>::size_type)-1)	{
+					/* if we must handle cursor... */
+					if ((cursor > 0) &&(hyperobjects.size()))
+						/* if we really must handle it ;) */
 						/*
 						 * look if there's a cursor(link) pos available above,
 						 * and if it is visible now.
 						 */
-						for (i = cursor - 1; i >= 0; i--)
+						for (int i = cursor - 1; i >= 0; i--)
 						{
 							if ((hyperobjects[i].line >= pos) &&
 									(hyperobjects[i].line < pos +(maxy - 1)))
@@ -875,8 +883,8 @@ skip_search:
 					if (pos > 2)	/* lower the nodepos */
 						pos--;
 					/* and scan for a hyperlink in the new line */
-					for (i = 0; i < hyperobjects.size(); i++)
-					{
+					for (vector<HyperObject>::size_type i = 0;
+					     i < hyperobjects.size(); i++) {
 						if (hyperobjects[i].line == pos)
 						{
 							if (hyperobjects[i].type < HIGHLIGHT)
@@ -954,7 +962,8 @@ skip_search:
 			{
 				cursorchanged = 0;	/* works similar to keys.up */
 				if (cursor < hyperobjects.size())
-					for (i = cursor + 1; i < hyperobjects.size(); i++)
+					for (vector<HyperObject>::size_type i = cursor + 1;
+					     i < hyperobjects.size(); i++)
 					{
 						if ((hyperobjects[i].line >= pos) &&
 								(hyperobjects[i].line < pos +(maxy - 2)))
@@ -971,7 +980,8 @@ skip_search:
 				{
 					if (pos <= Lines -(maxy - 2))
 						pos++;
-					for (i = cursor + 1; i < hyperobjects.size(); i++)
+					for (vector<HyperObject>::size_type i = cursor + 1;
+					     i < hyperobjects.size(); i++)
 					{
 						if ((hyperobjects[i].line >= pos) &&
 								(hyperobjects[i].line < pos +(maxy - 2)))
@@ -1029,7 +1039,7 @@ skip_search:
 				infohistory.menu[infohistory.length] = infomenu;
 				if (!toggled_by_menu)
 					infohistory.menu[infohistory.length] = cursor;
-				if ((cursor >= 0) &&(cursor < hyperobjects.size()))
+				if ((cursor >= 0) && (cursor < hyperobjects.size()))
 					if ((hyperobjects[cursor].line >= pos) &&
 							(hyperobjects[cursor].line < pos +(maxy - 2)) ||
 							(toggled_by_menu))
@@ -1104,7 +1114,7 @@ skip_search:
 				{
 					if ((mouse.y > 0) &&(mouse.y < maxy - 1))
 					{
-						for (i = cursor; i > 0; i--)
+						for (vector<HyperObject>::size_type i = cursor; i > 0; i--)
 						{
 							if (hyperobjects[i].line == mouse.y + pos - 1)
 							{
@@ -1123,7 +1133,8 @@ skip_search:
 							}
 						}
 						if (!done)
-							for (i = cursor; i < hyperobjects.size(); i++)
+							for (vector<HyperObject>::size_type i = cursor;
+							     i < hyperobjects.size(); i++)
 							{
 								if (hyperobjects[i].line == mouse.y + pos - 1)
 								{
@@ -1151,7 +1162,7 @@ skip_search:
 				{
 					if ((mouse.y > 0) &&(mouse.y < maxy - 1))
 					{
-						for (i = cursor; i >= 0; i--)
+						for (vector<HyperObject>::size_type i = cursor; i >= 0; i--)
 						{
 							if (hyperobjects[i].line == mouse.y + pos - 1)
 							{
@@ -1170,7 +1181,8 @@ skip_search:
 							}
 						}
 						if (!done)
-							for (i = cursor; i < hyperobjects.size(); i++)
+							for (vector<HyperObject>::size_type i = cursor;
+							     i < hyperobjects.size(); i++)
 							{
 								if (hyperobjects[i].line == mouse.y + pos - 1)
 								{
@@ -1218,28 +1230,24 @@ skip_search:
 void
 next_infomenu()
 {
-	int i;
-	if (hyperobjects.size() == 0)
-	{
+	if (hyperobjects.size() == 0) {
 		infomenu = -1;
 		return;
 	}
-	for (i = infomenu + 1; i < hyperobjects.size(); i++)
-	{
-		if (hyperobjects[i].type <= 1)	/* menu item */
-		{
+	for (vector<HyperObject>::size_type i = infomenu + 1;
+	     i < hyperobjects.size(); i++) {
+		if (hyperobjects[i].type <= 1) { /* menu item */
 			infomenu = i;
 			return;
 		}
 	}
-	infomenu = -1;		/* no menuitem left is found */
+	infomenu = -1;		/* no more menuitems found */
 }
 
 void
 rescan_cursor()
 {
-	int i;
-	for (i = 0; i < hyperobjects.size(); i++)
+	for (vector<HyperObject>::size_type i = 0; i < hyperobjects.size(); i++)
 	{
 		if ((hyperobjects[i].line >= pos) &&
 				(hyperobjects[i].line < pos +(maxy - 2)))
@@ -1254,13 +1262,14 @@ rescan_cursor()
 }
 
 int
-getnodeoffset(int tag_table_pos, int *Indstart)	/* count node offset in file */
+getnodeoffset(int tag_table_pos,
+              vector<Indirect>::size_type& indirectstart)
+							/* count node offset in file */
 {
-#define indirectstart	(*Indstart)
-	int i, fileoffset = 0;
+	int fileoffset = 0;
 	if (!indirect.empty())
 	{
-		for (i = indirect.size() - 1; i >= 0; i--)
+		for (vector<Indirect>::size_type i = indirect.size() - 1; i >= 0; i--)
 		{
 			if (indirect[i].offset <= tag_table[tag_table_pos].offset)
 			{
@@ -1275,5 +1284,4 @@ getnodeoffset(int tag_table_pos, int *Indstart)	/* count node offset in file */
 		fileoffset +=(tag_table[tag_table_pos].offset - 2);
 	}
 	return fileoffset;
-#undef indirectstart
 }
