@@ -1449,17 +1449,15 @@ void
 /* print a manual line */
 mvaddstr_manual(int y, int x, char *str)
 {
-	int i, j, len = strlen(str);
-	static char strippedline[1024];
+	int len = strlen(str);
+	static string strippedline_string;
 	if ((h_regexp_num) ||(manual_aftersearch))
 	{
-		string strippedline_string = str;
+		strippedline_string = str;
 		strip_manual(strippedline_string);
-		strcpy(strippedline, strippedline_string.c_str());
 	}
 	move(y, x);
-	for (i = 0; i < len; i++)
-	{
+	for (int i = 0; i < len; i++) {
 		if ((i > 0) &&(i < len - 1))
 		{
 			/* handle bold highlight */
@@ -1518,25 +1516,27 @@ label_skip_other:;
 
 		/* if it is after search, then we have user defined regexps+
 		   a searched regexp to highlight */
-		for (j = 0; j < maxregexp; j++)
+		for (int j = 0; j < maxregexp; j++)
 		{
-			char *tmpstr = strippedline;
+			char* strippedline = strdup(strippedline_string.c_str());
+			char* tmpstr = strippedline;
 			while (!regexec(&h_regexp[j], tmpstr, 1, pmatch, 0))
 			{
 				int n = pmatch[0].rm_eo - pmatch[0].rm_so;
 				int rx = pmatch[0].rm_so + tmpstr - strippedline;
 				int curY, curX;
-				char tmpchr;
 				getyx(stdscr, curY, curX);
-				tmpchr = strippedline[rx + n];
-				strippedline[rx + n] = 0;
+
 				attrset(searchhighlight);
-				mvaddstr(y, rx, strippedline + rx);
+				string str_to_print;
+				str_to_print.assign(strippedline_string, rx, n);
+				mvaddstr(y, rx, str_to_print.c_str());
 				attrset(normal);
-				strippedline[rx + n] = tmpchr;
+
 				tmpstr = tmpstr + pmatch[0].rm_eo;
 				move(curY, curX);
 			}
+			free(strippedline);
 		}
 	}
 #endif

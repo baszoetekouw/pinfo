@@ -51,7 +51,7 @@ void
 getnextnode(char *type, char *node)
 {
 	int j;
-	char *tmp = xmalloc(strlen(type) + 1);
+	char *tmp = (char*)xmalloc(strlen(type) + 1);
 	char *wsk;
 	strcpy(tmp, type);
 	wsk = strstr(tmp, "Next: ");
@@ -78,7 +78,7 @@ void
 getprevnode(char *type, char *node)
 {
 	int j;
-	char *tmp = xmalloc(strlen(type) + 1);
+	char *tmp = (char*)xmalloc(strlen(type) + 1);
 	char *wsk;
 	strcpy(tmp, type);
 	wsk = strstr(tmp, "Prev: ");
@@ -105,7 +105,7 @@ void
 getupnode(char *type, char *node)
 {
 	int j;
-	char *tmp = xmalloc(strlen(type) + 1);
+	char *tmp = (char*)xmalloc(strlen(type) + 1);
 	char *wsk;
 	strcpy(tmp, type);
 	wsk = strstr(tmp, "Up: ");
@@ -133,7 +133,7 @@ void
 getnodename(char *type, char *node)
 {
 	int j;
-	char *tmp = xmalloc(strlen(type) + 1);
+	char *tmp = (char*)xmalloc(strlen(type) + 1);
 	char *wsk;
 	strcpy(tmp, type);
 	wsk = strstr(tmp, "Node: ");
