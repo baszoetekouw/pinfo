@@ -301,29 +301,25 @@ main(int argc, char *argv[]) {
 		curfile = filename_string;
 	}
 
-	char filename[256]; /* FIXME; still needs conversion */
-	if (filename_string != "") {
-		strncpy(filename, filename_string.c_str(), 200);
-	}
-
 	/* no rawpath has been opened */
 	if (id == NULL) {
-		string tmpstr = filename;
-		id = openinfo(tmpstr, 0);
+		id = openinfo(filename_string, 0);
 	}
 
 	/* try to lookup the name in dir file */
 	if (id == NULL)
 	{
-		id = dirpage_lookup(&type, &message, &lines, filename, &pinfo_start_node);
+		id = dirpage_lookup(&type, &message, &lines, filename_string.c_str(),
+												&pinfo_start_node);
 	}
+
 	/* if still nothing, try to use man page instead */
 	if (id == NULL)
 	{
 		printf(_("Error: could not open info file, trying manual\n"));
-		string filename_string = filename;
 		exit(handlemanual(filename_string));
 	}
+
 	/* search for indirect entries, if any */
 	if (seek_indirect(id))
 	{
@@ -332,8 +328,7 @@ main(int argc, char *argv[]) {
 	}
 
 	/* load tag table if such exists... */
-	if (seek_tag_table(id,1) != 2)
-	{
+	if (seek_tag_table(id,1) != 2) {
 		if (ForceManualTagTable == 0)
 		{
 			read_item(id, &type, &message, &lines);
@@ -349,9 +344,7 @@ main(int argc, char *argv[]) {
 				create_tag_table(id);
 			}
 		}
-	}
-	else /* ...otherwise try to create one */
-	{
+	} else { /* ...otherwise try to create one */
 		if ( verbose && (curfile != "dir") )
 			printf(_("Warning: tag table not found...\n"));
 		if (!DontHandleWithoutTagTable)
@@ -362,8 +355,7 @@ main(int argc, char *argv[]) {
 			/* if there weren't found any info entries */
 			if (TagTableEntries < 1)
 			{
-				printf(_("This doesn't look like info file...\n"));
-				string filename_string = filename;
+				printf(_("This doesn't look like an info file...\n"));
 				exit(handlemanual(filename_string));
 			}
 		}

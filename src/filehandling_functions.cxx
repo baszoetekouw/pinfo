@@ -141,7 +141,7 @@ matchfile(string& buf, const string name_string)
 
 FILE *
 dirpage_lookup(char **type, char ***message, long *lines,
-		char *filename, char **first_node)
+		const char *filename, char **first_node)
 {
 #define Type	(*type)
 #define Message	(*message)
