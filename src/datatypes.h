@@ -45,7 +45,7 @@ typedef struct
 }
 SearchAgain;
 
-typedef struct
+typedef struct Indirect
 {
 	char filename[256];		/* name of file, where's the given offset */
 	long offset;			/* offset of the node */
@@ -126,9 +126,7 @@ extern SearchAgain searchagain;
 /* an array of references for info */
 extern std::vector<HyperObject> hyperobjects;
 /* an array of indirect entries */
-extern Indirect *indirect;
-/* number of indirect entries */
-extern int IndirectEntries;
+extern std::vector<Indirect> indirect;
 /* an array of tag table entries [1 to n] */
 extern TagTable *tag_table;
 /* offset of the first node in info file */

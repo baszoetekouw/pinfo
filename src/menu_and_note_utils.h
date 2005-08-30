@@ -23,6 +23,5 @@
 #ifndef __MENU_AND_NOTE_UTILS_H
 #define __MENU_AND_NOTE_UTILS_H
 
-void freeindirect ();
 void freetagtable ();
 #endif

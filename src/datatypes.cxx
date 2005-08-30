@@ -47,11 +47,10 @@ SearchAgain searchagain;
 
 vector<HyperObject> hyperobjects;
 
-Indirect *indirect = 0;
+vector<Indirect> indirect;
 TagTable *tag_table = 0;
 long FirstNodeOffset = 0;
 string FirstNodeName;
-int IndirectEntries = 0;
 int TagTableEntries = 0;
 int maxx, maxy;
 int CutManHeaders = 0;

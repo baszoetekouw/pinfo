@@ -334,7 +334,7 @@ main(int argc, char *argv[]) {
 		}
 		else
 		{
-			if (indirect)
+			if (!(indirect.empty()))
 				create_indirect_tag_table();
 			else
 			{
@@ -447,7 +447,7 @@ main(int argc, char *argv[]) {
 					else /* if we succeeded in opening new file */
 					{
 						curfile = work_return_value.file;
-						freeindirect();
+						indirect.clear();
 						/* find the indirect entry */
 						if (seek_indirect(id))
 						{
@@ -472,7 +472,7 @@ main(int argc, char *argv[]) {
 							}
 							else /* create tag table manually */
 							{
-								if (indirect)
+								if (!(indirect.empty()))
 									create_indirect_tag_table();
 								else
 								{
@@ -520,7 +520,7 @@ main(int argc, char *argv[]) {
 	/* free's at the end are optional, but look nice :) */
 	freeitem(&type, &message, &lines);
 	freetagtable();
-	freeindirect();
+	indirect.clear();
 	return 0;
 }
 

@@ -21,21 +21,8 @@
  ***************************************************************************/
 
 #include "common_includes.h"
-#include <string>
-using std::string;
 
 RCSID("$Id$")
-
-void
-freeindirect()
-{
-	if (indirect)
-	{
-		xfree(indirect);
-		indirect = 0;
-	}
-	IndirectEntries = 0;
-}
 
 void
 freetagtable()

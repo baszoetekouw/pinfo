@@ -378,13 +378,13 @@ work(char ***message, char **type, long *lines, FILE * id, int tag_table_pos)
 				/*- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
 				return_value = -1;
 				/* the info is of indirect type; we'll search through several files */
-				if (indirect)
+				if (!indirect.empty())
 				{
 					FILE *fd;
 					long tokenpos;
 					long starttokenpos;
 					long filelen;
-					for (j = indirectstart; j <= IndirectEntries; j++)
+					for (j = indirectstart; j < indirect.size(); j++)
 					{
 						string tmpstr = indirect[j].filename;
 						fd = openinfo(tmpstr, 1);	/* get file length. */
@@ -1258,9 +1258,9 @@ getnodeoffset(int tag_table_pos, int *Indstart)	/* count node offset in file */
 {
 #define indirectstart	(*Indstart)
 	int i, fileoffset = 0;
-	if (indirect)
+	if (!indirect.empty())
 	{
-		for (i = IndirectEntries; i >= 0; i--)
+		for (i = indirect.size() - 1; i >= 0; i--)
 		{
 			if (indirect[i].offset <= tag_table[tag_table_pos].offset)
 			{
