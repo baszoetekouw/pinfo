@@ -104,9 +104,9 @@ typedef struct manuallink
 	/* column of that line */
 	int col;
 	/* name of the reference */
-	char *name;
+	string name;
 	/* section of the reference */
-	char section[32];
+	string section;
 	int section_mark;
 	/* determine whether there is a hyphen above */
 	int carry;
@@ -139,11 +139,7 @@ manual_free_buffers()
 	}
 	/* ...and for the list of manual hypertext */
 	if (manuallinks.size() > 0)
-	{				/* links */
-		for (i = 0; i < manuallinks.size(); i++)
-		{
-			xfree(manuallinks[i].name);
-		}
+	{
 		manuallinks.clear();
 		selected = -1;
 	}
@@ -188,39 +184,43 @@ void
 construct_manualname(string& buf, int which)
 {
 	if (!manuallinks[which].carry) {
-		string tmpname = manuallinks[which].name;
+		buf = manuallinks[which].name;
 		/* workaround for names starting with '(' */
-		if (tmpname[0] == '(')
-			tmpname.erase(0);
-		buf = tmpname;
+		if (buf[0] == '(')
+			buf.erase(0);
 	} else if (manuallinks[which].section_mark < HTTPSECTION) {
 		/* normal manual reference */
-		string tmpstr = manual[manuallinks[which].line - 1];
-		strip_manual(tmpstr);
+		buf = manual[manuallinks[which].line - 1];
+		strip_manual(buf);
 
 		string::size_type idx;
 		/* Delete last two characters (e.g. .1) FIXME */
-		tmpstr.resize(tmpstr.length() - 2);
+		buf.resize(buf.length() - 2);
 		/* Find tail with decent characters */
-		idx = tmpstr.length() - 1;
-		while (    (    (isalpha(tmpstr[idx]))
-		             || (tmpstr[idx] == '.')
-		             || (tmpstr[idx] == '_')
+		idx = buf.length() - 1;
+		while (    (    (isalpha(buf[idx]))
+		             || (buf[idx] == '.')
+		             || (buf[idx] == '_')
 		           )
 					  && (idx > 0)
 		      ) {
 			idx--;
 		}
 		/* workaround for man pages with leading '(' see svgalib man pages */
-		if (tmpstr[idx] == '(')
+		if (buf[idx] == '(')
 			idx++;
 		/* Delete characters before tail */
-		tmpstr.erase(0, idx);
+		buf.erase(0, idx);
 	
-		tmpstr.append(manuallinks[which].name);
-		buf = tmpstr;
+		buf += manuallinks[which].name;
 	} else {
 		/* URL reference */
+		/* Start with manuallinks[which].name, with its
+		 * trailing hyphen removed
+		 */
+		buf = manuallinks[which].name;
+		buf.resize(buf.length() - 1);
+
 		string tmpstr;
 		tmpstr = manual[manuallinks[which].line + 1];
 		strip_manual(tmpstr);
@@ -235,14 +235,7 @@ construct_manualname(string& buf, int which)
 		string::size_type urlend_idx = findurlend(tmpstr);
 		tmpstr.resize(urlend_idx);
 
-		/* Prepend manuallinks[which].name, with its
-		 * trailing hyphen removed
-		 */
-		string tmpname = manuallinks[which].name;
-		tmpname.resize(tmpname.length() - 1);
-		tmpname.append(tmpstr);
-
-		buf = tmpname;
+		buf += tmpstr;
 	}
 }
 
@@ -423,7 +416,7 @@ handlemanual(string name)
 						strcpy(manualhistory[manualhistorylength].name,
 								manualname_string.c_str());
 						strcpy(manualhistory[manualhistorylength].sect,
-								manuallinks[return_value].section);
+								manuallinks[return_value].section.c_str());
 					}
 					/* loading manual page and its defaults... */
 					loadmanual(id);
@@ -543,7 +536,6 @@ man_initializelinks(char *tmp, int carry)
 	int tmpcnt = strlen(tmp) + 1;
 	char *link = tmp;
 	char *urlstart, *urlend;
-	long initialManualLinks = manuallinks.size();
 	int i, b;
 	/******************************************************************************
 	 * handle url refrences                                                       *
@@ -556,11 +548,9 @@ man_initializelinks(char *tmp, int carry)
 		manuallink my_link;
 		my_link.line = ManualLines;
 		my_link.col = urlstart - tmp;
-		strcpy(my_link.section, "HTTPSECTION");
+		my_link.section = "HTTPSECTION";
 		my_link.section_mark = HTTPSECTION;
-		my_link.name = (char*)xmalloc(urlend - urlstart + 10);
-		strncpy(my_link.name, urlstart, urlend - urlstart);
-		my_link.name[urlend - urlstart] = 0;
+		my_link.name.assign(urlstart, urlend - urlstart - 1);
 		if (ishyphen(my_link.name[urlend - urlstart - 1]))
 			my_link.carry = 1;
 		else
@@ -575,11 +565,9 @@ man_initializelinks(char *tmp, int carry)
 		manuallink my_link;
 		my_link.line = ManualLines;
 		my_link.col = urlstart - tmp;
-		strcpy(my_link.section, "FTPSECTION");
+		my_link.section = "FTPSECTION";
 		my_link.section_mark = FTPSECTION;
-		my_link.name = (char*)xmalloc(urlend - urlstart + 10);
-		strncpy(my_link.name, urlstart, urlend - urlstart);
-		my_link.name[urlend - urlstart] = 0;
+		my_link.name.assign(urlstart, urlend - urlstart - 1);
 		if (ishyphen(my_link.name[urlend - urlstart - 1]))
 			my_link.carry = 1;
 		else
@@ -594,18 +582,16 @@ man_initializelinks(char *tmp, int carry)
 		manuallink my_link;
 		my_link.line = ManualLines;
 		my_link.col = urlstart - tmp;
-		strcpy(my_link.section, "MAILSECTION");
+		my_link.section = "MAILSECTION";
 		my_link.section_mark = MAILSECTION;
-		my_link.name = (char*)xmalloc(urlend - urlstart + 10);
-		strncpy(my_link.name, urlstart, urlend - urlstart);
-		my_link.name[urlend - urlstart] = 0;
+		my_link.name.assign(urlstart, urlend - urlstart - 1);
 		if (ishyphen(my_link.name[urlend - urlstart - 1]))
 			my_link.carry = 1;
 		else
 			my_link.carry = 0;
 
 		/* there should be a dot in e-mail domain */
-		if (strchr(my_link.name, '.') != NULL) {
+		if (my_link.name.find('.') != string::npos) {
 			manuallinks.push_back(my_link);
 		}
 	}
@@ -687,16 +673,15 @@ man_initializelinks(char *tmp, int carry)
 					{
 						for (b = 1; link[b] != ')'; b++)
 							my_link.section[b - 1] = tolower(link[b]);
-						my_link.section[b - 1] = 0;
+						my_link.section.resize(b - 1);
 					}
 					else
 					{
 						my_link.section[0] = link[1];
-						my_link.section[1] = 0;
+						my_link.section.resize(1);
 					}
 					my_link.section_mark = 0;
-					my_link.name = (char*)xmalloc((breakpos - i) + 10);
-					strcpy(my_link.name, tmp + i);
+					my_link.name = (tmp + i);
 					tmp[breakpos] = tempchar;
 
 					/* check whether this is a carry'ed entry(i.e. in the
@@ -829,7 +814,7 @@ manualwork()
 
 				my_link.carry = 0;
 				my_link.section_mark = 0;
-				strcpy(my_link.section, " ");
+				my_link.section = " ";
 				my_link.line = -1;
 				my_link.col = -1;
 				manuallinks.push_back(my_link);
@@ -1220,7 +1205,7 @@ skip_search:
 					if ((manuallinks[selected].line >= manualpos) &&
 							(manuallinks[selected].line < manualpos +(maxy - 1)))
 					{
-						if (!strncmp(manuallinks[selected].section, "HTTPSECTION", 11))
+						if (manuallinks[selected].section == "HTTPSECTION")
 						{
 							string tmp_manualname; /* Filled by construct_manualname */
 							construct_manualname(tmp_manualname, selected);
@@ -1232,7 +1217,7 @@ skip_search:
 							system(tmp_cmd.c_str());
 							doupdate();
 						}
-						else if (!strncmp(manuallinks[selected].section, "FTPSECTION", 10))
+						else if (manuallinks[selected].section == "FTPSECTION")
 						{
 							string tmp_manualname; /* Filled by construct_manualname */
 							construct_manualname(tmp_manualname, selected);
@@ -1244,7 +1229,7 @@ skip_search:
 							system(tmp_cmd.c_str());
 							doupdate();
 						}
-						else if (!strncmp(manuallinks[selected].section, "MAILSECTION", 11))
+						else if (manuallinks[selected].section == "MAILSECTION")
 						{
 							string tmp_manualname; /* Filled by construct_manualname */
 							construct_manualname(tmp_manualname, selected);
@@ -1286,7 +1271,7 @@ skip_search:
 							{
 								if (manuallinks[i].col <= mouse.x - 1)
 								{
-									if (manuallinks[i].col + strlen(manuallinks[i].name) >= mouse.x - 1)
+									if (manuallinks[i].col + manuallinks[i].name.length() >= mouse.x - 1)
 									{
 										selected = i;
 										done = 1;
@@ -1302,7 +1287,7 @@ skip_search:
 								{
 									if (manuallinks[i].col <= mouse.x - 1)
 									{
-										if (manuallinks[i].col + strlen(manuallinks[i].name) >= mouse.x - 1)
+										if (manuallinks[i].col + manuallinks[i].name.length() >= mouse.x - 1)
 										{
 											selected = i;
 											done = 1;
@@ -1327,7 +1312,7 @@ skip_search:
 							{
 								if (manuallinks[i].col <= mouse.x - 1)
 								{
-									if (manuallinks[i].col + strlen(manuallinks[i].name) >= mouse.x - 1)
+									if (manuallinks[i].col + manuallinks[i].name.length() >= mouse.x - 1)
 									{
 										selected = i;
 										done = 1;
@@ -1343,7 +1328,7 @@ skip_search:
 								{
 									if (manuallinks[i].col <= mouse.x - 1)
 									{
-										if (manuallinks[i].col + strlen(manuallinks[i].name) >= mouse.x - 1)
+										if (manuallinks[i].col + manuallinks[i].name.length() >= mouse.x - 1)
 										{
 											selected = i;
 											done = 1;
@@ -1659,10 +1644,10 @@ add_highlights()
 			}
 			if (manuallinks[i].col>manualcol)
 				mvaddstr(1 + manuallinks[i].line - manualpos,
-						manuallinks[i].col - manualcol, manuallinks[i].name);
-			else if (manuallinks[i].col+strlen(manuallinks[i].name)>manualcol)
+						manuallinks[i].col - manualcol, manuallinks[i].name.c_str());
+			else if (manuallinks[i].col+manuallinks[i].name.length()>manualcol)
 				mvaddstr(1 + manuallinks[i].line - manualpos, 0,
-						manuallinks[i].name+(manualcol-manuallinks[i].col));
+						manuallinks[i].name.substr(manualcol-manuallinks[i].col).c_str());
 			attrset(normal);
 		}
 	}

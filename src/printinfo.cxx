@@ -49,6 +49,8 @@ printnode(char ***message, long *lines)
 		/*
 		 * Handle the highlights which belong to our (i'th) line.
 		 */
+		/* FIXME: This depends on the hyperobjects being sorted, and
+		 * they aren't. */
 		int highlight = 0; /* counter to track which highlights have been handled */
 		while (hyperobjects[highlight].line <= i) {
 			string mynode;
