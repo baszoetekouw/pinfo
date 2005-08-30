@@ -190,7 +190,7 @@ extern int winchanged;
 /* initialize history (see struct above) * variables for `lastread' history */
 void inithistory ();
 /* adds a history entry to the info file `lastread' history */
-void addinfohistory (char *file, char *node, int cursor, int menu, int pos);
+void addinfohistory (const char *file, char *node, int cursor, int menu, int pos);
 /* deletes last history entry */
 void dellastinfohistory ();
 

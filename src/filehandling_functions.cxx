@@ -1122,8 +1122,8 @@ strip_compression_suffix(string& filename)
 			continue;
 		}
 		if (    (filename.length() >= suffix_len)
-		     && (filename.substr(filename.length() - suffix_len)
-		         == suffixes[j].suffix)
+		     && (filename.compare(filename.length() - suffix_len,
+		                          suffix_len, suffixes[j].suffix) == 0)
 		   ) {
 			/* Truncate string. */
 			filename.resize(filename.length() - suffix_len);

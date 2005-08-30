@@ -37,13 +37,13 @@ char *version = VERSION;
 int DontHandleWithoutTagTable = 0;
 
 /* currently viewed filename */
-char *curfile = 0;
+string curfile;
 
 /* node specified by --node option */
 char *pinfo_start_node = 0;
 
 /* strip `.info' suffix from  "file" */
-void strip_file_from_info_suffix(char *file);
+void strip_info_suffix_from_file(string& file);
 
 /* protect against bad, bad macros */
 void checksu();
@@ -223,8 +223,7 @@ main(int argc, char *argv[]) {
 	if (argc == 1)
 	{
 		id = openinfo("dir", 0);
-		curfile = (char*)xmalloc(150);
-		strcpy(curfile, "dir");
+		curfile = "dir";
 		filename_string = "dir";
 	}
 	if ((strlen(argv[0]) >= 3)||(use_manual))
@@ -290,17 +289,17 @@ main(int argc, char *argv[]) {
 		checkfilename(filename_string);
 
 		/* autodetect raw filenames */
-		if (    (filename_string.length() >= 1 && filename_string.substr(0, 1) == "/")
-		     || (filename_string.length() >= 2 && filename_string.substr(0, 2) == "./")
-		     || (filename_string.length() >= 3 && filename_string.substr(0, 3) == "../")
+		if (    (    filename_string.length() >= 1
+		          && filename_string[0] == '/')
+		     || (    filename_string.length() >= 2
+		          && filename_string.compare(0, 2, "./") == 0)
+		     || (    filename_string.length() >= 3
+		          && filename_string.compare(0, 3, "../") == 0)
 		   )
 		{
 			addrawpath(filename_string);
 		}
-
-		/* leave some space for `.info' suffix */
-		curfile = (char*)xmalloc(filename_string.length() + 100);
-		strcpy(curfile, filename_string.c_str());
+		curfile = filename_string;
 	}
 
 	char filename[256]; /* FIXME; still needs conversion */
@@ -354,11 +353,11 @@ main(int argc, char *argv[]) {
 	}
 	else /* ...otherwise try to create one */
 	{
-		if ((verbose)&&(strcmp(curfile,"dir")))
+		if ( verbose && (curfile != "dir") )
 			printf(_("Warning: tag table not found...\n"));
 		if (!DontHandleWithoutTagTable)
 		{
-			if ((verbose)&&(strcmp(curfile,"dir")))
+			if ( verbose && (curfile != "dir") )
 				printf(_("Trying to create alternate tag table...\n"));
 			create_tag_table(id);
 			/* if there weren't found any info entries */
@@ -398,7 +397,7 @@ main(int argc, char *argv[]) {
 
 		/* handle goto/link where no file was found -- see bellow */
 		if (!filenotfound)
-			addinfohistory(curfile, tag_table[tag_table_pos].nodename, -1, -1, -1);
+			addinfohistory(curfile.c_str(), tag_table[tag_table_pos].nodename, -1, -1, -1);
 		else
 			filenotfound = 0;
 		work_return_value = work(&message, &type, &lines, id, tag_table_pos);
@@ -413,9 +412,11 @@ main(int argc, char *argv[]) {
 			}
 			else /* file was specified */
 			{
-				strip_file_from_info_suffix(work_return_value.file);
+				string another_tmpstr = work_return_value.file;
+				strip_info_suffix_from_file(another_tmpstr);
+				work_return_value.file = strdup(another_tmpstr.c_str()); /* FIXME memleak */
 				/* file name was the same with the file currently viewed */
-				if (strcmp(curfile, work_return_value.file) == 0)
+				if (curfile == work_return_value.file)
 				{
 					int tmppos = gettagtablepos(work_return_value.node);
 					if (tmppos != -1)
@@ -447,7 +448,7 @@ main(int argc, char *argv[]) {
 							ncursor = infohistory.cursor[infohistory.length];
 						}
 						/* open back the old file */
-						strip_file_from_info_suffix(curfile);
+						strip_info_suffix_from_file(curfile);
 						string tmpstr = curfile;
 						id = openinfo(tmpstr, 0);
 						tmp = NULL;
@@ -460,13 +461,11 @@ main(int argc, char *argv[]) {
 					}
 					else /* if we succeeded in opening new file */
 					{
-						if (curfile)
+						if (curfile != "")
 						{
-							xfree(curfile);
-							curfile = 0;
+							curfile = "";
 						}
-						curfile = (char*)xmalloc(strlen(work_return_value.file) + 150);
-						strcpy(curfile, work_return_value.file);
+						curfile = work_return_value.file;
 						freeindirect();
 						/* find the indirect entry */
 						if (seek_indirect(id))
@@ -545,15 +544,12 @@ main(int argc, char *argv[]) {
 }
 
 void
-strip_file_from_info_suffix(char *file)
+strip_info_suffix_from_file(string& file)
 {
-	if (strlen(file) > 5)
-	{
-		if (strcmp(file + strlen(file) - 5, ".info") == 0)
-		{
-			file = file + strlen(file) - 5;
-			*file = 0;
-		}
+	if ( (file.length() > 5) &&
+	     (file.compare(file.length() - 5, 5, ".info") == 0)
+		 ) {
+		file.resize(file.length() - 5);
 	}
 }
 
