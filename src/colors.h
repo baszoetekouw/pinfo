@@ -54,6 +54,10 @@ extern int urlselected;
 extern int infohighlight;
 extern int searchhighlight;
 
+#ifndef NO_COLOR_CURSES
+extern struct colours cols;
+#endif
+
 /*
  * initialize color values/attributes/etc.  Either for color and monochrome
  * mode.

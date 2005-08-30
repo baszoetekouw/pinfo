@@ -21,6 +21,7 @@
 
 #include "common_includes.h"
 #include "datatypes.h"
+#include "colors.h"
 #include <string>
 using std::string;
 
@@ -69,25 +70,6 @@ struct keybindings keys =
 	'4',		0,			/* scroll left */
 	'6',		0			/* scroll right */
 };
-
-#ifndef NO_COLOR_CURSES
-struct colours cols =
-{
-	COLOR_WHITE,	COLOR_BLACK,	NO_BOLD,	NO_BLINK,	/* normal */
-	COLOR_GREEN,	COLOR_WHITE,	BOLD,		NO_BLINK,	/* selected menu */
-	COLOR_GREEN,	COLOR_BLACK,	BOLD,		NO_BLINK,	/* menu */
-	COLOR_BLUE,		COLOR_WHITE,	BOLD,		NO_BLINK,	/* selected note */
-	COLOR_BLUE,		COLOR_BLACK,	BOLD,		NO_BLINK,	/* note */
-	COLOR_GREEN,	COLOR_BLUE,		BOLD,		NO_BLINK,	/* top line */
-	COLOR_GREEN,	COLOR_BLUE,		BOLD,		NO_BLINK,	/* bottom line */
-	COLOR_YELLOW,	COLOR_BLACK,	BOLD,		NO_BLINK,	/* manual bold */
-	COLOR_WHITE,	COLOR_BLACK,	BOLD,		NO_BLINK,	/* manual italic */
-	COLOR_MAGENTA,	COLOR_BLACK,	BOLD,		NO_BLINK,	/* url */
-	COLOR_MAGENTA,	COLOR_GREEN,	NO_BOLD,	NO_BLINK,	/* url selected */
-	COLOR_WHITE,	COLOR_BLACK,	BOLD,		NO_BLINK,	/* info highlight(quoted text) */
-	COLOR_YELLOW,	COLOR_BLACK,	BOLD,		NO_BLINK	/* search highlight */
-};
-#endif /* NO_COLOR_CURSES */
 
 /* Forward declarations */
 string remove_quotes(const string);
