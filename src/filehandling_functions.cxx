@@ -313,7 +313,7 @@ void
 load_indirect(char **message, long lines)
 {
 	int cut = 0;			/* number of invalid entries */
-	indirect = (Indirect*)xmalloc((lines + 1) * sizeof(Indirect));
+	indirect = (Indirect*)xmalloc((lines) * sizeof(Indirect));
 	for (long i = 1; i < lines; i++) {
 		string wsk_string = message[i];
 		unsigned int n = 0;
@@ -325,14 +325,14 @@ load_indirect(char **message, long lines)
 		} else {
 			string filename;
 			filename = wsk_string.substr(0, n);
-			strncpy(indirect[i - cut].filename, filename.c_str(), 200);
+			strncpy(indirect[i - cut - 1].filename, filename.c_str(), 200);
 
 			string remainder;
 			remainder = wsk_string.substr(n + 2, string::npos);
-			indirect[i - cut].offset = atoi(remainder.c_str());
+			indirect[i - cut - 1].offset = atoi(remainder.c_str());
 		}
 	}
-	IndirectEntries = lines - 1 - cut;
+	IndirectEntries = lines - 1 - cut - 1;
 }
 
 void
@@ -955,18 +955,14 @@ initpaths()
 	for (i=0; i<infopathcount; i++)
 		if (infopaths[i]) fprintf(stderr,"--> %s\n", infopaths[i]);
 #endif
-
-
 }
 
-
-
-	void
+void
 create_indirect_tag_table()
 {
 	FILE *id = 0;
 	int i, j, initial;
-	for (i = 1; i <= IndirectEntries; i++)
+	for (i = 0; i <= IndirectEntries; i++)
 	{
 		string tmpstr = indirect[i].filename;
 		id = openinfo(tmpstr, 1);
@@ -987,7 +983,8 @@ create_indirect_tag_table()
 	FirstNodeName = tag_table[1].nodename;
 	qsort(&tag_table[1], TagTableEntries, sizeof(TagTable), qsort_cmp);
 }
-	void
+
+void
 create_tag_table(FILE * id)
 {
 	char *buf = (char*)xmalloc(1024);
@@ -1051,7 +1048,7 @@ create_tag_table(FILE * id)
 	}				/* end: global while loop, looping until eof */
 	xfree(buf);
 	buf = 0;
-	if (!indirect)
+	if (!indirect) /* originally (!indirect) -- check this NCN FIXME */
 	{
 		FirstNodeOffset = tag_table[1].offset;
 		FirstNodeName = tag_table[1].nodename;
@@ -1069,9 +1066,9 @@ seeknode(int tag_table_pos, FILE ** Id)
 	 * file-offset = tagtable_offset - indirect_offset +
 	 *             + tagtable[1]_offset
 	 */
-	if (indirect)	
+	if (indirect)	/* Originally if (indirect) -- NCN CHECK FIXME */
 	{
-		for (i = IndirectEntries; i >= 1; i--)
+		for (i = IndirectEntries; i >= 0; i--)
 		{
 			if (indirect[i].offset <= tag_table[tag_table_pos].offset)
 			{

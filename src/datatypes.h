@@ -125,8 +125,7 @@ extern SearchAgain searchagain;
 
 /* an array of references for info */
 extern std::vector<HyperObject> hyperobjects;
-extern int hyperobjectcount;
-/* an array of indirect entries [1 to n] */
+/* an array of indirect entries */
 extern Indirect *indirect;
 /* number of indirect entries */
 extern int IndirectEntries;

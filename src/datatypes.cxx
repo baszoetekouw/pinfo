@@ -46,7 +46,6 @@ char *tmpfilename2 = 0;
 SearchAgain searchagain;
 
 vector<HyperObject> hyperobjects;
-int hyperobjectcount = 0;
 
 Indirect *indirect = 0;
 TagTable *tag_table = 0;
