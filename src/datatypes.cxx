@@ -51,7 +51,7 @@ int hyperobjectcount = 0;
 Indirect *indirect = 0;
 TagTable *tag_table = 0;
 long FirstNodeOffset = 0;
-char FirstNodeName[256];
+string FirstNodeName;
 int IndirectEntries = 0;
 int TagTableEntries = 0;
 int maxx, maxy;

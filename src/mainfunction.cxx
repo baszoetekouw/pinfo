@@ -168,7 +168,7 @@ work(char ***message, char **type, long *lines, FILE * id, int tag_table_pos)
 						else
 						{
 							getnodename(Type, typestr);
-							if (strcmp(FirstNodeName, typestr) != 0)	/* if it's not end of all menus */
+							if (FirstNodeName != typestr)	/* if it's not end of all menus */
 							{
 								if (wastoggled)	/* if we're in the temporary called up node */
 									toggled_by_menu = KILL_HISTORY;

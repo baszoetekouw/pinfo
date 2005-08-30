@@ -135,7 +135,7 @@ extern TagTable *tag_table;
 /* offset of the first node in info file */
 extern long FirstNodeOffset;
 /* name of the first node in info file */
-extern char FirstNodeName[256];
+extern std::string FirstNodeName;
 /* number of tag table entries */
 extern int TagTableEntries;
 /* maximum dimensions of screen */

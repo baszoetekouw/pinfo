@@ -400,7 +400,7 @@ load_tag_table(char **message, long lines)
 		if (strcasecmp(tag_table[i].nodename, "Top") == 0)
 		{
 			FirstNodeOffset = tag_table[i].offset;
-			strcpy(FirstNodeName, tag_table[i].nodename);
+			FirstNodeName = tag_table[i].nodename;
 		}
 	}
 	qsort(&tag_table[1], TagTableEntries, sizeof(TagTable), qsort_cmp);
@@ -981,7 +981,7 @@ create_indirect_tag_table()
 		{
 			create_tag_table(id);
 			FirstNodeOffset = tag_table[1].offset;
-			strcpy(FirstNodeName, tag_table[1].nodename);
+			FirstNodeName = tag_table[1].nodename;
 		}
 		fclose(id);
 		for (j = initial; j <= TagTableEntries; j++)
@@ -990,7 +990,7 @@ create_indirect_tag_table()
 		}
 	}
 	FirstNodeOffset = tag_table[1].offset;
-	strcpy(FirstNodeName, tag_table[1].nodename);
+	FirstNodeName = tag_table[1].nodename;
 	qsort(&tag_table[1], TagTableEntries, sizeof(TagTable), qsort_cmp);
 }
 	void
@@ -1060,7 +1060,7 @@ create_tag_table(FILE * id)
 	if (!indirect)
 	{
 		FirstNodeOffset = tag_table[1].offset;
-		strcpy(FirstNodeName, tag_table[1].nodename);
+		FirstNodeName = tag_table[1].nodename;
 		qsort(&tag_table[1], TagTableEntries, sizeof(TagTable), qsort_cmp);
 	}
 }

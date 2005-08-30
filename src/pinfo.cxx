@@ -374,7 +374,7 @@ main(int argc, char *argv[]) {
 	}
 	else
 	{
-		tag_table_pos = gettagtablepos(FirstNodeName);
+		tag_table_pos = gettagtablepos(FirstNodeName.c_str());
 	}
 	/* initialize curses screen interface */
 	init_curses();
@@ -507,10 +507,10 @@ main(int argc, char *argv[]) {
 							if (tmptagtablepos != -1)
 								tag_table_pos = tmptagtablepos;
 							else
-								tag_table_pos = gettagtablepos(FirstNodeName);
+								tag_table_pos = gettagtablepos(FirstNodeName.c_str());
 						}
 						else
-							tag_table_pos = gettagtablepos(FirstNodeName);
+							tag_table_pos = gettagtablepos(FirstNodeName.c_str());
 						}		/* end: open new info file -- file exists */
 				}		/* end: open new info file */
 			}			/* end: file name was specified */
