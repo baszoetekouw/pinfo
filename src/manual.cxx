@@ -76,7 +76,11 @@ int manual_aftersearch = 0;	/* this is set if man page is now after search
 int manwidthChanged = 0;	/* this flag indicates whether the env variable
 							   $MANWIDTH was changed by pinfo */
 
-typedef struct
+/*
+ * type for the `lastread' history entries, when viewing
+ * man pages.
+ */
+typedef struct manhistory
 {
 	/* name of a manual */
 	char name[256];
@@ -86,16 +90,10 @@ typedef struct
 	int selected;
 	/* what was the last manualpos */
 	int pos;
-}
-manhistory;			/*
-					 * type for the `lastread' history entries, when viewing
-					 * man pages.
-					 */
+} manhistory;
 
 /* manual lastread history */
-manhistory *manualhistory = 0;
-/* length of the above table - 1 */
-int manualhistorylength = 0;
+vector<manhistory> manualhistory;
 
 /* this structure describes a hyperlink in manual viewer */
 typedef struct manuallink
@@ -152,8 +150,6 @@ set_initial_history(const char *name)
 	int len = strlen(name), i;
 	char *name1 = strdup(name);
 
-	/* one object of array */
-	manualhistory = (manhistory*)xmalloc(sizeof(manhistory));
 	/* filter trailing spaces */
 	while ((len > 1) &&(isspace(name1[len - 1])))
 	{
@@ -168,14 +164,16 @@ set_initial_history(const char *name)
 	if (i > 0)
 		i++;
 
+	manhistory my_hist;
 	/* filename->name */
-	strcpy(manualhistory[0].name, &name1[i]);
+	strcpy(my_hist.name, &name1[i]);
 	/* section unknown */
-	strcpy(manualhistory[0].sect, "");
+	strcpy(my_hist.sect, "");
 	/* selected unknown */
-	manualhistory[0].selected = -1;
+	my_hist.selected = -1;
 	/* pos=0 */
-	manualhistory[0].pos = 0;
+	my_hist.pos = 0;
+	manualhistory.push_back(my_hist);
 	free(name1);
 }
 
@@ -364,20 +362,19 @@ handlemanual(string name)
 			}
 			else /* key_back was pressed */
 			{
-				manualhistorylength--;
-				if (manualhistorylength == 0 && apropos_tempfilename)
+				if ( (manualhistory.size() - 2) == 0 && apropos_tempfilename)
 				{
 					id = fopen(apropos_tempfilename, "r");
 					loadmanual(id);
 					fclose(id);
 					continue;
 				}
-				if (manualhistory[manualhistorylength].sect[0] == 0) {
-					cmd_string += manualhistory[manualhistorylength].name;
+				if (manualhistory[manualhistory.size() - 2].sect[0] == 0) {
+					cmd_string += manualhistory[manualhistory.size() - 2].name;
 				} else {
-					cmd_string += manualhistory[manualhistorylength].sect;
+					cmd_string += manualhistory[manualhistory.size() - 2].sect;
 					cmd_string += " ";
-					cmd_string += manualhistory[manualhistorylength].name;
+					cmd_string += manualhistory[manualhistory.size() - 2].name;
 				}
 				/*
 				 * flag to make sure, that
@@ -385,6 +382,7 @@ handlemanual(string name)
 				 * when going back to this page
 				 */
 				historical = 1;
+				manualhistory.pop_back();
 			}
 			cmd_string += " ";
 			cmd_string += StderrRedirection;
@@ -404,18 +402,17 @@ handlemanual(string name)
 				id = fopen(tmpfilename1, "r");
 				if (id != NULL)
 				{
+					manhistory my_hist;
 					/* now we create history entry for new page */
 					if (!historical)
 					{
-						manualhistorylength++;
-						manualhistory = (manhistory*)xrealloc(manualhistory,(manualhistorylength + 2) * sizeof(manhistory));
 						/*
 						 * we can write so since this code applies
 						 * only when it's not a history call
 						 */
-						strcpy(manualhistory[manualhistorylength].name,
+						strcpy(my_hist.name,
 								manualname_string.c_str());
-						strcpy(manualhistory[manualhistorylength].sect,
+						strcpy(my_hist.sect,
 								manuallinks[return_value].section.c_str());
 					}
 					/* loading manual page and its defaults... */
@@ -424,8 +421,9 @@ handlemanual(string name)
 					/* continuing with creation of history */
 					if (!historical)
 					{
-						manualhistory[manualhistorylength].pos = manualpos;
-						manualhistory[manualhistorylength].selected = selected;
+						my_hist.pos = manualpos;
+						my_hist.selected = selected;
+						manualhistory.push_back(my_hist);
 					}
 					else
 						historical = 0;
@@ -651,7 +649,7 @@ man_initializelinks(char *tmp, int carry)
 					 */
 
 					/* a small check */
-					if (!((use_apropos) &&(manualhistorylength == 0)))
+					if (!((use_apropos) &&(manualhistory.size() - 1 == 0)))
 					{
 						/*
 						 * In English: if the name of the link is the name of
@@ -659,10 +657,10 @@ man_initializelinks(char *tmp, int carry)
 						 * current section or if we don't know the current
 						 * section, then...
 						 */
-						if ((!strcasecmp(&tmp[i], manualhistory[manualhistorylength].name))
-								&&((!strcasecmp(p_t1, manualhistory[manualhistorylength].sect))
-									||(manualhistory[manualhistorylength].sect[0] == 0)
-									||(!strcmp(manualhistory[manualhistorylength].sect, " "))))
+						if ((!strcasecmp(&tmp[i], manualhistory[manualhistory.size() - 1].name))
+								&&((!strcasecmp(p_t1, manualhistory[manualhistory.size() - 1].sect))
+									||(manualhistory[manualhistory.size() - 1].sect[0] == 0)
+									||(!strcmp(manualhistory[manualhistory.size() - 1].sect, " "))))
 
 							break;
 					}
@@ -744,10 +742,10 @@ manualwork()
 #endif /* getmaxyx */
 
 	/* get manualpos from history.  it is set in handlemanual() */
-	manualpos = manualhistory[manualhistorylength].pos;
+	manualpos = manualhistory[manualhistory.size() - 1].pos;
 	/* if there was a valid selected entry, apply it */
-	if (manualhistory[manualhistorylength].selected != -1)
-		selected = manualhistory[manualhistorylength].selected;
+	if (manualhistory[manualhistory.size() - 1].selected != -1)
+		selected = manualhistory[manualhistory.size() - 1].selected;
 	else /* otherwise scan for selected on currently viewed page */
 		rescan_selected();
 
@@ -1192,15 +1190,15 @@ skip_search:
 			if ((key == keys.back_1) ||
 					(key == keys.back_2))
 			{
-				if (manualhistorylength)
+				if (manualhistory.size() - 1)
 					return -2;
 			}
 			/*=====================================================*/
 			if ((key == keys.followlink_1) ||
 					(key == keys.followlink_2))
 			{
-				manualhistory[manualhistorylength].pos = manualpos;
-				manualhistory[manualhistorylength].selected = selected;
+				manualhistory[manualhistory.size() - 1].pos = manualpos;
+				manualhistory[manualhistory.size() - 1].selected = selected;
 				if (selected >= 0)
 					if ((manuallinks[selected].line >= manualpos) &&
 							(manuallinks[selected].line < manualpos +(maxy - 1)))
