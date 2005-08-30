@@ -101,7 +101,7 @@ getopts(int argc, char *argv[], string& filename_string, FILE** id) {
 					printf(_("--rcfile option used without argument\n"));
 					exit(1);
 				}
-				rcfile = strdup(optarg);
+				rcfile = optarg;
 				/* parse user-defined config file */
 				parse_config();
 				break;

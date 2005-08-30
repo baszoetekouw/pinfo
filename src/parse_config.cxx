@@ -33,17 +33,6 @@ RCSID("$Id$")
 regex_t *h_regexp = 0;	/* regexps to highlight */
 int h_regexp_num = 0;	/* number of those regexps */
 
-extern int use_apropos;
-extern int CutManHeaders;
-extern int DontHandleWithoutTagTable;
-extern int use_manual;
-extern int use_raw_filename;
-extern int quote_ignored;
-extern string httpviewer;
-extern string ftpviewer;
-extern string maileditor;
-extern char *ignoredmacros;
-
 struct keybindings keys =
 {
 	's',		'S',		/* regexp search */
@@ -110,13 +99,13 @@ parse_config(void)
 	string home;
 	FILE *f;
 
-	if (rcfile != NULL) { /* User specified config file */
-		f = fopen(rcfile, "r");
+	if (rcfile != "") { /* User specified config file */
+		f = fopen(rcfile.c_str(), "r");
 		if (f == NULL) {
 			fprintf(stderr, _("Can't open config file!\n"));
 			exit(1);
 		}
-	} else { /* rcfile == NULL */
+	} else { /* rcfile == "" */
 		char* rawhome = getenv("HOME");
 		if (rawhome != NULL)
 			home = rawhome;
@@ -750,11 +739,13 @@ parse_line(char *line)
 		if (temp)
 		{
 			string tmpstr = temp;
-			string tmpstr2 = remove_quotes(tmpstr);
-			ignoredmacros = strdup(tmpstr2.c_str());
-			if (ignoredmacros[0] == '\t' || ignoredmacros[0] == ' '
-					|| !strncasecmp(ignoredmacros, "FALSE", 5))
-				ignoredmacros[0] = '\0';
+			ignoredmacros = remove_quotes(tmpstr);
+			if (    ignoredmacros[0] == '\t' 
+			     || ignoredmacros[0] == ' '
+					 || ignoredmacros.compare(0,5,"FALSE") == 0
+			   ) {
+				ignoredmacros = "";
+			}
 		}
 		else
 			return 1;

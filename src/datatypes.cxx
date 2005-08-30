@@ -36,8 +36,8 @@ string maileditor = "mail";
 string printutility = "lpr";
 string manlinks = "1:8:2:3:4:5:6:7:9:n:l:p:o:3X11:3Xt:3X:3x";
 string configuredinfopath = "/usr/share/info:/usr/local/share/info:/opt/info";
-char *ignoredmacros = 0;
-char *rcfile = NULL;
+string ignoredmacros = "";
+string rcfile = "";
 
 char *tmpfilename1 = 0;
 char *tmpfilename2 = 0;

@@ -110,9 +110,9 @@ extern std::string manlinks;
 /* configured paths to infopages */
 extern std::string configuredinfopath;
 /* groff/troff macros which are removed while preformatting manual page */
-extern char *ignoredmacros;
+extern std::string ignoredmacros;
 /* a user specified rc file */
-extern char *rcfile;
+extern std::string rcfile;
 
 /* temporary filename */
 extern char *tmpfilename1;
@@ -186,6 +186,12 @@ extern int quote_ignored;
 
 /* set by SIGWINCH handler */
 extern int winchanged;
+
+/* Needed by parse_config.cxx */
+extern int use_raw_filename;
+
+/* Needed by parse_config.cxx, in pinfo.cxx */
+extern int DontHandleWithoutTagTable;
 
 /* initialize history (see struct above) * variables for `lastread' history */
 void inithistory ();
