@@ -54,51 +54,47 @@ long pos, cursor, infomenu, infocolumn=0;
 
 #define ERRNODE "ERR@!#$$@#!%%^#@!OR"
 
-static inline void
-get_foo_node(const char * const foo, char *type, char *node)
+static inline string
+get_foo_node(const char * const foo, string type)
 {
-	string tmpstr = type;
-	string::size_type start_idx;
-	start_idx = tmpstr.find(foo);
+	string::size_type start_idx = type.find(foo);
 	if (start_idx == string::npos) {
-		strcpy(node, ERRNODE);
-		return;
+		return string(ERRNODE);
 	}
 
 	start_idx += strlen(foo);
-	string::size_type end_idx;
-	end_idx = tmpstr.find_first_of(",\n", start_idx);
+	string::size_type end_idx = type.find_first_of(",\n", start_idx);
 	if (end_idx != string::npos) {
-		strcpy(node, tmpstr.substr(start_idx, end_idx - start_idx).c_str() );
+		return type.substr(start_idx, end_idx - start_idx);
 	}
 }
 
 /* read the `Next:' header entry */
-static inline void
-getnextnode(char *type, char *node)
+static inline string
+getnextnode(string type)
 {
-	get_foo_node("Next: ", type, node);
+	return get_foo_node("Next: ", type);
 }
 
 /* read the `Prev:' header entry */
-static inline void
-getprevnode(char *type, char *node)
+static inline string
+getprevnode(string type)
 {
-	get_foo_node("Prev: ", type, node);
+	return get_foo_node("Prev: ", type);
 }
 
 /* read the `Up:' header entry */
-static inline void
-getupnode(char *type, char *node)
+static inline string
+getupnode(string type)
 {
-	get_foo_node("Up: ", type, node);
+	return get_foo_node("Up: ", type);
 }
 
 /* read the `Node:' header entry */
-static inline void
-getnodename(char *type, char *node)
+static inline string
+getnodename(string type)
 {
-	get_foo_node("Node: ", type, node);
+	return get_foo_node("Node: ", type);
 }
 
 /* Main work functions */
@@ -219,16 +215,12 @@ work(char ***message, char **type, long *lines, FILE * id, int tag_table_pos)
 					else
 						/* we shouldn't select a menu item if this node is called via `up:' from bottom, or if there is no menu */
 					{
-						char *typestr = strdup(Type);
-						getnextnode(Type, typestr);
-						if (strcmp(typestr, ERRNODE) != 0)
-						{
+						string type_str = getnextnode(Type);
+						if (type_str != ERRNODE) {
 							key = keys.nextnode_1;
-						}
-						else
-						{
-							getnodename(Type, typestr);
-							if (FirstNodeName != typestr)	/* if it's not end of all menus */
+						}	else {
+							type_str = getnodename(Type);
+							if (FirstNodeName != type_str)	/* if it's not end of all menus */
 							{
 								if (wastoggled)	/* if we're in the temporary called up node */
 									toggled_by_menu = KILL_HISTORY;
@@ -786,11 +778,8 @@ skip_search:
 			if ((key == keys.prevnode_1) ||	/* goto previous node */
 					(key == keys.prevnode_2))
 			{
-				token = (char*)xmalloc(strlen(Type));
-				getprevnode(Type, token);
-				return_value = gettagtablepos(token);
-				xfree(token);
-				token = 0;
+				string token_str = getprevnode(Type);
+				return_value = gettagtablepos(token_str.c_str());
 				if (return_value != -1)
 				{
 					infohistory.pos[infohistory.length] = pos;
@@ -807,11 +796,9 @@ skip_search:
 			if ((key == keys.nextnode_1) ||	/* goto next node */
 					(key == keys.nextnode_2))
 			{
-				token = (char*)xmalloc(strlen(Type));
-				getnextnode(Type, token);
-				return_value = gettagtablepos(token);
-				xfree(token);
-				token = 0;
+				string token_str;
+				token_str = getnextnode(Type);
+				return_value = gettagtablepos(token_str.c_str());
 				if (return_value != -1)
 				{
 					infohistory.pos[infohistory.length] = pos;
@@ -828,15 +815,12 @@ skip_search:
 			if ((key == keys.upnode_1) ||		/* goto up node */
 					(key == keys.upnode_2))
 			{
-				token = (char*)xmalloc(strlen(Type));
-				getupnode(Type, token);
-				if (strncmp(token, "(dir)", 5) == 0)
+				string token_str = getupnode(Type);
+				if (token_str.compare(0, 5, "(dir)") == 0)
 				{
 					ungetch(keys.dirpage_1);
 				}
-				return_value = gettagtablepos(token);
-				xfree(token);
-				token = 0;
+				return_value = gettagtablepos(token_str.c_str());
 				if (return_value != -1)
 				{
 					if (toggled_by_menu == KEEP_HISTORY)
