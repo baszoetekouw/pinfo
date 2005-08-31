@@ -221,49 +221,74 @@ read_item(FILE * id, char **type, char ***buf, long *lines)
 #define Type	(*type)
 #define Buf		(*buf)
 #define Lines	(*lines)
+	int i;
 
 	freeitem(type, buf, lines);	/* free previously allocated memory */
 
-	while (fgetc(id) != INFO_TAG);	/*
-									 * seek precisely on the INFO_TAG
-									 *(the seeknode function may be
-									 * imprecise in combination with
-									 * some weird tag_tables).
-									 */
-	while (fgetc(id) != '\n');	/* then skip the trailing `\n' */
+	/* seek precisely on the INFO_TAG (the seeknode function may be imprecise
+	 * in combination with some weird tag_tables).  */
+	while (fgetc(id) != INFO_TAG);
+	/* then skip the trailing `\n' */
+	while (fgetc(id) != '\n');
 
-	Type = xmalloc(1024);	/* read the header line */
+	/* allocate and read the header line */
+	Type = xmalloc(1024);
 	fgets(Type, 1024, id);
 	Type = xrealloc(Type, strlen(Type) + 1);
-	Lines = 0;			/* set number of lines to 0 */
 
-	Buf = xmalloc(sizeof(char **));	/* initial buffer allocation */
+	/* set number of lines to 0 */
+	Lines = 0;
+
+	/* initial buffer allocation */
+	Buf = xmalloc(sizeof(char **));
+
+	/* now iterate over the lines */
 	do
 	{
-		if (feof(id))		/* don't read after eof in info file */
+		/* don't read after eof in info file */
+		if (feof(id))
 			break;
-		if (Lines)		/* make a reallocation for new input line */
+
+		/* realloc the previous line for it to fit exactly */
+		if (Lines)
 		{
 			Buf[Lines] = xrealloc(Buf[Lines], strlen(Buf[Lines]) + 1);
 		}
-		Lines++;			/* increase the read lines number */
 
+		/* increase the read lines number */
+		Lines++;
+
+		/* allocate space for the new line */
 		Buf = xrealloc(Buf, sizeof(char **) *(Lines + 1));
 		Buf[Lines] = xmalloc(1024);
 		Buf[Lines][0] = 0;
 
-		if (fgets(Buf[Lines], 1024, id) == NULL)		/*
-														 * if the line was not found
-														 * in input file,
-														 * fill the allocated space
-														 * with empty line.
-														 */
+		/* if the line was not found in input file, fill the allocated space
+		 * with empty line.  */
+		if (fgets(Buf[Lines], 1024, id) == NULL)
 			strcpy(Buf[Lines], "\n");
+		else /* we can be sure that at least 1 char was read! */
+		{
+			/* *sigh*  indices contains \0's
+			 * which totally fucks up all strlen()s.
+			 * so replace it by a space */
+			i = 1023;
+			/* find the end of the string */
+			while (Buf[Lines][i]=='\0' && i>=0) i--;
+			/* and replace all \0's in the rest of the string by spaces */
+			while (i>=0)
+			{
+				if (Buf[Lines][i]=='\0' || Buf[Lines][i]=='\b')
+					Buf[Lines][i]=' ';
+				i--;
+			}
+		}
 	}
 	while (Buf[Lines][0] != INFO_TAG);	/* repeat until new node mark is found */
 
 
-	if (Lines)			/* added for simplifing two-line ismenu and isnote functs */
+	/* added for simplifing two-line ismenu and isnote functs */
+	if (Lines)
 	{
 		strcpy(Buf[Lines], "\n");
 		Buf[Lines] = xrealloc(Buf[Lines], strlen(Buf[Lines]) + 1);
@@ -831,7 +856,7 @@ charcount(const char *str, const char ch)
 	const char *c;
 
 	c = str;
-	
+
 	while (*c != '\0')
 	{
 		if (*c++ == ch)
@@ -840,8 +865,8 @@ charcount(const char *str, const char ch)
 	return num;
 }
 
-/* 
- * find the paths where info files are to be found, 
+/*
+ * find the paths where info files are to be found,
  * and put them in the global var infopaths[]
  */
 void
@@ -879,7 +904,7 @@ initpaths()
 	while (dir = strsep(&c, ":"))
 	{
 		/* if this actually is a non-empty string, add it to paths[] */
-		if ( dir && strlen(dir)>0 ) 
+		if ( dir && strlen(dir)>0 )
 		{
 			paths[numpaths++] = dir;
 		}
@@ -893,7 +918,7 @@ initpaths()
 		for (i=0; lang[i]!='\0'; i++)
 		{
 			/* cut off the charset */
-			if (lang[i]=='.') 
+			if (lang[i]=='.')
 			{
 				lang[i]='\0';
 			}
@@ -913,7 +938,7 @@ initpaths()
 		if (langshort!=NULL) langlen *= 2;
 		langpath = (char *) xmalloc( langlen * sizeof(char) );
 
-		c = langpath; 
+		c = langpath;
 		for (i=0; i<numpaths; i++)
 		{
 			/* TODO: check for negative return values of sprintf */
@@ -923,8 +948,8 @@ initpaths()
 			paths[i] = c;
 
 			c += len+1;
-			
-			if (langshort) 
+
+			if (langshort)
 			{
 				/* TODO: check for negative return values of sprintf */
 				len = sprintf(c, "%s/%s", paths[numpaths+i], langshort);
@@ -958,9 +983,9 @@ initpaths()
 		if (ret < 0)
 		{
 #ifdef ___DEBUG___
-			fprintf(stderr, "error while opening `%s': %s\n", 
+			fprintf(stderr, "error while opening `%s': %s\n",
 					paths[i], strerror(errno) );
-#endif 
+#endif
 			paths[i] = NULL;
 			inodes[i] = 0;
 		}
@@ -976,7 +1001,7 @@ initpaths()
 		}
 
 		/* calculate the total number of vali paths and the size of teh strings */
-		if (paths[i]!=NULL) 
+		if (paths[i]!=NULL)
 		{
 			numpaths++;
 			len += strlen(paths[i]) + 1;
@@ -994,12 +1019,12 @@ initpaths()
 		if (paths[i]!=NULL)
 		{
 			/* copy path to c buffer */
-			strcpy(c, paths[i]);	
+			strcpy(c, paths[i]);
 			infopaths[j++] = c;
 			c += strlen(paths[i]) + 1;
 		}
 	}
-	
+
 
 	xfree(infopath);
 	xfree(langpath);
@@ -1127,7 +1152,7 @@ seeknode(int tag_table_pos, FILE ** Id)
 	 * file-offset = tagtable_offset - indirect_offset +
 	 *             + tagtable[1]_offset
 	 */
-	if (indirect)	
+	if (indirect)
 	{
 		for (i = IndirectEntries; i >= 1; i--)
 		{
