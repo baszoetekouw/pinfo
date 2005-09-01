@@ -144,7 +144,7 @@ AC_EGREP_CPP(HAVE_KEY_END,
 ## i18n, t10n stuff
 ####################################################
 # the languages for which we have .po files
-ALL_LINGUAS="pl cs sv de ru ja"
+ALL_LINGUAS="pl cs sv de ru ja nl"
 
 # Checks for all prerequisites of the intl subdirectory
 AM_INTL_SUBDIR
