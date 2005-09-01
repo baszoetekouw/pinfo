@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: pinfo-0.6.8\n"
 "Report-Msgid-Bugs-To: pinfo-devel@lists.alioth.debian.org\n"
-"POT-Creation-Date: 2005-09-01 21:14+0200\n"
+"POT-Creation-Date: 2005-09-01 21:48+0200\n"
 "PO-Revision-Date: 2003-08-21 11:22+0200\n"
 "Last-Translator: Przemek Borys <pborys@dione.ids.pl>\n"
 "Language-Team:\n"
@@ -14,33 +14,22 @@ msgstr ""
 "Content-Type: text/plain; charset=ISO-8859-2\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#
-# Load messages for info pages (version for printf)
-#
-#: src/filehandling_functions.c:441
+#: src/filehandling_functions.c:442 src/filehandling_functions.c:449
 #, c-format
-msgid "Searching for indirect done\n"
-msgstr "Zakoñczono poszukiwanie tablicy mapowañ niebezpo¶rednich\n"
-
-#: src/filehandling_functions.c:446
 msgid "Searching for indirect done"
 msgstr "Zakoñczono poszukiwanie mapowañ niebezpo¶rednich"
 
-#: src/filehandling_functions.c:477
+#: src/filehandling_functions.c:480 src/filehandling_functions.c:486
 #, c-format
-msgid "Warning: could not find tag table\n"
-msgstr "Ostrze¿enie: Nie znalaz³em tablicy mapowañ (tag table)...\n"
-
-#: src/filehandling_functions.c:482
 msgid "Warning: could not find tag table"
 msgstr "Ostrze¿enie: Nie znalaz³em tablicy mapowañ (tag table)..."
 
-#: src/filehandling_functions.c:509
+#: src/filehandling_functions.c:513
 #, c-format
 msgid "Searching for tag table done\n"
 msgstr "Zakoñczono poszukiwanie tablicy mapowañ\n"
 
-#: src/filehandling_functions.c:1168
+#: src/filehandling_functions.c:1172
 #, c-format
 msgid "Error: could not open info file\n"
 msgstr "B³ad: nie mog³em otworzyæ pliku info\n"
@@ -120,8 +109,8 @@ msgstr "B³ad: Nie ma równie¿ pasuj±cej strony podrêcznika man.\n"
 
 # apropos:
 #: src/manual.c:324
-#, c-format
-msgid "Appropriate pages:\n"
+#, fuzzy, c-format
+msgid "Apropos pages:\n"
 msgstr "Odpowiadaj±ce zapytaniu strony:\n"
 
 #: src/manual.c:367
@@ -153,7 +142,7 @@ msgstr ""
 
 #: src/manual.c:463
 #, c-format
-msgid "Nothing apropiate\n"
+msgid "Nothing appropiate\n"
 msgstr ""
 
 #
@@ -357,3 +346,12 @@ msgstr "Ostrze¿enie bezpieczeñstwa: Nie mogê pobraæ GID grupy: %s\n"
 #, c-format
 msgid "Security warning: Unable to get UID of user called: %s\n"
 msgstr "Ostrze¿enie bezpieczeñstwa: Nie mogê pobraæ UID u¿ytkownika: %s\n"
+
+#~ msgid "Warning: could not find tag table\n"
+#~ msgstr "Ostrze¿enie: Nie znalaz³em tablicy mapowañ (tag table)...\n"
+
+#
+# Load messages for info pages (version for printf)
+#
+#~ msgid "Searching for indirect done\n"
+#~ msgstr "Zakoñczono poszukiwanie tablicy mapowañ niebezpo¶rednich\n"

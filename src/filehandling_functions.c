@@ -438,7 +438,10 @@ seek_indirect(FILE * id)
 	xfree(type);
 	type = 0;
 	if (!curses_open)
-		printf(_("Searching for indirect done\n"));
+	{
+		printf(_("Searching for indirect done"));
+		printf("\n");
+	}
 	else
 	{
 		attrset(bottomline);
@@ -474,7 +477,8 @@ seek_tag_table(FILE * id,int quiet)
 				if (!quiet)
 				{
 					if (!curses_open)
-						printf(_("Warning: could not find tag table\n"));
+						printf(_("Warning: could not find tag table"));
+						printf("\n");
 					else
 					{
 						attrset(bottomline);

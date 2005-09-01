@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 0.5.3\n"
 "Report-Msgid-Bugs-To: pinfo-devel@lists.alioth.debian.org\n"
-"POT-Creation-Date: 2005-09-01 21:14+0200\n"
+"POT-Creation-Date: 2005-09-01 21:48+0200\n"
 "PO-Revision-Date: 2003-08-21 11:22+0200\n"
 "Last-Translator: Volosenkov Dmitry <_bil_@mail.ru>\n"
 "Language-Team: russian <ru@li.org>\n"
@@ -14,30 +14,22 @@ msgstr ""
 "Content-Type: text/plain; charset=koi8-r\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: src/filehandling_functions.c:441
+#: src/filehandling_functions.c:442 src/filehandling_functions.c:449
 #, c-format
-msgid "Searching for indirect done\n"
-msgstr ""
-
-#: src/filehandling_functions.c:446
 msgid "Searching for indirect done"
 msgstr ""
 
-#: src/filehandling_functions.c:477
+#: src/filehandling_functions.c:480 src/filehandling_functions.c:486
 #, c-format
-msgid "Warning: could not find tag table\n"
-msgstr "Предупреждение: не могу найти табличный тэг\n"
-
-#: src/filehandling_functions.c:482
 msgid "Warning: could not find tag table"
 msgstr "Предупреждение: не могу найти табличный тэг"
 
-#: src/filehandling_functions.c:509
+#: src/filehandling_functions.c:513
 #, c-format
 msgid "Searching for tag table done\n"
 msgstr "Поиск табличного тэга завершен\n"
 
-#: src/filehandling_functions.c:1168
+#: src/filehandling_functions.c:1172
 #, c-format
 msgid "Error: could not open info file\n"
 msgstr "Ошибка: не могу найти info файл\n"
@@ -98,8 +90,8 @@ msgid "Error: No manual page found either.\n"
 msgstr "Ошибка: Man страница не найдена также.\n"
 
 #: src/manual.c:324
-#, c-format
-msgid "Appropriate pages:\n"
+#, fuzzy, c-format
+msgid "Apropos pages:\n"
 msgstr "Подходящие страницы:\n"
 
 #: src/manual.c:367
@@ -126,8 +118,8 @@ msgid "Calling apropos \n"
 msgstr ""
 
 #: src/manual.c:463
-#, c-format
-msgid "Nothing apropiate\n"
+#, fuzzy, c-format
+msgid "Nothing appropiate\n"
 msgstr "Ничего подходящего\n"
 
 #: src/manual.c:984
@@ -283,3 +275,6 @@ msgstr ""
 #, c-format
 msgid "Security warning: Unable to get UID of user called: %s\n"
 msgstr ""
+
+#~ msgid "Warning: could not find tag table\n"
+#~ msgstr "Предупреждение: не могу найти табличный тэг\n"
