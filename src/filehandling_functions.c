@@ -99,6 +99,7 @@ matchfile(char **buf, char *name)
 					matched = strlen(tmp);
 				}
 			}
+			xfree(tmp);
 		}
 	}
 	closedir(dir);
