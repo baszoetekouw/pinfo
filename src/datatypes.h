@@ -127,7 +127,7 @@ extern SearchAgain searchagain;
 extern std::vector<HyperObject> hyperobjects;
 /* an array of indirect entries */
 extern std::vector<Indirect> indirect;
-/* an array of tag table entries [1 to n] */
+/* an array of tag table entries [0 to n - 1] */
 extern TagTable *tag_table;
 /* offset of the first node in info file */
 extern long FirstNodeOffset;

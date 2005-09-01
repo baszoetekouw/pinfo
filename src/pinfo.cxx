@@ -201,7 +201,7 @@ main(int argc, char *argv[]) {
 	char **message = 0;
 	/* this will hold the node's header */
 	char *type = 0;
-	int tag_table_pos = 1;
+	int tag_table_pos = 0;
 
 	/* take care of SIGSEGV, SIGTERM, SIGINT */
 	install_signal_handlers();

@@ -23,6 +23,8 @@
 #include "common_includes.h"
 #include <string>
 using std::string;
+#include <vector>
+using std::vector;
 
 RCSID("$Id$")
 
@@ -343,7 +345,7 @@ load_tag_table(char **message, long lines)
 	 */
 	if (strcasecmp("(Indirect)", message[1]) == 0)
 		is_indirect = 1;
-	tag_table = (TagTable*)xmalloc((lines + 1) * sizeof(TagTable));
+	tag_table = (TagTable*)xmalloc((lines) * sizeof(TagTable));
 	for (i = 1; i < lines - is_indirect; i++)
 	{
 		char *check;
@@ -368,12 +370,12 @@ load_tag_table(char **message, long lines)
 		if (wsk1 < check)
 		{
 			(*wsk1) = 0;
-			strcpy(tag_table[i - cut].nodename, wsk);
-			(*(tag_table[i - cut].nodename + (wsk1 - wsk) + 1)) = 0; 
+			strcpy(tag_table[i - cut - 1].nodename, wsk);
+			(*(tag_table[i - cut - 1].nodename + (wsk1 - wsk) + 1)) = 0; 
 				/* Just terminating the bugger */
 			(*wsk1) = INDIRECT_TAG;
 			wsk1++;
-			tag_table[i - cut].offset = atoi(wsk1);
+			tag_table[i - cut - 1].offset = atoi(wsk1);
 		}
 		else
 			cut++;			/* increment the number of corrupt entries */
@@ -383,7 +385,7 @@ load_tag_table(char **message, long lines)
 	/* FIXME: info should ALWAYS start at the 'Top' node, not at the first
 	   mentioned node(vide ocaml.info) */
 
-	for (i = 1; i <= TagTableEntries; i++)
+	for (i = 0; i < TagTableEntries; i++)
 	{
 		if (strcasecmp(tag_table[i].nodename, "Top") == 0)
 		{
@@ -391,7 +393,7 @@ load_tag_table(char **message, long lines)
 			FirstNodeName = tag_table[i].nodename;
 		}
 	}
-	qsort(&tag_table[1], TagTableEntries, sizeof(TagTable), qsort_cmp);
+	qsort(&tag_table[0], TagTableEntries, sizeof(TagTable), qsort_cmp);
 }
 
 int
@@ -956,25 +958,25 @@ create_indirect_tag_table()
 {
 	FILE *id = 0;
 	int initial;
-	for (string::size_type i = 0; i < indirect.size(); i++)
+	for (vector<Indirect>::size_type i = 0; i < indirect.size(); i++)
 	{
 		id = openinfo(indirect[i].filename, 1);
-		initial = TagTableEntries + 1;
+		initial = TagTableEntries; /* Before create_tag_table operates */
 		if (id)
 		{
 			create_tag_table(id);
-			FirstNodeOffset = tag_table[1].offset;
-			FirstNodeName = tag_table[1].nodename;
+			FirstNodeOffset = tag_table[0].offset;
+			FirstNodeName = tag_table[0].nodename;
 		}
 		fclose(id);
-		for (int j = initial; j <= TagTableEntries; j++)
+		for (int j = initial; j < TagTableEntries; j++)
 		{
 			tag_table[j].offset +=(indirect[i].offset - FirstNodeOffset);
 		}
 	}
-	FirstNodeOffset = tag_table[1].offset;
-	FirstNodeName = tag_table[1].nodename;
-	qsort(&tag_table[1], TagTableEntries, sizeof(TagTable), qsort_cmp);
+	FirstNodeOffset = tag_table[0].offset;
+	FirstNodeName = tag_table[0].nodename;
+	qsort(&tag_table[0], TagTableEntries, sizeof(TagTable), qsort_cmp);
 }
 
 void
@@ -984,9 +986,9 @@ create_tag_table(FILE * id)
 	long oldpos;
 	fseek(id, 0, SEEK_SET);
 	if (!tag_table)
-		tag_table = (TagTable*)xmalloc((TagTableEntries + 2) * sizeof(TagTable));
+		tag_table = (TagTable*)xmalloc((TagTableEntries + 1) * sizeof(TagTable));
 	else
-		tag_table = (TagTable*)xrealloc(tag_table,(TagTableEntries + 2) * sizeof(TagTable));
+		tag_table = (TagTable*)xrealloc(tag_table,(TagTableEntries + 1) * sizeof(TagTable));
 	while (!feof(id))
 	{
 		if (fgetc(id) == INFO_TAG)	/* We've found a node entry! */
@@ -1001,9 +1003,9 @@ create_tag_table(FILE * id)
 			 */
 			if (fgets(buf, 1024, id) == NULL)
 			{
-				tag_table = (TagTable*)xrealloc(tag_table, sizeof(TagTable) *(TagTableEntries + 1));
-				strcpy(tag_table[TagTableEntries].nodename, "12#!@#4");
-				tag_table[TagTableEntries].offset = 0;
+				tag_table = (TagTable*)xrealloc(tag_table, sizeof(TagTable) *(TagTableEntries));
+				strcpy(tag_table[TagTableEntries - 1].nodename, "12#!@#4");
+				tag_table[TagTableEntries - 1].offset = 0;
 			}
 			else
 			{
@@ -1025,11 +1027,11 @@ create_tag_table(FILE * id)
 						{
 							if ((buf[j] == ',') ||(buf[j] == '\n'))
 							{
-								tag_table = (TagTable*)xrealloc(tag_table, sizeof(TagTable) *(TagTableEntries + 1));
+								tag_table = (TagTable*)xrealloc(tag_table, sizeof(TagTable) *(TagTableEntries));
 								buf[j] = 0;
 								buflen = j;
-								strcpy(tag_table[TagTableEntries].nodename, buf + i + 2);
-								tag_table[TagTableEntries].offset = oldpos - 2;
+								strcpy(tag_table[TagTableEntries - 1].nodename, buf + i + 2);
+								tag_table[TagTableEntries - 1].offset = oldpos - 2;
 								break;
 							}
 						}
@@ -1043,13 +1045,13 @@ create_tag_table(FILE * id)
 	buf = 0;
 	if (indirect.empty()) /* originally (!indirect) -- check this NCN FIXME */
 	{
-		FirstNodeOffset = tag_table[1].offset;
-		FirstNodeName = tag_table[1].nodename;
-		qsort(&tag_table[1], TagTableEntries, sizeof(TagTable), qsort_cmp);
+		FirstNodeOffset = tag_table[0].offset;
+		FirstNodeName = tag_table[0].nodename;
+		qsort(&tag_table[0], TagTableEntries, sizeof(TagTable), qsort_cmp);
 	}
 }
 
-	void
+void
 seeknode(int tag_table_pos, FILE ** Id)
 {
 	int i;

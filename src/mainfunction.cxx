@@ -425,8 +425,7 @@ work(char ***message, char **type, long *lines, FILE * id, int tag_table_pos)
 							tokenpos += starttokenpos;
 							{	/* local scope for tmpvar, matched */
 								int tmpvar = 0, matched = 0;
-								tag_table[0].offset = 0;
-								for (int i = TagTableEntries; i >= 1; i--)
+								for (int i = TagTableEntries - 1; i >= 0; i--)
 								{
 									if ((tag_table[i].offset > tag_table[tmpvar].offset) &&
 											((tag_table[i].offset - indirect[j].offset + FirstNodeOffset) <= tokenpos))
@@ -520,8 +519,7 @@ work(char ***message, char **type, long *lines, FILE * id, int tag_table_pos)
 						tokenpos += starttokenpos;
 						{		/* local scope for tmpvar, matched */
 							int tmpvar = 0, matched = 0;
-							tag_table[0].offset = 0;
-							for (int i = TagTableEntries; i >= 1; i--)
+							for (int i = TagTableEntries - 1; i >= 0; i--)
 							{
 								if ((tag_table[i].offset > tag_table[tmpvar].offset) &&
 										(tag_table[i].offset <= tokenpos))
@@ -701,7 +699,7 @@ skip_search:
 				curs_set(0);
 				noecho();
 				attrset(normal);
-				for (int i = 1; i <= TagTableEntries; i++)
+				for (int i = 0; i < TagTableEntries; i++)
 				{
 					/* if the name was found in the tag table */
 					if (strcmp(token, tag_table[i].nodename) == 0)
