@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: pinfo-devel@lists.alioth.debian.org\n"
-"POT-Creation-Date: 2005-09-01 21:14+0200\n"
+"POT-Creation-Date: 2005-09-01 21:48+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -16,30 +16,22 @@ msgstr ""
 "Content-Type: text/plain; charset=CHARSET\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: src/filehandling_functions.c:441
+#: src/filehandling_functions.c:442 src/filehandling_functions.c:449
 #, c-format
-msgid "Searching for indirect done\n"
-msgstr ""
-
-#: src/filehandling_functions.c:446
 msgid "Searching for indirect done"
 msgstr ""
 
-#: src/filehandling_functions.c:477
+#: src/filehandling_functions.c:480 src/filehandling_functions.c:486
 #, c-format
-msgid "Warning: could not find tag table\n"
-msgstr ""
-
-#: src/filehandling_functions.c:482
 msgid "Warning: could not find tag table"
 msgstr ""
 
-#: src/filehandling_functions.c:509
+#: src/filehandling_functions.c:513
 #, c-format
 msgid "Searching for tag table done\n"
 msgstr ""
 
-#: src/filehandling_functions.c:1168
+#: src/filehandling_functions.c:1172
 #, c-format
 msgid "Error: could not open info file\n"
 msgstr ""
@@ -101,7 +93,7 @@ msgstr ""
 
 #: src/manual.c:324
 #, c-format
-msgid "Appropriate pages:\n"
+msgid "Apropos pages:\n"
 msgstr ""
 
 #: src/manual.c:367
@@ -129,7 +121,7 @@ msgstr ""
 
 #: src/manual.c:463
 #, c-format
-msgid "Nothing apropiate\n"
+msgid "Nothing appropiate\n"
 msgstr ""
 
 #: src/manual.c:984

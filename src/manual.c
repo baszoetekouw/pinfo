@@ -321,7 +321,7 @@ handlemanual(char *name)
 				printf(_("Error: No manual page found either.\n"));
 				if (use_apropos)
 				{
-					printf(_("Appropriate pages:\n"));
+					printf(_("Apropos pages:\n"));
 					snprintf(cmd, 255, "apropos %s|cat %s", name, StderrRedirection);
 					system(cmd);
 				}
@@ -460,7 +460,7 @@ handlemanual(char *name)
 			snprintf(cmd, 255, "apropos %s > %s", name, apropos_tempfilename);
 			if (system(cmd) != 0)
 			{
-				printf(_("Nothing apropiate\n"));
+				printf(_("Nothing appropiate\n"));
 				unlink(apropos_tempfilename);
 				return 1;
 			}

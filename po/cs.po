@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: pinfo-0.5.6\n"
 "Report-Msgid-Bugs-To: pinfo-devel@lists.alioth.debian.org\n"
-"POT-Creation-Date: 2005-09-01 21:14+0200\n"
+"POT-Creation-Date: 2005-09-01 21:48+0200\n"
 "PO-Revision-Date: 1999-08-28 00:05+0200\n"
 "Last-Translator: Jiøí Pavlovský <pavlovsk@ff.cuni.cz>\n"
 "Language-Team: Czech <cs@li.org>\n"
@@ -13,30 +13,22 @@ msgstr ""
 "Content-Type: text/plain; charset=ISO-8859-2\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: src/filehandling_functions.c:441
+#: src/filehandling_functions.c:442 src/filehandling_functions.c:449
 #, c-format
-msgid "Searching for indirect done\n"
-msgstr "Hledání nepøímého odkazu ukonèeno\n"
-
-#: src/filehandling_functions.c:446
 msgid "Searching for indirect done"
 msgstr "Hledání nepøímého odkazu ukonèeno"
 
-#: src/filehandling_functions.c:477
+#: src/filehandling_functions.c:480 src/filehandling_functions.c:486
 #, c-format
-msgid "Warning: could not find tag table\n"
-msgstr "Varování: tabulku znaèek nelze nalézt\n"
-
-#: src/filehandling_functions.c:482
 msgid "Warning: could not find tag table"
 msgstr "Varování: tabulku znaèek nelze nalézt"
 
-#: src/filehandling_functions.c:509
+#: src/filehandling_functions.c:513
 #, c-format
 msgid "Searching for tag table done\n"
 msgstr "Hledání tabulky znaèek ukonèeno\n"
 
-#: src/filehandling_functions.c:1168
+#: src/filehandling_functions.c:1172
 #, c-format
 msgid "Error: could not open info file\n"
 msgstr "Chyba: Info dokument nelze otevøít.\n"
@@ -98,8 +90,8 @@ msgid "Error: No manual page found either.\n"
 msgstr "Chyba: Nebyla nalezena ani manuálová stránka.\n"
 
 #: src/manual.c:324
-#, c-format
-msgid "Appropriate pages:\n"
+#, fuzzy, c-format
+msgid "Apropos pages:\n"
 msgstr "Pøíslu¹né stránky:\n"
 
 #: src/manual.c:367
@@ -127,7 +119,7 @@ msgstr ""
 
 #: src/manual.c:463
 #, c-format
-msgid "Nothing apropiate\n"
+msgid "Nothing appropiate\n"
 msgstr ""
 
 #: src/manual.c:984
@@ -307,3 +299,9 @@ msgstr "Bezpeènostní varování: GID skupiny %s nelze zjistit\n"
 #, c-format
 msgid "Security warning: Unable to get UID of user called: %s\n"
 msgstr "Bezpeènostní varování: UID u¾ivatele %s nelze zjistit\n"
+
+#~ msgid "Warning: could not find tag table\n"
+#~ msgstr "Varování: tabulku znaèek nelze nalézt\n"
+
+#~ msgid "Searching for indirect done\n"
+#~ msgstr "Hledání nepøímého odkazu ukonèeno\n"

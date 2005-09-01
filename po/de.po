@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: pinfo-0.5.0\n"
 "Report-Msgid-Bugs-To: pinfo-devel@lists.alioth.debian.org\n"
-"POT-Creation-Date: 2005-09-01 21:14+0200\n"
+"POT-Creation-Date: 2005-09-01 21:48+0200\n"
 "PO-Revision-Date: 1999-04-21 01:50+0200\n"
 "Last-Translator: Matthias Warkus <mawa@iname.com>\n"
 "Language-Team: German <de@li.org>\n"
@@ -14,30 +14,22 @@ msgstr ""
 "Content-Type: text/plain; charset=ISO-8859-1\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: src/filehandling_functions.c:441
+#: src/filehandling_functions.c:442 src/filehandling_functions.c:449
 #, c-format
-msgid "Searching for indirect done\n"
-msgstr "Suche nach Node-Verzeichnis...\n"
-
-#: src/filehandling_functions.c:446
 msgid "Searching for indirect done"
 msgstr "Suche nach Node-Verzeichnis abgeschlossen."
 
-#: src/filehandling_functions.c:477
+#: src/filehandling_functions.c:480 src/filehandling_functions.c:486
 #, c-format
-msgid "Warning: could not find tag table\n"
-msgstr "Warnung: Konnte die Tag-Tabelle nicht finden.\n"
-
-#: src/filehandling_functions.c:482
 msgid "Warning: could not find tag table"
 msgstr "Warnung: Konnte die Tag-Tabelle nicht finden."
 
-#: src/filehandling_functions.c:509
+#: src/filehandling_functions.c:513
 #, c-format
 msgid "Searching for tag table done\n"
 msgstr "Suche nach der Tag-Tabelle abgeschlossen.\n"
 
-#: src/filehandling_functions.c:1168
+#: src/filehandling_functions.c:1172
 #, c-format
 msgid "Error: could not open info file\n"
 msgstr "Fehler: Konnte die Info-Datei nicht öffnen.\n"
@@ -99,8 +91,8 @@ msgid "Error: No manual page found either.\n"
 msgstr "Fehler: Es wurde auch keine Manpage gefunden.\n"
 
 #: src/manual.c:324
-#, c-format
-msgid "Appropriate pages:\n"
+#, fuzzy, c-format
+msgid "Apropos pages:\n"
 msgstr "Passende Seiten:\n"
 
 #: src/manual.c:367
@@ -128,7 +120,7 @@ msgstr ""
 
 #: src/manual.c:463
 #, c-format
-msgid "Nothing apropiate\n"
+msgid "Nothing appropiate\n"
 msgstr ""
 
 #: src/manual.c:984
@@ -303,3 +295,9 @@ msgstr ""
 #, c-format
 msgid "Security warning: Unable to get UID of user called: %s\n"
 msgstr ""
+
+#~ msgid "Warning: could not find tag table\n"
+#~ msgstr "Warnung: Konnte die Tag-Tabelle nicht finden.\n"
+
+#~ msgid "Searching for indirect done\n"
+#~ msgstr "Suche nach Node-Verzeichnis...\n"
