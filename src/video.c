@@ -88,6 +88,8 @@ showscreen(char **message, char *type, long lines, long pos, long cursor, int co
 	attrset(normal);
 	for (i = pos;(i < lines) &&(i < pos + maxy - 2); i++)
 	{
+		if (!message[i]) continue;
+
 		int tmp = strlen(message[i]) - 1;
 		message[i][tmp] = 0;
 		if (tmp>column)
