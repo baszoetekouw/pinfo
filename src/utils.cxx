@@ -313,29 +313,35 @@ closeprogram()
 int
 compare_tag_table_string(const char *base, const char *compared)
 {
-	int i, j;
-
-	j = 0;
-
-	for (i = 0; base[i] != 0; i++)
-	{
-		if (base[i] != compared[j])
-		{
-			if ((isspace(compared[j])) &&(isspace(base[i])));	/* OK--two blanks */
-			else if (isspace(compared[j]))
-				i--;		/* index of `base' should be unchanged after for's i++ */
-			else if (isspace(base[i]))
-				j--;		/* index of `compared' stands in place
-							   and waits for base to skip blanks */
-			else
-				return (int) base[i] -(int) compared[j];
+	int i = 0;
+	int j = 0;
+	while (base[i] != '\0') {
+		if (base[i] != compared[j]) {
+			if (isspace(compared[j]) && isspace(base[i])) {
+				/* OK--two blanks */
+				j++;
+				i++;
+			} else if (isspace(compared[j])) {
+				/* index of `base' stands in place
+				 * and waits for compared to skip blanks */
+				j++;
+			}	else if (isspace(base[i])) {
+				/* index of `compared' stands in place
+				 * and waits for base to skip blanks */
+				i++;
+			} else {
+				/* This catches all ordinary differences, and compared being shorter */
+				return (int) base[i] - (int) compared[j];
+			}
+		} else {
+			i++;
+			j++;
 		}
-		j++;
 	}
-	while (compared[j])		/* handle trailing whitespaces of variable `compared' */
-	{
+	/* handle trailing whitespaces of variable `compared' */
+	while (compared[j] != '\0')	{
 		if (!isspace(compared[j]))
-			return (int) base[i] -(int) compared[j];
+			return (int) '\0' - (int) compared[j]; /* Negative, as base is shorter */
 		j++;
 	}
 	return 0;
