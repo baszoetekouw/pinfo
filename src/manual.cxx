@@ -117,6 +117,13 @@ vector<manuallink> manuallinks;
 /* semaphore for checking if it's a history(left arrow) call */
 int historical = 0;
 
+/* Debugging routine */
+void
+dumplink(manuallink a) {
+	printf("LINK x%sx (x%sx %d) at %d %d (%d)\n\r", (a.name).c_str(),
+		(a.section).c_str(), a.section_mark,
+		a.line, a.col, a.carry);
+}
 
 void
 /* free buffers allocated by current man page */
@@ -241,7 +248,7 @@ construct_manualname(string& buf, int which)
 int
 handlemanual(string name)
 {
-	int return_value = 0;
+	int return_value;
 	struct stat statbuf;
 	FILE *id;
 
@@ -537,22 +544,7 @@ sort_manuallinks_from_current_line(
 	vector<manuallink>::iterator startlink,
 	vector<manuallink>::iterator endlink)
 {
-	/* Bletchulous.  This breaks so often... */
-	for (vector<manuallink>::iterator ptr = manuallinks.begin();
-	     ptr < manuallinks.end(); ptr++) {
-		printf("%s (%s %d) at %d %d (%d) BEFORE\n\r", (ptr->name).c_str(),
-			(ptr->section).c_str(), ptr->section_mark,
-			ptr->line, ptr->col, ptr->carry);
-	}
-
 	std::sort(startlink, endlink, compare_manuallink);
-
-	for (vector<manuallink>::iterator ptr = manuallinks.begin();
-	     ptr < manuallinks.end(); ptr++) {
-		printf("%s (%s %d) at %d %d (%d) AFTER\n\r", (ptr->name).c_str(),
-			(ptr->section).c_str(), ptr->section_mark,
-			ptr->line, ptr->col, ptr->carry);
-	}
 }
 
 /* initializes hyperlinks in manual */
@@ -708,8 +700,8 @@ man_initializelinks(char *tmp, int carry)
 					}
 					else
 					{
-						my_link.section[0] = link[1];
-						my_link.section.resize(1);
+						/* Short manual links */
+						my_link.section = link[1];
 					}
 					my_link.section_mark = 0;
 					my_link.name = (tmp + i);
