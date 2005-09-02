@@ -75,14 +75,14 @@ dirname(const string filename, string& dirname_str)
 
 typedef struct Suffixes
 {
-	const char * const suffix;
-	const char * const command;
+	const char *suffix;
+	const char *command;
 }
 Suffixes;
 
 #define SuffixesNumber 4
 
-static const Suffixes suffixes[SuffixesNumber] =
+Suffixes suffixes[SuffixesNumber] =
 {
 	{"", 		"cat"},
 	{".gz",		"gzip -d -q -c"},
@@ -92,7 +92,8 @@ static const Suffixes suffixes[SuffixesNumber] =
 
 /*****************************************************************************/
 
-vector<string> infopaths;
+char **infopaths = 0;
+int infopathcount = 0;
 
 bool
 compare_tags(TagTable a, TagTable b) {
@@ -561,8 +562,8 @@ opendirfile(int number)
 		tmpfilename = tmpfilename1;	/* later we will refere only to tmp1 */
 	}
 
-	int *fileendentries = (int*)xmalloc(infopaths.size() * sizeof(int));
-	for (int i = 0; i < infopaths.size(); i++)	{ /* go through all paths */
+	int *fileendentries = (int*)xmalloc(infopathcount * sizeof(int));
+	for (int i = 0; i < infopathcount; i++)	{ /* go through all paths */
 		int lang_found = 0;
 		for (int k = 0; k <= 1; k++) { /* Two passes: with and without LANG */
 			string bufstr;
@@ -701,7 +702,7 @@ openinfo(const string filename, int number)
 		tmpfilename = tmpfilename2;	/* later we will refere only to tmp2 */
 	}
 
-	for (int i = -1; i < infopaths.size(); i++) { /* go through all paths */
+	for (int i = -1; i < infopathcount; i++) { /* go through all paths */
 		string mybuf;
 		if (i == -1) {
 			/*
@@ -771,17 +772,21 @@ addrawpath(const string filename_string)
 	else
 		dirstring = "./"; /* If no directory part, use current directory */
 
-	/* Add to beginning */
-	infopaths.insert(infopaths.begin(), dirstring);
+	infopaths = (char**)xrealloc(infopaths,(infopathcount + 3) *(sizeof(char *)));
+	for (int i = infopathcount; i > 0; i--)	/* move entries to the right */
+		infopaths[i] = infopaths[i - 1];
+
+	infopaths[0]=strdup(dirstring.c_str());	/* add new(raw) entry */
+	infopathcount++;
 }
 
 int
 isininfopath(char *name)
 {
 	int i;
-	for (i = 0; i < infopaths.size(); i++)
+	for (i = 0; i < infopathcount; i++)
 	{
-		if (infopaths[i] == name)
+		if (strcmp(name, infopaths[i]) == 0)
 			return 1;		/* path already exists */
 	}
 	return 0;			/* path not found in previous links */
@@ -950,14 +955,20 @@ initpaths()
 		}
 	}
 
+
 	/* and alloc and copy to global var */
-	infopaths.clear();
+	infopathcount = numpaths;
+	infopaths = (char **) xmalloc( numpaths * sizeof(char *) );
+	c = (char *) xmalloc( len * sizeof(char) );
+	j=0;
 	for (i=0; i<maxpaths; i++)
 	{
 		if (paths[i]!=NULL)
 		{
-			string tmp = paths[i];
-			infopaths.push_back(tmp);
+			/* copy path to c buffer */
+			strcpy(c, paths[i]);
+			infopaths[j++] = c;
+			c += strlen(paths[i]) + 1;
 		}
 	}
 
@@ -967,8 +978,8 @@ initpaths()
 
 #ifdef ___DEBUG___
 	/* for debugging */
-	fprintf(stderr, "%i valid info paths found:\n", infopaths.size());
-	for (i=0; i<infopaths.size(); i++)
+	fprintf(stderr, "%i valid info paths found:\n", infopathcount);
+	for (i=0; i<infopathcount; i++)
 		if (infopaths[i]) fprintf(stderr,"--> %s\n", infopaths[i]);
 #endif
 }
