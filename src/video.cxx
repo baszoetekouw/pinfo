@@ -45,14 +45,22 @@ void
 addtopline(const string type, string::size_type column)
 {
 	string strbuf = type;
+	if (strbuf[strbuf.length() - 1] == '\n') {
+		/* This happened and broke the decorative filler */
+		strbuf.resize(strbuf.length() - 1);
+	}
 
 	substitutestring(strbuf,"File:", _("File:"));
 	substitutestring(strbuf, "Node:", _("Node:"));
 	substitutestring(strbuf, "Next:", _("Next:"));
 	substitutestring(strbuf, "Prev:", _("Prev:"));
 	substitutestring(strbuf, "Up:", _("Up:"));
+
 	attrset(topline);
-	mymvhline(0, 0, ' ', maxx);	/* pads line with spaces -- aesthetic */
+
+	/* pads line with spaces -- aesthetic */
+	mymvhline(0, 0, ' ', maxx);
+
 	if (strbuf.length() > column) {
 		string clipped;
 		clipped = strbuf.substr(column, string::npos);
