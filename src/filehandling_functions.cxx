@@ -817,13 +817,13 @@ void
 initpaths()
 {
 	char **paths = NULL;
-	char *langpath = NULL;
 	char *rawlang = NULL;
 	string lang;
 	string langshort;
 	char* c;
 	int ret;
-	unsigned int i, j, maxpaths, numpaths = 0, langlen;
+	unsigned int i, j, maxpaths;
+	unsigned int numpaths = 0;
 	size_t len;
 	struct stat sbuf;
 	ino_t *inodes;
@@ -877,36 +877,25 @@ initpaths()
 	}
 
 	/* if we have a LANG defined, add paths with this lang to the paths[] */
-	if (lang != "")
-	{
-		/* crude upper limit */
-		langlen = strlen(env) + configuredinfopath.length() + 2
-						  + (lang.length()+2) * numpaths + 1;
-		if (langshort != "") langlen *= 2;
-		langpath = (char *) xmalloc( langlen * sizeof(char) );
-
-		c = langpath;
-		for (i=0; i<numpaths; i++)
-		{
-			/* TODO: check for negative return values of sprintf */
-			len = sprintf(c, "%s/%s", paths[i], lang.c_str());
+	if (lang != "") {
+		/* Leak memory with strdup; FIXME */
+		for (i=0; i<numpaths; i++) {
+			string tmp;
+			tmp = paths[i];
+			tmp += '/';
+			tmp += lang;
 			/* add the lang specific dir at the beginning */
 			paths[numpaths+i] = paths[i];
-			paths[i] = c;
-
-			c += len+1;
+			paths[i] = strdup(tmp.c_str());
 			
-			if (langshort != "") 
-			{
-				/* TODO: check for negative return values of sprintf */
-				len = sprintf(c, "%s/%s", paths[numpaths+i], langshort.c_str());
-				/* add the lang specific dir at the beginning */
+			if (langshort != "") {
+				string tmp;
+				tmp = paths[i];
+				tmp += '/';
+				tmp += langshort;
 				paths[2*numpaths+i] = paths[numpaths+i];
-				paths[numpaths+i] = c;
-
-				c += len+1;
+				paths[numpaths+i] = strdup(tmp.c_str());
 			}
-
 		}
 		numpaths *= ( (langshort!="") ? 3 : 2);
 	}
@@ -972,7 +961,6 @@ initpaths()
 		}
 	}
 
-	xfree(langpath);
 	xfree(paths);
 	xfree(inodes);
 
