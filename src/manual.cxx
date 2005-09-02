@@ -505,15 +505,12 @@ loadmanual(FILE * id)
 			tmpstr = manual[ManualLines];
 			strip_manual(tmpstr);
 
-			char* tmp;
-			tmp = strdup(tmpstr.c_str());
-			man_initializelinks(tmp, carryflag);
-			/* free temporary buffer */
-			xfree(tmp);
 			carryflag = 0;
 			if (manlinelen > 1)
 				if (ishyphen(manual[ManualLines][manlinelen - 2]))
 					carryflag = 1;
+			man_initializelinks(tmpstr.c_str(), carryflag);
+
 			prevlinechar = manual[ManualLines][0];
 			/* increase the number of man lines */
 			ManualLines++;
