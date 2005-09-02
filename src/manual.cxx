@@ -54,7 +54,7 @@ void strip_manual(string& buf);
  * Initialize links in a line .  Links are entries of form reference(section),
  * and are stored in `manuallinks' var, described bellow.
  */
-void man_initializelinks(const char *line, int carry);
+void man_initializelinks(string line, int carry);
 int is_in_manlinks(string in, char *find);
 
 void printmanual(char **Message, long Lines);
@@ -509,7 +509,7 @@ loadmanual(FILE * id)
 			if (manlinelen > 1)
 				if (ishyphen(manual[ManualLines][manlinelen - 2]))
 					carryflag = 1;
-			man_initializelinks(tmpstr.c_str(), carryflag);
+			man_initializelinks(tmpstr, carryflag);
 
 			prevlinechar = manual[ManualLines][0];
 			/* increase the number of man lines */
@@ -542,25 +542,24 @@ sort_manuallinks_from_current_line(
 
 /* initializes hyperlinks in manual */
 void
-man_initializelinks(const char *tmp, int carry)
+man_initializelinks(string line, int carry)
 {
 	typeof(manuallinks.size()) initialManualLinks = manuallinks.size();
 	/******************************************************************************
 	 * handle url refrences                                                       *
 	 *****************************************************************************/
 
-	string tmpstr = tmp;
 	string::size_type urlstart = 0;
 	string::size_type urlend = 0;
-	while ((urlstart = tmpstr.find("http://", urlend)) != string::npos)
+	while ((urlstart = line.find("http://", urlend)) != string::npos)
 	{
-		urlend = findurlend(tmpstr, urlstart); /* always successful */
+		urlend = findurlend(line, urlstart); /* always successful */
 		manuallink my_link;
 		my_link.line = ManualLines;
 		my_link.col = urlstart;
 		my_link.section = "HTTPSECTION";
 		my_link.section_mark = HTTPSECTION;
-		my_link.name = tmpstr.substr(urlstart, urlend - urlstart - 1);
+		my_link.name = line.substr(urlstart, urlend - urlstart - 1);
 		if (ishyphen(my_link.name[urlend - urlstart - 1]))
 			my_link.carry = 1;
 		else
@@ -568,18 +567,17 @@ man_initializelinks(const char *tmp, int carry)
 		manuallinks.push_back(my_link);
 	}
 
-	tmpstr = tmp;
 	urlstart = 0;
 	urlend = 0;
-	while ((urlstart = tmpstr.find("ftp://", urlend)) != string::npos)
+	while ((urlstart = line.find("ftp://", urlend)) != string::npos)
 	{
-		urlend = findurlend(tmpstr, urlstart); /* always successful */
+		urlend = findurlend(line, urlstart); /* always successful */
 		manuallink my_link;
 		my_link.line = ManualLines;
 		my_link.col = urlstart;
 		my_link.section = "FTPSECTION";
 		my_link.section_mark = FTPSECTION;
-		my_link.name = tmpstr.substr(urlstart, urlend - urlstart - 1);
+		my_link.name = line.substr(urlstart, urlend - urlstart - 1);
 		if (ishyphen(my_link.name[urlend - urlstart - 1]))
 			my_link.carry = 1;
 		else
@@ -587,18 +585,17 @@ man_initializelinks(const char *tmp, int carry)
 		manuallinks.push_back(my_link);
 	}
 
-	tmpstr = tmp;
 	urlstart = 0;
 	urlend = 0;
-	while ((urlstart = findemailstart(tmpstr, urlend)) != string::npos)
+	while ((urlstart = findemailstart(line, urlend)) != string::npos)
 	{
-		urlend = findurlend(tmpstr, urlstart); /* always successful */
+		urlend = findurlend(line, urlstart); /* always successful */
 		manuallink my_link;
 		my_link.line = ManualLines;
 		my_link.col = urlstart;
 		my_link.section = "MAILSECTION";
 		my_link.section_mark = MAILSECTION;
-		my_link.name = tmpstr.substr(urlstart, urlend - urlstart - 1);
+		my_link.name = line.substr(urlstart, urlend - urlstart - 1);
 		if (ishyphen(my_link.name[urlend - urlstart - 1]))
 			my_link.carry = 1;
 		else
@@ -613,6 +610,7 @@ man_initializelinks(const char *tmp, int carry)
 	 * handle normal manual refrences -- reference(section)                       *
 	 ******************************************************************************/
 	/* set tmpcnt to the trailing zero of tmp */
+	const char *tmp = line.c_str();
 	int tmpcnt = strlen(tmp) + 1;
 	const char *link = tmp;
 	do {
