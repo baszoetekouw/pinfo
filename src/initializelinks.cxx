@@ -109,13 +109,13 @@ findurlend(char *str)
  * is no non-URL character)
  */
 string::size_type
-findurlend(const string str)
+findurlend(const string str, string::size_type pos)
 {
 	const char* allowedchars =
 		"QWERTYUIOPASDFGHJKLZXCVBNMqwertyuiopasdfghjklzxcvbnm1234567890-_/~.%=|:@­";
 
 	string::size_type idx;
-	idx = str.find_first_not_of(allowedchars);
+	idx = str.find_first_not_of(allowedchars, pos);
 	if (idx == string::npos) {
 		/* All allowed characters! */
 		return str.length();

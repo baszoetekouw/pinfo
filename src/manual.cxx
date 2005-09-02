@@ -547,17 +547,15 @@ sort_manuallinks_from_current_line(
 void
 man_initializelinks(char *tmp, int carry)
 {
-	/* set tmpcnt to the trailing zero of tmp */
-	int tmpcnt = strlen(tmp) + 1;
-	char *link = tmp;
-	char *urlstart, *urlend;
-	int i, b;
 	/******************************************************************************
 	 * handle url refrences                                                       *
 	 *****************************************************************************/
+	char *urlstart, *urlend;
 	urlend = tmp;
 
 	vector<manuallink>::size_type initialManualLinks = manuallinks.size();
+
+	char* crap = tmp;
 	while ((urlstart = strstr(urlend, "http://")) != NULL)
 	{
 		/* always successfull */
@@ -615,8 +613,11 @@ man_initializelinks(char *tmp, int carry)
 	/******************************************************************************
 	 * handle normal manual refrences -- reference(section)                       *
 	 ******************************************************************************/
-	do
-	{
+	/* set tmpcnt to the trailing zero of tmp */
+	int tmpcnt = strlen(tmp) + 1;
+	char *link = tmp;
+	int i, b;
+	do {
 		/* we look for '(', since manual link */
 		link = strchr(link, '(');
 		/* has form of  'blah(x)' */
@@ -724,7 +725,7 @@ man_initializelinks(char *tmp, int carry)
 		}
 		if (link)
 			link++;
-		if (link >(tmp + tmpcnt))
+		if (link > (tmp + tmpcnt))
 		{
 			break;
 		}
