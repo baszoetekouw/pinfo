@@ -22,11 +22,30 @@
 #include "common_includes.h"
 #include <string>
 using std::string;
+#include <vector>
+using std::vector;
 
 RCSID("$Id$")
 
 #define MENU_DOT 0
 #define NOTE_DOT 1
+
+
+bool
+compare_hyperlink(HyperObject a, HyperObject b)
+{
+	/* Should a sort before b? */
+	return (a.col < b.col);
+}
+
+void
+sort_hyperlinks_from_current_line(
+	vector<HyperObject>::iterator startlink,
+	vector<HyperObject>::iterator endlink)
+{
+	std::sort(startlink, endlink, compare_hyperlink);
+}
+
 
 /*
  * Compares two strings, ignoring whitespaces(tabs, spaces)
@@ -234,6 +253,8 @@ initializelinks(char *line1, char *line2, int line)
 	char *buf = (char*)xmalloc(strlen(line1) + strlen(line2) + 1);
 	int changed;
 	int line1len = strlen(line1);
+
+	vector<HyperObject>::size_type initial_hyperobjects_size = hyperobjects.size();
 
 	strcpy(buf, line1);		/* copy two lines into one */
 	if (strlen(line1))
@@ -633,6 +654,11 @@ handle_no_file_note_label:
 		my_ho.file = "";
 		my_ho.tagtableoffset = -1;
 		hyperobjects.push_back(my_ho);
+	}
+	if (hyperobjects.size() > initial_hyperobjects_size) {
+		vector<HyperObject>::iterator first_new_link
+			= hyperobjects.end() - (hyperobjects.size() - initial_hyperobjects_size);
+		sort_hyperlinks_from_current_line(first_new_link, hyperobjects.end());
 	}
 	if (buf)
 	{
