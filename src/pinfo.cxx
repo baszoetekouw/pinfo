@@ -427,10 +427,10 @@ main(int argc, char *argv[]) {
 						attrset(normal);
 						getch();
 						filenotfound = 1;
-						if (infohistory.length)
+						if (infohistory.size())
 						{
-							npos = infohistory.pos[infohistory.length];
-							ncursor = infohistory.cursor[infohistory.length];
+							npos = infohistory[infohistory.size() - 1].pos;
+							ncursor = infohistory[infohistory.size() - 1].pos;
 						}
 						/* open back the old file */
 						strip_info_suffix_from_file(curfile);

@@ -64,7 +64,7 @@ int QuitConfirmDefault = 0;
 int ClearScreenAtExit = 0;
 int CallReadlineHistory = 1;
 
-InfoHistory infohistory;
+vector<InfoHistory> infohistory;
 
 int npos = -1;
 int ncursor = -1;
@@ -80,12 +80,7 @@ int winchanged = 0;
 void
 inithistory()
 {
-	infohistory.length = 0;
-	infohistory.node = 0;
-	infohistory.file = 0;
-	infohistory.pos = 0;
-	infohistory.cursor = 0;
-	infohistory.menu = 0;
+	infohistory.clear();
 }
 
 /*
@@ -94,33 +89,15 @@ inithistory()
 void
 addinfohistory(const char *file, const char *node, int cursor, int menu, int pos)
 {
-	if (!infohistory.length)
-	{
-		infohistory.length++;
-		infohistory.node = (char**)xmalloc(sizeof(char *) * 2);
-		infohistory.node[0] = 0;
-		infohistory.file = (char**)xmalloc(sizeof(char *) * 2);
-		infohistory.file[0] = 0;
-		infohistory.pos = (int*)xmalloc(sizeof(int) * 2);
-		infohistory.cursor = (int*)xmalloc(sizeof(int) * 2);
-		infohistory.menu = (int*)xmalloc(sizeof(int) * 2);
-	}
-	else
-	{
-		infohistory.length++;
-		infohistory.node = (char**)xrealloc(infohistory.node, sizeof(char *) *(infohistory.length + 1));
-		infohistory.file = (char**)xrealloc(infohistory.file, sizeof(char *) *(infohistory.length + 1));
-		infohistory.pos = (int*)xrealloc(infohistory.pos, sizeof(int) *(infohistory.length + 1));
-		infohistory.cursor = (int*)xrealloc(infohistory.cursor, sizeof(int) *(infohistory.length + 1));
-		infohistory.menu = (int*)xrealloc(infohistory.menu, sizeof(int) *(infohistory.length + 1));
-	}
-	infohistory.node[infohistory.length] = (char*)xmalloc(strlen(node) + 1);
-	strcpy(infohistory.node[infohistory.length], node);
-	infohistory.file[infohistory.length] = (char*)xmalloc(strlen(file) + 1);
-	strcpy(infohistory.file[infohistory.length], file);
-	infohistory.pos[infohistory.length] = pos;
-	infohistory.cursor[infohistory.length] = cursor;
-	infohistory.menu[infohistory.length] = menu;
+	InfoHistory my_hist;
+	my_hist.node = (char*)xmalloc(strlen(node) + 1);
+	strcpy(my_hist.node, node);
+	my_hist.file = (char*)xmalloc(strlen(file) + 1);
+	strcpy(my_hist.file, file);
+	my_hist.pos = pos;
+	my_hist.cursor = cursor;
+	my_hist.menu = menu;
+	infohistory.push_back(my_hist);
 }
 
 /*
@@ -129,56 +106,17 @@ addinfohistory(const char *file, const char *node, int cursor, int menu, int pos
 void
 dellastinfohistory()
 {
-	if (infohistory.length)
-	{
-		if (infohistory.node[infohistory.length])
-		{
-			xfree(infohistory.node[infohistory.length]);
-			infohistory.node[infohistory.length] = 0;
-		}
-		if (infohistory.file[infohistory.length])
-		{
-			xfree(infohistory.file[infohistory.length]);
-			infohistory.file[infohistory.length] = 0;
-		}
-		if (infohistory.length)
-			infohistory.length--;
-		if (infohistory.length)
-		{
-			infohistory.node = (char**)xrealloc(infohistory.node, sizeof(char *) *(infohistory.length + 1));
-			infohistory.file = (char**)xrealloc(infohistory.file, sizeof(char *) *(infohistory.length + 1));
-			infohistory.pos = (int*)xrealloc(infohistory.pos, sizeof(int) *(infohistory.length + 1));
-			infohistory.cursor = (int*)xrealloc(infohistory.cursor, sizeof(int) *(infohistory.length + 1));
-			infohistory.menu = (int*)xrealloc(infohistory.menu, sizeof(int) *(infohistory.length + 1));
-		}
-		else
-		{
-			if (infohistory.node)
-			{
-				xfree(infohistory.node);
-				infohistory.node = 0;
-			}
-			if (infohistory.file)
-			{
-				xfree(infohistory.file);
-				infohistory.file = 0;
-			}
-			if (infohistory.pos)
-			{
-				xfree(infohistory.pos);
-				infohistory.pos = 0;
-			}
-			if (infohistory.cursor)
-			{
-				xfree(infohistory.cursor);
-				infohistory.cursor = 0;
-			}
-			if (infohistory.menu)
-			{
-				xfree(infohistory.menu);
-				infohistory.menu = 0;
-			}
-		}
+	if (infohistory.empty()) {
+		return;
 	}
+	if (infohistory[infohistory.size() - 1].node)	{
+		xfree(infohistory[infohistory.size() - 1].node);
+		infohistory[infohistory.size() - 1].node = 0;
+	}
+	if (infohistory[infohistory.size() - 1].file) {
+		xfree(infohistory[infohistory.size() - 1].file);
+		infohistory[infohistory.size() - 1].file = 0;
+	}
+	infohistory.pop_back();
 }
 

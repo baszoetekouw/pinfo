@@ -582,9 +582,9 @@ work(char ***message, char **type, long *lines, FILE * id, int tag_table_pos)
 
 				if (return_value != -1)
 				{
-					infohistory.pos[infohistory.length] = pos;
-					infohistory.cursor[infohistory.length] = cursor;
-					infohistory.menu[infohistory.length] = infomenu;
+					infohistory[infohistory.size() - 1].pos = pos;
+					infohistory[infohistory.size() - 1].cursor = cursor;
+					infohistory[infohistory.size() - 1].menu = infomenu;
 					rval.node = tag_table[return_value].nodename;
 					rval.file = "";
 					rval.keep_going = true;
@@ -712,9 +712,10 @@ skip_search:
 				{
 					xfree(token);
 					token = 0;
-					infohistory.pos[infohistory.length] = pos;
-					infohistory.cursor[infohistory.length] = cursor;
-					infohistory.menu[infohistory.length] = infomenu;
+
+					infohistory[infohistory.size() - 1].pos = pos;
+					infohistory[infohistory.size() - 1].cursor = cursor;
+					infohistory[infohistory.size() - 1].menu = infomenu;
 					rval.node = tag_table[return_value].nodename;
 					rval.file = "";
 					rval.keep_going = true;
@@ -788,9 +789,9 @@ skip_search:
 				return_value = gettagtablepos(token_str.c_str());
 				if (return_value != -1)
 				{
-					infohistory.pos[infohistory.length] = pos;
-					infohistory.cursor[infohistory.length] = cursor;
-					infohistory.menu[infohistory.length] = infomenu;
+					infohistory[infohistory.size() - 1].pos = pos;
+					infohistory[infohistory.size() - 1].cursor = cursor;
+					infohistory[infohistory.size() - 1].menu = infomenu;
 					rval.node = tag_table[return_value].nodename;
 					rval.file = "";
 					rval.keep_going = true;
@@ -807,9 +808,9 @@ skip_search:
 				return_value = gettagtablepos(token_str.c_str());
 				if (return_value != -1)
 				{
-					infohistory.pos[infohistory.length] = pos;
-					infohistory.cursor[infohistory.length] = cursor;
-					infohistory.menu[infohistory.length] = infomenu;
+					infohistory[infohistory.size() - 1].pos = pos;
+					infohistory[infohistory.size() - 1].cursor = cursor;
+					infohistory[infohistory.size() - 1].menu = infomenu;
 					rval.node = tag_table[return_value].nodename;
 					rval.file = "";
 					rval.keep_going = true;
@@ -831,9 +832,9 @@ skip_search:
 				{
 					if (toggled_by_menu == KEEP_HISTORY)
 					{
-						infohistory.pos[infohistory.length] = pos;
-						infohistory.cursor[infohistory.length] = cursor;
-						infohistory.menu[infohistory.length] = infomenu;
+						infohistory[infohistory.size() - 1].pos = pos;
+						infohistory[infohistory.size() - 1].cursor = cursor;
+						infohistory[infohistory.size() - 1].menu = infomenu;
 					}
 					rval.node = tag_table[return_value].nodename;
 					rval.file = "";
@@ -998,9 +999,9 @@ skip_search:
 			if ((key == keys.top_1) ||
 					(key == keys.top_2))
 			{
-				infohistory.pos[infohistory.length] = pos;
-				infohistory.cursor[infohistory.length] = cursor;
-				infohistory.menu[infohistory.length] = infomenu;
+				infohistory[infohistory.size() - 1].pos = pos;
+				infohistory[infohistory.size() - 1].cursor = cursor;
+				infohistory[infohistory.size() - 1].menu = infomenu;
 				rval.node = FirstNodeName;
 				rval.file = "";
 				rval.keep_going = true;
@@ -1011,18 +1012,18 @@ skip_search:
 			if ((key == keys.back_1) ||
 					(key == keys.back_2))
 			{
-				if (infohistory.length > 1)
+				if (infohistory.size() > 1)
 				{
 					dellastinfohistory();	/* remove history entry for this node */
 					/* now we deal with the previous node history entry */
 
-					rval.node = infohistory.node[infohistory.length];
-					rval.file = infohistory.file[infohistory.length];
+					rval.node = infohistory[infohistory.size() - 1].node;
+					rval.file = infohistory[infohistory.size() - 1].file;
 					rval.keep_going = true;
 
-					npos = infohistory.pos[infohistory.length];
-					ncursor = infohistory.cursor[infohistory.length];
-					nmenu = infohistory.menu[infohistory.length];
+					npos = infohistory[infohistory.size() - 1].pos;
+					ncursor = infohistory[infohistory.size() - 1].cursor;
+					nmenu = infohistory[infohistory.size() - 1].menu;
 					dellastinfohistory();	/* remove history entry for previous node */
 					aftersearch = 0;
 					return rval;
@@ -1032,11 +1033,11 @@ skip_search:
 			if ((key == keys.followlink_1) ||
 					(key == keys.followlink_2))
 			{
-				infohistory.pos[infohistory.length] = pos;
-				infohistory.cursor[infohistory.length] = cursor;
-				infohistory.menu[infohistory.length] = infomenu;
+				infohistory[infohistory.size() - 1].pos = pos;
+				infohistory[infohistory.size() - 1].cursor = cursor;
+				infohistory[infohistory.size() - 1].menu = infomenu;
 				if (!toggled_by_menu)
-					infohistory.menu[infohistory.length] = cursor;
+					infohistory[infohistory.size() - 1].menu = cursor;
 				if ((cursor >= 0) && (cursor < hyperobjects.size()))
 					if ((hyperobjects[cursor].line >= pos) &&
 							(hyperobjects[cursor].line < pos +(maxy - 2)) ||

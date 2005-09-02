@@ -59,14 +59,13 @@ typedef struct TagTable
 }
 TagTable;
 
-typedef struct
+typedef struct InfoHistory
 {
-	int length;
-	char **node;	/* array of history of nodes */
-	char **file;	/* array of history of files, associated with given nodes */
-	int *pos;		/* history of pos offsets in viewed nodes */
-	int *cursor;	/* history of cursor offsets in viewed nodes */
-	int *menu;		/* history of menu positions (in sequential reading) in viewed nodes */
+	char *node;	/* node */
+	char *file;	/* file associated with given node */
+	int pos;		/* pos offset in viewed nodes */
+	int cursor;	/* cursor offsets in viewed nodes */
+	int menu;		/* menu position (in sequential reading) in viewed node */
 }
 InfoHistory;
 
@@ -135,7 +134,7 @@ extern long FirstNodeOffset;
 extern std::string FirstNodeName;
 /* maximum dimensions of screen */
 extern int maxx, maxy;
-extern InfoHistory infohistory;
+extern std::vector<InfoHistory> infohistory;
 /* position to by set when moving via history */
 extern int npos;
 /* cursor pos to be set when..... as above */
