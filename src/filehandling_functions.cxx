@@ -951,7 +951,7 @@ create_indirect_tag_table()
 {
 	FILE *id = 0;
 	int initial;
-	for (vector<Indirect>::size_type i = 0; i < indirect.size(); i++)
+	for (typeof(indirect.size()) i = 0; i < indirect.size(); i++)
 	{
 		id = openinfo(indirect[i].filename, 1);
 		initial = tag_table.size(); /* Before create_tag_table operates */

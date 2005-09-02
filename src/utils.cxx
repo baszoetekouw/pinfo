@@ -364,7 +364,7 @@ gettagtablepos(string node)
 {
   TagTable dummy;
 	dummy.nodename = node;
-	std::pair<vector<TagTable>::iterator, vector<TagTable>::iterator> my_result;
+	std::pair<typeof(tag_table.begin()), typeof(tag_table.begin())> my_result;
 	/* The following does binary search */
 	my_result = std::equal_range(tag_table.begin(), tag_table.end(),
 	                             dummy, compare_tags);

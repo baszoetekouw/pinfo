@@ -37,7 +37,7 @@ RCSID("$Id$")
 void rescan_cursor();	/* set the cursor to 1st item on visible screen */
 void next_infomenu();	/* go to the next menu item for sequential reading */
 int getnodeoffset(int tag_table_pos,
-			vector<Indirect>::size_type& indirectstart);	/* get node offset in file */
+			typeof(indirect.size())& indirectstart);	/* get node offset in file */
 
 int aftersearch = 0;
 /*
@@ -48,7 +48,7 @@ int toggled_by_menu = 0;
 long pos, infomenu;
 long infocolumn=0;
 
-vector<HyperObject>::size_type cursor;
+typeof(hyperobjects.size()) cursor;
 
 
 
@@ -115,7 +115,7 @@ work(char ***message, char **type, long *lines, FILE * id, int tag_table_pos)
 	static WorkRVal rval;
 	FILE *pipe;
 	int fileoffset;
-	vector<Indirect>::size_type indirectstart = -1;
+	typeof(indirect.size()) indirectstart = -1;
 	int cursorchanged = 0;
 	int key = 0;
 	int return_value;
@@ -391,7 +391,7 @@ work(char ***message, char **type, long *lines, FILE * id, int tag_table_pos)
 					long tokenpos;
 					long starttokenpos;
 					long filelen;
-					for (vector<Indirect>::size_type j = indirectstart;
+					for (typeof(indirect.size()) j = indirectstart;
 					     j < indirect.size(); j++)
 					{
 						fd = openinfo(indirect[j].filename, 1);	/* get file length. */
@@ -854,7 +854,7 @@ skip_search:
 					(key == keys.up_2))
 			{
 				cursorchanged = 0;
-				if (cursor != (vector<HyperObject>::size_type)-1)	{
+				if (cursor != (typeof(hyperobjects.size()))-1)	{
 					/* if we must handle cursor... */
 					if ((cursor > 0) &&(hyperobjects.size()))
 						/* if we really must handle it ;) */
@@ -882,7 +882,7 @@ skip_search:
 					if (pos > 2)	/* lower the nodepos */
 						pos--;
 					/* and scan for a hyperlink in the new line */
-					for (vector<HyperObject>::size_type i = 0;
+					for (typeof(hyperobjects.size()) i = 0;
 					     i < hyperobjects.size(); i++) {
 						if (hyperobjects[i].line == pos)
 						{
@@ -961,7 +961,7 @@ skip_search:
 			{
 				cursorchanged = 0;	/* works similar to keys.up */
 				if (cursor < hyperobjects.size())
-					for (vector<HyperObject>::size_type i = cursor + 1;
+					for (typeof(hyperobjects.size()) i = cursor + 1;
 					     i < hyperobjects.size(); i++)
 					{
 						if ((hyperobjects[i].line >= pos) &&
@@ -979,7 +979,7 @@ skip_search:
 				{
 					if (pos <= Lines -(maxy - 2))
 						pos++;
-					for (vector<HyperObject>::size_type i = cursor + 1;
+					for (typeof(hyperobjects.size()) i = cursor + 1;
 					     i < hyperobjects.size(); i++)
 					{
 						if ((hyperobjects[i].line >= pos) &&
@@ -1113,7 +1113,7 @@ skip_search:
 				{
 					if ((mouse.y > 0) &&(mouse.y < maxy - 1))
 					{
-						for (vector<HyperObject>::size_type i = cursor; i > 0; i--)
+						for (typeof(hyperobjects.size()) i = cursor; i > 0; i--)
 						{
 							if (hyperobjects[i].line == mouse.y + pos - 1)
 							{
@@ -1132,7 +1132,7 @@ skip_search:
 							}
 						}
 						if (!done)
-							for (vector<HyperObject>::size_type i = cursor;
+							for (typeof(hyperobjects.size()) i = cursor;
 							     i < hyperobjects.size(); i++)
 							{
 								if (hyperobjects[i].line == mouse.y + pos - 1)
@@ -1161,7 +1161,7 @@ skip_search:
 				{
 					if ((mouse.y > 0) &&(mouse.y < maxy - 1))
 					{
-						for (vector<HyperObject>::size_type i = cursor; i >= 0; i--)
+						for (typeof(hyperobjects.size()) i = cursor; i >= 0; i--)
 						{
 							if (hyperobjects[i].line == mouse.y + pos - 1)
 							{
@@ -1180,7 +1180,7 @@ skip_search:
 							}
 						}
 						if (!done)
-							for (vector<HyperObject>::size_type i = cursor;
+							for (typeof(hyperobjects.size()) i = cursor;
 							     i < hyperobjects.size(); i++)
 							{
 								if (hyperobjects[i].line == mouse.y + pos - 1)
@@ -1233,7 +1233,7 @@ next_infomenu()
 		infomenu = -1;
 		return;
 	}
-	for (vector<HyperObject>::size_type i = infomenu + 1;
+	for (typeof(hyperobjects.size()) i = infomenu + 1;
 	     i < hyperobjects.size(); i++) {
 		if (hyperobjects[i].type <= 1) { /* menu item */
 			infomenu = i;
@@ -1246,7 +1246,7 @@ next_infomenu()
 void
 rescan_cursor()
 {
-	for (vector<HyperObject>::size_type i = 0; i < hyperobjects.size(); i++)
+	for (typeof(hyperobjects.size()) i = 0; i < hyperobjects.size(); i++)
 	{
 		if ((hyperobjects[i].line >= pos) &&
 				(hyperobjects[i].line < pos +(maxy - 2)))
@@ -1262,13 +1262,13 @@ rescan_cursor()
 
 int
 getnodeoffset(int tag_table_pos,
-              vector<Indirect>::size_type& indirectstart)
+              typeof(indirect.size())& indirectstart)
 							/* count node offset in file */
 {
 	int fileoffset = 0;
 	if (!indirect.empty())
 	{
-		for (vector<Indirect>::size_type i = indirect.size() - 1; i >= 0; i--)
+		for (typeof(indirect.size()) i = indirect.size() - 1; i >= 0; i--)
 		{
 			if (indirect[i].offset <= tag_table[tag_table_pos].offset)
 			{

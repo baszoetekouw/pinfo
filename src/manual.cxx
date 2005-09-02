@@ -537,8 +537,8 @@ compare_manuallink(manuallink a, manuallink b)
 
 void
 sort_manuallinks_from_current_line(
-	vector<manuallink>::iterator startlink,
-	vector<manuallink>::iterator endlink)
+	typeof(manuallinks.begin()) startlink,
+	typeof(manuallinks.begin()) endlink)
 {
 	std::sort(startlink, endlink, compare_manuallink);
 }
@@ -547,7 +547,7 @@ sort_manuallinks_from_current_line(
 void
 man_initializelinks(char *tmp, int carry)
 {
-	vector<manuallink>::size_type initialManualLinks = manuallinks.size();
+	typeof(manuallinks.size()) initialManualLinks = manuallinks.size();
 	/******************************************************************************
 	 * handle url refrences                                                       *
 	 *****************************************************************************/
@@ -735,7 +735,7 @@ man_initializelinks(char *tmp, int carry)
 	/* do this loop until strchr() won't find a '(' in string */
 
 	if (manuallinks.size() > initialManualLinks) {
-		vector<manuallink>::iterator first_new_link
+		typeof(manuallinks.begin()) first_new_link
 			= manuallinks.end() - (manuallinks.size() - initialManualLinks); 
 		sort_manuallinks_from_current_line(first_new_link, manuallinks.end());
 	}

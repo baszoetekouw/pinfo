@@ -40,8 +40,8 @@ compare_hyperlink(HyperObject a, HyperObject b)
 
 void
 sort_hyperlinks_from_current_line(
-	vector<HyperObject>::iterator startlink,
-	vector<HyperObject>::iterator endlink)
+	typeof(hyperobjects.begin()) startlink,
+	typeof(hyperobjects.begin()) endlink)
 {
 	std::sort(startlink, endlink, compare_hyperlink);
 }
@@ -225,7 +225,7 @@ initializelinks(char *line1, char *line2, int line)
 	int changed;
 	int line1len = strlen(line1);
 
-	vector<HyperObject>::size_type initial_hyperobjects_size = hyperobjects.size();
+	typeof(hyperobjects.size()) initial_hyperobjects_size = hyperobjects.size();
 
 	strcpy(buf, line1);		/* copy two lines into one */
 	if (strlen(line1))
@@ -632,7 +632,7 @@ handle_no_file_note_label:
 		hyperobjects.push_back(my_ho);
 	}
 	if (hyperobjects.size() > initial_hyperobjects_size) {
-		vector<HyperObject>::iterator first_new_link
+		typeof(hyperobjects.begin()) first_new_link
 			= hyperobjects.end() - (hyperobjects.size() - initial_hyperobjects_size);
 		sort_hyperlinks_from_current_line(first_new_link, hyperobjects.end());
 	}
