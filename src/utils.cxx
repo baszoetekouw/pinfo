@@ -23,6 +23,8 @@
 #include "common_includes.h"
 #include <string>
 using std::string;
+#include <vector>
+using std::vector;
 
 RCSID("$Id$")
 
@@ -358,50 +360,23 @@ compare_tags(TagTable a, TagTable b) {
 }
 
 int
-gettagtablepos_search_internal(char *node, int left, int right)
-{
-	/* left+(right-left)/2 */
-	int thispos = left +((right - left) >> 1);
-	int compare_result = compare_tag_table_string(tag_table[thispos].nodename.c_str(), node);
-	if (compare_result == 0)
-		return thispos;
-	else
-	{
-		if (left == right)
-			return -1;
-		if (compare_result > 0)
-		{
-			if (thispos > left)
-				return gettagtablepos_search_internal(node, left, thispos - 1);
-			else
-				return -1;
-		}
-		else if (compare_result < 0)
-		{
-			if (thispos < right)
-				return gettagtablepos_search_internal(node, thispos + 1, right);
-			else
-				return -1;
-		}
-	}
-	return -1;
-}
-
-int
 gettagtablepos(string node)
 {
-	int result;
-	char* my_node = strdup(node.c_str());
-	/* strip spaces from the beginning */
-	while (1)
-	{
-		if ((*my_node != ' ') &&(*my_node != '\t'))
-			break;
-		my_node++;
+  TagTable dummy;
+	dummy.nodename = node;
+	std::pair<vector<TagTable>::iterator, vector<TagTable>::iterator> my_result;
+	/* The following does binary search */
+	my_result = std::equal_range(tag_table.begin(), tag_table.end(),
+	                             dummy, compare_tags);
+	if (my_result.first == my_result.second) {
+		/* Degenerate range: it's a miss. */
+		return -1;
+	} else {
+		/* It's a hit.  Grab the first one in the range. */
+		/* And convert to int (zero-based indexing) for output */
+		int result = my_result.first - tag_table.begin();
+		return result;
 	}
-	result = gettagtablepos_search_internal(my_node, 0, tag_table.size() - 1);
-	xfree(my_node);
-	return result;
 }
 
 int
