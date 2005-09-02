@@ -314,7 +314,7 @@ handlemanual(string name)
 		cmd_string += " > ";
 		cmd_string += apropos_tempfilename;
 		if (system(cmd_string.c_str()) != 0) {
-			printf(_("Nothing apropiate\n"));
+			printf(_("Nothing appropriate\n"));
 			unlink(apropos_tempfilename);
 			return 1;
 		} else {

@@ -262,49 +262,74 @@ read_item(FILE * id, char **type, char ***buf, long *lines)
 #define Type	(*type)
 #define Buf		(*buf)
 #define Lines	(*lines)
+	int i;
 
 	freeitem(type, buf, lines);	/* free previously allocated memory */
 
-	while (fgetc(id) != INFO_TAG);	/*
-									 * seek precisely on the INFO_TAG
-									 *(the seeknode function may be
-									 * imprecise in combination with
-									 * some weird tag_tables).
-									 */
-	while (fgetc(id) != '\n');	/* then skip the trailing `\n' */
+	/* seek precisely on the INFO_TAG (the seeknode function may be imprecise
+	 * in combination with some weird tag_tables).  */
+	while (fgetc(id) != INFO_TAG);
+	/* then skip the trailing `\n' */
+	while (fgetc(id) != '\n');
 
-	Type = (char*)xmalloc(1024);	/* read the header line */
+	/* allocate and read the header line */
+	Type = (char*)xmalloc(1024);
 	fgets(Type, 1024, id);
 	Type = (char*)xrealloc(Type, strlen(Type) + 1);
-	Lines = 0;			/* set number of lines to 0 */
 
-	Buf = (char**)xmalloc(sizeof(char **));	/* initial buffer allocation */
+	/* set number of lines to 0 */
+	Lines = 0;
+
+	/* initial buffer allocation */
+	Buf = (char**)xmalloc(sizeof(char **));
+
+	/* now iterate over the lines */
 	do
 	{
-		if (feof(id))		/* don't read after eof in info file */
+		/* don't read after eof in info file */
+		if (feof(id))
 			break;
-		if (Lines)		/* make a reallocation for new input line */
+
+		/* realloc the previous line for it to fit exactly */
+		if (Lines)
 		{
 			Buf[Lines] = (char*)xrealloc(Buf[Lines], strlen(Buf[Lines]) + 1);
 		}
-		Lines++;			/* increase the read lines number */
 
+		/* increase the read lines number */
+		Lines++;
+
+		/* allocate space for the new line */
 		Buf = (char**)xrealloc(Buf, sizeof(char **) *(Lines + 1));
 		Buf[Lines] = (char*)xmalloc(1024);
 		Buf[Lines][0] = 0;
 
-		if (fgets(Buf[Lines], 1024, id) == NULL)		/*
-														 * if the line was not found
-														 * in input file,
-														 * fill the allocated space
-														 * with empty line.
-														 */
+		/* if the line was not found in input file, fill the allocated space
+		 * with empty line.  */
+		if (fgets(Buf[Lines], 1024, id) == NULL)
 			strcpy(Buf[Lines], "\n");
+		else /* we can be sure that at least 1 char was read! */
+		{
+			/* *sigh*  indices contains \0's
+			 * which totally fucks up all strlen()s.
+			 * so replace it by a space */
+			i = 1023;
+			/* find the end of the string */
+			while (Buf[Lines][i]=='\0' && i>=0) i--;
+			/* and replace all \0's in the rest of the string by spaces */
+			while (i>=0)
+			{
+				if (Buf[Lines][i]=='\0' || Buf[Lines][i]=='\b')
+					Buf[Lines][i]=' ';
+				i--;
+			}
+		}
 	}
 	while (Buf[Lines][0] != INFO_TAG);	/* repeat until new node mark is found */
 
 
-	if (Lines)			/* added for simplifing two-line ismenu and isnote functs */
+	/* added for simplifing two-line ismenu and isnote functs */
+	if (Lines)
 	{
 		strcpy(Buf[Lines], "\n");
 		Buf[Lines] = (char*)xrealloc(Buf[Lines], strlen(Buf[Lines]) + 1);
@@ -435,7 +460,10 @@ seek_indirect(FILE * id)
 	xfree(type);
 	type = 0;
 	if (!curses_open)
-		printf(_("Searching for indirect done\n"));
+	{
+		printf(_("Searching for indirect done"));
+		printf("\n");
+	}
 	else
 	{
 		attrset(bottomline);
@@ -470,9 +498,10 @@ seek_tag_table(FILE * id,int quiet)
 			{
 				if (!quiet)
 				{
-					if (!curses_open)
-						printf(_("Warning: could not find tag table\n"));
-					else
+					if (!curses_open) {
+						printf(_("Warning: could not find tag table"));
+						printf("\n");
+					} else
 					{
 						attrset(bottomline);
 						mvhline(maxy - 1, 0, ' ', maxx);
@@ -773,7 +802,7 @@ charcount(const char *str, const char ch)
 	const char *c;
 
 	c = str;
-	
+
 	while (*c != '\0')
 	{
 		if (*c++ == ch)
@@ -782,8 +811,8 @@ charcount(const char *str, const char ch)
 	return num;
 }
 
-/* 
- * find the paths where info files are to be found, 
+/*
+ * find the paths where info files are to be found,
  * and put them in the global var infopaths[]
  */
 void
@@ -858,7 +887,7 @@ initpaths()
 		if (langshort != "") langlen *= 2;
 		langpath = (char *) xmalloc( langlen * sizeof(char) );
 
-		c = langpath; 
+		c = langpath;
 		for (i=0; i<numpaths; i++)
 		{
 			/* TODO: check for negative return values of sprintf */
@@ -903,9 +932,9 @@ initpaths()
 		if (ret < 0)
 		{
 #ifdef ___DEBUG___
-			fprintf(stderr, "error while opening `%s': %s\n", 
+			fprintf(stderr, "error while opening `%s': %s\n",
 					paths[i], strerror(errno) );
-#endif 
+#endif
 			paths[i] = NULL;
 			inodes[i] = 0;
 		}
@@ -921,7 +950,7 @@ initpaths()
 		}
 
 		/* calculate the total number of vali paths and the size of teh strings */
-		if (paths[i]!=NULL) 
+		if (paths[i]!=NULL)
 		{
 			numpaths++;
 			len += strlen(paths[i]) + 1;
@@ -939,12 +968,11 @@ initpaths()
 		if (paths[i]!=NULL)
 		{
 			/* copy path to c buffer */
-			strcpy(c, paths[i]);	
+			strcpy(c, paths[i]);
 			infopaths[j++] = c;
 			c += strlen(paths[i]) + 1;
 		}
 	}
-	
 
 	xfree(langpath);
 	xfree(paths);
