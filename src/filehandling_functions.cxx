@@ -75,14 +75,14 @@ dirname(const string filename, string& dirname_str)
 
 typedef struct Suffixes
 {
-	const char *suffix;
-	const char *command;
+	const char * const suffix;
+	const char * const command;
 }
 Suffixes;
 
 #define SuffixesNumber 4
 
-Suffixes suffixes[SuffixesNumber] =
+static const Suffixes suffixes[SuffixesNumber] =
 {
 	{"", 		"cat"},
 	{".gz",		"gzip -d -q -c"},
