@@ -114,9 +114,6 @@ manuallink;
 /* a set of manual references of man page */
 vector<manuallink> manuallinks;
 
-/* semaphore for checking if it's a history(left arrow) call */
-int historical = 0;
-
 /* Debugging routine */
 void
 dumplink(manuallink a) {
@@ -350,22 +347,13 @@ handlemanual(string name)
 				xfree(tmpfilename2);
 			}
 			tmpfilename2 = tempnam("/tmp", NULL);
-			/*
-			 * key_back is not pressed; and return_value is an offset to
-			 * manuallinks
-			 */
+
+			bool historical = false;
 			string cmd_string = "man ";
 			cmd_string += ManOptions;
 			cmd_string += " ";
-			if (return_value != -2)
-			{
-				construct_manualname(manualname_string, return_value);
-				cmd_string += manuallinks[return_value].section;
-				cmd_string += " ";
-				cmd_string += manualname_string;
-			}
-			else /* key_back was pressed */
-			{
+			if (return_value == -2) {
+				/* key_back was pressed */
 				if ( (manualhistory.size() - 2) == 0 && apropos_tempfilename)
 				{
 					id = fopen(apropos_tempfilename, "r");
@@ -380,13 +368,17 @@ handlemanual(string name)
 					cmd_string += " ";
 					cmd_string += manualhistory[manualhistory.size() - 2].name;
 				}
-				/*
-				 * flag to make sure, that
-				 * manualwork will refresh the variables manualpos and selected
-				 * when going back to this page
-				 */
-				historical = 1;
 				manualhistory.pop_back();
+				historical = true;
+			} else {
+				/*
+				 * key_back was not pressed; and return_value is an offset to
+				 * manuallinks
+				 */
+				construct_manualname(manualname_string, return_value);
+				cmd_string += manuallinks[return_value].section;
+				cmd_string += " ";
+				cmd_string += manualname_string;
 			}
 			cmd_string += " ";
 			cmd_string += StderrRedirection;
@@ -394,8 +386,7 @@ handlemanual(string name)
 			cmd_string += tmpfilename2;
 			system(cmd_string.c_str());
 			stat(tmpfilename2, &statbuf);
-			if (statbuf.st_size > 0)
-			{
+			if (statbuf.st_size > 0) {
 				string cmd_string = "mv ";
 				cmd_string += tmpfilename2;
 				cmd_string += " ";
@@ -404,8 +395,7 @@ handlemanual(string name)
 				system(cmd_string.c_str());
 				/* open man page */
 				id = fopen(tmpfilename1, "r");
-				if (id != NULL)
-				{
+				if (id != NULL) {
 					manhistory my_hist;
 					/* now we create history entry for new page */
 					if (!historical)
@@ -416,22 +406,16 @@ handlemanual(string name)
 						 */
 						my_hist.name = manualname_string;
 						my_hist.sect = manuallinks[return_value].section;
+						my_hist.pos = 0;
+						my_hist.selected = -1;
+						manualhistory.push_back(my_hist);
 					}
 					/* loading manual page and its defaults... */
 					loadmanual(id);
 					fclose(id);
-					/* continuing with creation of history */
-					if (!historical)
-					{
-						my_hist.pos = manualpos;
-						my_hist.selected = selected;
-						manualhistory.push_back(my_hist);
-					}
-					else
-						historical = 0;
-				}
-				else
+				} else {
 					return_value = -1;
+				}
 			}
 		}
 	} while (return_value != -1);
@@ -679,7 +663,8 @@ man_initializelinks(string line, int carry)
 									    || (manualhistory[manualhistory.size() - 1].sect == " ")
 						        )
 						   ) {
-							break;
+							link++;
+							continue;
 						}
 					}
 					manuallink my_link;
