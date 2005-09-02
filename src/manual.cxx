@@ -154,26 +154,25 @@ manual_free_buffers()
 void
 set_initial_history(const char *name)
 {
-	int len = strlen(name), i;
-	char *name1 = strdup(name);
+	string name2 = name;
 
 	/* filter trailing spaces */
-	while ((len > 1) &&(isspace(name1[len - 1])))
-	{
-		name1[len - 1] = 0;
-		len--;
-	}
-	i = len;
+	string::size_type len;
+	for (len = name2.length(); (len > 0) && isspace(name2[len - 1]); len--);
+	name2.resize(len);
+
 	/* find the beginning of the last token */
-	for (i = len - 1;(i > 0) &&(!isspace(name1[i])); i--);
+	string::size_type i;
+	for (i = len - 1; (i > 0) && !isspace(name2[i]); i--);
 
 	/* if we've found space, then we move to the first nonspace character */
-	if (i > 0)
+	if ( (i > 0) || (i == 0 && isspace(name2[i])) ) {
 		i++;
+	}
 
 	manhistory my_hist;
 	/* filename->name */
-	my_hist.name = name1[i];
+	my_hist.name = name2.substr(i);
 	/* section unknown */
 	my_hist.sect = "";
 	/* selected unknown */
@@ -181,7 +180,6 @@ set_initial_history(const char *name)
 	/* pos=0 */
 	my_hist.pos = 0;
 	manualhistory.push_back(my_hist);
-	free(name1);
 }
 
 /* construct man name; take care about carry */
