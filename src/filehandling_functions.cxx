@@ -358,7 +358,6 @@ void
 load_tag_table(char **message, long lines)
 {
 	long i;
-	char *wsk, *wsk1;
 	int is_indirect = 0;
 
 	/*
@@ -371,33 +370,33 @@ load_tag_table(char **message, long lines)
 
 	for (i = 1; i < lines - is_indirect; i++)
 	{
-		char *check;
-		wsk = message[i + is_indirect];
-		check = wsk + strlen(wsk);
-		while (!isspace(*(++wsk)))
-		{
-			if (wsk >= check)
-			{
-				wsk--;
+		string wsk_string = message[i + is_indirect];
+		/* Skip first character and nonwhitespace after it.
+		 * (Why first character? FIXME) 
+		 * plus one more (space) character */
+		string::size_type i;
+		for (i = 1; i < wsk_string.size(); i++) {
+			if (isspace(wsk_string[i])) {
+				i++;
 				break;
 			}
 		}
-		wsk++;
-		wsk1 = wsk;
-		check = wsk1 + strlen(wsk1);
-		while (*(++wsk1) != INDIRECT_TAG)
-		{
-			if (wsk1 >= check)
-				break;
+		string trimmed = wsk_string.substr(i); /* Might be "" */
+		if (trimmed == "") {
+			continue;
 		}
-		if (wsk1 < check)
-		{
-			TagTable my_tag;
-			my_tag.nodename.assign(wsk, wsk1 - wsk);
-			wsk1++;
-			my_tag.offset = atoi(wsk1);
-			tag_table.push_back(my_tag);
+
+		/* Find INDIRECT_TAG character, but skip at least one character
+		 * so the node name is nonempty */
+		string::size_type ind_tag_idx = trimmed.find(INDIRECT_TAG, 1);
+		if (ind_tag_idx == string::npos) {
+			continue;
 		}
+		TagTable my_tag;
+		my_tag.nodename.assign(trimmed, 0, ind_tag_idx);
+		string offset_string = trimmed.substr(ind_tag_idx + 1);
+		my_tag.offset = atoi(offset_string.c_str());
+		tag_table.push_back(my_tag);
 	}
 
 	/* info should ALWAYS start at the 'Top' node, not at the first

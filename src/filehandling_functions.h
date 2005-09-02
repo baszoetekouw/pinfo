@@ -31,8 +31,8 @@
 
 #include <string>
 
-#define INFO_TAG 0x1f
-#define INDIRECT_TAG 0x7f
+#define INFO_TAG (char)0x1f
+#define INDIRECT_TAG (char)0x7f
 
 void initpaths ();
 void addrawpath (const std::string filename);
