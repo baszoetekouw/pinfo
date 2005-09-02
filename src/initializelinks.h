@@ -24,15 +24,16 @@
 /* initializes node links.  */
 void initializelinks (char *line1, char *line2, int line);
 /*
- * scans for url end in given url-string.
- * returns a pointer to the found place.
+ * scans for url end in given url-string (from pos).
+ * returns index of found place.
  */
-char *findurlend (char *str);
 std::string::size_type findurlend (std::string str,
 																	 std::string::size_type pos = 0);
 
-/* scans for the beginning of username. Returns a pointer to it.  */
-char *findemailstart (char *str);
+/* scans for the beginning of username. Returns its index.  */
+std::string::size_type findemailstart (std::string str,
+																			 std::string::size_type pos = 0);
+
 /*
  * calculate length of visible part of string ('\t' included) between start and
  * end. Returns length.

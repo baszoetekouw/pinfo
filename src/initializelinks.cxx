@@ -175,12 +175,12 @@ finddot(char *str, int note)
  * Moves you to the beginning of username in email address.  If username has
  * length=0, NULL is returned.
  */
-char *
-findemailstart(char *str)
+const char *
+findemailstart(const char *str)
 {
-	char *allowedchars = "QWERTYUIOPASDFGHJKLZXCVBNMqwertyuiopasdfghjklzxcvbnm1234567890-_/~.%=|:";
-	char *at = strchr(str, '@');
-	char *emailstart = 0;
+	const char *allowedchars = "QWERTYUIOPASDFGHJKLZXCVBNMqwertyuiopasdfghjklzxcvbnm1234567890-_/~.%=|:";
+	const char *at = strchr(str, '@');
+	const char *emailstart = 0;
 	if (at)
 	{
 		emailstart = str;
@@ -203,11 +203,23 @@ findemailstart(char *str)
 	return 0;
 }
 
+string::size_type
+findemailstart(string str, string::size_type pos) {
+	/* Currently a wrapper (sigh, FIXME) */
+	const char * foo = str.substr(pos).c_str();
+	const char * bar = findemailstart(foo);
+	if (bar == NULL) {
+		return string::npos;
+	} else {
+		return string::size_type(bar - foo);
+	}
+}
+
 void
 initializelinks(char *line1, char *line2, int line)
 {
 	char *tmp;
-	char *notestart = 0, *urlstart = 0, *urlend = 0;
+	char *notestart = 0;
 	char *quotestart = 0, *quoteend = 0;
 	char *buf = (char*)xmalloc(strlen(line1) + strlen(line2) + 1);
 	int changed;
@@ -219,12 +231,12 @@ initializelinks(char *line1, char *line2, int line)
 	if (strlen(line1))
 		buf[strlen(line1) - 1] = ' ';	/* replace trailing '\n' with ' ' */
 	strcat(buf, line2);
+
 	/******************************************************************************
 	 * First scan for some highlights ;) -- words enclosed with quotes             *
 	 ******************************************************************************/
 	quoteend = buf;
-	do
-	{
+	do {
 		changed = 0;
 		if ((quotestart = strchr(quoteend, '`')) != NULL)	/* find start of quoted text */
 		{
@@ -260,24 +272,25 @@ initializelinks(char *line1, char *line2, int line)
 					}
 				}
 		}
-	}
-	while (changed);
+	} while (changed);
+
 	/******************************************************************************
 	 * Look for e-mail url's                                                       *
 	 ******************************************************************************/
-	urlend = line1;
-	do
-	{
+	string url_tmpstr = line1;
+	string::size_type urlstart = 0;
+	string::size_type urlend = 0;
+	do {
 		changed = 0;
-		if ((urlstart = findemailstart(urlend)) != NULL)
+		if ((urlstart = findemailstart(url_tmpstr, urlend)) != string::npos)
 		{
-			urlend = findurlend(urlstart);	/* always successful */
+			urlend = findurlend(url_tmpstr, urlstart);	/* always successful */
 			HyperObject my_ho;
 			my_ho.line = line;
-			my_ho.col = calculate_len(line1, urlstart);
+			my_ho.col = calculate_len(line1, line1 + urlstart);
 			my_ho.breakpos = -1;
 			my_ho.type = 6;
-			my_ho.node.assign(urlstart, urlend - urlstart);
+			my_ho.node = url_tmpstr.substr(urlstart, urlend - urlstart);
 			my_ho.file = "";
 			my_ho.tagtableoffset = -1;
 			if (my_ho.node.find('.') == string::npos) {
@@ -287,9 +300,8 @@ initializelinks(char *line1, char *line2, int line)
 			}
 			changed = 1;
 		}
+	} while (changed);
 
-	}
-	while (changed);
 	/******************************************************************************
 	 * First try to scan for menu. Use as many security mechanisms, as possible    *
 	 ******************************************************************************/
@@ -578,6 +590,7 @@ handle_no_file_note_label:
 			if ((notestart = strstr(notestart + 6, "*note")) != NULL)
 				goto handlenote;
 		}
+
 	/******************************************************************************
 	 * Try to scan for some url-like objects in single line; mainly               *
 	 * http://[address][space|\n|\t]                                              *
@@ -585,31 +598,35 @@ handle_no_file_note_label:
 	 * username@something.else[space|\n|\t]                                       *
 	 *****************************************************************************/
 	/* http:// */
-	urlend = line1;
-	while ((urlstart = strstr(urlend, "http://")) != NULL)
+	url_tmpstr = line1;
+	urlstart = 0;
+	urlend = 0;
+	while ( (urlstart = url_tmpstr.find("http://", urlend)) != string::npos)
 	{
-		urlend = findurlend(urlstart);	/* always successful */
+		urlend = findurlend(url_tmpstr, urlstart);	/* always successful */
 		HyperObject my_ho;
 		my_ho.line = line;
-		my_ho.col = calculate_len(line1, urlstart);
+		my_ho.col = calculate_len(line1, line1 + urlstart);
 		my_ho.breakpos = -1;
 		my_ho.type = 4;
-		my_ho.node.assign(urlstart, urlend - urlstart);
+		my_ho.node = url_tmpstr.substr(urlstart, urlend - urlstart);
 		my_ho.file = "";
 		my_ho.tagtableoffset = -1;
 		hyperobjects.push_back(my_ho);
 	}
 	/* ftp:// */
-	urlend = line1;
-	while ((urlstart = strstr(urlend, "ftp://")) != NULL)
+	url_tmpstr = line1;
+	urlstart = 0;
+	urlend = 0;
+	while ( (urlstart = url_tmpstr.find("ftp://", urlend)) != string::npos)
 	{
-		urlend = findurlend(urlstart);	/* always successful */
+		urlend = findurlend(url_tmpstr, urlstart);	/* always successful */
 		HyperObject my_ho;
 		my_ho.line = line;
-		my_ho.col = calculate_len(line1, urlstart);
+		my_ho.col = calculate_len(line1, line1 + urlstart);
 		my_ho.breakpos = -1;
 		my_ho.type = 5;
-		my_ho.node.assign(urlstart, urlend - urlstart);
+		my_ho.node = url_tmpstr.substr(urlstart, urlend - urlstart);
 		my_ho.file = "";
 		my_ho.tagtableoffset = -1;
 		hyperobjects.push_back(my_ho);

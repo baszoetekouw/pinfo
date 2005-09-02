@@ -547,59 +547,61 @@ sort_manuallinks_from_current_line(
 void
 man_initializelinks(char *tmp, int carry)
 {
+	vector<manuallink>::size_type initialManualLinks = manuallinks.size();
 	/******************************************************************************
 	 * handle url refrences                                                       *
 	 *****************************************************************************/
-	char *urlstart, *urlend;
-	urlend = tmp;
 
-	vector<manuallink>::size_type initialManualLinks = manuallinks.size();
-
-	char* crap = tmp;
-	while ((urlstart = strstr(urlend, "http://")) != NULL)
+	string tmpstr = tmp;
+	string::size_type urlstart = 0;
+	string::size_type urlend = 0;
+	while ((urlstart = tmpstr.find("http://", urlend)) != string::npos)
 	{
-		/* always successfull */
-		urlend = findurlend(urlstart);
+		urlend = findurlend(tmpstr, urlstart); /* always successful */
 		manuallink my_link;
 		my_link.line = ManualLines;
-		my_link.col = urlstart - tmp;
+		my_link.col = urlstart;
 		my_link.section = "HTTPSECTION";
 		my_link.section_mark = HTTPSECTION;
-		my_link.name.assign(urlstart, urlend - urlstart - 1);
+		my_link.name = tmpstr.substr(urlstart, urlend - urlstart - 1);
 		if (ishyphen(my_link.name[urlend - urlstart - 1]))
 			my_link.carry = 1;
 		else
 			my_link.carry = 0;
 		manuallinks.push_back(my_link);
 	}
-	urlend = tmp;
-	while ((urlstart = strstr(urlend, "ftp://")) != NULL)
+
+	tmpstr = tmp;
+	urlstart = 0;
+	urlend = 0;
+	while ((urlstart = tmpstr.find("ftp://", urlend)) != string::npos)
 	{
-		/* always successfull */
-		urlend = findurlend(urlstart);
+		urlend = findurlend(tmpstr, urlstart); /* always successful */
 		manuallink my_link;
 		my_link.line = ManualLines;
-		my_link.col = urlstart - tmp;
+		my_link.col = urlstart;
 		my_link.section = "FTPSECTION";
 		my_link.section_mark = FTPSECTION;
-		my_link.name.assign(urlstart, urlend - urlstart - 1);
+		my_link.name = tmpstr.substr(urlstart, urlend - urlstart - 1);
 		if (ishyphen(my_link.name[urlend - urlstart - 1]))
 			my_link.carry = 1;
 		else
 			my_link.carry = 0;
 		manuallinks.push_back(my_link);
 	}
-	urlend = tmp;
-	while ((urlstart = findemailstart(urlend)) != NULL)
+
+	tmpstr = tmp;
+	urlstart = 0;
+	urlend = 0;
+	while ((urlstart = findemailstart(tmpstr, urlend)) != string::npos)
 	{
-		/* always successfull */
-		urlend = findurlend(urlstart);
+		urlend = findurlend(tmpstr, urlstart); /* always successful */
 		manuallink my_link;
 		my_link.line = ManualLines;
-		my_link.col = urlstart - tmp;
+		my_link.col = urlstart;
 		my_link.section = "MAILSECTION";
 		my_link.section_mark = MAILSECTION;
-		my_link.name.assign(urlstart, urlend - urlstart - 1);
+		my_link.name = tmpstr.substr(urlstart, urlend - urlstart - 1);
 		if (ishyphen(my_link.name[urlend - urlstart - 1]))
 			my_link.carry = 1;
 		else
@@ -1658,7 +1660,9 @@ add_highlights()
 					while (isspace(*wsk))
 						wsk++;
 					/* find the end of url */
-					wskend = findurlend(wsk);
+					string temp_string = wsk;
+					string::size_type wskend_idx = findurlend(temp_string);
+					wskend = wsk + wskend_idx;
 					/* add end of string, and print */
 					*wskend = 0;
 					if (wsk-tmpstr<manualcol)
