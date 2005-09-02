@@ -324,6 +324,7 @@ handlemanual(string name)
 	do {
 		/* manualwork handles all actions when viewing man page */
 		return_value = manualwork();
+		/* Return value may specify link to follow */
 #ifdef getmaxyx
 		/* if ncurses, get maxx and maxy */
 		getmaxyx(stdscr, maxy, maxx);
@@ -524,6 +525,36 @@ loadmanual(FILE * id)
 
 }
 
+bool
+compare_manuallink(manuallink a, manuallink b)
+{
+	/* Should a sort before b? */
+  return (a.col < b.col);
+}
+
+void
+sort_manuallinks_from_current_line(
+	vector<manuallink>::iterator startlink,
+	vector<manuallink>::iterator endlink)
+{
+	/* Bletchulous.  This breaks so often... */
+	for (vector<manuallink>::iterator ptr = manuallinks.begin();
+	     ptr < manuallinks.end(); ptr++) {
+		printf("%s (%s %d) at %d %d (%d) BEFORE\n\r", (ptr->name).c_str(),
+			(ptr->section).c_str(), ptr->section_mark,
+			ptr->line, ptr->col, ptr->carry);
+	}
+
+	std::sort(startlink, endlink, compare_manuallink);
+
+	for (vector<manuallink>::iterator ptr = manuallinks.begin();
+	     ptr < manuallinks.end(); ptr++) {
+		printf("%s (%s %d) at %d %d (%d) AFTER\n\r", (ptr->name).c_str(),
+			(ptr->section).c_str(), ptr->section_mark,
+			ptr->line, ptr->col, ptr->carry);
+	}
+}
+
 /* initializes hyperlinks in manual */
 void
 man_initializelinks(char *tmp, int carry)
@@ -537,6 +568,8 @@ man_initializelinks(char *tmp, int carry)
 	 * handle url refrences                                                       *
 	 *****************************************************************************/
 	urlend = tmp;
+
+	vector<manuallink>::size_type initialManualLinks = manuallinks.size();
 	while ((urlstart = strstr(urlend, "http://")) != NULL)
 	{
 		/* always successfull */
@@ -709,6 +742,12 @@ man_initializelinks(char *tmp, int carry)
 		}
 	} while (link != NULL);
 	/* do this loop until strchr() won't find a '(' in string */
+
+	if (manuallinks.size() > initialManualLinks) {
+		vector<manuallink>::iterator first_new_link
+			= manuallinks.end() - (manuallinks.size() - initialManualLinks); 
+		sort_manuallinks_from_current_line(first_new_link, manuallinks.end());
+	}
 }
 
 /* viewer function. Handles keyboard actions--main event loop */
