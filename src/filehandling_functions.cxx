@@ -816,14 +816,13 @@ charcount(const char *str, const char ch)
 void
 initpaths()
 {
-	char **paths = NULL;
+	vector<char*> paths;
 	char *rawlang = NULL;
 	string lang;
 	string langshort;
 	char* c;
 	int ret;
-	unsigned int i, j, maxpaths;
-	unsigned int numpaths = 0;
+	unsigned int i, j;
 	size_t len;
 	struct stat sbuf;
 
@@ -837,10 +836,6 @@ initpaths()
 	infopath += ":"; /* FIXME: what if one of the two is blank? */
 	infopath += configuredinfopath;
 
-	/* alloc the paths[] array */
-	maxpaths = 3 * (charcount( infopath.c_str(), ':' ) + 1); // *3 for $LANG
-	paths = (char **) xmalloc( maxpaths * sizeof(char *) );
-
 	/* split at ':' and put the path components into paths[] */
 	string::size_type stop_idx;
 	string::size_type start_idx = 0;
@@ -850,8 +845,7 @@ initpaths()
 		dir  = infopath.substr(start_idx, stop_idx - start_idx);
 		/* if this actually is a non-empty string, add it to paths[] */
 		if (dir.length() > 0) {
-			paths[numpaths] = strdup(dir.c_str());
-			numpaths++;
+			paths.push_back(strdup(dir.c_str()));
 		}
 		start_idx = stop_idx + 1;
 	} while (stop_idx != string::npos) ;
@@ -877,14 +871,20 @@ initpaths()
 
 	/* if we have a LANG defined, add paths with this lang to the paths[] */
 	if (lang != "") {
+		vector<char*>::size_type old_size = paths.size();
+		if (langshort != "") {
+			paths.resize(old_size * 3);
+		} else {
+			paths.resize(old_size * 2);
+		}
 		/* Leak memory with strdup; FIXME */
-		for (i=0; i<numpaths; i++) {
+		for (i=0; i<old_size; i++) {
 			string tmp;
 			tmp = paths[i];
 			tmp += '/';
 			tmp += lang;
 			/* add the lang specific dir at the beginning */
-			paths[numpaths+i] = paths[i];
+			paths[old_size+i] = paths[i];
 			paths[i] = strdup(tmp.c_str());
 			
 			if (langshort != "") {
@@ -892,25 +892,24 @@ initpaths()
 				tmp = paths[i];
 				tmp += '/';
 				tmp += langshort;
-				paths[2*numpaths+i] = paths[numpaths+i];
-				paths[numpaths+i] = strdup(tmp.c_str());
+				paths[2*old_size+i] = paths[old_size+i];
+				paths[old_size+i] = strdup(tmp.c_str());
 			}
 		}
-		numpaths *= ( (langshort!="") ? 3 : 2);
 	}
 
 #ifdef ___DEBUG___
 	/* for debugging */
-	for (i=0; i<numpaths; i++)
+	for (i=0; i<paths.size(); i++)
 		fprintf(stderr,"--> %s\n", paths[i]);
 #endif
 
 	/* ok, now we have all the (possibly) revelevant paths in paths[] */
 	/* now loop over them, see if they are valid and if they are duplicates*/
 	vector<ino_t> inodes;
-	numpaths = 0;
+	int numpaths = 0;
 	len = 0;
-	for (i=0; i< maxpaths; i++)
+	for (i=0; i<paths.size(); i++)
 	{
 		inodes.push_back(0);
 		/* stat() the dir */
@@ -933,7 +932,8 @@ initpaths()
 		/* now check if this path is a duplicate */
 		for (j=0; j<i; j++)
 		{
-			if (inodes[j]==inodes[i]) paths[i] = NULL;
+			if (inodes[j]==inodes[i])
+				paths[i] = NULL;
 		}
 
 		/* calculate the total number of vali paths and the size of teh strings */
@@ -950,7 +950,7 @@ initpaths()
 	infopaths = (char **) xmalloc( numpaths * sizeof(char *) );
 	c = (char *) xmalloc( len * sizeof(char) );
 	j=0;
-	for (i=0; i<maxpaths; i++)
+	for (i=0; i<paths.size(); i++)
 	{
 		if (paths[i]!=NULL)
 		{
@@ -960,8 +960,6 @@ initpaths()
 			c += strlen(paths[i]) + 1;
 		}
 	}
-
-	xfree(paths);
 
 #ifdef ___DEBUG___
 	/* for debugging */
