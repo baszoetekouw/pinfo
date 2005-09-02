@@ -349,7 +349,7 @@ gettagtablepos(const char * node)
 			break;
 		my_node++;
 	}
-	result = gettagtablepos_search_internal(my_node, 0, TagTableEntries - 1);
+	result = gettagtablepos_search_internal(my_node, 0, tag_table.size() - 1);
 	xfree(my_node);
 	return result;
 }

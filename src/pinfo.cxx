@@ -201,7 +201,7 @@ main(int argc, char *argv[]) {
 	char **message = 0;
 	/* this will hold the node's header */
 	char *type = 0;
-	int tag_table_pos = 0;
+	int tag_table_pos = -1;
 
 	/* take care of SIGSEGV, SIGTERM, SIGINT */
 	install_signal_handlers();
@@ -351,7 +351,7 @@ main(int argc, char *argv[]) {
 				printf(_("Trying to create alternate tag table...\n"));
 			create_tag_table(id);
 			/* if there weren't found any info entries */
-			if (TagTableEntries < 1)
+			if (tag_table.empty())
 			{
 				printf(_("This doesn't look like an info file...\n"));
 				exit(handlemanual(filename_string));
@@ -457,7 +457,7 @@ main(int argc, char *argv[]) {
 							load_indirect(message, lines);
 						}
 						/* free old tag table */
-						freetagtable();
+						tag_table.clear();
 						/* search for the new tagtable */
 						if (seek_tag_table(id,0) != 2)
 						{
@@ -485,11 +485,10 @@ main(int argc, char *argv[]) {
 						{
 							if (!DontHandleWithoutTagTable)
 							{
-								TagTableEntries = 0;
 								mvhline(maxy - 1, 0, ' ', maxx);
 								mvaddstr(maxy - 1, 0, _("Tag table not found. Trying to create alternate..."));
 								create_tag_table(id);
-								if (TagTableEntries < 1)
+								if (tag_table.empty())
 								{
 									closeprogram();
 									printf(_("This doesn't look like info file...\n"));
@@ -519,7 +518,7 @@ main(int argc, char *argv[]) {
 	closeprogram();
 	/* free's at the end are optional, but look nice :) */
 	freeitem(&type, &message, &lines);
-	freetagtable();
+	tag_table.clear();
 	indirect.clear();
 	return 0;
 }

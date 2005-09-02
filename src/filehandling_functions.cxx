@@ -95,17 +95,20 @@ Suffixes suffixes[SuffixesNumber] =
 char **infopaths = 0;
 int infopathcount = 0;
 
-int
-qsort_cmp(const void *base, const void *compared)
-{
-	char *cbase =((TagTable *) base)->nodename;
-	char *ccompared =((TagTable *) compared)->nodename;
-	return compare_tag_table_string(cbase, ccompared);
+bool
+compare_tags(TagTable a, TagTable b) {
+	/* Should a be sorted before b? */
+	int result = compare_tag_table_string(a.nodename, b.nodename);
+	if (result < 0)
+		return true;
+	else
+		return false;
 }
 
 void
 sort_tag_table(void) {
-	qsort(&tag_table[0], TagTableEntries, sizeof(TagTable), qsort_cmp);
+	if (!tag_table.empty())
+		std::sort(tag_table.begin(), tag_table.end(), compare_tags);
 }
 
 /*
@@ -367,7 +370,6 @@ load_tag_table(char **message, long lines)
 	long i;
 	char *wsk, *wsk1;
 	int is_indirect = 0;
-	int cut = 0;			/* holds the number of corrupt lines */
 
 	/*
 	 * if in the first line there is a(indirect) string, skip that line
@@ -375,7 +377,8 @@ load_tag_table(char **message, long lines)
 	 */
 	if (strcasecmp("(Indirect)", message[1]) == 0)
 		is_indirect = 1;
-	tag_table = (TagTable*)xmalloc((lines) * sizeof(TagTable));
+	tag_table.clear();
+
 	for (i = 1; i < lines - is_indirect; i++)
 	{
 		char *check;
@@ -399,23 +402,22 @@ load_tag_table(char **message, long lines)
 		}
 		if (wsk1 < check)
 		{
+			TagTable my_tag;
 			(*wsk1) = 0;
-			strcpy(tag_table[i - cut - 1].nodename, wsk);
-			(*(tag_table[i - cut - 1].nodename + (wsk1 - wsk) + 1)) = 0; 
+			strcpy(my_tag.nodename, wsk);
+			(*(my_tag.nodename + (wsk1 - wsk) + 1)) = 0; 
 				/* Just terminating the bugger */
 			(*wsk1) = INDIRECT_TAG;
 			wsk1++;
-			tag_table[i - cut - 1].offset = atoi(wsk1);
+			my_tag.offset = atoi(wsk1);
+			tag_table.push_back(my_tag);
 		}
-		else
-			cut++;			/* increment the number of corrupt entries */
 	}
-	TagTableEntries = lines - 1 - is_indirect - cut;
 
 	/* FIXME: info should ALWAYS start at the 'Top' node, not at the first
 	   mentioned node(vide ocaml.info) */
 
-	for (i = 0; i < TagTableEntries; i++)
+	for (i = 0; i < tag_table.size(); i++)
 	{
 		if (strcasecmp(tag_table[i].nodename, "Top") == 0)
 		{
@@ -994,7 +996,7 @@ create_indirect_tag_table()
 	for (vector<Indirect>::size_type i = 0; i < indirect.size(); i++)
 	{
 		id = openinfo(indirect[i].filename, 1);
-		initial = TagTableEntries; /* Before create_tag_table operates */
+		initial = tag_table.size(); /* Before create_tag_table operates */
 		if (id)
 		{
 			create_tag_table(id);
@@ -1002,7 +1004,7 @@ create_indirect_tag_table()
 			FirstNodeName = tag_table[0].nodename;
 		}
 		fclose(id);
-		for (int j = initial; j < TagTableEntries; j++)
+		for (int j = initial; j < tag_table.size(); j++)
 		{
 			tag_table[j].offset +=(indirect[i].offset - FirstNodeOffset);
 		}
@@ -1018,30 +1020,23 @@ create_tag_table(FILE * id)
 	char *buf = (char*)xmalloc(1024);
 	long oldpos;
 	fseek(id, 0, SEEK_SET);
-	if (!tag_table)
-		tag_table = (TagTable*)xmalloc((TagTableEntries + 1) * sizeof(TagTable));
-	else
-		tag_table = (TagTable*)xrealloc(tag_table,(TagTableEntries + 1) * sizeof(TagTable));
 	while (!feof(id))
 	{
 		if (fgetc(id) == INFO_TAG)	/* We've found a node entry! */
 		{
 			while (fgetc(id) != '\n');	/* skip '\n' */
-			TagTableEntries++;	/* increase the nuber of tag table entries */
 			oldpos = ftell(id);	/* remember this file position! */
 			/*
 			 * it is a an eof-fake-node (in some info files it happens, that
 			 * the eof'ish end of node is additionaly signalised by an INFO_TAG
 			 * We give to such node an unlike to meet nodename.
 			 */
-			if (fgets(buf, 1024, id) == NULL)
-			{
-				tag_table = (TagTable*)xrealloc(tag_table, sizeof(TagTable) *(TagTableEntries));
-				strcpy(tag_table[TagTableEntries - 1].nodename, "12#!@#4");
-				tag_table[TagTableEntries - 1].offset = 0;
-			}
-			else
-			{
+			if (fgets(buf, 1024, id) == NULL) {
+				TagTable my_tag;
+				strcpy(my_tag.nodename, "12#!@#4");
+				my_tag.offset = 0;
+				tag_table.push_back(my_tag);
+			} else {
 				int colons = 0, i, j;
 				int buflen = strlen(buf);
 				for (i = 0; i < buflen; i++)
@@ -1060,11 +1055,12 @@ create_tag_table(FILE * id)
 						{
 							if ((buf[j] == ',') ||(buf[j] == '\n'))
 							{
-								tag_table = (TagTable*)xrealloc(tag_table, sizeof(TagTable) *(TagTableEntries));
+								TagTable my_tag;
 								buf[j] = 0;
 								buflen = j;
-								strcpy(tag_table[TagTableEntries - 1].nodename, buf + i + 2);
-								tag_table[TagTableEntries - 1].offset = oldpos - 2;
+								strcpy(my_tag.nodename, buf + i + 2);
+								my_tag.offset = oldpos - 2;
+								tag_table.push_back(my_tag);
 								break;
 							}
 						}

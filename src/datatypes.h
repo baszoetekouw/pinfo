@@ -128,13 +128,11 @@ extern std::vector<HyperObject> hyperobjects;
 /* an array of indirect entries */
 extern std::vector<Indirect> indirect;
 /* an array of tag table entries [0 to n - 1] */
-extern TagTable *tag_table;
+extern std::vector<TagTable> tag_table;
 /* offset of the first node in info file */
 extern long FirstNodeOffset;
 /* name of the first node in info file */
 extern std::string FirstNodeName;
-/* number of tag table entries */
-extern int TagTableEntries;
 /* maximum dimensions of screen */
 extern int maxx, maxy;
 extern InfoHistory infohistory;

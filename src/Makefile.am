@@ -11,7 +11,6 @@ pinfo_COMMON_SRC = pinfo.cxx \
 		filehandling_functions.cxx \
 		mainfunction.cxx \
 		manual.cxx \
-		menu_and_note_utils.cxx \
 		parse_config.cxx \
 		regexp_search.cxx \
 		signal_handler.cxx \
@@ -24,7 +23,6 @@ pinfo_COMMON_SRC = pinfo.cxx \
 		keyboard.h \
 		mainfunction.h \
 		manual.h \
-		menu_and_note_utils.h \
 		parse_config.h \
 		regexp_search.h \
 		signal_handler.h \
