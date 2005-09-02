@@ -152,27 +152,25 @@ manual_free_buffers()
 
 /* initialize history variables for manual pages.  */
 void
-set_initial_history(const char *name)
+set_initial_history(string name)
 {
-	string name2 = name;
-
 	/* filter trailing spaces */
 	string::size_type len;
-	for (len = name2.length(); (len > 0) && isspace(name2[len - 1]); len--);
-	name2.resize(len);
+	for (len = name.length(); (len > 0) && isspace(name[len - 1]); len--);
+	name.resize(len);
 
 	/* find the beginning of the last token */
 	string::size_type i;
-	for (i = len - 1; (i > 0) && !isspace(name2[i]); i--);
+	for (i = len - 1; (i > 0) && !isspace(name[i]); i--);
 
 	/* if we've found space, then we move to the first nonspace character */
-	if ( (i > 0) || (i == 0 && isspace(name2[i])) ) {
+	if ( (i > 0) || (i == 0 && isspace(name[i])) ) {
 		i++;
 	}
 
 	manhistory my_hist;
 	/* filename->name */
-	my_hist.name = name2.substr(i);
+	my_hist.name = name.substr(i);
 	/* section unknown */
 	my_hist.sect = "";
 	/* selected unknown */
@@ -322,7 +320,7 @@ handlemanual(string name)
 
 	init_curses();
 
-	set_initial_history(name.c_str());
+	set_initial_history(name);
 	/* load manual to memory */
 	loadmanual(id);
 	fclose(id);
