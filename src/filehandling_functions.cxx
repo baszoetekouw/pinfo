@@ -816,7 +816,7 @@ charcount(const char *str, const char ch)
 void
 initpaths()
 {
-	vector<char*> paths;
+	vector<string> paths;
 	char *rawlang = NULL;
 	string lang;
 	string langshort;
@@ -845,7 +845,7 @@ initpaths()
 		dir  = infopath.substr(start_idx, stop_idx - start_idx);
 		/* if this actually is a non-empty string, add it to paths[] */
 		if (dir.length() > 0) {
-			paths.push_back(strdup(dir.c_str()));
+			paths.push_back(dir);
 		}
 		start_idx = stop_idx + 1;
 	} while (stop_idx != string::npos) ;
@@ -871,13 +871,12 @@ initpaths()
 
 	/* if we have a LANG defined, add paths with this lang to the paths[] */
 	if (lang != "") {
-		vector<char*>::size_type old_size = paths.size();
+		vector<string>::size_type old_size = paths.size();
 		if (langshort != "") {
 			paths.resize(old_size * 3);
 		} else {
 			paths.resize(old_size * 2);
 		}
-		/* Leak memory with strdup; FIXME */
 		for (i=0; i<old_size; i++) {
 			string tmp;
 			tmp = paths[i];
@@ -885,7 +884,7 @@ initpaths()
 			tmp += lang;
 			/* add the lang specific dir at the beginning */
 			paths[old_size+i] = paths[i];
-			paths[i] = strdup(tmp.c_str());
+			paths[i] = tmp;
 			
 			if (langshort != "") {
 				string tmp;
@@ -893,7 +892,7 @@ initpaths()
 				tmp += '/';
 				tmp += langshort;
 				paths[2*old_size+i] = paths[old_size+i];
-				paths[old_size+i] = strdup(tmp.c_str());
+				paths[old_size+i] = tmp;
 			}
 		}
 	}
@@ -901,7 +900,7 @@ initpaths()
 #ifdef ___DEBUG___
 	/* for debugging */
 	for (i=0; i<paths.size(); i++)
-		fprintf(stderr,"--> %s\n", paths[i]);
+		fprintf(stderr,"--> %s\n", paths[i].c_str());
 #endif
 
 	/* ok, now we have all the (possibly) revelevant paths in paths[] */
@@ -913,15 +912,15 @@ initpaths()
 	{
 		inodes.push_back(0);
 		/* stat() the dir */
-		ret = stat( paths[i], &sbuf);
+		ret = stat( paths[i].c_str(), &sbuf);
 		/* and see if it could be opened */
 		if (ret < 0)
 		{
 #ifdef ___DEBUG___
 			fprintf(stderr, "error while opening `%s': %s\n",
-					paths[i], strerror(errno) );
+					paths[i].c_str(), strerror(errno) );
 #endif
-			paths[i] = NULL;
+			paths[i] = "";
 			inodes[i] = 0;
 		}
 		else
@@ -933,14 +932,14 @@ initpaths()
 		for (j=0; j<i; j++)
 		{
 			if (inodes[j]==inodes[i])
-				paths[i] = NULL;
+				paths[i] = "";
 		}
 
 		/* calculate the total number of vali paths and the size of teh strings */
-		if (paths[i]!=NULL)
+		if (paths[i]!="")
 		{
 			numpaths++;
-			len += strlen(paths[i]) + 1;
+			len += paths[i].length() + 1;
 		}
 	}
 
@@ -952,12 +951,12 @@ initpaths()
 	j=0;
 	for (i=0; i<paths.size(); i++)
 	{
-		if (paths[i]!=NULL)
+		if (paths[i]!="")
 		{
 			/* copy path to c buffer */
-			strcpy(c, paths[i]);
+			strcpy(c, paths[i].c_str());
 			infopaths[j++] = c;
-			c += strlen(paths[i]) + 1;
+			c += paths[i].length() + 1;
 		}
 	}
 
