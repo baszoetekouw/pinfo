@@ -956,7 +956,8 @@ initpaths()
 	{
 		if (paths[i]!=NULL)
 		{
-			infopaths.push_back(paths[i]);
+			string tmp = paths[i];
+			infopaths.push_back(tmp);
 		}
 	}
 
