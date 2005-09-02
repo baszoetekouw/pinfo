@@ -826,7 +826,6 @@ initpaths()
 	unsigned int numpaths = 0;
 	size_t len;
 	struct stat sbuf;
-	ino_t *inodes;
 
 	/* first concat the paths */
 	string infopath;
@@ -908,11 +907,12 @@ initpaths()
 
 	/* ok, now we have all the (possibly) revelevant paths in paths[] */
 	/* now loop over them, see if they are valid and if they are duplicates*/
-	inodes = (ino_t *) xmalloc( maxpaths * sizeof(ino_t *) );
+	vector<ino_t> inodes;
 	numpaths = 0;
 	len = 0;
 	for (i=0; i< maxpaths; i++)
 	{
+		inodes.push_back(0);
 		/* stat() the dir */
 		ret = stat( paths[i], &sbuf);
 		/* and see if it could be opened */
@@ -962,7 +962,6 @@ initpaths()
 	}
 
 	xfree(paths);
-	xfree(inodes);
 
 #ifdef ___DEBUG___
 	/* for debugging */
