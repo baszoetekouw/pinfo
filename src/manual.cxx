@@ -54,7 +54,7 @@ void strip_manual(string& buf);
  * Initialize links in a line .  Links are entries of form reference(section),
  * and are stored in `manuallinks' var, described bellow.
  */
-void man_initializelinks(char *line, int carry);
+void man_initializelinks(const char *line, int carry);
 int is_in_manlinks(string in, char *find);
 
 void printmanual(char **Message, long Lines);
@@ -508,12 +508,12 @@ loadmanual(FILE * id)
 			char* tmp;
 			tmp = strdup(tmpstr.c_str());
 			man_initializelinks(tmp, carryflag);
+			/* free temporary buffer */
+			xfree(tmp);
 			carryflag = 0;
 			if (manlinelen > 1)
 				if (ishyphen(manual[ManualLines][manlinelen - 2]))
 					carryflag = 1;
-			/* free temporary buffer */
-			xfree(tmp);
 			prevlinechar = manual[ManualLines][0];
 			/* increase the number of man lines */
 			ManualLines++;
@@ -545,7 +545,7 @@ sort_manuallinks_from_current_line(
 
 /* initializes hyperlinks in manual */
 void
-man_initializelinks(char *tmp, int carry)
+man_initializelinks(const char *tmp, int carry)
 {
 	typeof(manuallinks.size()) initialManualLinks = manuallinks.size();
 	/******************************************************************************
@@ -617,8 +617,7 @@ man_initializelinks(char *tmp, int carry)
 	 ******************************************************************************/
 	/* set tmpcnt to the trailing zero of tmp */
 	int tmpcnt = strlen(tmp) + 1;
-	char *link = tmp;
-	int i, b;
+	const char *link = tmp;
 	do {
 		/* we look for '(', since manual link */
 		link = strchr(link, '(');
@@ -637,9 +636,8 @@ man_initializelinks(char *tmp, int carry)
 
 				if ((!strchr(p_t1, '(')) &&(!is_in_manlinks(manlinks, p_t1)))
 				{
-					char tempchar;
 					int breakpos;
-					i = link - tmp - 1;
+					int i = link - tmp - 1;
 					if (i < 0)
 						i++;
 					for (; i > 0; --i)
@@ -648,27 +646,26 @@ man_initializelinks(char *tmp, int carry)
 							/* ignore spaces between linkname and '(x)' */
 							break;
 					}
-					/* we'll put zero on the last non-textual character of link */
+
 					breakpos = i + 1;
-					/* but remember the cleared char for the future */
-					tempchar = tmp[breakpos];
-					tmp[breakpos] = 0;
+					string prebreak;
+					prebreak.assign(tmp, breakpos);
 					/*
 					 * scan to the first space sign or to 0 -- that means go to
 					 * the beginning of the scanned token
 					 */
-					for (i = breakpos; i > 0; --i)
-					{
-						if (isspace(tmp[i]))
-						{
+					for (i = prebreak.size() - 1; i > 0; i--) {
+						if (isspace(prebreak[i])) {
 							i++;
 							break;
 						}
 					}
-					/* now we have needed string in i..breakpos. We need now to
-					 * realloc the
-					 * manuallinks table to make free space for new entry
-					 */
+					if ((i == 0) && isspace(prebreak[i])) {
+						i++;
+					}
+
+					/* now we have needed string in i..breakpos. */
+					string chosen_name = prebreak.substr(i);
 
 					/* a small check */
 					if (!((use_apropos) && (manualhistory.size() - 1 == 0)))
@@ -679,7 +676,9 @@ man_initializelinks(char *tmp, int carry)
 						 * current section or if we don't know the current
 						 * section, then...
 						 */
-						if (    (!strcasecmp(&tmp[i], manualhistory[manualhistory.size() - 1].name.c_str()))
+						if (    (!strcasecmp(chosen_name.c_str(),
+						                     manualhistory[manualhistory.size() - 1].name.c_str())
+						        )
 								 && (    (!strcasecmp(p_t1, manualhistory[manualhistory.size() - 1].sect.c_str()))
 									    || (manualhistory[manualhistory.size() - 1].sect == "")
 									    || (manualhistory[manualhistory.size() - 1].sect == " ")
@@ -689,26 +688,24 @@ man_initializelinks(char *tmp, int carry)
 						}
 					}
 					manuallink my_link;
+					my_link.name = chosen_name;
 					my_link.line = ManualLines;
 					my_link.col = i;
-					if (LongManualLinks)
-					{
-						for (b = 1; link[b] != ')'; b++)
-							my_link.section[b - 1] = tolower(link[b]);
-						my_link.section.resize(b - 1);
-					}
-					else
-					{
+					if (LongManualLinks) {
+						my_link.section = "";
+						for (int b = 1; link[b] != ')'; b++) {
+							my_link.section += tolower(link[b]);
+						}
+					} else {
 						/* Short manual links */
 						my_link.section = link[1];
 					}
 					my_link.section_mark = 0;
-					my_link.name = (tmp + i);
-					tmp[breakpos] = tempchar;
 
 					/* check whether this is a carry'ed entry(i.e. in the
 					 * previous line there was `-' at end, and this is the
 					 * first word of this line */
+					int b;
 					for (b = i - 1; b >= 0; b--)
 					{
 						if (b > 0)
