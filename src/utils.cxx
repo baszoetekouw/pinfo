@@ -249,7 +249,7 @@ my_rl_display()
 }
 
 char *
-getstring(char *prompt)
+getstring(const char *prompt)
 {
 	char *buf;
 
@@ -403,7 +403,7 @@ waitforgetch()
 
 /* returns 0 on success, 1 on error */
 int
-pinfo_re_comp(char *name)
+pinfo_re_comp(const char *name)
 {
 #ifdef ___DONT_USE_REGEXP_SEARCH___
 	if (pinfo_re_pattern)
@@ -431,7 +431,7 @@ pinfo_re_comp(char *name)
 }
 
 int
-pinfo_re_exec(char *name)
+pinfo_re_exec(const char *name)
 {
 #ifdef ___DONT_USE_REGEXP_SEARCH___
 	char *found;
@@ -450,10 +450,10 @@ pinfo_re_exec(char *name)
 }
 
 int
-yesno(char *prompt, int def)
+yesno(const char *prompt, int def)
 {
-	char *yes = _("yes");
-	char *no = _("no");
+	const char *yes = _("yes");
+	const char *no = _("no");
 	int key;
 
 	attrset(bottomline);

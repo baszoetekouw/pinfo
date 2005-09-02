@@ -38,8 +38,8 @@ extern char *pinfo_re_pattern;
 #endif
 
 /* wrappers for re_comp and re_exec */
-int pinfo_re_comp (char *name);
-int pinfo_re_exec (char *name);
+int pinfo_re_comp (const char *name);
+int pinfo_re_exec (const char *name);
 
 /* user defined getch, capable of handling ALT keybindings */
 int pinfo_getch ();
@@ -58,7 +58,7 @@ void closeprogram ();
 /* initializes curses interface */
 void init_curses ();
 /* an interface to gnu readline */
-char *getstring (char *prompt);
+char *getstring (const char *prompt);
 /* for some reasons mvhline does not work quite properly... */
 void mymvhline (int y, int x, char ch, int len);
 /* this one supports color back/foreground */
@@ -74,7 +74,7 @@ bool compare_tags (TagTable a, TagTable b);
 int gettagtablepos (std::string node);
 
 /* handle localized `(y/n)' dialog box.  */
-int yesno (char *prompt, int def);
+int yesno (const char *prompt, int def);
 /* copies the first part of string, which is without regexp */
 void copy_stripped_from_regexp (char *src, char *dest);
 
