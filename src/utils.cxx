@@ -307,6 +307,40 @@ closeprogram()
 	}
 }
 
+/*
+ * Compares two strings, ignoring whitespaces(tabs, spaces)
+ */
+int
+compare_tag_table_string(const char *base, const char *compared)
+{
+	int i, j;
+
+	j = 0;
+
+	for (i = 0; base[i] != 0; i++)
+	{
+		if (base[i] != compared[j])
+		{
+			if ((isspace(compared[j])) &&(isspace(base[i])));	/* OK--two blanks */
+			else if (isspace(compared[j]))
+				i--;		/* index of `base' should be unchanged after for's i++ */
+			else if (isspace(base[i]))
+				j--;		/* index of `compared' stands in place
+							   and waits for base to skip blanks */
+			else
+				return (int) base[i] -(int) compared[j];
+		}
+		j++;
+	}
+	while (compared[j])		/* handle trailing whitespaces of variable `compared' */
+	{
+		if (!isspace(compared[j]))
+			return (int) base[i] -(int) compared[j];
+		j++;
+	}
+	return 0;
+}
+
 int
 gettagtablepos_search_internal(char *node, int left, int right)
 {

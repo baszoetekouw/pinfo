@@ -64,6 +64,10 @@ void mymvhline (int y, int x, char ch, int len);
 void myclrtoeol ();
 /* takes care of the cursor, which is turned off */
 void myendwin ();
+
+/* strcmp, which is insensitive to whitespaces */
+int compare_tag_table_string (const char *base, const char *compared);
+
 /* get offset of "node" in tag_table variable */
 int gettagtablepos (std::string node);
 
