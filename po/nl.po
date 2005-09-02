@@ -1,157 +1,156 @@
-# SOME DESCRIPTIVE TITLE.
-# Copyright (C) YEAR Przemek Borys  <pborys@dione.ids.pl>
-# This file is distributed under the same license as the PACKAGE package.
-# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+# Dutch translation for pinfo
+# vim:fileencoding=iso8859-15
+# Copyright (C) 2005 Bas Zoetekouw  <bas@debian.org>
+# This file is distributed under the same license as the pinfo package.
 #
-#, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: PACKAGE VERSION\n"
+"Project-Id-Version: pinfo 0.6.8-svn\n"
 "Report-Msgid-Bugs-To: pinfo-devel@lists.alioth.debian.org\n"
 "POT-Creation-Date: 2005-09-01 21:48+0200\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
-"Language-Team: LANGUAGE <LL@li.org>\n"
+"PO-Revision-Date: 2005-09-01 21:21+0200\n"
+"Last-Translator: Bas Zoetekouw <bas@debian.org>\n"
+"Language-Team: Dutch <nl@li.org>\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=CHARSET\n"
+"Content-Type: text/plain; charset=ISO-8859-15\n"
 "Content-Transfer-Encoding: 8bit\n"
 
 #: src/filehandling_functions.c:442 src/filehandling_functions.c:449
 #, c-format
 msgid "Searching for indirect done"
-msgstr ""
+msgstr "Indirectie zoekopdracht afgerond"
 
 #: src/filehandling_functions.c:480 src/filehandling_functions.c:486
 #, c-format
 msgid "Warning: could not find tag table"
-msgstr ""
+msgstr "Waarschuwing: tag-tabel niet gevonden"
 
 #: src/filehandling_functions.c:513
 #, c-format
 msgid "Searching for tag table done\n"
-msgstr ""
+msgstr "Zoeken naar tag-tabel afgerond\n"
 
 #: src/filehandling_functions.c:1172
 #, c-format
 msgid "Error: could not open info file\n"
-msgstr ""
+msgstr "Fout: kon de info file niet openen\n"
 
 #: src/mainfunction.c:143 src/manual.c:970
 msgid "Are you sure to print?"
-msgstr ""
+msgstr "Weet u zeker dat u wilt printen?"
 
 #: src/mainfunction.c:195 src/manual.c:1015
 msgid "Enter line: "
-msgstr ""
+msgstr "Voer regel in: "
 
 #: src/mainfunction.c:236 src/manual.c:1062
 msgid "Enter command: "
-msgstr ""
+msgstr "Voer commando in:"
 
 #: src/mainfunction.c:255
 msgid "Operation failed..."
-msgstr ""
+msgstr "Opdracht mislukt..."
 
 #: src/mainfunction.c:291 src/mainfunction.c:551 src/manual.c:1115
 msgid "Enter regexp: "
-msgstr ""
+msgstr "Voer reguliere expressie in: "
 
 #: src/mainfunction.c:521 src/mainfunction.c:615 src/manual.c:1190
 msgid "Search string not found..."
-msgstr ""
+msgstr "Zoekstring niet gevonden..."
 
 #: src/mainfunction.c:576 src/manual.c:1148
 msgid "Invalid regular expression;"
-msgstr ""
+msgstr "Ongeldige reguliere expressie;"
 
 #: src/mainfunction.c:578 src/manual.c:1150
 msgid "Press any key to continue..."
-msgstr ""
+msgstr "Druk een toets om door te gaan..."
 
 #: src/mainfunction.c:644
 msgid "Enter node name: "
-msgstr ""
+msgstr "Voer node-naam in: "
 
 #: src/mainfunction.c:720
 #, c-format
 msgid "Node %s not found"
-msgstr ""
+msgstr "Node %s niet gevonden"
 
 #: src/mainfunction.c:1177 src/manual.c:1540
 msgid "Are you sure to quit?"
-msgstr ""
+msgstr "Weet u zeker dat u het programma wilt verlaten?"
 
 #: src/manual.c:312
 #, c-format
 msgid "Error: Cannot call man command.\n"
-msgstr ""
+msgstr "Fout: kan het man commando niet aanroepen.\n"
 
 #: src/manual.c:321
 #, c-format
 msgid "Error: No manual page found either.\n"
-msgstr ""
+msgstr "Fout: ook geen manual pagina gevonden.\n"
 
 #: src/manual.c:324
 #, c-format
 msgid "Apropos pages:\n"
-msgstr ""
+msgstr "Verwante pagina's:\n"
 
 #: src/manual.c:367
 msgid "Calling gunzip for"
-msgstr ""
+msgstr "Aanroepen van gunzip voor"
 
 #: src/manual.c:373
 #, c-format
 msgid "Couldn't call gunzip.\n"
-msgstr ""
+msgstr "Kon gunzip niet aanroepen.\n"
 
 #: src/manual.c:410
 msgid "IGNORING"
-msgstr ""
+msgstr "WORDT GENEGEERD"
 
 #: src/manual.c:453
 #, c-format
 msgid "Error: No manual page found\n"
-msgstr ""
+msgstr "Fout: geen manual pagina gevonden\n"
 
 #: src/manual.c:458
 #, c-format
 msgid "Calling apropos \n"
-msgstr ""
+msgstr "Aanroepen van apropos \n"
 
 #: src/manual.c:463
 #, c-format
 msgid "Nothing appropiate\n"
-msgstr ""
+msgstr "Niets geschikts\n"
 
 #: src/manual.c:984
 msgid "Enter manual name: "
-msgstr ""
+msgstr "Geef manual naam in: "
 
 #: src/manual.c:1623 src/video.c:114
 #, c-format
 msgid "Viewing line %d/%d, %d%%"
-msgstr ""
+msgstr "Bekijken van regel %d/%d, %d%%"
 
 #: src/manual.c:1625 src/video.c:116
 #, c-format
 msgid "Viewing line %d/%d, 100%%"
-msgstr ""
+msgstr "Bekijken van regel %d/%d, 100%%"
 
 #: src/parse_config.c:113
 #, c-format
 msgid "Can't open config file!\n"
-msgstr ""
+msgstr "Kan configuratiebestand niet openen!\n"
 
 #: src/parse_config.c:161
 #, c-format
 msgid "Parse error in config file on line %d\n"
-msgstr ""
+msgstr "Ontledingsfout in het configuratiebestand op regel %d\n"
 
 #: src/utils.c:117 src/utils.c:173
 #, c-format
 msgid "Virtual memory exhausted\n"
-msgstr ""
+msgstr "Vertuele geheugen is uitgeput\n"
 
 #: src/utils.c:227
 #, c-format
@@ -159,49 +158,51 @@ msgid ""
 "Illegal characters in filename!\n"
 "*** %s\n"
 msgstr ""
+"Illegale karakters in bestandnaam!\n"
+"*** %s\n"
 
 #: src/utils.c:432
 msgid "yes"
-msgstr ""
+msgstr "ja"
 
 #: src/utils.c:433
 msgid "no"
-msgstr ""
+msgstr "nee"
 
 #: src/video.c:61
 msgid "File:"
-msgstr ""
+msgstr "Bestand:"
 
 #: src/video.c:62
 msgid "Node:"
-msgstr ""
+msgstr "Node:"
 
 #: src/video.c:63
 msgid "Next:"
-msgstr ""
+msgstr "Volgende:"
 
 #: src/video.c:64
 msgid "Prev:"
-msgstr ""
+msgstr "Vorige:"
 
 #: src/video.c:65
 msgid "Up:"
-msgstr ""
+msgstr "Omhoog:"
 
 #: src/pinfo.c:113 src/pinfo.c:197
 #, c-format
 msgid "Looking for man page...\n"
-msgstr ""
+msgstr "Opzoeken van man pagina...\n"
 
 #: src/pinfo.c:150
 #, c-format
 msgid "--node option used without argument\n"
-msgstr ""
+msgstr "--node optie gebruikt zonder argument\n"
 
 #: src/pinfo.c:160
 #, c-format
 msgid "--rcfile option used without argument\n"
-msgstr ""
+msgstr "--rcfile optie gebruikt zonder argument\n"
 
 #: src/pinfo.c:171
 #, c-format
@@ -227,51 +228,77 @@ msgid ""
 "    --node=nodename, --node nodename  jump directly to the node nodename\n"
 "    --rcfile=file, --rcfile file      use alternate rcfile\n"
 msgstr ""
+"Gebruik:\n"
+"%s [opties] [info|manual]\n"
+"Opties:\n"
+"-h, --help                            help\n"
+"-v, --version                         versie\n"
+"-m, --manual                          gebruik man pagina\n"
+"-r, --raw-filename                    gebruik ruwe bestandnaam\n"
+"-f, --file                            synoniem voor -r\n"
+"-a, --apropos                         roep apropos aan als niet wordt "
+"gevonden\n"
+"-p, --plain-apropos                   gebruik alleen apropos\n"
+"-c, --cut-man-headers                 knip herhaalde koppen in man-pagina's "
+"weg\n"
+"-l, --long-manual-links               gebruik lange linknamen in man-"
+"pagina's\n"
+"-s, --squeeze-manlines                knip lege regels uit man-pagina's\n"
+"-d, --dont-handle-without-tag-table   gebruik geen texinfo pagina's die "
+"geen\n"
+"                                      tag-tabel hebben\n"
+"-t, --force-manual-tag-table          forceer handmatige detectie can de tag-"
+"tabel\n"
+"-x, --clear-at-exit                   maak het scherm leeg bij het "
+"afsluiten\n"
+"    --node=nodename, --node nodename  spring direct naar de node nodename\n"
+"    --rcfile=file, --rcfile file      gebruik aan alternatief "
+"configuratiebestand\n"
 
 #: src/pinfo.c:311
 #, c-format
 msgid "Error: could not open info file, trying manual\n"
-msgstr ""
+msgstr "Fout: kon info-bestand niet openen, probeer nu de man-pagina\n"
 
 #: src/pinfo.c:344
 #, c-format
 msgid "Warning: tag table not found...\n"
-msgstr ""
+msgstr "Waarschuwing: tag-tabel niet gevonden...\n"
 
 #: src/pinfo.c:348
 #, c-format
 msgid "Trying to create alternate tag table...\n"
-msgstr ""
+msgstr "Probeer een alternatieve tag-tabel aan te maken...\n"
 
 #: src/pinfo.c:353 src/pinfo.c:502
 #, c-format
 msgid "This doesn't look like info file...\n"
-msgstr ""
+msgstr "Dit ziet er niet uit als een info bestande...\n"
 
 #: src/pinfo.c:366
 #, c-format
 msgid "Specified node does not exist...\n"
-msgstr ""
+msgstr "Aangegeven node bestata niet...\n"
 
 #: src/pinfo.c:424
 msgid "File not found. Press any key..."
-msgstr ""
+msgstr "Bestand niet gevonden.  Druk op een toest..."
 
 #: src/pinfo.c:444
 #, c-format
 msgid "Unexpected error.\n"
-msgstr ""
+msgstr "Onverwachte fout.\n"
 
 #: src/pinfo.c:497
 msgid "Tag table not found. Trying to create alternate..."
-msgstr ""
+msgstr "Tag-tabel niet gevonden.  Probeer een alternatieve te maken..."
 
 #: src/pinfo.c:583
 #, c-format
 msgid "Security warning: Unable to get GID of group called: %s\n"
-msgstr ""
+msgstr "Beveiligingswaarschuwing: kan GID van de groep `%s' niet vinden\n"
 
 #: src/pinfo.c:603
 #, c-format
 msgid "Security warning: Unable to get UID of user called: %s\n"
-msgstr ""
+msgstr "Beveiligingswaarschuwing: kan UID van de gebruiker `%s' niet vinden\n"

@@ -2,7 +2,6 @@ src/colors.c
 src/datatypes.c
 src/filehandling_functions.c
 src/initializelinks.c
-src/keyboard.c
 src/mainfunction.c
 src/manual.c
 src/menu_and_note_utils.c
