@@ -90,10 +90,8 @@ void
 addinfohistory(const char *file, const char *node, int cursor, int menu, int pos)
 {
 	InfoHistory my_hist;
-	my_hist.node = (char*)xmalloc(strlen(node) + 1);
-	strcpy(my_hist.node, node);
-	my_hist.file = (char*)xmalloc(strlen(file) + 1);
-	strcpy(my_hist.file, file);
+	my_hist.node = node;
+	my_hist.file = file;
 	my_hist.pos = pos;
 	my_hist.cursor = cursor;
 	my_hist.menu = menu;
@@ -108,14 +106,6 @@ dellastinfohistory()
 {
 	if (infohistory.empty()) {
 		return;
-	}
-	if (infohistory[infohistory.size() - 1].node)	{
-		xfree(infohistory[infohistory.size() - 1].node);
-		infohistory[infohistory.size() - 1].node = 0;
-	}
-	if (infohistory[infohistory.size() - 1].file) {
-		xfree(infohistory[infohistory.size() - 1].file);
-		infohistory[infohistory.size() - 1].file = 0;
 	}
 	infohistory.pop_back();
 }

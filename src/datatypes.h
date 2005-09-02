@@ -61,8 +61,8 @@ TagTable;
 
 typedef struct InfoHistory
 {
-	char *node;	/* node */
-	char *file;	/* file associated with given node */
+	std::string node;	/* node */
+	std::string file;	/* file associated with given node */
 	int pos;		/* pos offset in viewed nodes */
 	int cursor;	/* cursor offsets in viewed nodes */
 	int menu;		/* menu position (in sequential reading) in viewed node */
