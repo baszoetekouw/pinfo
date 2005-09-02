@@ -1645,22 +1645,23 @@ add_highlights()
 					 */
 					string tmp_string = manual[ltline];
 					strip_manual(tmp_string);
-					char *tmpstr = strdup(tmp_string.c_str());
-					char *wsk = tmpstr;
-					char *wskend;
 					/* skip spaces */
-					while (isspace(*wsk))
-						wsk++;
+					string::size_type wsk_idx = 0;
+					while (isspace(tmp_string[wsk_idx]))
+						wsk_idx++;
+
 					/* find the end of url */
-					string temp_string = wsk;
-					string::size_type wskend_idx = findurlend(temp_string);
-					wskend = wsk + wskend_idx;
-					/* add end of string, and print */
-					*wskend = 0;
-					if (wsk-tmpstr<manualcol)
-						mvaddstr(manuallinks[i].line - manualpos + 2, wsk - tmpstr - manualcol, wsk);
-					else if (wskend-tmpstr<manualcol)
-						mvaddstr(manuallinks[i].line - manualpos + 2, 0, wsk+manualcol);
+					string::size_type wskend_idx = findurlend(tmp_string, wsk_idx);
+					string printable_str = tmp_string.substr(wsk_idx, wskend_idx - wsk_idx);
+
+					/* Print */
+					if (wsk_idx < manualcol) {
+						mvaddstr(manuallinks[i].line - manualpos + 2, wsk_idx - manualcol,
+						         printable_str.c_str());
+					} else if (wskend_idx < manualcol) {
+						mvaddstr(manuallinks[i].line - manualpos + 2, 0,
+						         printable_str.substr(manualcol).c_str());
+					}
 				}
 			}
 			if (manuallinks[i].col>manualcol)
