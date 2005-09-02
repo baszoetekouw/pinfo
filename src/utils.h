@@ -23,6 +23,7 @@
 #ifndef __UTILS_H
 #define __UTILS_H
 
+#include "datatypes.h"
 #include <string>
 
 extern std::string safe_user;
@@ -67,6 +68,7 @@ void myendwin ();
 
 /* strcmp, which is insensitive to whitespaces */
 int compare_tag_table_string (const char *base, const char *compared);
+bool compare_tags (TagTable a, TagTable b);
 
 /* get offset of "node" in tag_table variable */
 int gettagtablepos (std::string node);

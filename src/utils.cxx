@@ -347,6 +347,16 @@ compare_tag_table_string(const char *base, const char *compared)
 	return 0;
 }
 
+bool
+compare_tags(TagTable a, TagTable b) {
+	/* Should a be sorted before b? */
+	int result = compare_tag_table_string(a.nodename.c_str(), b.nodename.c_str());
+	if (result < 0)
+		return true;
+	else
+		return false;
+}
+
 int
 gettagtablepos_search_internal(char *node, int left, int right)
 {
