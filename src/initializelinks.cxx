@@ -84,12 +84,6 @@ calculate_len(char *start, char *end)
 	return len;
 }
 
-void
-freelinks()			/* frees space allocated previously by node-links */
-{
-	hyperobjects.clear();
-}
-
 /*
  * Finds url end.  It is recognized by an invalid character.
  * FIXME: That's not a sufficient test.

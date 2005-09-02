@@ -21,7 +21,6 @@
 
 #ifndef __INITIALIZELINKS_H
 #define __INITIALIZELINKS_H
-void freelinks ();		/* frees node-links */
 /* initializes node links.  */
 void initializelinks (char *line1, char *line2, int line);
 /*

@@ -135,7 +135,7 @@ work(char ***message, char **type, long *lines, FILE * id, int tag_table_pos)
 	maxy = 25;
 #endif /*  getmaxyx */
 	/* Clear old hyperlink info */
-	freelinks();
+	hyperobjects.clear();
 	for (int i = 1; i < Lines; i++)	/* initialize node-links for every line */
 	{
 		initializelinks(Message[i], Message[i + 1], i);
