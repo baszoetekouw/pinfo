@@ -103,6 +103,11 @@ qsort_cmp(const void *base, const void *compared)
 	return compare_tag_table_string(cbase, ccompared);
 }
 
+void
+sort_tag_table(void) {
+	qsort(&tag_table[0], TagTableEntries, sizeof(TagTable), qsort_cmp);
+}
+
 /*
  * Looks for name_string -- appended to buf!
  * Returns 0 if it finds a match, 1 if not.
@@ -393,7 +398,7 @@ load_tag_table(char **message, long lines)
 			FirstNodeName = tag_table[i].nodename;
 		}
 	}
-	qsort(&tag_table[0], TagTableEntries, sizeof(TagTable), qsort_cmp);
+	sort_tag_table();
 }
 
 int
@@ -976,7 +981,7 @@ create_indirect_tag_table()
 	}
 	FirstNodeOffset = tag_table[0].offset;
 	FirstNodeName = tag_table[0].nodename;
-	qsort(&tag_table[0], TagTableEntries, sizeof(TagTable), qsort_cmp);
+	sort_tag_table();
 }
 
 void
@@ -1047,7 +1052,7 @@ create_tag_table(FILE * id)
 	{
 		FirstNodeOffset = tag_table[0].offset;
 		FirstNodeName = tag_table[0].nodename;
-		qsort(&tag_table[0], TagTableEntries, sizeof(TagTable), qsort_cmp);
+		sort_tag_table();
 	}
 }
 
