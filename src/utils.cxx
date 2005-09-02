@@ -312,7 +312,7 @@ gettagtablepos_search_internal(char *node, int left, int right)
 {
 	/* left+(right-left)/2 */
 	int thispos = left +((right - left) >> 1);
-	int compare_result = compare_tag_table_string(tag_table[thispos].nodename, node);
+	int compare_result = compare_tag_table_string(tag_table[thispos].nodename.c_str(), node);
 	if (compare_result == 0)
 		return thispos;
 	else

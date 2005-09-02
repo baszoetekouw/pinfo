@@ -92,7 +92,7 @@ inithistory()
  * Add history entry
  */
 void
-addinfohistory(const char *file, char *node, int cursor, int menu, int pos)
+addinfohistory(const char *file, const char *node, int cursor, int menu, int pos)
 {
 	if (!infohistory.length)
 	{

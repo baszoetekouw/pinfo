@@ -702,7 +702,7 @@ skip_search:
 				for (int i = 0; i < tag_table.size(); i++)
 				{
 					/* if the name was found in the tag table */
-					if (strcmp(token, tag_table[i].nodename) == 0)
+					if (tag_table[i].nodename == token)
 					{
 						return_value = i;
 						break;

@@ -34,7 +34,7 @@ std::string::size_type findurlend (std::string str);
 /* scans for the beginning of username. Returns a pointer to it.  */
 char *findemailstart (char *str);
 /* strcmp, which is insensitive to whitespaces */
-int compare_tag_table_string (char *base, char *compared);
+int compare_tag_table_string (const char *base, const char *compared);
 /*
  * calculate length of visible part of string ('\t' included) between start and
  * end. Returns length.

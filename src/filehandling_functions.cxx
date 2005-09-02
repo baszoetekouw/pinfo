@@ -98,7 +98,7 @@ int infopathcount = 0;
 bool
 compare_tags(TagTable a, TagTable b) {
 	/* Should a be sorted before b? */
-	int result = compare_tag_table_string(a.nodename, b.nodename);
+	int result = compare_tag_table_string(a.nodename.c_str(), b.nodename.c_str());
 	if (result < 0)
 		return true;
 	else
@@ -403,11 +403,7 @@ load_tag_table(char **message, long lines)
 		if (wsk1 < check)
 		{
 			TagTable my_tag;
-			(*wsk1) = 0;
-			strcpy(my_tag.nodename, wsk);
-			(*(my_tag.nodename + (wsk1 - wsk) + 1)) = 0; 
-				/* Just terminating the bugger */
-			(*wsk1) = INDIRECT_TAG;
+			my_tag.nodename.assign(wsk, wsk1 - wsk);
 			wsk1++;
 			my_tag.offset = atoi(wsk1);
 			tag_table.push_back(my_tag);
@@ -419,7 +415,7 @@ load_tag_table(char **message, long lines)
 
 	for (i = 0; i < tag_table.size(); i++)
 	{
-		if (strcasecmp(tag_table[i].nodename, "Top") == 0)
+		if (strcasecmp(tag_table[i].nodename.c_str(), "Top") == 0)
 		{
 			FirstNodeOffset = tag_table[i].offset;
 			FirstNodeName = tag_table[i].nodename;
@@ -1033,7 +1029,7 @@ create_tag_table(FILE * id)
 			 */
 			if (fgets(buf, 1024, id) == NULL) {
 				TagTable my_tag;
-				strcpy(my_tag.nodename, "12#!@#4");
+				my_tag.nodename = "12#!@#4";
 				my_tag.offset = 0;
 				tag_table.push_back(my_tag);
 			} else {
@@ -1058,7 +1054,7 @@ create_tag_table(FILE * id)
 								TagTable my_tag;
 								buf[j] = 0;
 								buflen = j;
-								strcpy(my_tag.nodename, buf + i + 2);
+								my_tag.nodename, buf + i + 2;
 								my_tag.offset = oldpos - 2;
 								tag_table.push_back(my_tag);
 								break;

@@ -51,7 +51,7 @@ sort_hyperlinks_from_current_line(
  * Compares two strings, ignoring whitespaces(tabs, spaces)
  */
 int
-compare_tag_table_string(char *base, char *compared)
+compare_tag_table_string(const char *base, const char *compared)
 {
 	int i, j;
 

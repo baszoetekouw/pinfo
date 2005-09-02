@@ -52,10 +52,10 @@ typedef struct Indirect
 }
 Indirect;
 
-typedef struct
+typedef struct TagTable
 {
-	char nodename[256];		/* name of the node */
 	long offset;			/* offset of the node */
+	std::string nodename;		/* name of the node */
 }
 TagTable;
 
@@ -192,7 +192,7 @@ extern int DontHandleWithoutTagTable;
 /* initialize history (see struct above) * variables for `lastread' history */
 void inithistory ();
 /* adds a history entry to the info file `lastread' history */
-void addinfohistory (const char *file, char *node, int cursor, int menu, int pos);
+void addinfohistory (const char *file, const char *node, int cursor, int menu, int pos);
 /* deletes last history entry */
 void dellastinfohistory ();
 

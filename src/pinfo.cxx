@@ -386,7 +386,7 @@ main(int argc, char *argv[]) {
 
 		/* handle goto/link where no file was found -- see bellow */
 		if (!filenotfound)
-			addinfohistory(curfile.c_str(), tag_table[tag_table_pos].nodename, -1, -1, -1);
+			addinfohistory(curfile.c_str(), tag_table[tag_table_pos].nodename.c_str(), -1, -1, -1);
 		else
 			filenotfound = 0;
 		work_return_value = work(&message, &type, &lines, id, tag_table_pos);
