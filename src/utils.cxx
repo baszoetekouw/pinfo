@@ -338,10 +338,10 @@ gettagtablepos_search_internal(char *node, int left, int right)
 }
 
 int
-gettagtablepos(const char * node)
+gettagtablepos(string node)
 {
 	int result;
-	char* my_node = strdup(node);
+	char* my_node = strdup(node.c_str());
 	/* strip spaces from the beginning */
 	while (1)
 	{

@@ -88,7 +88,7 @@ compare_tag_table_string(const char *base, const char *compared)
 inline int
 exists_in_tag_table(const string item)
 {
-	int result = gettagtablepos(item.c_str());
+	int result = gettagtablepos(item);
 	if (result != -1)
 		return 1;
 	else

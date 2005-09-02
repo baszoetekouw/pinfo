@@ -786,7 +786,7 @@ skip_search:
 					(key == keys.prevnode_2))
 			{
 				string token_str = getprevnode(Type);
-				return_value = gettagtablepos(token_str.c_str());
+				return_value = gettagtablepos(token_str);
 				if (return_value != -1)
 				{
 					infohistory[infohistory.size() - 1].pos = pos;
@@ -805,7 +805,7 @@ skip_search:
 			{
 				string token_str;
 				token_str = getnextnode(Type);
-				return_value = gettagtablepos(token_str.c_str());
+				return_value = gettagtablepos(token_str);
 				if (return_value != -1)
 				{
 					infohistory[infohistory.size() - 1].pos = pos;
@@ -827,7 +827,7 @@ skip_search:
 				{
 					ungetch(keys.dirpage_1);
 				}
-				return_value = gettagtablepos(token_str.c_str());
+				return_value = gettagtablepos(token_str);
 				if (return_value != -1)
 				{
 					if (toggled_by_menu == KEEP_HISTORY)

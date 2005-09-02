@@ -409,9 +409,8 @@ load_tag_table(char **message, long lines)
 		}
 	}
 
-	/* FIXME: info should ALWAYS start at the 'Top' node, not at the first
+	/* info should ALWAYS start at the 'Top' node, not at the first
 	   mentioned node(vide ocaml.info) */
-
 	for (i = 0; i < tag_table.size(); i++)
 	{
 		if (strcasecmp(tag_table[i].nodename.c_str(), "Top") == 0)

@@ -65,7 +65,7 @@ void myclrtoeol ();
 /* takes care of the cursor, which is turned off */
 void myendwin ();
 /* get offset of "node" in tag_table variable */
-int gettagtablepos (const char * node);
+int gettagtablepos (std::string node);
 
 /* handle localized `(y/n)' dialog box.  */
 int yesno (char *prompt, int def);

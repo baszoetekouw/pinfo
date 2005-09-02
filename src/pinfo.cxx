@@ -363,7 +363,7 @@ main(int argc, char *argv[]) {
 
 	if (pinfo_start_node != "")
 	{
-		tag_table_pos = gettagtablepos(pinfo_start_node.c_str());
+		tag_table_pos = gettagtablepos(pinfo_start_node);
 		if (tag_table_pos == -1)
 		{
 			printf(_("Specified node does not exist...\n"));
@@ -372,7 +372,7 @@ main(int argc, char *argv[]) {
 	}
 	else
 	{
-		tag_table_pos = gettagtablepos(FirstNodeName.c_str());
+		tag_table_pos = gettagtablepos(FirstNodeName);
 	}
 	/* initialize curses screen interface */
 	init_curses();
@@ -395,7 +395,7 @@ main(int argc, char *argv[]) {
 			/* no cross-file link selected */
 			if (work_return_value.file[0] == 0)
 			{
-				int tmppos = gettagtablepos(work_return_value.node.c_str());
+				int tmppos = gettagtablepos(work_return_value.node);
 				if (tmppos != -1)
 					tag_table_pos = tmppos;
 			}
@@ -405,7 +405,7 @@ main(int argc, char *argv[]) {
 				/* file name was the same with the file currently viewed */
 				if (curfile == work_return_value.file)
 				{
-					int tmppos = gettagtablepos(work_return_value.node.c_str());
+					int tmppos = gettagtablepos(work_return_value.node);
 					if (tmppos != -1)
 						tag_table_pos = tmppos;
 				}
@@ -500,14 +500,14 @@ main(int argc, char *argv[]) {
 						}
 						if (work_return_value.node != "")
 						{
-							int tmptagtablepos = gettagtablepos(work_return_value.node.c_str()	);
+							int tmptagtablepos = gettagtablepos(work_return_value.node);
 							if (tmptagtablepos != -1)
 								tag_table_pos = tmptagtablepos;
 							else
-								tag_table_pos = gettagtablepos(FirstNodeName.c_str());
+								tag_table_pos = gettagtablepos(FirstNodeName);
 						}
 						else
-							tag_table_pos = gettagtablepos(FirstNodeName.c_str());
+							tag_table_pos = gettagtablepos(FirstNodeName);
 						}		/* end: open new info file -- file exists */
 				}		/* end: open new info file */
 			}			/* end: file name was specified */
