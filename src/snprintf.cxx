@@ -44,10 +44,6 @@
 #include "config.h"
 #endif
 
-#include "rcsid.h"
-RCSID("$Id$")
-
-
 #if !defined(HAVE_SNPRINTF) || !defined(HAVE_VSNPRINTF)
 
 #include <string.h>

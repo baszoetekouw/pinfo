@@ -27,8 +27,6 @@ using std::string;
 #include <vector>
 using std::vector;
 
-RCSID("$Id$")
-
 #include <regex.h>
 #include <ctype.h>
 

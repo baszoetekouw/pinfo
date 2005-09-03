@@ -22,9 +22,6 @@
 #include "config.h"
 #endif
 
-#include "rcsid.h"
-RCSID("$Id$")
-
 #ifndef HAVE_SIGBLOCK
 
 #include <errno.h>

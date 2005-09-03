@@ -21,8 +21,6 @@
 
 #include"common_includes.h"
 
-RCSID("$Id$")
-
 #ifndef ___DONT_USE_REGEXP_SEARCH___
 #include"regex.h"
 #include<ctype.h>

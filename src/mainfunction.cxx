@@ -26,8 +26,6 @@ using std::string;
 #include <vector>
 using std::vector;
 
-RCSID("$Id$")
-
 #include <ctype.h>
 
 #ifndef MIN

@@ -24,8 +24,6 @@
 #include "sigblock.h"
 #endif
 
-RCSID("$Id$")
-
 #include <termios.h>
 #include <sys/ioctl.h>
 

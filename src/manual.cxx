@@ -22,8 +22,6 @@
 #include "common_includes.h"
 #include "tmpfiles.h"
 
-RCSID("$Id$")
-
 #include <ctype.h>
 #include <sys/stat.h>
 #include <string>

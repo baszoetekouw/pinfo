@@ -28,8 +28,6 @@ using std::string;
 #include <vector>
 using std::vector;
 
-RCSID("$Id$")
-
 void
 basename_and_dirname(const string filename, string& basename, string& dirname)
 {

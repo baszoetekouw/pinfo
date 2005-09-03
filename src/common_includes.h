@@ -45,7 +45,6 @@
 #include "config.h"
 #endif
 
-#include "rcsid.h"
 #include "datatypes.h"
 #include "filehandling_functions.h"
 #include "video.h"

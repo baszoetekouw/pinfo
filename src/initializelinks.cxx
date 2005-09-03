@@ -25,8 +25,6 @@ using std::string;
 #include <vector>
 using std::vector;
 
-RCSID("$Id$")
-
 #define MENU_DOT 0
 #define NOTE_DOT 1
 

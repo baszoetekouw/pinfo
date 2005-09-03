@@ -25,8 +25,6 @@
 using std::string;
 using std::vector;
 
-RCSID("$Id$")
-
 int verbose = 1;
 
 string filenameprefix;
