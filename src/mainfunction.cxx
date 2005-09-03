@@ -391,7 +391,8 @@ work(char ***message, char **type, long *lines, FILE * id, int tag_table_pos)
 					long tokenpos;
 					long starttokenpos;
 					long filelen;
-					for (typeof(indirect.size()) j = indirectstart;
+					/* Signed/unsigned issues. */
+					for (signed int j = indirectstart;
 					     j < indirect.size(); j++)
 					{
 						fd = openinfo(indirect[j].filename, 1);	/* get file length. */
@@ -699,7 +700,7 @@ skip_search:
 				curs_set(0);
 				noecho();
 				attrset(normal);
-				for (int i = 0; i < tag_table.size(); i++)
+				for (typeof(tag_table.size()) i = 0; i < tag_table.size(); i++)
 				{
 					/* if the name was found in the tag table */
 					if (tag_table[i].nodename == token)

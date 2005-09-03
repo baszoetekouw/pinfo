@@ -918,9 +918,7 @@ parse_line(char *line)
 char *
 str_toupper(char *str)
 {
-	int i;
-
-	for (i = 0; i < strlen(str); ++i)
+	for (unsigned int i = 0; i < strlen(str); ++i)
 		if (islower(str[i]))
 			str[i] = toupper(str[i]);
 

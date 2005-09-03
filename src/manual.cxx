@@ -1064,7 +1064,7 @@ skip_search:
 					if (manualpos >= 1)
 						manualpos--;
 					/* and scan for selected again :) */
-					for (i = 0; i < manuallinks.size(); i++)
+					for (typeof(manuallinks.size()) i = 0; i < manuallinks.size(); i++)
 					{
 						if (manuallinks[i].line == manualpos)
 						{
@@ -1158,32 +1158,32 @@ skip_search:
 			if ((key == keys.down_1) || (key == keys.down_2))
 			{
 				selectedchanged = 0;
-				if (selected < manuallinks.size())
-					for (i = selected + 1; i < manuallinks.size(); i++)
-					{
+				/* signed/unsigned issues with selected FIXME */
+				if (selected < manuallinks.size()) {
+					for (typeof(manuallinks.size()) i = selected + 1;
+					     i < manuallinks.size(); i++) {
 						if ((manuallinks[i].line >= manualpos) &&
-								(manuallinks[i].line < manualpos +(maxy - 2)))
-						{
+								(manuallinks[i].line < manualpos +(maxy - 2))) {
 							selected = i;
 							selectedchanged = 1;
 							break;
 						}
 					}
-				if (!selectedchanged)
-				{
+				}
+				if (!selectedchanged) {
 					if (manualpos < ManualLines -(maxy - 1))
 						manualpos++;
-					if (selected < manuallinks.size())
-						for (i = selected + 1; i < manuallinks.size(); i++)
-						{
+					if (selected < manuallinks.size()) {
+						for (typeof(manuallinks.size()) i = selected + 1;
+						     i < manuallinks.size(); i++) {
 							if ((manuallinks[i].line >= manualpos) &&
-									(manuallinks[i].line < manualpos +(maxy - 2)))
-							{
+									(manuallinks[i].line < manualpos +(maxy - 2))) {
 								selected = i;
 								selectedchanged = 1;
 								break;
 							}
 						}
+					}
 				}
 			}
 			/*=====================================================*/
@@ -1263,7 +1263,7 @@ skip_search:
 				{
 					if ((mouse.y > 0) &&(mouse.y < maxy - 1))
 					{
-						for (i = selected; i > 0; i--)
+						for (i = selected; i >= 0; i--)
 						{
 							if (manuallinks[i].line == mouse.y + manualpos - 1)
 							{
@@ -1304,7 +1304,7 @@ skip_search:
 				{
 					if ((mouse.y > 0) &&(mouse.y < maxy - 1))
 					{
-						for (i = selected; i > 0; i--)
+						for (i = selected; i >= 0; i--)
 						{
 							if (manuallinks[i].line == mouse.y + manualpos - 1)
 							{
@@ -1366,8 +1366,7 @@ void
 /* scan for some hyperlink, available on current screen */
 rescan_selected()
 {
-	int i;
-	for (i = 0; i < manuallinks.size(); i++)
+	for (typeof(manuallinks.size()) i = 0; i < manuallinks.size(); i++)
 	{
 		if ((manuallinks[i].line >= manualpos) &&
 				(manuallinks[i].line < manualpos +(maxy - 1)))
@@ -1543,9 +1542,8 @@ label_skip_other:;
 void
 add_highlights()
 {
-	int i;
 	/* scan through the visible objects */
-	for (i = 0; i < manuallinks.size(); i++)
+	for (typeof(manuallinks.size()) i = 0; i < manuallinks.size(); i++)
 	{
 		/* if the object is on the current screen */
 		if ((manuallinks[i].line >= manualpos) &&

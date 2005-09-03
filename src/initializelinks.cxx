@@ -429,6 +429,7 @@ handlenote:
 		 * matches different info file.                                                *
 		 ******************************************************************************/
 		/* make sure that we don't handle notes, which fit in the second line */
+		/* Signed-unsigned issues FIXME */
 		if ((long)(notestart - buf) < strlen(line1))
 		{
 			/* we can handle only those, who are in the first line, or who are split up into two lines */

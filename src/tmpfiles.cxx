@@ -47,7 +47,7 @@ string tmpfilename1;
 string tmpfilename2;
 string apropos_tmpfilename;
 
-int mktmpdir () {
+void mktmpdir () {
 	ostringstream tmpdirname_stream;
 	tmpdirname_stream << "/tmp/pinfo";
 	pid_t my_pid = getpid();
@@ -79,7 +79,7 @@ int mktmpdir () {
 	umask(077);
 }
 
-int rmtmpfiles () {
+void rmtmpfiles () {
 	int result;
 
 	result = unlink(tmpfilename1.c_str());

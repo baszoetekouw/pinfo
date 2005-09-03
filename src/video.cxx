@@ -145,9 +145,7 @@ info_addstring(int y, string::size_type x, string txt, string::size_type column)
 void
 info_add_highlights(int pos, int cursor, long lines, int column, char **message)
 {
-	int i, j;
-	for (i = 0; i < hyperobjects.size(); i++)
-	{
+	for (typeof(hyperobjects.size()) i = 0; i < hyperobjects.size(); i++) {
 		if ((hyperobjects[i].line < pos) ||
 				(hyperobjects[i].line >= pos +(maxy - 2)))
 			continue; /* Off screen */
@@ -188,6 +186,7 @@ info_add_highlights(int pos, int cursor, long lines, int column, char **message)
 					mynode,
 					column);
 		} else {
+			int j;
 			string part1, part2;
 			part1 = mynode.substr(0, hyperobjects[i].breakpos);
 			info_addstring(1 + hyperobjects[i].line - pos,
@@ -215,14 +214,14 @@ info_add_highlights(int pos, int cursor, long lines, int column, char **message)
 		long maxpos = pos +(maxy - 2);
 		if (maxpos > lines)
 			maxpos = lines;
-		for (i = pos; i < maxpos; i++)
+		for (int i = pos; i < maxpos; i++)
 		{
 			int maxregexp = aftersearch ? h_regexp_num + 1 : h_regexp_num;
 			/*
 			 * if it is after search, then we have user defined regexps+
 			 * a searched regexp to highlight
 			 */
-			for (j = 0; j < maxregexp; j++)
+			for (int j = 0; j < maxregexp; j++)
 			{
 				char *str = message[i];
 				while (!regexec(&h_regexp[j], str, 1, pmatch, 0))

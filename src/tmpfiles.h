@@ -28,7 +28,7 @@ extern std::string tmpfilename1;
 extern std::string tmpfilename2;
 extern std::string apropos_tmpfilename;
 
-int mktmpdir(void);
-int rmtmpfiles(void);
+void mktmpdir(void);
+void rmtmpfiles(void);
 
 #endif /* _TMPFILES_H */
