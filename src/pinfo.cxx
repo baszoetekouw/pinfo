@@ -23,6 +23,7 @@
 #include "common_includes.h"
 #include "signal_handler.h"
 #include "utils.h"
+#include "tmpfiles.h"
 
 #include <string>
 using std::string;
@@ -205,6 +206,12 @@ main(int argc, char *argv[]) {
 
 	/* take care of SIGSEGV, SIGTERM, SIGINT */
 	install_signal_handlers();
+
+	/* Open the temporary dir right after installing the signal handlers
+	 * (which delete it on control-c)
+	 */
+	mktmpdir();
+
 	searchagain.type = 0;
 	searchagain.search = 0;
 	initlocale();

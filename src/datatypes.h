@@ -114,11 +114,6 @@ extern std::string ignoredmacros;
 /* a user specified rc file */
 extern std::string rcfile;
 
-/* temporary filename */
-extern char *tmpfilename1;
-/* second tmp filename--needed by regexp search, etc */
-extern char *tmpfilename2;
-
 /* a structure for "search again" feature */
 extern SearchAgain searchagain;
 

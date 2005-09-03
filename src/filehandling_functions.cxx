@@ -22,6 +22,7 @@
 
 #include "common_includes.h"
 #include "utils.h"
+#include "tmpfiles.h"
 #include <string>
 using std::string;
 #include <vector>
@@ -534,19 +535,17 @@ FILE *
 opendirfile(int number)
 {
 	FILE *id = NULL;
-	char *tmpfilename;
+	string tmpfilename;
 	int dir_found = 0;
 	int dircount = 0;
 	struct stat status;
 
 	if (number == 0)		/* initialize tmp filename for file 1 */
 	{
-		if (tmpfilename1)
+		if (tmpfilename1 != "")
 		{
-			unlink(tmpfilename1);	/* erase old tmpfile */
-			free(tmpfilename1);
+			unlink(tmpfilename1.c_str());	/* erase old tmpfile */
 		}
-		tmpfilename1 = tempnam("/tmp", NULL);
 		tmpfilename = tmpfilename1;	/* later we will refere only to tmp1 */
 	}
 
@@ -580,14 +579,13 @@ opendirfile(int number)
 				id = fopen(bufstr_with_suffix.c_str(), "r");
 				if (id != NULL) {
 					fclose(id);
-					/* FIXME: Insecure temp file usage */
 					string command_string = suffixes[j].command;
 					command_string += " ";
 					command_string += bufstr_with_suffix;
 					command_string += ">> ";
 					command_string += tmpfilename;
 					system(command_string.c_str());
-					lstat(tmpfilename, &status);
+					lstat(tmpfilename.c_str(), &status);
 					fileendentries[dircount] = status.st_size;
 					dircount++;
 					dir_found = 1;
@@ -597,7 +595,7 @@ opendirfile(int number)
 		}
 	}
 	if (dir_found)
-		id = fopen(tmpfilename, "r");
+		id = fopen(tmpfilename.c_str(), "r");
 	/*
 	 * Filter the concatenated dir pages to exclude hidden parts of info
 	 * entries
@@ -617,7 +615,7 @@ opendirfile(int number)
 		fseek(id, 0, SEEK_SET);
 		fread(tmp, 1, filelen, id);
 		fclose(id);
-		id = fopen(tmpfilename, "w");
+		id = fopen(tmpfilename.c_str(), "w");
 		for (i = 0; i < filelen; i++)
 		{
 			if (tmp[i] == INFO_TAG)
@@ -639,7 +637,7 @@ opendirfile(int number)
 		fputc(INFO_TAG, id);
 		fputc('\n', id);
 		fclose(id);
-		id = fopen(tmpfilename, "r");
+		id = fopen(tmpfilename.c_str(), "r");
 		xfree(tmp);
 
 		xfree(fileendentries);
@@ -662,31 +660,24 @@ FILE *
 openinfo(const string filename, int number)
 {
 	FILE *id = NULL;
-	char *tmpfilename;
+	string tmpfilename;
 
 	if (filename == "dir")
 	{
 		return opendirfile(number);
 	}
 
-	if (number == 0)		/* initialize tmp filename for file 1 */
-	{
-		if (tmpfilename1)
+	if (number == 0) { /* initialize tmp filename for file 1 */
+		if (tmpfilename1 != "")
 		{
-			unlink(tmpfilename1);	/* erase old tmpfile */
-			free(tmpfilename1);
+			unlink(tmpfilename1.c_str());	/* erase old tmpfile */
 		}
-		tmpfilename1 = tempnam("/tmp", NULL);
 		tmpfilename = tmpfilename1;	/* later we will refere only to tmp1 */
-	}
-	else /* initialize tmp filename for file 2 */
-	{
-		if (tmpfilename2)
+	} else { /* initialize tmp filename for file 2 */
+		if (tmpfilename2 != "")
 		{
-			unlink(tmpfilename2);	/* erase old tmpfile */
-			free(tmpfilename2);
+			unlink(tmpfilename2.c_str());	/* erase old tmpfile */
 		}
-		tmpfilename2 = tempnam("/tmp", NULL);
 		tmpfilename = tmpfilename2;	/* later we will refere only to tmp2 */
 	}
 
@@ -723,7 +714,6 @@ openinfo(const string filename, int number)
 				/* Set global filenameprefix to the dirname of the found file */
 				dirname(buf_with_suffix, filenameprefix);
 
-				/* FIXME: Insecure temp file usage */
 				string command_string = suffixes[j].command;
 				command_string += ' ';
 				command_string += buf_with_suffix;
@@ -731,7 +721,7 @@ openinfo(const string filename, int number)
 				command_string += tmpfilename;
 				system(command_string.c_str());
 
-				id = fopen(tmpfilename, "r");
+				id = fopen(tmpfilename.c_str(), "r");
 				if (id)
 				{
 					return id;

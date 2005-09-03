@@ -32,6 +32,8 @@ pinfo_COMMON_SRC = pinfo.cxx \
 		initializelinks.h \
 		printinfo.cxx \
 		printinfo.h \
+		tmpfiles.cxx \
+		tmpfiles.h \
 		localestuff.h \
 		rcsid.h
 

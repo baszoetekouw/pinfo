@@ -40,9 +40,6 @@ string configuredinfopath = "/usr/share/info:/usr/local/share/info:/opt/info";
 string ignoredmacros = "";
 string rcfile = "";
 
-char *tmpfilename1 = 0;
-char *tmpfilename2 = 0;
-
 SearchAgain searchagain;
 
 vector<HyperObject> hyperobjects;

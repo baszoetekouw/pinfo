@@ -21,6 +21,7 @@
  ***************************************************************************/
 
 #include "common_includes.h"
+#include "tmpfiles.h"
 #include <string>
 using std::string;
 #include <vector>
@@ -297,16 +298,7 @@ closeprogram()
 		system("clear");
 	else
 		printf("\n");
-	if (tmpfilename1)
-	{
-		unlink(tmpfilename1);
-		xfree(tmpfilename1);
-	}
-	if (tmpfilename2)
-	{
-		unlink(tmpfilename2);
-		xfree(tmpfilename2);
-	}
+	rmtmpfiles();
 }
 
 /*

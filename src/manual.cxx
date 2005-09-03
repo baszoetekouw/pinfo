@@ -20,6 +20,7 @@
  *  USA
  ***************************************************************************/
 #include "common_includes.h"
+#include "tmpfiles.h"
 
 RCSID("$Id$")
 
@@ -246,15 +247,11 @@ handlemanual(string name)
 	FILE *id;
 
 	string manualname_string; /* Filled by construct_manualname */
-	char *raw_tempfilename = 0;
-	char *apropos_tempfilename = 0;
 
-	if (tmpfilename1)
+	if (tmpfilename1 != "")
 	{
-		unlink(tmpfilename1);
-		xfree(tmpfilename1);
+		unlink(tmpfilename1.c_str());
 	}
-	tmpfilename1 = tempnam("/tmp", NULL);
 
 #ifdef getmaxyx
 	init_curses();
@@ -288,11 +285,11 @@ handlemanual(string name)
 		int cmd_result;
 		cmd_result = system(cmd_string.c_str());
 		if (cmd_result != 0) {
-			unlink(tmpfilename1);
+			unlink(tmpfilename1.c_str());
 			printf(_("Error: No manual page found\n"));
 			plain_apropos = 1; /* Fallback */
 		} else {
-			id = fopen(tmpfilename1, "r");
+			id = fopen(tmpfilename1.c_str(), "r");
 		}
 	}
 	if (plain_apropos) {
@@ -301,17 +298,18 @@ handlemanual(string name)
 			return 1;
 		}
 		printf(_("Calling apropos \n"));
-		apropos_tempfilename = tempnam("/tmp", NULL);
+		apropos_tmpfilename = tmpdirname;
+		apropos_tmpfilename += "/apropos_result";
 		string cmd_string = "apropos ";
 		cmd_string += name;
 		cmd_string += " > ";
-		cmd_string += apropos_tempfilename;
+		cmd_string += apropos_tmpfilename;
 		if (system(cmd_string.c_str()) != 0) {
 			printf(_("Nothing appropriate\n"));
-			unlink(apropos_tempfilename);
+			unlink(apropos_tmpfilename.c_str());
 			return 1;
 		} else {
-			id = fopen(apropos_tempfilename, "r");
+			id = fopen(apropos_tmpfilename.c_str(), "r");
 		}
 	}
 
@@ -341,12 +339,10 @@ handlemanual(string name)
 		/* -1 is quit key */
 		if (return_value != -1)
 		{
-			if (tmpfilename2)
+			if (tmpfilename2 != "")
 			{
-				unlink(tmpfilename2);
-				xfree(tmpfilename2);
+				unlink(tmpfilename2.c_str());
 			}
-			tmpfilename2 = tempnam("/tmp", NULL);
 
 			bool historical = false;
 			string cmd_string = "man ";
@@ -354,9 +350,9 @@ handlemanual(string name)
 			cmd_string += " ";
 			if (return_value == -2) {
 				/* key_back was pressed */
-				if ( (manualhistory.size() - 2) == 0 && apropos_tempfilename)
+				if ( (manualhistory.size() - 2) == 0 && apropos_tmpfilename != "")
 				{
-					id = fopen(apropos_tempfilename, "r");
+					id = fopen(apropos_tmpfilename.c_str(), "r");
 					loadmanual(id);
 					fclose(id);
 					continue;
@@ -385,7 +381,7 @@ handlemanual(string name)
 			cmd_string += " > ";
 			cmd_string += tmpfilename2;
 			system(cmd_string.c_str());
-			stat(tmpfilename2, &statbuf);
+			stat(tmpfilename2.c_str(), &statbuf);
 			if (statbuf.st_size > 0) {
 				string cmd_string = "mv ";
 				cmd_string += tmpfilename2;
@@ -394,7 +390,7 @@ handlemanual(string name)
 				/* create tmp file containing man page */
 				system(cmd_string.c_str());
 				/* open man page */
-				id = fopen(tmpfilename1, "r");
+				id = fopen(tmpfilename1.c_str(), "r");
 				if (id != NULL) {
 					manhistory my_hist;
 					/* now we create history entry for new page */
@@ -419,11 +415,8 @@ handlemanual(string name)
 			}
 		}
 	} while (return_value != -1);
-	if (apropos_tempfilename)
-		unlink(apropos_tempfilename);
-	/* we were using temporary */
-	if (raw_tempfilename)
-		unlink(raw_tempfilename);
+	if (apropos_tmpfilename != "")
+		unlink(apropos_tmpfilename.c_str());
 	/* raw-manpage for scanning */
 	return 0;
 }
