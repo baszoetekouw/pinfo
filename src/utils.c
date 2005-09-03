@@ -27,7 +27,7 @@ RCSID("$Id$")
 #include <ctype.h>
 
 char *safe_user = "nobody";
-char *safe_group = "nobody";
+char *safe_group = "nogroup";
 
 #ifndef HAVE_CURS_SET
 void

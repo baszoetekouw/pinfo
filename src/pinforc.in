@@ -91,7 +91,7 @@ MAILEDITOR=clear; mail
 PRINTUTILITY=lpr
 MANLINKS=1:8:2:3:4:5:6:7:9:n:p:o:3X11:3Xt:3x:3X
 SAFE-USER=nobody
-SAFE-GROUP=nobody
+SAFE-GROUP=nogroup
 #
 # Remember, HIGHLIGHTREGEXP may be slow (thus it's commented by default)
 #
