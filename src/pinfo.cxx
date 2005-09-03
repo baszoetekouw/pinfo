@@ -134,7 +134,6 @@ getopts(int argc, char *argv[], string& filename_string, FILE** id) {
 				exit(0);
 			case 'm':
 				{
-					checksu();
 					if (verbose)
 						printf(_("Looking for man page...\n"));
 					string man_filename_string = "";
@@ -204,6 +203,12 @@ main(int argc, char *argv[]) {
 	char *type = 0;
 	int tag_table_pos = -1;
 
+	/* Drop root privileges immediately (otherwise we can't read
+	 * our own temp files).  Yes, it's bad to create temp files
+	 * as 'nobody'; it means use by root is subject to races,
+	 * DoS, etc.  FIXME. */
+	checksu();
+
 	/* take care of SIGSEGV, SIGTERM, SIGINT */
 	install_signal_handlers();
 
@@ -254,7 +259,6 @@ main(int argc, char *argv[]) {
 	FILE** idptr = &id;
 	getopts(argc, argv, filename_string, idptr);
 
-	checksu();
 	initpaths();
 
 	if (argc > 1) {
