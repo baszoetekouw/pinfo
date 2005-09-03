@@ -44,7 +44,7 @@ void rescan_selected();	/* scan for potential link to select on
 /* self explanatory */
 void showmanualscreen();
 /* mvaddstr with bold/italic */
-void mvaddstr_manual(int y, int x, char *str);
+void mvaddstr_manual(int y, int x, string str);
 /* adds highlights to a painted screen */
 void add_highlights();
 /* strips line of formatting characters */
@@ -1404,8 +1404,10 @@ showmanualscreen()
 		if (len)
 			manual[i][len - 1] = ' ';
 		/* if we have something to display */
-		if (len>manualcol)
-			mvaddstr_manual((i - manualpos) + 1, 0, getmancolumn(manual[i],manualcol));
+		if (len>manualcol) {
+			string yet_another_tmpstr = getmancolumn(manual[i],manualcol);
+			mvaddstr_manual((i - manualpos) + 1, 0, yet_another_tmpstr);
+		}
 		else	/* otherwise, just clear the line to eol */
 		{
 			move((i - manualpos) + 1, 0);
@@ -1441,55 +1443,55 @@ showmanualscreen()
 
 void
 /* print a manual line */
-mvaddstr_manual(int y, int x, char *str)
+mvaddstr_manual(int y, int x, string my_str)
 {
-	int len = strlen(str);
 	static string strippedline_string;
 	if ((h_regexp_num) ||(manual_aftersearch))
 	{
-		strippedline_string = str;
+		strippedline_string = my_str;
 		strip_manual(strippedline_string);
 	}
+
 	move(y, x);
-	for (int i = 0; i < len; i++) {
-		if ((i > 0) &&(i < len - 1))
+	for (int i = 0; i < my_str.length(); i++) {
+		if ((i > 0) &&(i < my_str.length() - 1))
 		{
 			/* handle bold highlight */
-			if ((str[i] == 8) &&(str[i - 1] == '_'))
+			if ((my_str[i] == 8) &&(my_str[i - 1] == '_'))
 			{
 				attrset(manualbold);
-				addch(str[i] & 0xff);
-				addch(str[i + 1] & 0xff);
+				addch(my_str[i] & 0xff);
+				addch(my_str[i + 1] & 0xff);
 				attrset(normal);
 				i++;
 				goto label_skip_other;
 			}
 			/*
 			 * if it wasn't bold, check italic, before default, unhighlighted
-			 * line will be painted.  We can do it only if i<len-3.
+			 * line will be painted.  We can do it only if i<my_str.length()-3.
 			 */
-			else if (i < len - 3)
+			else if (i < my_str.length() - 3)
 				goto label_check_italic;
 			else /* unhighlighted */
 			{
-				addch(str[i] & 0xff);
+				addch(my_str[i] & 0xff);
 				goto label_skip_other;
 			}
 		}
 		/* italic highlight */
-		if (i < len - 3)
+		if (i < my_str.length() - 3)
 		{
 label_check_italic:
-			if ((str[i + 1] == 8) &&(str[i + 2] == str[i]))
+			if ((my_str[i + 1] == 8) &&(my_str[i + 2] == my_str[i]))
 			{
 				attrset(manualitalic);
-				addch(str[i] & 0xff);
+				addch(my_str[i] & 0xff);
 				i += 2;
 				attrset(normal);
 			}
 			else
 			{
-				addch(str[i] & 0xff);
+				addch(my_str[i] & 0xff);
 			}
 		}
 label_skip_other:;
