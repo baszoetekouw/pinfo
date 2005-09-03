@@ -38,7 +38,7 @@ handle_crash(int signum)
 }
 
 void
-handle_window_resize(int signum)
+handle_window_resize(int signum __attribute__((unused)) )
 {
 	winchanged = 1;
 	ungetch(keys.refresh_1);

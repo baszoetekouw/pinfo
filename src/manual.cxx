@@ -381,12 +381,12 @@ handlemanual(string name)
 			system(cmd_string.c_str());
 			stat(tmpfilename2.c_str(), &statbuf);
 			if (statbuf.st_size > 0) {
-				string cmd_string = "mv ";
-				cmd_string += tmpfilename2;
-				cmd_string += " ";
-				cmd_string += tmpfilename1;
+				string cmd_string2 = "mv ";
+				cmd_string2 += tmpfilename2;
+				cmd_string2 += " ";
+				cmd_string2 += tmpfilename1;
 				/* create tmp file containing man page */
-				system(cmd_string.c_str());
+				system(cmd_string2.c_str());
 				/* open man page */
 				id = fopen(tmpfilename1.c_str(), "r");
 				if (id != NULL) {
@@ -720,7 +720,7 @@ manualwork()
 	/* key, which contains the value entered by user */
 	int key = 0;
 	/* tmp values */
-	int i, selectedchanged;
+	int selectedchanged;
 	int statusline = FREE;
 #ifdef getmaxyx
 	/* if ncurses, get maxx and maxy */
@@ -842,7 +842,7 @@ manualwork()
 				if (token)
 				{
 					int digit_val = 1;
-					for (i = 0; token[i] != 0; i++)
+					for (int i = 0; token[i] != 0; i++)
 					{
 						if (!isdigit(token[i]))
 							digit_val = 0;
@@ -892,7 +892,7 @@ manualwork()
 				if (pipe != NULL)
 				{
 					/* and flush the msg to stdin */
-					for (i = 0; i < ManualLines; i++)
+					for (int i = 0; i < ManualLines; i++)
 						fprintf(pipe, "%s", manual[i]);
 					pclose(pipe);
 				}
@@ -966,7 +966,7 @@ manualwork()
 					goto skip_search;
 				}
 				/* and search for it in all subsequential lines */
-				for (i = manualpos + 1; i < ManualLines - 1; i++)
+				for (int i = manualpos + 1; i < ManualLines - 1; i++)
 				{
 					string tmpstr;
 					/*
@@ -1044,7 +1044,7 @@ skip_search:
 						 * scan for a next visible one, which is above the
 						 * current.
 						 */
-						for (i = selected - 1; i >= 0; i--)
+						for (int i = selected - 1; i >= 0; i--)
 						{
 							if ((manuallinks[i].line >= manualpos) &&
 									(manuallinks[i].line < manualpos +(maxy - 1)))
@@ -1085,7 +1085,7 @@ skip_search:
 			if ((key == keys.nextnode_1) ||
 					(key == keys.nextnode_2))
 			{
-				for (i = manualpos + 1; i < ManualLines; i++)
+				for (int i = manualpos + 1; i < ManualLines; i++)
 				{
 					if (manual[i][1] == 8)
 					{
@@ -1098,7 +1098,7 @@ skip_search:
 			if ((key == keys.prevnode_1) ||
 					(key == keys.prevnode_2))
 			{
-				for (i = manualpos - 1; i > 0; i--)
+				for (int i = manualpos - 1; i > 0; i--)
 				{
 					if (manual[i][1] == 8)
 					{
@@ -1261,7 +1261,7 @@ skip_search:
 				{
 					if ((mouse.y > 0) &&(mouse.y < maxy - 1))
 					{
-						for (i = selected; i >= 0; i--)
+						for (int i = selected; i >= 0; i--)
 						{
 							if (manuallinks[i].line == mouse.y + manualpos - 1)
 							{
@@ -1277,7 +1277,7 @@ skip_search:
 							}
 						}
 						if (!done)
-							for (i = selected; i < manuallinks.size(); i++)
+							for (int i = selected; i < manuallinks.size(); i++)
 							{
 								if (manuallinks[i].line == mouse.y + manualpos - 1)
 								{
@@ -1302,7 +1302,7 @@ skip_search:
 				{
 					if ((mouse.y > 0) &&(mouse.y < maxy - 1))
 					{
-						for (i = selected; i >= 0; i--)
+						for (int i = selected; i >= 0; i--)
 						{
 							if (manuallinks[i].line == mouse.y + manualpos - 1)
 							{
@@ -1318,7 +1318,7 @@ skip_search:
 							}
 						}
 						if (!done)
-							for (i = selected; i < manuallinks.size(); i++)
+							for (int i = selected; i < manuallinks.size(); i++)
 							{
 								if (manuallinks[i].line == mouse.y + manualpos - 1)
 								{
@@ -1392,14 +1392,13 @@ char *getmancolumn(char *man, int mancol)
 void
 showmanualscreen()
 {
-	int i;
 #ifdef getmaxyx
 	/* refresh maxy, maxx values */
 	getmaxyx(stdscr, maxy, maxx);
 #endif
 	attrset(normal);
 	/* print all visible text lines */
-	for (i = manualpos;(i < manualpos +(maxy - 2)) &&(i < ManualLines); i++)
+	for (int i = manualpos;(i < manualpos +(maxy - 2)) &&(i < ManualLines); i++)
 	{
 		int len = strlen(manual[i]);
 		if (len)

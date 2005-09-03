@@ -46,7 +46,7 @@ int toggled_by_menu = 0;
 long pos, infomenu;
 long infocolumn=0;
 
-typeof(hyperobjects.size()) cursor;
+int cursor;
 
 
 
@@ -179,7 +179,7 @@ work(char ***message, char **type, long *lines, FILE * id, int tag_table_pos)
 		if (key == ERR)
 		{
 			if (statusline == FREE)
-				showscreen(Message, Type, Lines, pos, cursor,infocolumn);
+				showscreen(Message, Lines, pos, cursor,infocolumn);
 			waitforgetch();
 			key = pinfo_getch();
 		}
@@ -1160,7 +1160,8 @@ skip_search:
 				{
 					if ((mouse.y > 0) &&(mouse.y < maxy - 1))
 					{
-						for (typeof(hyperobjects.size()) i = cursor; i >= 0; i--)
+						/* signed/unsigned.  Use iterators.  FIXME. */
+						for (int i = cursor; i >= 0; i--)
 						{
 							if (hyperobjects[i].line == mouse.y + pos - 1)
 							{
@@ -1267,7 +1268,8 @@ getnodeoffset(int tag_table_pos,
 	int fileoffset = 0;
 	if (!indirect.empty())
 	{
-		for (typeof(indirect.size()) i = indirect.size() - 1; i >= 0; i--)
+		/* signed/unsigned.  Use iterators. FIXME */
+		for (int i = indirect.size() - 1; i >= 0; i--)
 		{
 			if (indirect[i].offset <= tag_table[tag_table_pos].offset)
 			{
