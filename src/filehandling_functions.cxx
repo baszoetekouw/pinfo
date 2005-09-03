@@ -358,7 +358,6 @@ load_indirect(char **message, long lines)
 void
 load_tag_table(char **message, long lines)
 {
-	long i;
 	int is_indirect = 0;
 
 	/*
@@ -369,20 +368,20 @@ load_tag_table(char **message, long lines)
 		is_indirect = 1;
 	tag_table.clear();
 
-	for (i = 1; i < lines - is_indirect; i++)
+	for (long i = 1; i < lines - is_indirect; i++)
 	{
 		string wsk_string = message[i + is_indirect];
 		/* Skip first character and nonwhitespace after it.
 		 * (Why first character? FIXME) 
 		 * plus one more (space) character */
-		string::size_type i;
-		for (i = 1; i < wsk_string.size(); i++) {
-			if (isspace(wsk_string[i])) {
-				i++;
+		string::size_type j;
+		for (j = 1; j < wsk_string.size(); j++) {
+			if (isspace(wsk_string[j])) {
+				j++;
 				break;
 			}
 		}
-		string trimmed = wsk_string.substr(i); /* Might be "" */
+		string trimmed = wsk_string.substr(j); /* Might be "" */
 		if (trimmed == "") {
 			continue;
 		}
@@ -402,7 +401,7 @@ load_tag_table(char **message, long lines)
 
 	/* info should ALWAYS start at the 'Top' node, not at the first
 	   mentioned node(vide ocaml.info) */
-	for (i = 0; i < tag_table.size(); i++)
+	for (typeof(tag_table.size()) i = 0; i < tag_table.size(); i++)
 	{
 		if (strcasecmp(tag_table[i].nodename.c_str(), "Top") == 0)
 		{
@@ -550,7 +549,8 @@ opendirfile(int number)
 	}
 
 	int *fileendentries = (int*)xmalloc(infopaths.size() * sizeof(int));
-	for (int i = 0; i < infopaths.size(); i++)	{ /* go through all paths */
+	/* go through all paths */
+	for (typeof(infopaths.size()) i = 0; i < infopaths.size(); i++)	{ 
 		int lang_found = 0;
 		for (int k = 0; k <= 1; k++) { /* Two passes: with and without LANG */
 			string bufstr;
@@ -758,8 +758,7 @@ addrawpath(const string filename_string)
 int
 isininfopath(char *name)
 {
-	int i;
-	for (i = 0; i < infopaths.size(); i++)
+	for (typeof(infopaths.size()) i = 0; i < infopaths.size(); i++)
 	{
 		if (infopaths[i] == name)
 			return 1;		/* path already exists */
@@ -795,9 +794,7 @@ initpaths()
 	char *rawlang = NULL;
 	string lang;
 	string langshort;
-	char* c;
 	int ret;
-	unsigned int i, j;
 	size_t len;
 	struct stat sbuf;
 
@@ -846,13 +843,13 @@ initpaths()
 
 	/* if we have a LANG defined, add paths with this lang to the paths[] */
 	if (lang != "") {
-		vector<string>::size_type old_size = paths.size();
+		typeof(paths.size()) old_size = paths.size();
 		if (langshort != "") {
 			paths.resize(old_size * 3);
 		} else {
 			paths.resize(old_size * 2);
 		}
-		for (i=0; i<old_size; i++) {
+		for (typeof(paths.size()) i=0; i<old_size; i++) {
 			string tmp;
 			tmp = paths[i];
 			tmp += '/';
@@ -874,7 +871,7 @@ initpaths()
 
 #ifdef ___DEBUG___
 	/* for debugging */
-	for (i=0; i<paths.size(); i++)
+	for (typeof(paths.size()) i=0; i<paths.size(); i++)
 		fprintf(stderr,"--> %s\n", paths[i].c_str());
 #endif
 
@@ -883,8 +880,7 @@ initpaths()
 	vector<ino_t> inodes;
 	int numpaths = 0;
 	len = 0;
-	for (i=0; i<paths.size(); i++)
-	{
+	for (typeof(paths.size()) i=0; i<paths.size(); i++) {
 		inodes.push_back(0);
 		/* stat() the dir */
 		ret = stat( paths[i].c_str(), &sbuf);
@@ -904,7 +900,7 @@ initpaths()
 		}
 
 		/* now check if this path is a duplicate */
-		for (j=0; j<i; j++)
+		for (typeof(paths.size()) j=0; j<i; j++)
 		{
 			if (inodes[j]==inodes[i])
 				paths[i] = "";
@@ -920,7 +916,7 @@ initpaths()
 
 
 	infopaths.clear();
-	for (i=0; i<paths.size(); i++)
+	for (typeof(paths.size()) i=0; i<paths.size(); i++)
 	{
 		if (paths[i]!="")
 		{
@@ -931,7 +927,7 @@ initpaths()
 #ifdef ___DEBUG___
 	/* for debugging */
 	fprintf(stderr, "%i valid info paths found:\n", infopaths.size());
-	for (i=0; i<infopaths.size(); i++)
+	for (typeof(paths.size()) i=0; i<infopaths.size(); i++)
 		if (infopaths[i] != "") fprintf(stderr,"--> %s\n", infopaths[i].c_str());
 #endif
 }
@@ -952,7 +948,7 @@ create_indirect_tag_table()
 			FirstNodeName = tag_table[0].nodename;
 		}
 		fclose(id);
-		for (int j = initial; j < tag_table.size(); j++)
+		for (typeof(tag_table.size()) j = initial; j < tag_table.size(); j++)
 		{
 			tag_table[j].offset +=(indirect[i].offset - FirstNodeOffset);
 		}
@@ -1006,7 +1002,7 @@ create_tag_table(FILE * id)
 								TagTable my_tag;
 								buf[j] = 0;
 								buflen = j;
-								my_tag.nodename, buf + i + 2;
+								my_tag.nodename = buf + i + 2;
 								my_tag.offset = oldpos - 2;
 								tag_table.push_back(my_tag);
 								break;

@@ -206,7 +206,7 @@ main(int argc, char *argv[]) {
 	/* Drop root privileges immediately (otherwise we can't read
 	 * our own temp files).  Yes, it's bad to create temp files
 	 * as 'nobody'; it means use by root is subject to races,
-	 * DoS, etc.  FIXME. */
+	 * DoS, etc., by anyone who controls 'nobody'.  Ow.  FIXME. */
 	checksu();
 
 	/* take care of SIGSEGV, SIGTERM, SIGINT */
