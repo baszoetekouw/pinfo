@@ -136,7 +136,8 @@ check_manwidth(void) {
 		 * The largest value in a signed 64-bit integer is 2^63 - 1
 		 * which can be represented in 19 digits.  Therefore 29
 		 * characters is enough to include the whole string (with
-		 * terminator), and sprintf is safe.  Whee.
+		 * terminator), and sprintf is safe.  The extra character
+		 * is in case a negative value snuck into maxx.  Whee.
 		 */
 		static char env_entry[30];
 		sprintf(env_entry, "MANWIDTH=%d", maxx);
@@ -588,122 +589,112 @@ man_initializelinks(string line, int carry)
 	/******************************************************************************
 	 * handle normal manual refrences -- reference(section)                       *
 	 ******************************************************************************/
-	/* set tmpcnt to the trailing zero of tmp */
-	const char *tmp = line.c_str();
-	int tmpcnt = strlen(tmp) + 1;
-	const char *link = tmp;
-	do {
-		/* we look for '(', since manual link */
-		link = strchr(link, '(');
-		/* has form of  'blah(x)' */
-		if (link != NULL)
-		{
-			char *temp;
-			/* look for the closing bracket */
-			if ((temp = strchr(link, ')')))
-			{
-				string p_t_str;
-				p_t_str.assign(link + 1, temp - (link + 1));
 
-				if (    (p_t_str.find('(') == string::npos)
-				     && is_in_manlinks(manlinks, p_t_str)
-				   ) {
-					int breakpos;
-					int i = link - tmp - 1;
-					if (i < 0)
+	/* we look for '(', since manual link */
+	/* has form of  'blah(x)' */
+	string::size_type left_bracket_index;
+	left_bracket_index = line.find('(');
+	while (    (left_bracket_index != string::npos)
+	        && (left_bracket_index < line.length())
+	      ) {
+		/* look for the closing bracket */
+		string::size_type right_bracket_index;
+		right_bracket_index = line.find(')', left_bracket_index + 1);
+		if (right_bracket_index != string::npos) {
+			string sect_str;
+			sect_str = line.substr(left_bracket_index + 1,
+			                      right_bracket_index - (left_bracket_index + 1));
+
+			if (    (sect_str.find('(') == string::npos)
+			     && is_in_manlinks(manlinks, sect_str)
+			   ) {
+				int breakpos;
+				int i = left_bracket_index - 1;
+				if (i < 0)
+					i++;
+				for (; i > 0; i--) {
+					if (!isspace(line[i]))
+						/* ignore spaces between linkname and '(x)' */
+						break;
+				}
+
+				breakpos = i + 1;
+				string prebreak;
+				prebreak = line.substr(0, breakpos);
+				/*
+				 * scan to the first space sign or to 0 -- that means go to
+				 * the beginning of the scanned token
+				 */
+				for (i = prebreak.size() - 1; i > 0; i--) {
+					if (isspace(prebreak[i])) {
 						i++;
-					for (; i > 0; --i)
-					{
-						if (!isspace(tmp[i]))
-							/* ignore spaces between linkname and '(x)' */
-							break;
+						break;
 					}
+				}
+				if ((i == 0) && isspace(prebreak[i])) {
+					i++;
+				}
 
-					breakpos = i + 1;
-					string prebreak;
-					prebreak.assign(tmp, breakpos);
+				/* now we have needed string in i..breakpos. */
+				string chosen_name = prebreak.substr(i);
+
+				/* a small check */
+				if (!(use_apropos && (manualhistory.size() == 1))) {
 					/*
-					 * scan to the first space sign or to 0 -- that means go to
-					 * the beginning of the scanned token
+					 * In English: if the name of the link is the name of
+					 * the current page and the section of the link is the
+					 * current section or if we don't know the current
+					 * section, then...
 					 */
-					for (i = prebreak.size() - 1; i > 0; i--) {
-						if (isspace(prebreak[i])) {
-							i++;
+					if (    (!strcasecmp(chosen_name.c_str(),
+					                     manualhistory[manualhistory.size() - 1].name.c_str())
+					        )
+							 && (    (!strcasecmp(sect_str.c_str(),
+					                          manualhistory[manualhistory.size() - 1].sect.c_str())
+					             )
+								    || (manualhistory[manualhistory.size() - 1].sect == "")
+								    || (manualhistory[manualhistory.size() - 1].sect == " ")
+					        )
+					   ) {
+						left_bracket_index = line.find('(', left_bracket_index + 1);
+						continue;
+					}
+				}
+				manuallink my_link;
+				my_link.name = chosen_name;
+				my_link.line = ManualLines;
+				my_link.col = i;
+				if (LongManualLinks) {
+					my_link.section = "";
+					for (string::size_type b = left_bracket_index + 1;
+							 line[b] != ')'; b++) {
+						my_link.section += tolower(line[b]);
+					}
+				} else {
+					/* Short manual links */
+					my_link.section = line[left_bracket_index + 1];
+				}
+				my_link.section_mark = 0;
+
+				/* check whether this is a carry'ed entry(i.e. in the
+				 * previous line there was `-' at end, and this is the
+				 * first word of this line */
+				int b;
+				for (b = i - 1; b >= 0; b--) {
+					if (b > 0)
+						if (!isspace(line[b]))
 							break;
-						}
-					}
-					if ((i == 0) && isspace(prebreak[i])) {
-						i++;
-					}
-
-					/* now we have needed string in i..breakpos. */
-					string chosen_name = prebreak.substr(i);
-
-					/* a small check */
-					if (!((use_apropos) && (manualhistory.size() - 1 == 0)))
-					{
-						/*
-						 * In English: if the name of the link is the name of
-						 * the current page and the section of the link is the
-						 * current section or if we don't know the current
-						 * section, then...
-						 */
-						if (    (!strcasecmp(chosen_name.c_str(),
-						                     manualhistory[manualhistory.size() - 1].name.c_str())
-						        )
-								 && (    (!strcasecmp(p_t_str.c_str(),
-						                          manualhistory[manualhistory.size() - 1].sect.c_str())
-						             )
-									    || (manualhistory[manualhistory.size() - 1].sect == "")
-									    || (manualhistory[manualhistory.size() - 1].sect == " ")
-						        )
-						   ) {
-							link++;
-							continue;
-						}
-					}
-					manuallink my_link;
-					my_link.name = chosen_name;
-					my_link.line = ManualLines;
-					my_link.col = i;
-					if (LongManualLinks) {
-						my_link.section = "";
-						for (int b = 1; link[b] != ')'; b++) {
-							my_link.section += tolower(link[b]);
-						}
-					} else {
-						/* Short manual links */
-						my_link.section = link[1];
-					}
-					my_link.section_mark = 0;
-
-					/* check whether this is a carry'ed entry(i.e. in the
-					 * previous line there was `-' at end, and this is the
-					 * first word of this line */
-					int b;
-					for (b = i - 1; b >= 0; b--)
-					{
-						if (b > 0)
-							if (!isspace(tmp[b]))
-								break;
-					}
-					if (b >= 0)
-						my_link.carry = 0;
-					else
-						my_link.carry = carry;
-					/* increase the number of entries */
-					manuallinks.push_back(my_link);
-				}		/*... if (in man links) */
-			}
-		}
-		if (link)
-			link++;
-		if (link > (tmp + tmpcnt))
-		{
-			break;
-		}
-	} while (link != NULL);
-	/* do this loop until strchr() won't find a '(' in string */
+				}
+				if (b >= 0)
+					my_link.carry = 0;
+				else
+					my_link.carry = carry;
+				/* increase the number of entries */
+				manuallinks.push_back(my_link);
+			}	/* ... if (in man links) */
+		} /* ... if right bracket */
+		left_bracket_index = line.find('(', left_bracket_index + 1);
+	}
 
 	if (manuallinks.size() > initialManualLinks) {
 		typeof(manuallinks.begin()) first_new_link
