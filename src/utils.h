@@ -61,6 +61,8 @@ void mymvhline (int y, int x, char ch, int len);
 void myclrtoeol ();
 /* takes care of the cursor, which is turned off */
 void myendwin ();
+/* ? */
+void handlewinch ();
 /* get offset of "node" in tag_table variable */
 int gettagtablepos (char *node);
 

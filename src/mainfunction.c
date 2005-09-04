@@ -994,9 +994,10 @@ skip_search:
 				if (!toggled_by_menu)
 					infohistory.menu[infohistory.length] = cursor;
 				if ((cursor >= 0) &&(cursor < hyperobjectcount))
-					if ((hyperobjects[cursor].line >= pos) &&
-							(hyperobjects[cursor].line < pos +(maxy - 2)) ||
-							(toggled_by_menu))
+					if ( 
+						( (hyperobjects[cursor].line >= pos) 
+						  && (hyperobjects[cursor].line < pos +(maxy - 2) )
+						) || (toggled_by_menu) )
 					{
 						toggled_by_menu = 0;
 						if (hyperobjects[cursor].type < 4)	/* normal info link */
