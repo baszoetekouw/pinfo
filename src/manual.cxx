@@ -72,8 +72,6 @@ int manualcol = 0;		/* the first displayed column of manpage--
 
 int manual_aftersearch = 0;	/* this is set if man page is now after search
 							   operation */
-int manwidthChanged = 0;	/* this flag indicates whether the env variable
-							   $MANWIDTH was changed by pinfo */
 
 /*
  * type for the `lastread' history entries, when viewing
@@ -121,8 +119,26 @@ dumplink(manuallink a) {
 		a.line, a.col, a.carry);
 }
 
+/* this flag indicates whether the env variable
+ * $MANWIDTH was changed by pinfo */
+static bool manwidthChanged = false;
+
+/* Set MANWIDTH as needed */
 void
+check_manwidth(void) {
+	if ((!getenv("MANWIDTH")) ||(manwidthChanged))
+	{
+		/* set MANWIDTH environment variable */
+		static char tmp[24];
+		snprintf(tmp, 24, "MANWIDTH=%d", maxx);
+		putenv(tmp);
+		manwidthChanged = true;
+	}
+}
+
+
 /* free buffers allocated by current man page */
+void
 manual_free_buffers()
 {
 	int i;
@@ -251,24 +267,11 @@ handlemanual(string name)
 		unlink(tmpfilename1.c_str());
 	}
 
-#ifdef getmaxyx
 	init_curses();
-	/* if ncurses, get maxx and maxy */
 	getmaxyx(stdscr, maxy, maxx);
 	myendwin();
-	if ((!getenv("MANWIDTH")) ||(manwidthChanged))
-	{
-		/* set MANWIDTH environment variable */
-		static char tmp[24];
-		snprintf(tmp, 24, "MANWIDTH=%d", maxx);
-		putenv(tmp);
-		manwidthChanged = 1;
-	}
-#else
-	/* otherwise hardcode 80x25... */
-	maxx = 80;
-	maxy = 25;
-#endif /* getmaxyx */
+
+	check_manwidth();
 
 	if (!plain_apropos) {
 		string cmd_string = "man ";
@@ -321,18 +324,10 @@ handlemanual(string name)
 		/* manualwork handles all actions when viewing man page */
 		return_value = manualwork();
 		/* Return value may specify link to follow */
-#ifdef getmaxyx
-		/* if ncurses, get maxx and maxy */
+
 		getmaxyx(stdscr, maxy, maxx);
-		if ((!getenv("MANWIDTH")) ||(manwidthChanged))
-		{
-			/* set MANWIDTH environment variable */
-			static char tmp[24];
-			snprintf(tmp, 24, "MANWIDTH=%d", maxx);
-			putenv(tmp);
-			manwidthChanged = 1;
-		}
-#endif
+		check_manwidth();
+
 		manual_aftersearch = 0;
 		/* -1 is quit key */
 		if (return_value != -1)
@@ -721,22 +716,9 @@ manualwork()
 	/* tmp values */
 	int selectedchanged;
 	int statusline = FREE;
-#ifdef getmaxyx
-	/* if ncurses, get maxx and maxy */
+
 	getmaxyx(stdscr, maxy, maxx);
-	if ((!getenv("MANWIDTH")) ||(manwidthChanged))
-	{
-		/* set MANWIDTH environment variable */
-		static char tmp[24];
-		snprintf(tmp, 24, "MANWIDTH=%d", maxx);
-		putenv(tmp);
-		manwidthChanged = 1;
-	}
-#else
-	maxx = 80;
-	/* otherwise hardcode 80x25... */
-	maxy = 25;
-#endif /* getmaxyx */
+	check_manwidth();
 
 	/* get manualpos from history.  it is set in handlemanual() */
 	manualpos = manualhistory[manualhistory.size() - 1].pos;
