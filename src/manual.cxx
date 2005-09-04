@@ -54,7 +54,7 @@ void strip_manual(string& buf);
  * and are stored in `manuallinks' var, described bellow.
  */
 void man_initializelinks(string line, int carry);
-int is_in_manlinks(string in, char *find);
+bool is_in_manlinks(vector<string> in, string find);
 
 void printmanual(char **Message, long Lines);
 
@@ -604,7 +604,7 @@ man_initializelinks(string line, int carry)
 				*p_t = '\0';
 				link -=(strlen(p_t1) + sizeof(char));
 
-				if ((!strchr(p_t1, '(')) &&(!is_in_manlinks(manlinks, p_t1)))
+				if ( !strchr(p_t1, '(') && is_in_manlinks(manlinks, string(p_t1)) )
 				{
 					int breakpos;
 					int i = link - tmp - 1;
@@ -1673,35 +1673,14 @@ strip_manual(string& buf)
  * checks if a construction, which looks like hyperlink, belongs to the allowed
  * manual sections.
  */
-int
-is_in_manlinks(string in_str, char *find)
+bool
+is_in_manlinks(vector<string> manlinks, string to_find)
 {
-	char *copy, *token;
-	const char delimiters[] = ":";
-
-	copy = strdup(in_str.c_str());
-	if ((strcmp(find,(token = strtok(copy, delimiters))) != 0))
-	{
-		while ((token = strtok(NULL, delimiters)))
-		{
-#ifdef HAVE_STRCASECMP
-			if (!strcasecmp(token, find))
-#else
-				if (!strcmp(token, find))
-#endif
-				{
-					xfree((void *) copy);
-					return 0;
-				}
-		}
-		xfree((void *) copy);
-		return 1;
-	}
-	else
-	{
-		xfree((void *) copy);
-		return 0;
-	}
+	/* Normalize case */
+	string to_find_uppercase = string_toupper(to_find);
+	typeof(manlinks.begin()) result_iter;
+	result_iter = std::find(manlinks.begin(), manlinks.end(), to_find_uppercase);
+	return (result_iter != manlinks.end()); /* True if found */
 }
 
 void

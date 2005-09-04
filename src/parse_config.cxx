@@ -639,7 +639,9 @@ parse_line(char *line)
 		if (temp)
 		{
 			string tmpstr = temp;
-			manlinks = remove_quotes(tmpstr);
+			/* Normalize to uppercase, like everywhere else manlinks is used */
+			string manlinks_str = string_toupper(remove_quotes(tmpstr));
+			manlinks = string_explode(manlinks_str, ':');
 		}
 		else
 			return 1;

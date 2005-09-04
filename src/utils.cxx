@@ -531,3 +531,34 @@ handlewinch()
 	getmaxyx(stdscr, maxy, maxx);
 	ungetch(keys.refresh_1);
 }
+
+/*
+ * Create a vector of strings.  If the strings are concatenated together
+ * with separator in between them, the original string will be recovered.
+ */
+vector<string>
+string_explode(string to_explode, string::value_type separator) {
+	vector<string> result;
+	
+	string::size_type old_idx = 0;
+	string::size_type new_idx = to_explode.find(separator, old_idx);
+	while (new_idx != string::npos) {
+		result.push_back(to_explode.substr(old_idx, new_idx - old_idx));
+		old_idx = new_idx + 1;
+		new_idx = to_explode.find(separator, old_idx);
+	}
+	/* Get the last one */
+	result.push_back(to_explode.substr(old_idx));
+
+	return result;
+}
+
+string
+string_toupper(string str)
+{
+	for (string::size_type i = 0; i < str.length(); i++)
+		if (islower(str[i]))
+			str[i] = toupper(str[i]);
+	return str;
+}
+

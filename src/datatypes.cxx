@@ -21,9 +21,12 @@
  ***************************************************************************/
 #include "common_includes.h"
 #include <string>
-#include <vector>
 using std::string;
+#include <vector>
 using std::vector;
+
+/* for string_explode */
+#include "utils.h"
 
 int verbose = 1;
 
@@ -33,7 +36,12 @@ string httpviewer = "lynx";
 string ftpviewer = "lynx";
 string maileditor = "mail";
 string printutility = "lpr";
-string manlinks = "1:8:2:3:4:5:6:7:9:n:l:p:o:3X11:3Xt:3X:3x";
+
+/* Normalize to uppercase (corresponding to elsewhere) */
+/* FIXME: standard list should be autodetermined by search */
+vector<string> manlinks = string_explode(
+		string_toupper(string("1:8:2:3:4:5:6:7:9:n:l:p:o:3X11:3Xt:3X:3x")),
+	':');
 string configuredinfopath = "/usr/share/info:/usr/local/share/info:/opt/info";
 string ignoredmacros = "";
 string rcfile = "";

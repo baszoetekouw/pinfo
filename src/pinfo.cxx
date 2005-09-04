@@ -240,17 +240,17 @@ main(int argc, char *argv[]) {
 		{
 			if (verbose)
 				printf(_("Looking for man page...\n"));
-			string filename_string;
+			string filename_string2;
 			/*
 			 * pass all arguments to the `man' command(manhandler calls
 			 * `man')
 			 */
 			for (int i = 1; i < argc; i++)
 			{
-				filename_string.append(argv[i]);
-				filename_string.append(" ");
+				filename_string2.append(argv[i]);
+				filename_string2.append(" ");
 			}
-			exit(handlemanual(filename_string));
+			exit(handlemanual(filename_string2));
 		}
 
 	/* Break out getopts to make main() smaller */

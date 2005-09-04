@@ -106,7 +106,7 @@ extern std::string maileditor;
 /* name of the printing utility */
 extern std::string printutility;
 /* man sections, considered to be highlighted  as links */
-extern std::string manlinks;
+extern std::vector<std::string> manlinks;
 /* configured paths to infopages */
 extern std::string configuredinfopath;
 /* groff/troff macros which are removed while preformatting manual page */
