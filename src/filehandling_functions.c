@@ -477,8 +477,10 @@ seek_tag_table(FILE * id,int quiet)
 				if (!quiet)
 				{
 					if (!curses_open)
+					{
 						printf(_("Warning: could not find tag table"));
 						printf("\n");
+					}
 					else
 					{
 						attrset(bottomline);
