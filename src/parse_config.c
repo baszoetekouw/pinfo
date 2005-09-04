@@ -117,10 +117,12 @@ parse_config(void)
 	else
 	{
 		if (rcfile == NULL)
+		{
 			if (getenv("HOME"))
 				home = strdup(getenv("HOME"));
 			else
 				home = 0;
+		}
 		if (home)
 		{
 			strcpy(config_file_name, home);

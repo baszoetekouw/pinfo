@@ -908,7 +908,7 @@ initpaths()
 
 	/* split at ':' and put the path components into paths[] */
 	c = infopath;
-	while (dir = strsep(&c, ":"))
+	while ( (dir = strsep(&c, ":")) != NULL )
 	{
 		/* if this actually is a non-empty string, add it to paths[] */
 		if ( dir && strlen(dir)>0 )
@@ -1200,7 +1200,7 @@ strip_compression_suffix(char *file)	/* removes trailing .gz, .bz2, etc. */
 	int j;
 	for (j = 0; j < SuffixesNumber; j++)
 	{
-		if (found = strstr(file, suffixes[j].suffix))
+		if ( (found = strstr(file, suffixes[j].suffix)) != NULL )
 		{
 			if (*(found + strlen(suffixes[j].suffix)) == 0)
 			{

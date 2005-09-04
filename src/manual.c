@@ -247,19 +247,12 @@ handlemanual(char *name)
 {
 	int return_value = 0;
 	struct stat statbuf;
-	FILE *id, *source;
+	FILE *id;
 
-	char **ignored_entries;
 	char manualname[256];
 	char cmd[256];
-	char location[256];
-	char line[1025];
 	char *raw_tempfilename = 0;
 	char *apropos_tempfilename = 0;
-	char *end, *prev;
-	size_t macroline_size;
-	int ignored_items = 0, i = 0;
-	char zipped = 0;
 
 	if (tmpfilename1)
 	{
@@ -296,6 +289,15 @@ handlemanual(char *name)
 	 * There is a stored variable raw_tempfilename to allow unlinking this temp *
 	 * file after usage							    *
 	 ****************************************************************************/
+	FILE *source;
+	char **ignored_entries;
+	char location[256];
+	char line[1025];
+	char *end, *prev;
+	size_t macroline_size;
+	int ignored_items = 0, i = 0;
+	char zipped = 0;
+
 	/* if the pointer is non-null */
 	if (ignoredmacros)
 		/* if there are some macros */

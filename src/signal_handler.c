@@ -46,6 +46,8 @@ handle_window_resize(int signum)
 void
 signal_handler()
 {
+	sigset_t sigs;
+	
 	signal(SIGINT, handle_crash);	/* handle ^C */
 	signal(SIGTERM, handle_crash);	/* handle soft kill */
 	signal(SIGSEGV, handle_crash);	/* handle seg. fault */
@@ -53,5 +55,8 @@ signal_handler()
 #ifdef SIGWINCH
 	signal(SIGWINCH, handle_window_resize);
 #endif
-	sigblock(sigmask(SIGPIPE));	/* block broken pipe signal */
+	/* block broken pipe signal */
+	sigemptyset(&sigs);
+	sigaddset(&sigs, SIGPIPE);
+	sigprocmask(SIG_BLOCK, &sigs, NULL);
 }
