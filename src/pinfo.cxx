@@ -32,7 +32,7 @@ using std::string;
  #include <getopt.h>
 #endif
 
-char *version = VERSION;
+const char * const version = VERSION;
 int DontHandleWithoutTagTable = 0;
 
 /* currently viewed filename */
@@ -395,7 +395,7 @@ main(int argc, char *argv[]) {
 
 		/* handle goto/link where no file was found -- see bellow */
 		if (!filenotfound)
-			addinfohistory(curfile.c_str(), tag_table[tag_table_pos].nodename.c_str(), -1, -1, -1);
+			addinfohistory(curfile, tag_table[tag_table_pos].nodename, -1, -1, -1);
 		else
 			filenotfound = 0;
 		work_return_value = work(&message, &type, &lines, id, tag_table_pos);

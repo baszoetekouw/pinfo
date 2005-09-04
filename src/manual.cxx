@@ -598,14 +598,12 @@ man_initializelinks(string line, int carry)
 			/* look for the closing bracket */
 			if ((temp = strchr(link, ')')))
 			{
-				char *p_t1, *p_t;
-				p_t = p_t1 = (char*)xmalloc((strlen(link) + 10) * sizeof(char));
-				for (++link; link != temp; *p_t++ = *link++);
-				*p_t = '\0';
-				link -=(strlen(p_t1) + sizeof(char));
+				string p_t_str;
+				p_t_str.assign(link + 1, temp - (link + 1));
 
-				if ( !strchr(p_t1, '(') && is_in_manlinks(manlinks, string(p_t1)) )
-				{
+				if (    (p_t_str.find('(') == string::npos)
+				     && is_in_manlinks(manlinks, p_t_str)
+				   ) {
 					int breakpos;
 					int i = link - tmp - 1;
 					if (i < 0)
@@ -649,7 +647,9 @@ man_initializelinks(string line, int carry)
 						if (    (!strcasecmp(chosen_name.c_str(),
 						                     manualhistory[manualhistory.size() - 1].name.c_str())
 						        )
-								 && (    (!strcasecmp(p_t1, manualhistory[manualhistory.size() - 1].sect.c_str()))
+								 && (    (!strcasecmp(p_t_str.c_str(),
+						                          manualhistory[manualhistory.size() - 1].sect.c_str())
+						             )
 									    || (manualhistory[manualhistory.size() - 1].sect == "")
 									    || (manualhistory[manualhistory.size() - 1].sect == " ")
 						        )
@@ -690,7 +690,6 @@ man_initializelinks(string line, int carry)
 					/* increase the number of entries */
 					manuallinks.push_back(my_link);
 				}		/*... if (in man links) */
-				xfree((void *) p_t1);
 			}
 		}
 		if (link)

@@ -90,7 +90,7 @@ inithistory()
  * Add history entry
  */
 void
-addinfohistory(const char *file, const char *node, int cursor, int menu, int pos)
+addinfohistory(string file, string node, int cursor, int menu, int pos)
 {
 	InfoHistory my_hist;
 	my_hist.node = node;
