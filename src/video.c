@@ -191,6 +191,7 @@ info_add_highlights(int pos, int cursor, long lines, int column, char **message)
 				}
 				else
 				{
+					int j;
 					char tmp = hyperobjects[i].node[hyperobjects[i].breakpos];
 					hyperobjects[i].node[hyperobjects[i].breakpos] = 0;
 					info_addstr(1 + hyperobjects[i].line - pos,
@@ -263,6 +264,7 @@ info_add_highlights(int pos, int cursor, long lines, int column, char **message)
 		long maxpos = pos +(maxy - 2);
 		if (maxpos > lines)
 			maxpos = lines;
+		int i;
 		for (i = pos; i < maxpos; i++)
 		{
 			int maxregexp = aftersearch ? h_regexp_num + 1 : h_regexp_num;
@@ -270,6 +272,7 @@ info_add_highlights(int pos, int cursor, long lines, int column, char **message)
 			 * if it is after search, then we have user defined regexps+
 			 * a searched regexp to highlight
 			 */
+			int j;
 			for (j = 0; j < maxregexp; j++)
 			{
 				char *str = message[i];

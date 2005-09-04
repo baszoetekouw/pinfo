@@ -1447,7 +1447,7 @@ skip_search:
 				{
 					if ((mouse.y > 0) &&(mouse.y < maxy - 1))
 					{
-						for (i = selected; i > 0; i--)
+						for (i = selected; i >= 0; i--)
 						{
 							if (manuallinks[i].line == mouse.y + manualpos - 1)
 							{
@@ -1488,7 +1488,7 @@ skip_search:
 				{
 					if ((mouse.y > 0) &&(mouse.y < maxy - 1))
 					{
-						for (i = selected; i > 0; i--)
+						for (i = selected; i >= 0; i--)
 						{
 							if (manuallinks[i].line == mouse.y + manualpos - 1)
 							{
