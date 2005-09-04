@@ -128,15 +128,15 @@ showscreen(char **message, char *type, long lines, long pos, long cursor, int co
 void
 info_addstr(int y, int x, char *txt, int column, int txtlen)
 {
-  int maxy, maxx;
-  getmaxyx(stdscr, maxy, maxx);
-  /* Use maxx and mvaddnstr to force clipping.
+  int xmax, ymax;
+  getmaxyx(stdscr, ymax, xmax);
+  /* Use xmax and mvaddnstr to force clipping.
    * Fairly blunt instrument, but the best I could come up with.
    * Breaks in the presence of tabs; I don't see how to handle them. */
 	if (x>column)
-		mvaddnstr(y,x-column,txt, maxx-(x-column) );
+		mvaddnstr(y,x-column,txt, xmax-(x-column) );
 	else if (x+txtlen>column)
-		mvaddnstr(y,0,txt+(column-x), maxx );
+		mvaddnstr(y,0,txt+(column-x), xmax );
 #ifdef __DEBUG__
   refresh();
 #endif /* __DEBUG__ */
@@ -145,7 +145,7 @@ info_addstr(int y, int x, char *txt, int column, int txtlen)
 void
 info_add_highlights(int pos, int cursor, long lines, int column, char **message)
 {
-	int i, j;
+	int i;
 	for (i = 0; i < hyperobjectcount; i++)
 	{
 		if ((hyperobjects[i].line >= pos) &&
@@ -230,6 +230,7 @@ info_add_highlights(int pos, int cursor, long lines, int column, char **message)
 				{
 					static char buf[1024];
 					char tmp;
+					int j;
 					strcpy(buf, "(");
 					strcat(buf, hyperobjects[i].file);
 					strcat(buf, ")");
@@ -264,8 +265,6 @@ info_add_highlights(int pos, int cursor, long lines, int column, char **message)
 		long maxpos = pos +(maxy - 2);
 		if (maxpos > lines)
 			maxpos = lines;
-		int i;
-		for (i = pos; i < maxpos; i++)
 		{
 			int maxregexp = aftersearch ? h_regexp_num + 1 : h_regexp_num;
 			/*

@@ -138,7 +138,7 @@ findurlend(char *str)
  * Searchs for a note/menu delimiter.  it may be dot, comma, tab, or newline.
  */
 char *
-finddot(char *str, int note)
+finddot(char *str, int mynote)
 {
 	char *ptr = str;
 	char *end[4] =
@@ -155,13 +155,13 @@ finddot(char *str, int note)
 	}
 	end[0] = strrchr(str, '.');	/* nodename entry may end with dot, comma */
 	end[1] = strrchr(str, ',');	/* tabulation, or newline */
-	if (!note)
+	if (!mynote)
 	{
 		end[2] = strchr(str, '\t');
 		end[3] = strchr(str, '\n');
 	}
 	else
-		note = 2;
+		mynote = 2;
 	if (end[0])
 		closest = end[0];
 	else if (end[1])
@@ -170,7 +170,7 @@ finddot(char *str, int note)
 		closest = end[2];
 	else if (end[3])
 		closest = end[3];
-	for (i = 1; i < note; i++)	/* find the delimiter, which was found most
+	for (i = 1; i < mynote; i++)	/* find the delimiter, which was found most
 								   recently */
 	{
 		if ((end[i] < closest) &&(end[i]))

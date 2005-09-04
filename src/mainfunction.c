@@ -48,7 +48,7 @@ work(char ***message, char **type, long *lines, FILE * id, int tag_table_pos)
 #define Type	(*type)
 	static WorkRVal rval =
 	{0, 0};
-	FILE *pipe;
+	FILE *mypipe;
 	int i, fileoffset, j;
 	int indirectstart = -1;
 	int cursorchanged = 0;
@@ -241,17 +241,17 @@ work(char ***message, char **type, long *lines, FILE * id, int tag_table_pos)
 
 				myendwin();
 				system("clear");
-				pipe = popen(token, "w");	/* open pipe */
-				if (pipe != NULL)
+				mypipe = popen(token, "w");	/* open mypipe */
+				if (mypipe != NULL)
 				{
 					for (i = 1; i <= Lines; i++)	/* and flush the msg to stdin */
-						fprintf(pipe, "%s", Message[i]);
-					pclose(pipe);
+						fprintf(mypipe, "%s", Message[i]);
+					pclose(mypipe);
 					getchar();
 				}
 				doupdate();
 				curs_set(0);
-				if (pipe == NULL)
+				if (mypipe == NULL)
 					mvaddstr(maxy - 1, 0, _("Operation failed..."));
 				xfree(token);
 				token = 0;

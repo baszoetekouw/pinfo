@@ -638,7 +638,7 @@ opendirfile(int number)
 	if (id)
 	{
 		char *tmp;
-		long filelen, i;
+		long filelen, l;
 		int aswitch = 0;
 		int firstswitch = 0;
 		dircount = 0;
@@ -651,18 +651,18 @@ opendirfile(int number)
 		fread(tmp, 1, filelen, id);
 		fclose(id);
 		id = fopen(tmpfilename, "w");
-		for (i = 0; i < filelen; i++)
+		for (l = 0; l < filelen; l++)
 		{
-			if (tmp[i] == INFO_TAG)
+			if (tmp[l] == INFO_TAG)
 			{
 				aswitch ^= 1;
 				if (!firstswitch)
-					fputc(tmp[i], id);
+					fputc(tmp[l], id);
 				firstswitch = 1;
 			}
 			else if ((aswitch) ||(!firstswitch))
-				fputc(tmp[i], id);
-			if (i + 1 == fileendentries[dircount])
+				fputc(tmp[l], id);
+			if (l + 1 == fileendentries[dircount])
 			{
 				if (aswitch != 0)
 					aswitch = 0;

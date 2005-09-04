@@ -706,7 +706,7 @@ man_initializelinks(char *tmp, int carry)
 {
 	/* set tmpcnt to the trailing zero of tmp */
 	int tmpcnt = strlen(tmp) + 1;
-	char *link = tmp;
+	char *mylink = tmp;
 	char *urlstart, *urlend;
 	long initialManualLinks = ManualLinks;
 	int i, b;
@@ -779,25 +779,25 @@ man_initializelinks(char *tmp, int carry)
 	do
 	{
 		/* we look for '(', since manual link */
-		link = strchr(link, '(');
+		mylink = strchr(mylink, '(');
 		/* has form of  'blah(x)' */
-		if (link != NULL)
+		if (mylink != NULL)
 		{
 			char *temp;
 			/* look for the closing bracket */
-			if ((temp = strchr(link, ')')))
+			if ((temp = strchr(mylink, ')')))
 			{
 				char *p_t1, *p_t;
-				p_t = p_t1 = xmalloc((strlen(link) + 10) * sizeof(char));
-				for (++link; link != temp; *p_t++ = *link++);
+				p_t = p_t1 = xmalloc((strlen(mylink) + 10) * sizeof(char));
+				for (++mylink; mylink != temp; *p_t++ = *mylink++);
 				*p_t = '\0';
-				link -=(strlen(p_t1) + sizeof(char));
+				mylink -=(strlen(p_t1) + sizeof(char));
 
 				if ((!strchr(p_t1, '(')) &&(!is_in_manlinks(manlinks, p_t1)))
 				{
 					char tempchar;
 					int breakpos;
-					i = link - tmp - 1;
+					i = mylink - tmp - 1;
 					if (i < 0)
 						i++;
 					for (; i > 0; --i)
@@ -849,13 +849,13 @@ man_initializelinks(char *tmp, int carry)
 					manuallinks[ManualLinks].col = i;
 					if (LongManualLinks)
 					{
-						for (b = 1; link[b] != ')'; b++)
-							manuallinks[ManualLinks].section[b - 1] = tolower(link[b]);
+						for (b = 1; mylink[b] != ')'; b++)
+							manuallinks[ManualLinks].section[b - 1] = tolower(mylink[b]);
 						manuallinks[ManualLinks].section[b - 1] = 0;
 					}
 					else
 					{
-						manuallinks[ManualLinks].section[0] = link[1];
+						manuallinks[ManualLinks].section[0] = mylink[1];
 						manuallinks[ManualLinks].section[1] = 0;
 					}
 					manuallinks[ManualLinks].section_mark = 0;
@@ -882,15 +882,15 @@ man_initializelinks(char *tmp, int carry)
 				xfree((void *) p_t1);
 			}
 		}
-		if (link)
-			link++;
-		if (link >(tmp + tmpcnt))
+		if (mylink)
+			mylink++;
+		if (mylink >(tmp + tmpcnt))
 		{
 			break;
 		}
 	}
 	/* do this line until strchr() won't find a '(' in string */
-	while (link != NULL);
+	while (mylink != NULL);
 	if (initialManualLinks != ManualLinks)
 		sort_manuallinks_from_current_line(initialManualLinks, ManualLinks);
 }
@@ -900,11 +900,9 @@ int
 manualwork()
 {
 	/* for user's shell commands */
-	FILE *pipe;
+	FILE *mypipe;
 	/* a temporary buffer */
 	char *token;
-	/* again the same */
-	char *tmp;
 	/* key, which contains the value entered by user */
 	int key = 0;
 	/* tmp values */
@@ -926,6 +924,7 @@ manualwork()
 	/* otherwise hardcode 80x25... */
 	maxy = 25;
 #endif /* getmaxyx */
+
 
 	/* get manualpos from history.  it is set in handlemanual() */
 	manualpos = manualhistory[manualhistorylength].pos;
@@ -1075,14 +1074,14 @@ manualwork()
 
 				myendwin();
 				system("clear");
-				/* open pipe */
-				pipe = popen(token, "w");
-				if (pipe != NULL)
+				/* open mypipe */
+				mypipe = popen(token, "w");
+				if (mypipe != NULL)
 				{
 					/* and flush the msg to stdin */
 					for (i = 0; i < ManualLines; i++)
-						fprintf(pipe, "%s", manual[i]);
-					pclose(pipe);
+						fprintf(mypipe, "%s", manual[i]);
+					pclose(mypipe);
 				}
 				getchar();
 				doupdate();
@@ -1156,6 +1155,7 @@ manualwork()
 				/* and search for it in all subsequential lines */
 				for (i = manualpos + 1; i < ManualLines - 1; i++)
 				{
+					char *tmp;
 					tmp = xmalloc(strlen(manual[i]) + strlen(manual[i + 1]) + 10);
 					/*
 					 * glue two following lines together, to find expres- sions

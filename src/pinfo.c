@@ -61,7 +61,6 @@ main(int argc, char *argv[])
 	/* this will hold the node's header */
 	char *type = 0;
 	int tag_table_pos = 1;
-	char *tmp;
 #ifdef HAVE_GETOPT_LONG
 	static struct option long_options[] =
 	{
@@ -134,6 +133,7 @@ main(int argc, char *argv[])
 
 		do
 		{
+			char *tmp;
 			command_line_option = getopt_long(argc, argv,
 					"hvmfrapcsdtnlx", long_options, NULL);
 			switch(command_line_option)
