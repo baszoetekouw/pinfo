@@ -90,7 +90,7 @@ inithistory()
  * Add history entry
  */
 void
-addinfohistory(char *file, char *node, int cursor, int menu, int pos)
+addinfohistory(char *file, char *node, int cursor, int mymenu, int pos)
 {
 	if (!infohistory.length)
 	{
@@ -118,7 +118,7 @@ addinfohistory(char *file, char *node, int cursor, int menu, int pos)
 	strcpy(infohistory.file[infohistory.length], file);
 	infohistory.pos[infohistory.length] = pos;
 	infohistory.cursor[infohistory.length] = cursor;
-	infohistory.menu[infohistory.length] = menu;
+	infohistory.menu[infohistory.length] = mymenu;
 }
 
 /*
