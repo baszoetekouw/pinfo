@@ -70,8 +70,7 @@ AC_C_CONST
 
 # Checks for library functions.
 AC_CHECK_FUNCS(strdup strstr strsep)
-AC_CHECK_FUNCS(getopt_long snprintf)
-AM_CONDITIONAL(HAVE_SNPRINTF,test "x$ac_cv_func_snprintf" = "xyes")
+AC_CHECK_FUNCS(getopt_long)
 
 AC_CHECK_FUNC(sigblock,,AC_CHECK_LIB(bsd, sigblock))
 if test "x$ac_cv_lib_bsd_sigblock" = "xyes" -o \

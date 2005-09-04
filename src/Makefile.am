@@ -36,14 +36,7 @@ pinfo_COMMON_SRC = pinfo.cxx \
 		tmpfiles.h \
 		localestuff.h
 
-pinfo_SNPRINTF = snprintf.cxx # snprintf.h
 pinfo_SIGBLOCK = sigblock.cxx sigblock.h
-
-if HAVE_SNPRINTF
-pinfo_SNPRINTF_OBJ =
-else
-pinfo_SNPRINTF_OBJ = snprintf.o
-endif
 
 if HAVE_SIGBLOCK
 pinfo_SIGBLOCK_OBJ =
@@ -55,17 +48,10 @@ pinfo_SOURCES =	$(pinfo_COMMON_SRC)
 
 INCLUDES = @READLINE_INCLUDES@
 
-pinfo_LDADD = $(pinfo_SNPRINTF_OBJ)\
-              $(pinfo_SIGBLOCK_OBJ) @READLINE_LIBS@ $(INTLLIBS)
+pinfo_LDADD = $(pinfo_SIGBLOCK_OBJ) @READLINE_LIBS@ $(INTLLIBS)
 
-pinfo_DEPENDENCIES = $(pinfo_SNPRINTF_OBJ)\
-                     $(pinfo_SIGBLOCK_OBJ)\
+pinfo_DEPENDENCIES = $(pinfo_SIGBLOCK_OBJ)\
 		     $(INTLDEPS)
-
-if HAVE_SNPRINTF
-else
-snprintf.o: $(pinfo_SNPRINTF)
-endif
 
 if HAVE_SIGBLOCK
 else 
@@ -82,5 +68,5 @@ install-data-local:
 		echo "WARNING! Old pinforc detected. I'm not installing the new file"; \
         fi
 
-EXTRA_DIST = $(pinfo_SNPRINTF) $(pinfo_SIGBLOCK)
+EXTRA_DIST = $(pinfo_SIGBLOCK)
 

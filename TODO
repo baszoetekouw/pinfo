@@ -2,8 +2,6 @@ GPM text console mouse support
 
 add search backwards
 
-change tempnam->mkstemp
-
 Wojciech Filipczyk patch
 
 Christian's bugreport

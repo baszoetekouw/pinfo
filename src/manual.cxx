@@ -123,15 +123,24 @@ dumplink(manuallink a) {
  * $MANWIDTH was changed by pinfo */
 static bool manwidthChanged = false;
 
-/* Set MANWIDTH as needed */
+/* Set MANWIDTH environment variable as needed */
 void
 check_manwidth(void) {
 	if ((!getenv("MANWIDTH")) ||(manwidthChanged))
 	{
-		/* set MANWIDTH environment variable */
-		static char tmp[24];
-		snprintf(tmp, 24, "MANWIDTH=%d", maxx);
-		putenv(tmp);
+		/* This should be rewritten dynamically,
+		 * but putenv sucks really badly, and setenv isn't portable,
+		 * so for now we leave it.  FIXME.
+		 */
+		/* x is an int.  int is no larger than 64 bits (we hope).
+		 * The largest value in a signed 64-bit integer is 2^63 - 1
+		 * which can be represented in 19 digits.  Therefore 29
+		 * characters is enough to include the whole string (with
+		 * terminator), and sprintf is safe.  Whee.
+		 */
+		static char env_entry[30];
+		sprintf(env_entry, "MANWIDTH=%d", maxx);
+		putenv(env_entry);
 		manwidthChanged = true;
 	}
 }
