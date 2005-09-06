@@ -87,5 +87,7 @@ dirpage_lookup (char **type, char ***message, long *lines,
 
 /* removes trailing .gz, .bz2, etc. */
 void strip_compression_suffix (char *file);
+/* removes trailing .info */
+void strip_info_suffix (char *file);
 
 #endif
