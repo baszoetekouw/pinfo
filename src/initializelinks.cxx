@@ -174,7 +174,7 @@ findemailstart(string str, string::size_type pos) {
 }
 
 void
-initializelinks(char *line1, char *line2, int line)
+initializelinks(const char *line1, const char *line2, int line)
 {
 	char *tmp;
 	char *notestart = 0;

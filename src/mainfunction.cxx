@@ -107,9 +107,15 @@ getnodename(string type)
 WorkRVal
 work(char ***message, char **type, long *lines, FILE * id, int tag_table_pos)
 {
-#define Message	(*message)
-#define Lines	(*lines)
 #define Type	(*type)
+	/* Quick conversion to vector.  Temporary, FIXME. */
+	vector<string> my_message;
+	for (typeof(my_message.size()) x = 0; x < (*lines); x++) {
+		/* one-based to zero-based conversion, ick */
+		string foo = (*message)[x + 1];
+		my_message.push_back(foo);
+	}
+
 	static WorkRVal rval;
 	FILE *pipe;
 	int fileoffset;
@@ -134,13 +140,18 @@ work(char ***message, char **type, long *lines, FILE * id, int tag_table_pos)
 #endif /*  getmaxyx */
 	/* Clear old hyperlink info */
 	hyperobjects.clear();
-	for (int i = 1; i < Lines; i++)	/* initialize node-links for every line */
+	/* initialize node-links for every line */
+	for (int i = 0; i < my_message.size() - 1; i++)
 	{
-		initializelinks(Message[i], Message[i + 1], i);
+		/* Horrible conversion to 1-based index here. FIXME. */
+		initializelinks(my_message[i].c_str(), my_message[i + 1].c_str(), i + 1);
 	}
-	initializelinks(Message[Lines], "", Lines);
+	/* Horrible conversion to 1-based index here. FIXME. */
+	initializelinks(my_message[my_message.size() - 1].c_str(),"",
+	                my_message.size());
 
-	next_infomenu();		/* infomenu will remain -1 if it's the last pos, or if there's no menu item */
+	/* infomenu will remain -1 if it's the last pos, or if there's no menu item */
+	next_infomenu();
 
 	if (npos != -1)
 		pos = npos;			/* set eventual history pos */
@@ -149,7 +160,7 @@ work(char ***message, char **type, long *lines, FILE * id, int tag_table_pos)
 	if (aftersearch)
 	{
 		pos = aftersearch;	/* set pos to the found position */
-		/*      aftersearch=0;  * don't reset this--we want to know if we mus highlight something */
+		/*  aftersearch=0;  * don't reset this--we want to know if we mus highlight something */
 	}
 
 	if (ncursor != -1)
@@ -179,13 +190,6 @@ work(char ***message, char **type, long *lines, FILE * id, int tag_table_pos)
 		if (key == ERR)
 		{
 			if (statusline == FREE) {
-				/* Quick conversion to vector.  Temporary, FIXME. */
-				vector<string> my_message;
-				for (typeof(my_message.size()) x = 0; x < Lines; x++) {
-					/* one-based to zero-based conversion, ick */
-					string foo = (*message)[x + 1];
-					my_message.push_back(foo);
-				}
 				showscreen(my_message, pos, cursor, infocolumn);
 			}
 			waitforgetch();
@@ -208,13 +212,6 @@ work(char ***message, char **type, long *lines, FILE * id, int tag_table_pos)
 					(key == keys.print_2))
 			{
 				if (yesno(_("Are you sure you want to print?"), 0) == 1) {
-					/* Quick conversion to vector.  Temporary, FIXME. */
-					vector<string> my_message;
-					for (typeof(my_message.size()) x = 0; x < Lines; x++) {
-						/* one-based to zero-based conversion, ick */
-						string foo = (*message)[x + 1];
-						my_message.push_back(foo);
-					}
 					printnode(my_message);
 				}
 			}
@@ -226,7 +223,7 @@ work(char ***message, char **type, long *lines, FILE * id, int tag_table_pos)
 				int wastoggled = toggled_by_menu;
 				toggled_by_menu = 0;
 				/* if hyperobject type <= 1, then we have a menu */
-				if ((pos >= Lines -(maxy - 2)) ||(wastoggled))
+				if ((pos >= my_message.size() -(maxy - 2)) ||(wastoggled))
 				{
 					if ((infomenu != -1) &&(!wastoggled))
 					{
@@ -284,10 +281,10 @@ work(char ***message, char **type, long *lines, FILE * id, int tag_table_pos)
 					{
 						newpos = atol(token);
 						newpos -=(maxy - 1);
-						if ((newpos > 0) &&(newpos < Lines -(maxy - 2)))
+						if ((newpos > 0) &&(newpos < my_message.size() -(maxy - 2)))
 							pos = newpos;
-						else if ((newpos > 0) &&((Lines -(maxy - 2)) > 0))
-							pos = Lines -(maxy - 2);
+						else if ((newpos > 0) &&((my_message.size() -(maxy - 2)) > 0))
+							pos = my_message.size() -(maxy - 2);
 						else
 							pos = 1;
 					}
@@ -315,8 +312,9 @@ work(char ***message, char **type, long *lines, FILE * id, int tag_table_pos)
 				pipe = popen(token, "w");	/* open pipe */
 				if (pipe != NULL)
 				{
-					for (int i = 1; i <= Lines; i++)	/* and flush the msg to stdin */
-						fprintf(pipe, "%s", Message[i]);
+					/* and flush the msg to stdin */
+					for (int i = 0; i < my_message.size(); i++)	
+						fprintf(pipe, "%s", my_message[i].c_str());
 					pclose(pipe);
 					getchar();
 				}
@@ -387,8 +385,8 @@ work(char ***message, char **type, long *lines, FILE * id, int tag_table_pos)
 
 				/* Calculate current info file offset...  */
 				fileoffset = 0;
-				for (int i = 1; i <= pos + 1; i++)	/* count the length of curnode */
-					fileoffset += strlen(Message[i]);
+				for (int i = 0; i < pos + 1; i++)	/* count the length of curnode */
+					fileoffset += my_message[i].length();
 				fileoffset += strlen(Type);	/* add also header length */
 
 				fileoffset += getnodeoffset(tag_table_pos, indirectstart);	/* also load the variable indirectstart */
@@ -650,30 +648,33 @@ work(char ***message, char **type, long *lines, FILE * id, int tag_table_pos)
 					
 				}
 				/* scan for the token in the following lines.  */
-				for (int i = pos + 1; i < Lines; i++)
+				/* Note that pos is still 1-based */
+				for (int i = pos; i < my_message.size() - 1; i++)
 				{
-					tmp = (char*)xmalloc(strlen(Message[i]) + strlen(Message[i + 1]) + 2);
 					/*
 					 * glue two following lines into one -- to find matches
 					 * split up into two lines.
 					 */
-					strcpy(tmp, Message[i]);
-					strcat(tmp, Message[i + 1]);
-					if (pinfo_re_exec(tmp))	/* execute the search command */
-					{		/* if found, enter here */
+					string tmpstr = my_message[i];
+					tmpstr += my_message[i + 1];
+					tmp = strdup(tmpstr.c_str());
+					if (pinfo_re_exec(tmp))	{ /* execute the search command */
+						/* if found, enter here */
 						success = 1;
+						char* tmp2 = strdup(my_message[i + 1].c_str());
+						if (pinfo_re_exec(tmp2)) {
 						/* if token was found in the second line, make pos=i+1.  */
-						if (pinfo_re_exec(Message[i + 1]))
 							pos = i + 1;
-						else /* othwerwise, pos=i. This happens when we havesplit expression. */
+						}	else {
+							/* otherwise, pos=i. This happens when we have a split expression. */
 							pos = i;
-						xfree(tmp);	/* free tmp buffer */
+						}
+						free(tmp2);
+						free(tmp);
 						tmp = 0;
 						aftersearch = 1;
 						break;
-					}
-					else /* nothing found */
-					{
+					} else { /* nothing found */
 						xfree(tmp);	/* free tmp buffer */
 						tmp = 0;
 					}
@@ -914,7 +915,7 @@ skip_search:
 			if ((key == keys.end_1) ||
 					(key == keys.end_2))
 			{
-				pos = Lines -(maxy - 2);
+				pos = my_message.size() -(maxy - 2);
 				if (pos < 1)
 					pos = 1;
 				cursor = hyperobjects.size() - 1;
@@ -923,14 +924,14 @@ skip_search:
 			if ((key == keys.pgdn_1) ||
 					(key == keys.pgdn_2))
 			{
-				if (pos +(maxy - 2) < Lines -(maxy - 2))
+				if (pos +(maxy - 2) < my_message.size() -(maxy - 2))
 				{
 					pos +=(maxy - 2);
 					rescan_cursor();
 				}
-				else if (Lines -(maxy - 2) >= 1)
+				else if (my_message.size() -(maxy - 2) >= 1)
 				{
-					pos = Lines -(maxy - 2);
+					pos = my_message.size() -(maxy - 2);
 					cursor = hyperobjects.size() - 1;
 				}
 				else
@@ -992,7 +993,7 @@ skip_search:
 					}
 				if (!cursorchanged)
 				{
-					if (pos <= Lines -(maxy - 2))
+					if (pos <= my_message.size() -(maxy - 2))
 						pos++;
 					for (typeof(hyperobjects.size()) i = cursor + 1;
 					     i < hyperobjects.size(); i++)
