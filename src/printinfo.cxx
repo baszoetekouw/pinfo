@@ -40,7 +40,7 @@ printnode(const vector<string> message)
 	prnFD = popen(printutility.c_str(), "w");
 
 	/* scan through all lines */
-	for (int i = 1; i < message.size(); i++) {
+	for (int i = 0; i < message.size(); i++) {
 		/*
 		 * This says where the printer's head is right now,
 		 * offset in columns from the beginning of the line
@@ -50,7 +50,7 @@ printnode(const vector<string> message)
 		 * Handle the highlights which belong to our (i'th) line.
 		 */
 		int highlight = 0; /* counter to track which highlights have been handled */
-		while (hyperobjects[highlight].line <= i) {
+		while (hyperobjects[highlight].line <= i + 1) {
 			string mynode;
 			/* build a complete highlighted text */
 			if (hyperobjects[highlight].file[0] == 0)
@@ -62,7 +62,7 @@ printnode(const vector<string> message)
 				mynode += hyperobjects[highlight].node;
 			}
 			/* if it's a contiunuation of last's line highlight */
-			if (hyperobjects[highlight].line == i - 1) {
+			if (hyperobjects[highlight].line == i) {
 				int length = 1;
 				if (hyperobjects[highlight].breakpos == -1)
 					length = mynode.length() - hyperobjects[highlight].breakpos;
@@ -71,7 +71,7 @@ printnode(const vector<string> message)
 				                        string::npos);
 				fputs(trimmed.c_str(), prnFD);
 				lineprinted += trimmed.length();
-			} else if (hyperobjects[highlight].line == i) {
+			} else if (hyperobjects[highlight].line == i + 1) {
 				for (int j = 0; j < hyperobjects[highlight].col - lineprinted; j++)
 					fputc(' ', prnFD);
 				fputs(mynode.c_str(), prnFD);
