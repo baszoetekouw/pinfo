@@ -182,13 +182,9 @@ work(char ***message, char **type, long *lines, FILE * id, int tag_table_pos)
 				/* Quick conversion to vector.  Temporary, FIXME. */
 				vector<string> my_message;
 				for (typeof(my_message.size()) x = 0; x < Lines; x++) {
-					if ((*message)[x] == NULL) {
-						my_message.push_back("");
-						/* Yaah, FIXME.  index 0 is funky. */
-					} else {
-						string foo = (*message)[x];
-						my_message.push_back(foo);
-					}
+					/* one-based to zero-based conversion, ick */
+					string foo = (*message)[x + 1];
+					my_message.push_back(foo);
 				}
 				showscreen(my_message, pos, cursor, infocolumn);
 			}
