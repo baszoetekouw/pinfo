@@ -105,17 +105,9 @@ getnodename(string type)
 /* Main work functions */
 
 WorkRVal
-work(char ***message, char **type, long *lines, FILE * id, int tag_table_pos)
+work(const vector<string> my_message, char **type, FILE * id, int tag_table_pos)
 {
 #define Type	(*type)
-	/* Quick conversion to vector.  Temporary, FIXME. */
-	vector<string> my_message;
-	for (typeof(my_message.size()) x = 0; x < (*lines); x++) {
-		/* one-based to zero-based conversion, ick */
-		string foo = (*message)[x + 1];
-		my_message.push_back(foo);
-	}
-
 	static WorkRVal rval;
 	FILE *pipe;
 	int fileoffset;

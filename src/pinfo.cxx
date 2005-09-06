@@ -27,6 +27,8 @@
 
 #include <string>
 using std::string;
+#include <vector>
+using std::vector;
 
 #ifdef HAVE_GETOPT_LONG
  #include <getopt.h>
@@ -398,7 +400,16 @@ main(int argc, char *argv[]) {
 			addinfohistory(curfile, tag_table[tag_table_pos].nodename, -1, -1, -1);
 		else
 			filenotfound = 0;
-		work_return_value = work(&message, &type, &lines, id, tag_table_pos);
+
+		/* Quick conversion to vector.  Temporary, FIXME. */
+		vector<string> my_message;
+		for (typeof(my_message.size()) x = 0; x < lines; x++) {
+			/* one-based to zero-based conversion, ick */
+			string foo = message[x + 1];
+			my_message.push_back(foo);
+		}
+
+		work_return_value = work(my_message, &type, id, tag_table_pos);
 		if (work_return_value.keep_going)
 		{
 			/* no cross-file link selected */
