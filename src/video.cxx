@@ -24,8 +24,10 @@
 #include "common_includes.h"
 #include <string>
 using std::string;
+#include <vector>
+using std::vector;
 
-void info_add_highlights(int pos, int cursor, long lines, int column, char **message);
+void info_add_highlights(int pos, int cursor, long lines, int column, vector <char *> message);
 
 /*
  * Replace first occurence of substring in string.
@@ -68,7 +70,7 @@ addtopline(const string type, string::size_type column)
 }
 
 void
-showscreen(char **message, long lines, long pos, long cursor, int column)
+showscreen(vector <char *> message, long lines, long pos, long cursor, int column)
 {
 	long i;
 #ifdef getmaxyx
@@ -141,7 +143,7 @@ info_addstring(int y, string::size_type x, string txt, string::size_type column)
 }
 
 void
-info_add_highlights(int pos, int cursor, long lines, int column, char **message)
+info_add_highlights(int pos, int cursor, long lines, int column, vector <char *> message)
 {
 	for (typeof(hyperobjects.size()) i = 0; i < hyperobjects.size(); i++) {
 		if ((hyperobjects[i].line < pos) ||

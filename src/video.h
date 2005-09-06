@@ -25,7 +25,7 @@
 #define __VIDEO_H
 #include <string>
 /* paints the screen while viewing info file */
-void showscreen (char **message, long lines, long pos,
+void showscreen (std::vector<char *> message, long lines, long pos,
 		long cursor, int column);
 /* prints unselected menu option */
 void mvaddstr_menu (int y, int x, char *line, int linenumber);
