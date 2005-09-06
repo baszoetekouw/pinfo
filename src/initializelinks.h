@@ -38,5 +38,5 @@ std::string::size_type findemailstart (std::string str,
  * calculate length of visible part of string ('\t' included) between start and
  * end. Returns length.
  */
-int calculate_len (char *start, char *end);
+int calculate_len (const char *start, const char *end);
 #endif

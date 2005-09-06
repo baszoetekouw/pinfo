@@ -66,7 +66,7 @@ exists_in_tag_table(const string item)
  * Bugs: this doesn't actually work.  FIXME.
  */
 int
-calculate_len(char *start, char *end)
+calculate_len(const char *start, const char *end)
 {
 	int len = 0;
 	while (start < end)

@@ -27,7 +27,7 @@ using std::string;
 #include <vector>
 using std::vector;
 
-void info_add_highlights(int pos, int cursor, int column, vector <char *> message);
+void info_add_highlights(int pos, int cursor, int column, const vector <string> message);
 
 /*
  * Replace first occurence of substring in string.
@@ -70,7 +70,7 @@ addtopline(const string type, string::size_type column)
 }
 
 void
-showscreen(vector <char *> message, long pos, long cursor, int column)
+showscreen(const vector <string> message, long pos, long cursor, int column)
 {
 	long i;
 #ifdef getmaxyx
@@ -82,12 +82,12 @@ showscreen(vector <char *> message, long pos, long cursor, int column)
 	attrset(normal);
 	for (i = pos;(i < message.size()) &&(i < pos + maxy - 2); i++)
 	{
-		if (!message[i]) continue;
+		if (message[i] == "") continue;
 
-		int tmp = strlen(message[i]) - 1;
-		message[i][tmp] = 0;
-		if (tmp>column)
-			mvaddstr(i + 1 - pos, 0, message[i]+column);
+		/* Chop off trailing newline */
+		string tmpstr = message[i].substr(0, message[i].length() - 1);
+		if (tmpstr.length()>column)
+			mvaddstr(i + 1 - pos, 0, tmpstr.substr(column).c_str());
 		else
 			move(i + 1 - pos,0);
 #ifdef HAVE_BKGDSET
@@ -95,7 +95,6 @@ showscreen(vector <char *> message, long pos, long cursor, int column)
 #else
 		myclrtoeol();
 #endif
-		message[i][tmp] = '\n';
 	}
 	clrtobot();
 #ifdef HAVE_BKGDSET
@@ -144,7 +143,7 @@ info_addstring(int y, string::size_type x, string txt, string::size_type column)
 }
 
 void
-info_add_highlights(int pos, int cursor, int column, vector <char *> message)
+info_add_highlights(int pos, int cursor, int column, const vector <string> message)
 {
 	for (typeof(hyperobjects.size()) i = 0; i < hyperobjects.size(); i++) {
 		if ((hyperobjects[i].line < pos) ||
@@ -224,18 +223,17 @@ info_add_highlights(int pos, int cursor, int column, vector <char *> message)
 			 */
 			for (int j = 0; j < maxregexp; j++)
 			{
-				char *str = message[i];
+				const char * message_i = message[i].c_str();
+				const char *str = message_i;
 				while (!regexec(&h_regexp[j], str, 1, pmatch, 0))
 				{
 					int n = pmatch[0].rm_eo - pmatch[0].rm_so;
 					int y = i - pos + 1;
-					int x = calculate_len(message[i], pmatch[0].rm_so + str);
-					int txtoffset = (str - message[i]) + pmatch[0].rm_so;
-					string tmpstr = message[i];
-					tmpstr.resize(x+n);
-					string tmpstr2 = tmpstr.substr(txtoffset);
+					int x = calculate_len(message_i, pmatch[0].rm_so + str);
+					int txtoffset = (str - message_i) + pmatch[0].rm_so;
+					string tmpstr = message[i].substr(txtoffset, x + n);
 					attrset(searchhighlight);
-					mvaddstr(y, x, tmpstr2.c_str());
+					mvaddstr(y, x, tmpstr.c_str());
 					attrset(normal);
 					str = str + pmatch[0].rm_eo;
 				}
