@@ -69,43 +69,60 @@ matchfile(char **buf, char *name)
 {
 #define Buf	(*buf)
 	DIR *dir;
-	char *bname=basename(name);
+	char *bname = basename(name);
 	struct dirent *dp;
-	int namelen = strlen(bname);
 	int matched = 0;
+	
+	/* remove a possible ".info" from the end of the file name
+	 * we're looking for */
+	strip_info_suffix(bname);
+
+	/* fix the name of the dir */
 	if (Buf[strlen(Buf)-1]!='/')
+	{
 		strcat(Buf,"/");
+	}
 	strncat(Buf,name,bname-name);
-	dir = opendir(Buf);	/* here we always have '/' at end */
+
+	/* open the directory */
+	dir = opendir(Buf);
 	if (dir == NULL)
+	{
 		return 1;
+	}
+
+	/* iterate over all files in the directory */
 	while ((dp = readdir(dir)) != NULL)
 	{
-		if (strncmp(dp->d_name, bname, namelen) == 0)
+		/* use strcat rather than strdup, because xmalloc handles all 
+		 * malloc errors */
+		char *thisfile = xmalloc(strlen(dp->d_name)+1);
+		strcat(thisfile, dp->d_name);
+
+		/* strip suffixes (so "gcc.info.gz" -> "gcc") */
+		strip_compression_suffix(thisfile);
+		strip_info_suffix(thisfile);
+
+		/* compare this file with the file we're looking for */
+		if (strcmp(thisfile,bname) == 0)
 		{
-			char *tmp = strdup(dp->d_name);
-			int dl;
-			strip_compression_suffix(tmp);
-			dl = strlen(tmp);
-			if ((!isdigit(tmp[dl - 1])) &&(!isalpha(tmp[namelen])))
-				/* if it's not eg. info-2.gz, but info.gz, the primary page
-				 * && it's not a different name(eg. gdbm instead gdb) */
-			{
-				if ((!matched) ||(strlen(tmp) < matched))
-				{
-					Buf[strlen(Buf) - matched - 1] = '\0';
-					strcat(Buf, "/");
-					strcat(Buf, tmp);
-					matched = strlen(tmp);
-				}
-			}
-			xfree(tmp);
+			/* we found a match! */
+			matched++;
+			/* put it in the buffer */
+			strncat(Buf, thisfile, 1023-strlen(Buf));
+			strncat(Buf, ".info", 1023-strlen(Buf));
+
+			/* clean up, and exit the loop */
+			xfree(thisfile);
+			break;
 		}
+		xfree(thisfile);
 	}
 	closedir(dir);
-	if (matched)
-		return 0;
-	return 1;
+
+	if (matched) return 1;
+
+	return 0;
 #undef Buf
 }
 
@@ -118,68 +135,78 @@ dirpage_lookup(char **type, char ***message, long *lines,
 #define Lines	(*lines)
 	FILE *id = 0;
 	int filenamelen = strlen(filename);
-	int goodHit = 0, perfectHit = 0;
+	int goodHit = 0;
 	char name[256];
 	char file[256];
 	int i;
+	
 	id = opendirfile(0);
 	if (!id)
 		return 0;
+	
 	read_item(id, type, message, lines);
-	for (i = 1; i < Lines; i++)	/* initialize node-links for every line */
+
+	char *nameend, *filestart, *fileend, *dot;
+	
+	/* search for node-links in every line */
+	for (i = 1; i < Lines; i++)
 	{
-		if ((Message[i][0] == '*') &&(Message[i][1] == ' ') &&(!perfectHit))
+		if ( (Message[i][0] == '*') && (Message[i][1] == ' ') 
+				&& ( nameend = strchr(Message[i], ':') )
+				&& (*(nameend + 1) != ':')	/* form: `* name:(file)node.' */
+				&& (filestart = strchr(nameend, '(') )
+				&& (fileend = strchr(filestart, ')') )
+				&& (dot = strchr(fileend, '.') )
+				&& (strncasecmp(filename, Message[i] + 2, filenamelen) == 0)
+		   )
 		{
-			char *nameend = strchr(Message[i], ':');
-			if (nameend)
+
+			/* skip this hit if it is not a perfect match and 
+			 * we have already found a previous partial match */
+			if ( ! ( (nameend - Message[i]) - 2 == filenamelen ) 
+					&&	goodHit )
 			{
-				if (*(nameend + 1) != ':')	/* form: `* name:(file)node.' */
-				{
-					char *filestart = strchr(nameend, '(');
-					if (filestart)
-					{
-						char *fileend = strchr(filestart, ')');
-						if (fileend)
-						{
-							char *dot = strchr(fileend, '.');
-							if (dot)
-							{
-								if (strncmp(filename, Message[i] + 2, filenamelen) == 0)
-								{
-									char *tmp = name;
-									strncpy(file, filestart + 1, fileend - filestart - 1);
-									file[fileend - filestart - 1] = 0;
-									strncpy(name, fileend + 1, dot - fileend - 1);
-									name[dot - fileend - 1] = 0;
-									while (isspace(*tmp))
-										tmp++;
-									if (strlen(name))
-									{
-										*first_node = xmalloc(strlen(tmp) + 1);
-										strcpy((*first_node), tmp);
-									}
-									if (id)
-										fclose(id);	/* we don't need dirfile/badly matched infofile open anymore */
-									id = 0;
-									if (!strstr(file, ".info"))
-										strcat(file, ".info");
-									id = openinfo(file, 0);
-									goodHit = 1;
-									if ((nameend - Message[i]) - 2 == filenamelen)	/* the name matches perfectly to the query */
-										perfectHit = 1;	/* stop searching for another matches, and use this one */
-								}
-							}
-						}
-					}
-				}
+				continue;
+			}
+
+			/* find the name of the node link */
+			char *tmp = name;
+			strncpy(file, filestart + 1, fileend - filestart - 1);
+			file[fileend - filestart - 1] = 0;
+			strncpy(name, fileend + 1, dot - fileend - 1);
+			name[dot - fileend - 1] = 0;
+			while (isspace(*tmp)) tmp++;
+			
+			if (strlen(name))
+			{
+				*first_node = xmalloc(strlen(tmp) + 1);
+				strcpy((*first_node), tmp);
+			}
+
+			/* close the previously opened file */
+			if (id)
+			{
+				fclose(id);	
+				id = 0;
+			}
+
+			/* see if this info file exists */
+			id = openinfo(file, 0);
+			if (id) 
+			{
+				goodHit = 1;
 			}
 		}
 	}
+
+	/* if we haven't found anything, clean up and exit */
 	if (!goodHit)
 	{
 		fclose(id);
 		id = 0;
 	}
+
+	/* return file we found */
 	return id;
 #undef Lines
 #undef Message
@@ -760,15 +787,15 @@ openinfo(char *filename, int number)
 		}
 		else
 		{
-			strcpy(buf, infopaths[i]);	/* build a filename */
-			if (matchfile(&buf, filename) == 1)	/* no match found in this directory */
+			/* build a filename */
+			strcpy(buf, infopaths[i]);
+			/* no match found in this directory */
+			if (! matchfile(&buf, filename))
 				continue;
 		}
 		bufend = buf;
-		/*
-		 * remember the bufend to make it possible later to glue compression
-		 * suffixes.
-		 */
+		/* remember the bufend to make it possible later to glue compression
+		 * suffixes. */
 		bufend += strlen(buf);
 		for (j = 0; j < SuffixesNumber; j++)	/* go through all suffixes */
 		{
@@ -798,15 +825,17 @@ openinfo(char *filename, int number)
 			}
 			(*bufend) = 0;
 		}
-		if ((i == -1) &&(filenameprefix))	/* if we have a nonzero filename prefix,
-											   that is we view a set of infopages,
-											   we don't want to search for a page
-											   in all directories, but only in
-											   the prefix directory. Therefore
-											   break here. */
+		
+		/* if we have a nonzero filename prefix, that is we view a set of
+		 * infopages, we don't want to search for a page in all
+		 * directories, but only in the prefix directory.  Therefore break
+		 * here. */
+		if ((i == -1) &&(filenameprefix))
 			break;
 	}
 	xfree(buf);
+
+	
 	return 0;
 }
 
@@ -1052,7 +1081,7 @@ initpaths()
 
 
 
-	void
+void
 create_indirect_tag_table()
 {
 	FILE *id = 0;
@@ -1077,7 +1106,7 @@ create_indirect_tag_table()
 	strcpy(FirstNodeName, tag_table[1].nodename);
 	qsort(&tag_table[1], TagTableEntries, sizeof(TagTable), qsort_cmp);
 }
-	void
+void
 create_tag_table(FILE * id)
 {
 	char *buf = xmalloc(1024);
@@ -1149,7 +1178,7 @@ create_tag_table(FILE * id)
 	}
 }
 
-	void
+void
 seeknode(int tag_table_pos, FILE ** Id)
 {
 	int i;
@@ -1193,8 +1222,9 @@ seeknode(int tag_table_pos, FILE ** Id)
 #undef id
 }
 
-	void
-strip_compression_suffix(char *file)	/* removes trailing .gz, .bz2, etc. */
+/* removes trailing .gz, .bz2, etc. */
+void
+strip_compression_suffix(char *file)
 {
 	char *found = 0;
 	int j;
@@ -1202,11 +1232,26 @@ strip_compression_suffix(char *file)	/* removes trailing .gz, .bz2, etc. */
 	{
 		if ( (found = strstr(file, suffixes[j].suffix)) != NULL )
 		{
-			if (*(found + strlen(suffixes[j].suffix)) == 0)
+			if ( (file + strlen(file)) - found == strlen(suffixes[j].suffix) ) 
 			{
-				*found = 0;
+				*found = '\0';
 				break;
 			}
+		}
+	}
+}
+
+/* strip .info from and of string */
+void
+strip_info_suffix(char *file)
+{
+	char *found = 0;
+	char suffix[6] = ".info";
+	if ( (found = strstr(file, suffix)) != NULL )
+	{
+		if ( (file + strlen(file)) - found == strlen(suffix) )
+		{
+			*found = '\0';
 		}
 	}
 }
