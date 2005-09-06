@@ -83,33 +83,14 @@ calculate_len(char *start, char *end)
 }
 
 /*
- * Finds url end.  It is recognized by an invalid character.
- * FIXME: That's not a sufficient test.
- */
-char *
-findurlend(char *str)
-{
-	char *end;
-	char *allowedchars = "QWERTYUIOPASDFGHJKLZXCVBNMqwertyuiopasdfghjklzxcvbnm1234567890-_/~.%=|:@­";
-	end = str;
-	while (strchr(allowedchars, *end) != NULL)
-		++end;
-	if (end > str)
-	{
-		if (*(end - 1) == '.')
-			end--;
-	}
-	return end;
-}
-
-/*
  * Returns index of the first non-URL character (or length, if there
  * is no non-URL character)
+ * FIXME: This is really not a sufficient test for a URL.
  */
 string::size_type
 findurlend(const string str, string::size_type pos)
 {
-	const char* allowedchars =
+	const char* const allowedchars =
 		"QWERTYUIOPASDFGHJKLZXCVBNMqwertyuiopasdfghjklzxcvbnm1234567890-_/~.%=|:@­";
 
 	string::size_type idx;
@@ -170,46 +151,25 @@ finddot(char *str, int note)
 }
 
 /*
- * Moves you to the beginning of username in email address.  If username has
- * length=0, NULL is returned.
+ * Returns index of beginning of username in email address.  If username has
+ * length=0 (or no at sign is present), string::npos is returned.
+ * Treat string as starting with pos.
  */
-const char *
-findemailstart(const char *str)
-{
-	const char *allowedchars = "QWERTYUIOPASDFGHJKLZXCVBNMqwertyuiopasdfghjklzxcvbnm1234567890-_/~.%=|:";
-	const char *at = strchr(str, '@');
-	const char *emailstart = 0;
-	if (at)
-	{
-		emailstart = str;
-		while (at > str)
-		{
-			at--;
-			if (strchr(allowedchars, *at) == NULL)
-			{
-				if (*(at + 1) != '@')
-					return at + 1;
-				else
-					return 0;
-			}
-		}
-		if (*at != '@')
-			return at;
-		else
-			return 0;
-	}
-	return 0;
-}
-
 string::size_type
 findemailstart(string str, string::size_type pos) {
-	/* Currently a wrapper (sigh, FIXME) */
-	const char * foo = str.substr(pos).c_str();
-	const char * bar = findemailstart(foo);
-	if (bar == NULL) {
+	const char * const allowedchars = "QWERTYUIOPASDFGHJKLZXCVBNMqwertyuiopasdfghjklzxcvbnm1234567890-_/~.%=|:";
+	const string my_str = str.substr(pos);
+	const string::size_type at_idx = my_str.find('@');
+	if (at_idx == string::npos || at_idx == 0) {
 		return string::npos;
+	}
+	const string::size_type idx = my_str.find_last_not_of(allowedchars, at_idx - 1);
+	if (idx == at_idx - 1) {
+		return string::npos;
+	} else if (idx == string::npos) {
+		return 0;
 	} else {
-		return string::size_type(bar - foo);
+		return idx + 1;
 	}
 }
 
