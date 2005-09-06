@@ -23,6 +23,8 @@
 #include "common_includes.h"
 #include <string>
 using std::string;
+#include <vector>
+using std::vector;
 
 /*
  * Algorithm: We first print highlights, then we send `\r' to the printer,
@@ -30,7 +32,7 @@ using std::string;
  * are darker than the rest :)
  */
 void
-printnode(char ***message, long *lines)
+printnode(const vector<string> message)
 {
 	/* printer fd */
 	FILE *prnFD;
@@ -38,7 +40,7 @@ printnode(char ***message, long *lines)
 	prnFD = popen(printutility.c_str(), "w");
 
 	/* scan through all lines */
-	for (int i = 1; i < (*lines); i++) {
+	for (int i = 1; i < message.size(); i++) {
 		/*
 		 * This says where the printer's head is right now,
 		 * offset in columns from the beginning of the line
@@ -47,8 +49,6 @@ printnode(char ***message, long *lines)
 		/*
 		 * Handle the highlights which belong to our (i'th) line.
 		 */
-		/* FIXME: This depends on the hyperobjects being sorted, and
-		 * they aren't. */
 		int highlight = 0; /* counter to track which highlights have been handled */
 		while (hyperobjects[highlight].line <= i) {
 			string mynode;
@@ -84,7 +84,7 @@ printnode(char ***message, long *lines)
 		}
 		/* Carriage return and print the whole line. */
 		fputc('\r', prnFD);
-		fputs( (*message)[i], prnFD);
+		fputs( message[i].c_str(), prnFD);
 	}
 	pclose(prnFD);
 }

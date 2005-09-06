@@ -211,8 +211,20 @@ work(char ***message, char **type, long *lines, FILE * id, int tag_table_pos)
 			if ((key == keys.print_1) ||
 					(key == keys.print_2))
 			{
-				if (yesno(_("Are you sure to print?"), 0) == 1)
-					printnode(message, lines);
+				if (yesno(_("Are you sure you want to print?"), 0) == 1) {
+					/* Quick conversion to vector.  Temporary, FIXME. */
+					vector<string> my_message;
+					for (typeof(my_message.size()) x = 0; x < Lines; x++) {
+						if ((*message)[x] == NULL) {
+							my_message.push_back("");
+							/* Yaah, FIXME.  index 0 is funky. */
+						} else {
+							string foo = (*message)[x];
+							my_message.push_back(foo);
+						}
+					}
+					printnode(my_message);
+				}
 			}
 			/*==========================================================================*/
 			if ((key == keys.pgdn_auto_1) ||

@@ -22,7 +22,9 @@
 #ifndef PRINTINFO_H
 #define PRINTINFO_H
 
+#include <string>
+#include <vector>
 /* prints node, pointed by `message', of `lines' length.  */
-void printnode (char ***message, long *lines);
+void printnode (const std::vector<std::string> message);
 
 #endif
