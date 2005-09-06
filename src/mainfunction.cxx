@@ -181,10 +181,10 @@ work(char ***message, char **type, long *lines, FILE * id, int tag_table_pos)
 			if (statusline == FREE) {
 				/* Quick conversion to vector.  Temporary, FIXME. */
 				vector<char *> my_message;
-				for (int x = 0; x < Lines; x++) {
+				for (typeof(my_message.size()) x = 0; x < Lines; x++) {
 					my_message.push_back(Message[x]);
 				}
-				showscreen(my_message, Lines, pos, cursor,infocolumn);
+				showscreen(my_message, pos, cursor, infocolumn);
 			}
 			waitforgetch();
 			key = pinfo_getch();

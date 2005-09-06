@@ -27,7 +27,7 @@ using std::string;
 #include <vector>
 using std::vector;
 
-void info_add_highlights(int pos, int cursor, long lines, int column, vector <char *> message);
+void info_add_highlights(int pos, int cursor, int column, vector <char *> message);
 
 /*
  * Replace first occurence of substring in string.
@@ -70,7 +70,7 @@ addtopline(const string type, string::size_type column)
 }
 
 void
-showscreen(vector <char *> message, long lines, long pos, long cursor, int column)
+showscreen(vector <char *> message, long pos, long cursor, int column)
 {
 	long i;
 #ifdef getmaxyx
@@ -80,7 +80,7 @@ showscreen(vector <char *> message, long lines, long pos, long cursor, int colum
 	bkgdset(' ' | normal);
 #endif
 	attrset(normal);
-	for (i = pos;(i < lines) &&(i < pos + maxy - 2); i++)
+	for (i = pos;(i < message.size()) &&(i < pos + maxy - 2); i++)
 	{
 		if (!message[i]) continue;
 
@@ -104,11 +104,12 @@ showscreen(vector <char *> message, long lines, long pos, long cursor, int colum
 	attrset(bottomline);
 	mymvhline(maxy - 1, 0, ' ', maxx);
 	move(maxy - 1, 0);
-	if ((pos < lines - 1) &&(lines > pos + maxy - 2))
-		printw(_("Viewing line %d/%d, %d%%"), pos + maxy - 2, lines,((pos + maxy - 2) * 100) / lines);
+	if ((pos < message.size() - 1) &&(message.size() > pos + maxy - 2))
+		printw(_("Viewing line %d/%d, %d%%"), pos + maxy - 2,
+		       message.size(), ((pos + maxy - 2) * 100) / message.size());
 	else
-		printw(_("Viewing line %d/%d, 100%%"), lines, lines);
-	info_add_highlights(pos, cursor, lines, column, message);
+		printw(_("Viewing line %d/%d, 100%%"), message.size(), message.size());
+	info_add_highlights(pos, cursor, column, message);
 	attrset(normal);
 	move(0, 0);
 	refresh();
@@ -143,7 +144,7 @@ info_addstring(int y, string::size_type x, string txt, string::size_type column)
 }
 
 void
-info_add_highlights(int pos, int cursor, long lines, int column, vector <char *> message)
+info_add_highlights(int pos, int cursor, int column, vector <char *> message)
 {
 	for (typeof(hyperobjects.size()) i = 0; i < hyperobjects.size(); i++) {
 		if ((hyperobjects[i].line < pos) ||
@@ -212,8 +213,8 @@ info_add_highlights(int pos, int cursor, long lines, int column, vector <char *>
 	{
 		regmatch_t pmatch[1];
 		long maxpos = pos +(maxy - 2);
-		if (maxpos > lines)
-			maxpos = lines;
+		if (maxpos > message.size())
+			maxpos = message.size();
 		for (int i = pos; i < maxpos; i++)
 		{
 			int maxregexp = aftersearch ? h_regexp_num + 1 : h_regexp_num;
