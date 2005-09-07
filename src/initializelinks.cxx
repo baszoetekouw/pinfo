@@ -326,51 +326,41 @@ initializelinks(const char *line1, const char *line2, int line)
 						dot = finddot(dot + 1, MENU_DOT);
 				}
 			/* we make use of sequential AND evaluation: start must not be NULL! */
-			if (((start = strchr(tmp, '(')) != NULL) &&(dot != NULL) &&
-					((end = strchr(start, ')')) != NULL))
-			{
-				if (start < dot)	/* security mechanism ;) */
+			if (    ( (start = strchr(tmp, '(')) != NULL )
+			     && (dot != NULL)
+			     && ( (end = strchr(start, ')')) != NULL )
+			     && (start < dot) /* "security mechanism" according to previous author */
+			   ) {
+				if (end < dot)	/* security mechanism ;)) */
 				{
-					if (end < dot)	/* security mechanism ;)) */
-					{
-						long FilenameLen =(long)(end - start - 1);
-						long NodenameLen =(long)(dot - end - 1);
-						HyperObject my_ho;
-						my_ho.file.assign(start + 1, FilenameLen);
-						my_ho.node.assign(end + 1, NodenameLen);
-						my_ho.type = 1;
-						my_ho.line = line;
-						my_ho.col = calculate_len(line1, start);
-						my_ho.breakpos = -1;
-						hyperobjects.push_back(my_ho);
-					}
-				}
-				else
-				{
-					goto handle_no_file_menu_label;
-				}
-			}
-			else if (dot != NULL)	/* if not cross-info reference */
-			{
-handle_no_file_menu_label:
-				{
-					long NodenameLen;
+					long FilenameLen =(long)(end - start - 1);
+					long NodenameLen =(long)(dot - end - 1);
 					HyperObject my_ho;
-
-					start = tmp + 1;	/* move after the padding spaces */
-					while (isspace(*start))
-						start++;
-					NodenameLen =(long)(dot - start);
-					my_ho.file = "";
-					my_ho.node.assign(start, NodenameLen);
+					my_ho.file.assign(start + 1, FilenameLen);
+					my_ho.node.assign(end + 1, NodenameLen);
 					my_ho.type = 1;
 					my_ho.line = line;
 					my_ho.col = calculate_len(line1, start);
 					my_ho.breakpos = -1;
-					if (exists_in_tag_table(my_ho.node))
-					{
-						hyperobjects.push_back(my_ho);
-					}
+					hyperobjects.push_back(my_ho);
+				}
+			} else if (dot != NULL) {
+				/* not cross-info reference */
+				long NodenameLen;
+				HyperObject my_ho;
+
+				start = tmp + 1;	/* move after the padding spaces */
+				while (isspace(*start))
+					start++;
+				NodenameLen =(long)(dot - start);
+				my_ho.file = "";
+				my_ho.node.assign(start, NodenameLen);
+				my_ho.type = 1;
+				my_ho.line = line;
+				my_ho.col = calculate_len(line1, start);
+				my_ho.breakpos = -1;
+				if (exists_in_tag_table(my_ho.node)) {
+					hyperobjects.push_back(my_ho);
 				}
 			}
 		}
@@ -378,10 +368,10 @@ handle_no_file_menu_label:
 	/******************************************************************************
 	 * Handle notes. In similar way as above.                                      *
 	 ******************************************************************************/
-	else if ((notestart = strstr(ugly_buf, "*note")) != NULL)
-		goto handlenote;
-	else if ((notestart = strstr(ugly_buf, "*Note")) != NULL)
-	{
+	else if (    ( (notestart = strstr(ugly_buf, "*note")) != NULL )
+					  || ( (notestart = strstr(ugly_buf, "*Note")) != NULL )
+					) {
+
 handlenote:
 		/******************************************************************************
 		 * Scan for normal note of kind "*(infofile)reference:: comment", where       *
@@ -470,72 +460,59 @@ handlenote:
 						if (strncmp(dot, ".info)", 6) == 0)
 							dot = finddot(dot + 1, NOTE_DOT);
 					}
-				if (((start = strchr(tmp, '(')) != NULL) &&(dot != NULL) &&
-						((end = strchr(start, ')')) != NULL))	/* end may be found only if start is nonNULL!!! */
-				{
-					if (start < dot)	/* security mechanism ;) */
+				if (    ( (start = strchr(tmp, '(')) != NULL )
+				     && (dot != NULL)
+				     && ( (end = strchr(start, ')')) != NULL )
+				     && (start < dot) /* supposed security mechanism */
+				   ) {
+					if (end < dot)	/* security mechanism ;)) */
 					{
-						if (end < dot)	/* security mechanism ;)) */
-						{
-							long FilenameLen =(long)(end - start - 1);
-							long NodenameLen =(long)(dot - end - 1);
-							HyperObject my_ho;
-							my_ho.file.assign(start + 1, FilenameLen);
-							my_ho.node.assign(end + 1, NodenameLen);
-							my_ho.type = 3;
-							if (start - ugly_buf < strlen(line1)) {
-								my_ho.line = line;
-								my_ho.col = calculate_len(ugly_buf, start);
-								if (dot - ugly_buf < strlen(line1))	/* if the note highlight fits in first line */
-									my_ho.breakpos = -1;	/* we don't need to break highlighting int several lines */
-								else
-									my_ho.breakpos = strlen(line1) -(long)(start - ugly_buf);	/* otherwise we need it */
-							} else {
-								my_ho.line = line + 1;
-								my_ho.col = calculate_len(ugly_buf + strlen(line1), start);
-								my_ho.breakpos = -1;
-							}
-							hyperobjects.push_back(my_ho);
-						}
-					}
-					else
-					{
-						goto handle_no_file_note_label;
-					}
-				}
-				else if (dot != NULL)	/* if not cross-info reference */
-				{
-handle_no_file_note_label:
-					{
-						long NodenameLen;
+						long FilenameLen =(long)(end - start - 1);
+						long NodenameLen =(long)(dot - end - 1);
 						HyperObject my_ho;
-
-						start = tmp + 1;	/* move after the padding spaces */
-						while (isspace(*start))
-							start++;
-						NodenameLen =(long)(dot - start);
-						my_ho.file = "";
-						my_ho.node.assign(start, NodenameLen);
+						my_ho.file.assign(start + 1, FilenameLen);
+						my_ho.node.assign(end + 1, NodenameLen);
 						my_ho.type = 3;
-						if (start - ugly_buf < strlen(line1))
-						{
+						if (start - ugly_buf < strlen(line1)) {
 							my_ho.line = line;
 							my_ho.col = calculate_len(ugly_buf, start);
-							if (dot - ugly_buf < strlen(line1))		/* if the note highlight fits in first line */
-								my_ho.breakpos = -1;		/* we don't need to break highlighting int several lines */
+							if (dot - ugly_buf < strlen(line1))	/* if the note highlight fits in first line */
+								my_ho.breakpos = -1;	/* we don't need to break highlighting int several lines */
 							else
 								my_ho.breakpos = strlen(line1) -(long)(start - ugly_buf);	/* otherwise we need it */
-						}
-						else
-						{
+						} else {
 							my_ho.line = line + 1;
-							my_ho.col = calculate_len(strlen(line1) + ugly_buf, start);
+							my_ho.col = calculate_len(ugly_buf + strlen(line1), start);
 							my_ho.breakpos = -1;
 						}
-						if (exists_in_tag_table(my_ho.node))
-						{
-							hyperobjects.push_back(my_ho);
-						}
+						hyperobjects.push_back(my_ho);
+					}
+				} else if (dot != NULL)	{
+					/* not cross-info reference */
+					long NodenameLen;
+					HyperObject my_ho;
+
+					start = tmp + 1;	/* move after the padding spaces */
+					while (isspace(*start))
+						start++;
+					NodenameLen =(long)(dot - start);
+					my_ho.file = "";
+					my_ho.node.assign(start, NodenameLen);
+					my_ho.type = 3;
+					if (start - ugly_buf < strlen(line1)) {
+						my_ho.line = line;
+						my_ho.col = calculate_len(ugly_buf, start);
+						if (dot - ugly_buf < strlen(line1))		/* if the note highlight fits in first line */
+							my_ho.breakpos = -1;		/* we don't need to break highlighting int several lines */
+						else
+							my_ho.breakpos = strlen(line1) -(long)(start - ugly_buf);	/* otherwise we need it */
+					} else {
+						my_ho.line = line + 1;
+						my_ho.col = calculate_len(strlen(line1) + ugly_buf, start);
+						my_ho.breakpos = -1;
+					}
+					if (exists_in_tag_table(my_ho.node)) {
+						hyperobjects.push_back(my_ho);
 					}
 				}
 			}
@@ -562,8 +539,7 @@ handle_no_file_note_label:
 	url_tmpstr = line1;
 	urlstart = 0;
 	urlend = 0;
-	while ( (urlstart = url_tmpstr.find("http://", urlend)) != string::npos)
-	{
+	while ( (urlstart = url_tmpstr.find("http://", urlend)) != string::npos) {
 		urlend = findurlend(url_tmpstr, urlstart);	/* always successful */
 		HyperObject my_ho;
 		my_ho.line = line;
