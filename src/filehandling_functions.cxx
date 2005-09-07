@@ -141,10 +141,10 @@ sort_tag_table(void) {
 
 /*
  * Looks for name_string -- appended to buf!
- * Returns 1 if it finds a match, 0 if not.
+ * Returns true if it finds a match, false if not.
  * Leaves the matching name in buf.
  */
-int
+bool
 matchfile(string& buf, const string name_string)
 {
 	string basename_string;
@@ -164,7 +164,7 @@ matchfile(string& buf, const string name_string)
 	DIR *dir;
 	dir = opendir(buf.c_str());
 	if (dir == NULL) {
-		return 0;
+		return false;
 	}
 
 	struct dirent *dp;
@@ -183,11 +183,11 @@ matchfile(string& buf, const string name_string)
 			buf += test_filename;
 			buf += ".info";
 			closedir(dir);
-			return 1;
+			return true;
 		}
 	}
 	closedir(dir);
-	return 0;
+	return false;
 }
 
 FILE *
@@ -770,8 +770,8 @@ openinfo(const string filename, int number)
 		} else {
 			mybuf = infopaths[i];
 			/* Modify mybuf in place by suffixing filename -- eeewww */
-			int result = matchfile(mybuf, filename);
-			if (result == 0) {
+			bool result = matchfile(mybuf, filename);
+			if (!result) {
 				/* no match found in this directory */
 				continue;
 			}
