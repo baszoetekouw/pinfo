@@ -25,6 +25,8 @@
 using std::string;
 #include <vector>
 using std::vector;
+#include <exception>
+#include <stdexcept>
 
 #include <ctype.h>
 
@@ -72,6 +74,7 @@ get_foo_node(const char * const foo, string type)
 	if (end_idx != string::npos) {
 		return type.substr(start_idx, end_idx - start_idx);
 	}
+	throw std::invalid_argument("Unending line in get_foo_node");
 }
 
 /* read the `Next:' header entry */
@@ -105,9 +108,8 @@ getnodename(string type)
 /* Main work functions */
 
 WorkRVal
-work(const vector<string> my_message, char **type, FILE * id, int tag_table_pos)
+work(const vector<string> my_message, string type_str, FILE * id, int tag_table_pos)
 {
-#define Type	(*type)
 	static WorkRVal rval;
 	FILE *pipe;
 	int fileoffset;
@@ -169,7 +171,6 @@ work(const vector<string> my_message, char **type, FILE * id, int tag_table_pos)
 	npos = -1;			/* turn off the `next-time' pos/cursor modifiers */
 	ncursor = -1;
 	nmenu = -1;
-	string type_str = Type;
 	addtopline(type_str,infocolumn);
 	while (1)
 	{
@@ -193,7 +194,6 @@ work(const vector<string> my_message, char **type, FILE * id, int tag_table_pos)
 		{
 			handlewinch();
 			winchanged = 0;
-			string type_str = Type;
 			addtopline(type_str,infocolumn);
 			key = pinfo_getch();
 		}
@@ -225,12 +225,12 @@ work(const vector<string> my_message, char **type, FILE * id, int tag_table_pos)
 					else
 						/* we shouldn't select a menu item if this node is called via `up:' from bottom, or if there is no menu */
 					{
-						string type_str = getnextnode(Type);
-						if (type_str != ERRNODE) {
+						string next_node_name = getnextnode(type_str);
+						if (next_node_name != ERRNODE) {
 							key = keys.nextnode_1;
 						}	else {
-							type_str = getnodename(Type);
-							if (FirstNodeName != type_str)	/* if it's not end of all menus */
+							string node_name = getnodename(type_str);
+							if (FirstNodeName != node_name)	/* if it's not end of all menus */
 							{
 								if (wastoggled)	/* if we're in the temporary called up node */
 									toggled_by_menu = KILL_HISTORY;
@@ -379,7 +379,7 @@ work(const vector<string> my_message, char **type, FILE * id, int tag_table_pos)
 				fileoffset = 0;
 				for (int i = 0; i < pos + 1; i++)	/* count the length of curnode */
 					fileoffset += my_message[i].length();
-				fileoffset += strlen(Type);	/* add also header length */
+				fileoffset += type_str.length();	/* add also header length */
 
 				fileoffset += getnodeoffset(tag_table_pos, indirectstart);	/* also load the variable indirectstart */
 
@@ -793,7 +793,7 @@ skip_search:
 			if ((key == keys.prevnode_1) ||	/* goto previous node */
 					(key == keys.prevnode_2))
 			{
-				string token_str = getprevnode(Type);
+				string token_str = getprevnode(type_str);
 				return_value = gettagtablepos(token_str);
 				if (return_value != -1)
 				{
@@ -812,7 +812,7 @@ skip_search:
 					(key == keys.nextnode_2))
 			{
 				string token_str;
-				token_str = getnextnode(Type);
+				token_str = getnextnode(type_str);
 				return_value = gettagtablepos(token_str);
 				if (return_value != -1)
 				{
@@ -830,7 +830,7 @@ skip_search:
 			if ((key == keys.upnode_1) ||		/* goto up node */
 					(key == keys.upnode_2))
 			{
-				string token_str = getupnode(Type);
+				string token_str = getupnode(type_str);
 				if (token_str.compare(0, 5, "(dir)") == 0)
 				{
 					ungetch(keys.dirpage_1);
@@ -1100,15 +1100,13 @@ skip_search:
 			{
 				if (infocolumn>0)
 					infocolumn--;
-				string typestr = Type;
-				addtopline(typestr,infocolumn);
+				addtopline(type_str,infocolumn);
 			}
 			/*==========================================================================*/
 			if ((key == keys.right_1) ||(key == keys.right_2))
 			{
 				infocolumn++;
-				string typestr = Type;
-				addtopline(typestr,infocolumn);
+				addtopline(type_str,infocolumn);
 			}
 			/*==========================================================================*/
 			/**************************** end of keyboard handling **********************/

@@ -198,7 +198,7 @@ main(int argc, char *argv[]) {
 	/* this will hold node's text */
 	vector<string> message;
 	/* this will hold the node's header */
-	char *type = 0;
+	string type;
 	int tag_table_pos = -1;
 
 	/* Drop root privileges immediately (otherwise we can't read
@@ -316,7 +316,7 @@ main(int argc, char *argv[]) {
 	/* try to lookup the name in dir file */
 	if (id == NULL)
 	{
-		id = dirpage_lookup(&type, message, filename_string,
+		id = dirpage_lookup(type, message, filename_string,
 												pinfo_start_node);
 	}
 
@@ -330,7 +330,7 @@ main(int argc, char *argv[]) {
 	/* search for indirect entries, if any */
 	if (seek_indirect(id))
 	{
-		read_item(id, &type, message);
+		read_item(id, type, message);
 		load_indirect(message);
 	}
 
@@ -338,7 +338,7 @@ main(int argc, char *argv[]) {
 	if (seek_tag_table(id,1) != 2) {
 		if (ForceManualTagTable == 0)
 		{
-			read_item(id, &type, message);
+			read_item(id, type, message);
 			load_tag_table(message);
 		}
 		else
@@ -391,7 +391,7 @@ main(int argc, char *argv[]) {
 		/* set seek offset for given node */
 		seeknode(tag_table_pos, &id);
 		/* read the node */
-		read_item(id, &type, message);
+		read_item(id, type, message);
 
 		/* handle goto/link where no file was found -- see bellow */
 		if (!filenotfound)
@@ -399,7 +399,7 @@ main(int argc, char *argv[]) {
 		else
 			filenotfound = 0;
 
-		work_return_value = work(message, &type, id, tag_table_pos);
+		work_return_value = work(message, type, id, tag_table_pos);
 		if (work_return_value.keep_going)
 		{
 			/* no cross-file link selected */
@@ -462,7 +462,7 @@ main(int argc, char *argv[]) {
 						if (seek_indirect(id))
 						{
 							/* read it */
-							read_item(id, &type, message);
+							read_item(id, type, message);
 
 							/* initialize indirect entries */
 							load_indirect(message);
@@ -478,7 +478,7 @@ main(int argc, char *argv[]) {
 							 */
 							if (ForceManualTagTable == 0)
 							{
-								read_item(id, &type, message);
+								read_item(id, type, message);
 								load_tag_table(message);
 							}
 							else /* create tag table manually */
@@ -528,7 +528,6 @@ main(int argc, char *argv[]) {
 	fclose(id);
 	closeprogram();
 	/* free's at the end are optional, but look nice :) */
-	freeitem(&type);
 	tag_table.clear();
 	indirect.clear();
 	return 0;

@@ -191,10 +191,9 @@ matchfile(string& buf, const string name_string)
 }
 
 FILE *
-dirpage_lookup(char **type, vector<string>& message,
+dirpage_lookup(string& type, vector<string>& message,
                string wanted_name, string& first_node)
 {
-#define Type	(*type)
 	FILE *id = 0;
 	bool goodHit = false;
 
@@ -281,32 +280,14 @@ dirpage_lookup(char **type, vector<string>& message,
 
 	/* return file we found */
 	return id;
-#undef Type
 }
 
 void
-freeitem(char **type)
+read_item(FILE * id, string& type, vector<string>& buf)
 {
-#define Type	(*type)
-	long i;
-
-	if (Type != 0)
-	{
-		xfree(Type);
-		Type = 0;
-	}
-#undef Type
-}
-
-void
-read_item(FILE * id, char **type, vector<string>& buf)
-{
-
-#define Type	(*type)
-
 	int i;
 
-	freeitem(type);	/* free previously allocated memory */
+	type = ""; /* Wipe out old header */
 	buf.clear(); /* Wipe out old buffer */
 
 	/* seek precisely on the INFO_TAG (the seeknode function may be imprecise
@@ -315,13 +296,14 @@ read_item(FILE * id, char **type, vector<string>& buf)
 	/* then skip the trailing `\n' */
 	while (fgetc(id) != '\n');
 
-	/* allocate and read the header line */
-	Type = (char*)xmalloc(1024);
-	fgets(Type, 1024, id);
-	Type = (char*)xrealloc(Type, strlen(Type) + 1);
+	char* tmpbuf = (char*) xmalloc(1024); /* Note, cleared like calloc */
+	memset(tmpbuf, '\0', 1024);
+
+	/* Read the header line */
+	fgets(tmpbuf, 1024, id);
+	type = tmpbuf;
 
 	/* now iterate over the lines until we hit a new INFO_TAG mark */
-	char* tmpbuf = (char*) xmalloc(1024); /* Note, cleared like calloc */
 	do {
 		/* don't read after eof in info file */
 		if (feof(id))
@@ -370,7 +352,6 @@ read_item(FILE * id, char **type, vector<string>& buf)
 
 	/* Back up past that last INFO_TAG line */
 	fseek(id, -2, SEEK_CUR);
-#undef Type
 }
 
 void

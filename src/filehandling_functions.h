@@ -41,15 +41,9 @@ void addrawpath (const std::string filename);
 void seeknode (int tag_table_pos, FILE ** Id);
 
 /*
- * free allocated memory, hold by buf (node** content, stored line by line),
- * and type (a char* pointer, which stores the node header).
- */
-void freeitem (char **type);
-
-/*
  * Reads a node from 'id' to 'buf', and the header of node to 'type'.
  */
-void read_item (FILE * id, char **type, std::vector<std::string>& buf);
+void read_item (FILE * id, std::string& type, std::vector<std::string>& buf);
 /* searches for indirect entry of info file */
 int seek_indirect (FILE * id);
 /* as above, but with tag table entry */
@@ -82,7 +76,7 @@ void create_indirect_tag_table ();
  * lines: pointer to long, which holds the number of lines in dir entry
  */
 FILE *
-dirpage_lookup (char **type, std::vector<std::string>& message,
+dirpage_lookup (std::string& type, std::vector<std::string>& message,
 		const std::string filename, std::string& first_node);
 
 /* removes trailing .gz, .bz2, etc. */
