@@ -916,12 +916,14 @@ skip_search:
 			if ((key == keys.pgdn_1) ||
 					(key == keys.pgdn_2))
 			{
-				if (pos +(maxy - 2) < my_message.size() -(maxy - 2))
+				/* Signed/unsigned issues.  FIXME */
+				if (pos +(maxy - 2) < (signed)my_message.size() -(maxy - 2))
 				{
 					pos +=(maxy - 2);
 					rescan_cursor();
 				}
-				else if (my_message.size() -(maxy - 2) >= 1)
+				/* Signed/unsigned issues.  FIXME */
+				else if ((signed)my_message.size() -(maxy - 2) >= 1)
 				{
 					pos = my_message.size() -(maxy - 2);
 					cursor = hyperobjects.size() - 1;
