@@ -195,10 +195,8 @@ main(int argc, char *argv[]) {
 	int userdefinedrc = 0;
 	FILE *id = NULL;
 	string filename_string;
-	/* line count in message */
-	long lines = 0;
 	/* this will hold node's text */
-	char **message = 0;
+	vector<string> message;
 	/* this will hold the node's header */
 	char *type = 0;
 	int tag_table_pos = -1;
@@ -318,7 +316,7 @@ main(int argc, char *argv[]) {
 	/* try to lookup the name in dir file */
 	if (id == NULL)
 	{
-		id = dirpage_lookup(&type, &message, &lines, filename_string,
+		id = dirpage_lookup(&type, message, filename_string,
 												pinfo_start_node);
 	}
 
@@ -332,34 +330,16 @@ main(int argc, char *argv[]) {
 	/* search for indirect entries, if any */
 	if (seek_indirect(id))
 	{
-		read_item(id, &type, &message, &lines);
-
-		/* Quick conversion to vector.  Temporary, FIXME. */
-		vector<string> my_message;
-		for (typeof(my_message.size()) x = 0; x < lines; x++) {
-			/* one-based to zero-based conversion, ick */
-			string foo = message[x + 1];
-			my_message.push_back(foo);
-		}
-
-		load_indirect(my_message);
+		read_item(id, &type, message);
+		load_indirect(message);
 	}
 
 	/* load tag table if such exists... */
 	if (seek_tag_table(id,1) != 2) {
 		if (ForceManualTagTable == 0)
 		{
-			read_item(id, &type, &message, &lines);
-
-			/* Quick conversion to vector.  Temporary, FIXME. */
-			vector<string> my_message;
-			for (typeof(my_message.size()) x = 0; x < lines; x++) {
-				/* one-based to zero-based conversion, ick */
-				string foo = message[x + 1];
-				my_message.push_back(foo);
-			}
-
-			load_tag_table(my_message);
+			read_item(id, &type, message);
+			load_tag_table(message);
 		}
 		else
 		{
@@ -411,7 +391,7 @@ main(int argc, char *argv[]) {
 		/* set seek offset for given node */
 		seeknode(tag_table_pos, &id);
 		/* read the node */
-		read_item(id, &type, &message, &lines);
+		read_item(id, &type, message);
 
 		/* handle goto/link where no file was found -- see bellow */
 		if (!filenotfound)
@@ -419,15 +399,7 @@ main(int argc, char *argv[]) {
 		else
 			filenotfound = 0;
 
-		/* Quick conversion to vector.  Temporary, FIXME. */
-		vector<string> my_message;
-		for (typeof(my_message.size()) x = 0; x < lines; x++) {
-			/* one-based to zero-based conversion, ick */
-			string foo = message[x + 1];
-			my_message.push_back(foo);
-		}
-
-		work_return_value = work(my_message, &type, id, tag_table_pos);
+		work_return_value = work(message, &type, id, tag_table_pos);
 		if (work_return_value.keep_going)
 		{
 			/* no cross-file link selected */
@@ -490,18 +462,10 @@ main(int argc, char *argv[]) {
 						if (seek_indirect(id))
 						{
 							/* read it */
-							read_item(id, &type, &message, &lines);
-
-							/* Quick conversion to vector.  Temporary, FIXME. */
-							vector<string> my_message;
-							for (typeof(my_message.size()) x = 0; x < lines; x++) {
-								/* one-based to zero-based conversion, ick */
-								string foo = message[x + 1];
-								my_message.push_back(foo);
-							}
+							read_item(id, &type, message);
 
 							/* initialize indirect entries */
-							load_indirect(my_message);
+							load_indirect(message);
 						}
 						/* free old tag table */
 						tag_table.clear();
@@ -514,17 +478,8 @@ main(int argc, char *argv[]) {
 							 */
 							if (ForceManualTagTable == 0)
 							{
-								read_item(id, &type, &message, &lines);
-
-								/* Quick conversion to vector.  Temporary, FIXME. */
-								vector<string> my_message;
-								for (typeof(my_message.size()) x = 0; x < lines; x++) {
-									/* one-based to zero-based conversion, ick */
-									string foo = message[x + 1];
-									my_message.push_back(foo);
-								}
-
-								load_tag_table(my_message);
+								read_item(id, &type, message);
+								load_tag_table(message);
 							}
 							else /* create tag table manually */
 							{
@@ -573,7 +528,7 @@ main(int argc, char *argv[]) {
 	fclose(id);
 	closeprogram();
 	/* free's at the end are optional, but look nice :) */
-	freeitem(&type, &message, &lines);
+	freeitem(&type);
 	tag_table.clear();
 	indirect.clear();
 	return 0;

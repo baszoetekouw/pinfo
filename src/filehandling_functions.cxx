@@ -191,12 +191,10 @@ matchfile(string& buf, const string name_string)
 }
 
 FILE *
-dirpage_lookup(char **type, char ***message, long *lines,
-		const string wanted_name, string& first_node)
+dirpage_lookup(char **type, vector<string>& message,
+               string wanted_name, string& first_node)
 {
 #define Type	(*type)
-#define Message	(*message)
-#define Lines	(*lines)
 	FILE *id = 0;
 	bool goodHit = false;
 
@@ -204,21 +202,20 @@ dirpage_lookup(char **type, char ***message, long *lines,
 	if (!id)
 		return 0;
 
-	read_item(id, type, message, lines);
+	read_item(id, type, message);
 	/* search for node-links in every line */
-	for (int i = 1; i < Lines; i++)	{
+	for (int i = 0; i < message.size(); i++)	{
 		/* we want: `* name:(file)node.' */
-		string this_line = Message[i];
 		string::size_type nameend, filestart, fileend, dot;
-		if (    (this_line.length() >= 2)
-		     && (this_line[0] == '*')
-		     && (this_line[1] == ' ')
-		     && ( (nameend = this_line.find(':')) != string::npos )
-		     && (this_line.length() != nameend + 1)
-		     && (this_line[nameend + 1] != ':')
-		     && ( (filestart = this_line.find('(', nameend + 1)) != string::npos )
-		     && ( (fileend = this_line.find(')', filestart + 1)) != string::npos )
-		     && ( (dot = this_line.find('.', fileend + 1)) != string::npos )
+		if (    (message[i].length() >= 2)
+		     && (message[i][0] == '*')
+		     && (message[i][1] == ' ')
+		     && ( (nameend = message[i].find(':')) != string::npos )
+		     && (message[i].length() != nameend + 1)
+		     && (message[i][nameend + 1] != ':')
+		     && ( (filestart = message[i].find('(', nameend + 1)) != string::npos )
+		     && ( (fileend = message[i].find(')', filestart + 1)) != string::npos )
+		     && ( (dot = message[i].find('.', fileend + 1)) != string::npos )
 		   ) {
 			; /* Matches the pattern we want */
 		} else {
@@ -226,9 +223,9 @@ dirpage_lookup(char **type, char ***message, long *lines,
 		}
 
 		/* It looks like a match. */
-		string name(this_line, 2, nameend - 2);
-		string file(this_line, filestart + 1, fileend - (filestart + 1) );
-		string node(this_line, fileend + 1, dot - (fileend + 1) );
+		string name(message[i], 2, nameend - 2);
+		string file(message[i], filestart + 1, fileend - (filestart + 1) );
+		string node(message[i], fileend + 1, dot - (fileend + 1) );
 
 		if (    (name.length() >= wanted_name.length())
 		     && (strcasecmp(wanted_name.c_str(),
@@ -284,17 +281,13 @@ dirpage_lookup(char **type, char ***message, long *lines,
 
 	/* return file we found */
 	return id;
-#undef Lines
-#undef Message
 #undef Type
 }
 
 void
-freeitem(char **type, char ***buf, long *lines)
+freeitem(char **type)
 {
 #define Type	(*type)
-#define Buf		(*buf)
-#define Lines	(*lines)
 	long i;
 
 	if (Type != 0)
@@ -302,32 +295,19 @@ freeitem(char **type, char ***buf, long *lines)
 		xfree(Type);
 		Type = 0;
 	}
-	if (Buf != 0)
-	{
-		for (i = 1; i <= Lines; i++)
-			if (Buf[i] != 0)
-			{
-				xfree(Buf[i]);
-				Buf[i] = 0;
-			}
-		xfree(Buf);
-		Buf = 0;
-	}
 #undef Type
-#undef Buf
-#undef Lines
 }
 
 void
-read_item(FILE * id, char **type, char ***buf, long *lines)
+read_item(FILE * id, char **type, vector<string>& buf)
 {
 
 #define Type	(*type)
-#define Buf		(*buf)
-#define Lines	(*lines)
+
 	int i;
 
-	freeitem(type, buf, lines);	/* free previously allocated memory */
+	freeitem(type);	/* free previously allocated memory */
+	buf.clear(); /* Wipe out old buffer */
 
 	/* seek precisely on the INFO_TAG (the seeknode function may be imprecise
 	 * in combination with some weird tag_tables).  */
@@ -340,68 +320,57 @@ read_item(FILE * id, char **type, char ***buf, long *lines)
 	fgets(Type, 1024, id);
 	Type = (char*)xrealloc(Type, strlen(Type) + 1);
 
-	/* set number of lines to 0 */
-	Lines = 0;
-
-	/* initial buffer allocation */
-	Buf = (char**)xmalloc(sizeof(char **));
-
-	/* now iterate over the lines */
-	do
-	{
+	/* now iterate over the lines until we hit a new INFO_TAG mark */
+	char* tmpbuf = (char*) xmalloc(1024); /* Note, cleared like calloc */
+	do {
 		/* don't read after eof in info file */
 		if (feof(id))
 			break;
 
-		/* realloc the previous line for it to fit exactly */
-		if (Lines)
-		{
-			Buf[Lines] = (char*)xrealloc(Buf[Lines], strlen(Buf[Lines]) + 1);
-		}
+		/* Clear our buffer (needed for algorithm below) */
+		memset(tmpbuf, '\0', 1024);
 
-		/* increase the read lines number */
-		Lines++;
-
-		/* allocate space for the new line */
-		Buf = (char**)xrealloc(Buf, sizeof(char **) *(Lines + 1));
-		Buf[Lines] = (char*)xmalloc(1024);
-		Buf[Lines][0] = 0;
-
-		/* if the line was not found in input file, fill the allocated space
-		 * with empty line.  */
-		if (fgets(Buf[Lines], 1024, id) == NULL)
-			strcpy(Buf[Lines], "\n");
-		else /* we can be sure that at least 1 char was read! */
-		{
+		/* Read a line. */
+		if (fgets(tmpbuf, 1024, id) == NULL) {
+			/* If there's a read error, or EOF at the start of the line,
+			 * put in an empty line. */
+			/* FIXME */
+			strcpy(tmpbuf, "\n");
+		} else {
+			/* we can be sure that at least 1 char was read! */
 			/* *sigh*  indices contains \0's
 			 * which totally fucks up all strlen()s.
 			 * so replace it by a space */
 			i = 1023;
 			/* find the end of the string */
-			while (Buf[Lines][i]=='\0' && i>=0) i--;
+			while (tmpbuf[i]=='\0' && i>=0) i--;
 			/* and replace all \0's in the rest of the string by spaces */
+			/* Also clean out backspaces */
 			while (i>=0)
 			{
-				if (Buf[Lines][i]=='\0' || Buf[Lines][i]=='\b')
-					Buf[Lines][i]=' ';
+				if (tmpbuf[i]=='\0' || tmpbuf[i]=='\b')
+					tmpbuf[i]=' ';
 				i--;
 			}
 		}
-	}
-	while (Buf[Lines][0] != INFO_TAG);	/* repeat until new node mark is found */
+		string tmpstr = tmpbuf;
+		buf.push_back(tmpstr);
+	} while (tmpbuf[0] != INFO_TAG);	/* repeat until new node mark is found */
+	xfree(tmpbuf);
 
-
+	/* Note that we pushed the INFO_TAG line (or the read-zero-characters line) */
+	/* -- but check the feof case, FIXME */
+	/* Also, this should be dropped entirely and ismenu/isnote should be fixed */
+	/* FIXME */
 	/* added for simplifing two-line ismenu and isnote functs */
-	if (Lines)
+	if (buf.size() > 0)
 	{
-		strcpy(Buf[Lines], "\n");
-		Buf[Lines] = (char*)xrealloc(Buf[Lines], strlen(Buf[Lines]) + 1);
+		buf[buf.size() - 1] = "\n";
 	}
 
+	/* Back up past that last INFO_TAG line */
 	fseek(id, -2, SEEK_CUR);
 #undef Type
-#undef Buf
-#undef Lines
 }
 
 void
