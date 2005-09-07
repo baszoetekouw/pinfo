@@ -834,7 +834,7 @@ skip_search:
 				}
 				if (!cursorchanged)	/* if the cursor wasn't changed */
 				{
-					if (pos > 2)	/* lower the nodepos */
+					if (pos > 1)	/* lower the nodepos */
 						pos--;
 					/* and scan for a hyperlink in the new line */
 					for (i = 0; i < hyperobjectcount; i++)
