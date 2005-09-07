@@ -192,57 +192,52 @@ matchfile(string& buf, const string name_string)
 
 FILE *
 dirpage_lookup(char **type, char ***message, long *lines,
-		const string filename, string& first_node)
+		const string wanted_name, string& first_node)
 {
 #define Type	(*type)
 #define Message	(*message)
 #define Lines	(*lines)
 	FILE *id = 0;
 	bool goodHit = false;
+
 	id = opendirfile(0);
 	if (!id)
 		return 0;
+
 	read_item(id, type, message, lines);
-	for (int i = 1; i < Lines; i++)	{ /* search through all lines */
+	/* search for node-links in every line */
+	for (int i = 1; i < Lines; i++)	{
 		/* we want: `* name:(file)node.' */
 		string this_line = Message[i];
-		if (    (this_line.length() < 2)
-		     || (this_line[0] != '*')
-		     || (this_line[1] != ' ')
+		string::size_type nameend, filestart, fileend, dot;
+		if (    (this_line.length() >= 2)
+		     && (this_line[0] == '*')
+		     && (this_line[1] == ' ')
+		     && ( (nameend = this_line.find(':')) != string::npos )
+		     && (this_line.length() != nameend + 1)
+		     && (this_line[nameend + 1] != ':')
+		     && ( (filestart = this_line.find('(', nameend + 1)) != string::npos )
+		     && ( (fileend = this_line.find(')', filestart)) != string::npos )
+		     && ( (dot = this_line.find('.', fileend)) != string::npos )
+		     && (strcasecmp(wanted_name.c_str(),
+		                    this_line.substr(2, wanted_name.length()).c_str())
+             == 0) /* Right file */
 		   ) {
+			; /* Matches the pattern we want, with the right name */
+		} else {
 			continue;
 		}
-		if (this_line.compare(2, filename.length(), filename) != 0) {
-			/* Wrong file */
-			continue;
-		}
-		string::size_type nameend = this_line.find(':');
-		if (    (nameend == string::npos)
-			   || (this_line.length() == nameend + 1)
-			   || (this_line[nameend + 1] == ':')
-			   ) {
-			continue;
-		}
-		string::size_type filestart = this_line.find('(', nameend + 1);
-		if (filestart == string::npos) {
-			continue;
-		}
-		string::size_type fileend = this_line.find(')', filestart);
-		if (fileend == string::npos) {
-			continue;
-		}
-		string::size_type dot = this_line.find('.', fileend);
-		if (dot == string::npos) {
-			continue;
-		}
+
 		/* It looks like a match. */
+		string name(this_line, 2, nameend - 2);
 		string file(this_line, filestart + 1, fileend - filestart - 2);
-		string name(this_line, fileend + 1, dot - fileend - 2);
-		if (name != "") {
+		string node(this_line, fileend + 1, dot - fileend - 2);
+
+		if (node != "") {
 			string::size_type idx = 0;
-			while (isspace(name[idx]))
+			while (isspace(node[idx]))
 				idx++;
-			first_node = name.substr(idx);
+			first_node = node.substr(idx);
 		}
 		if (id)
 			fclose(id);	/* we don't need dirfile/badly matched infofile open anymore */
@@ -250,19 +245,25 @@ dirpage_lookup(char **type, char ***message, long *lines,
 		if (file.find(".info") == string::npos) {
 			file += ".info";
 		}
+
 		id = openinfo(file, 0);
+		/* See if this info file exists */
 		goodHit = true;
-		if ((nameend - 2) == filename.length()) {
+		if ((nameend - 2) == wanted_name.length()) {
 				/* the name matches perfectly to the query */
 				/* stop searching for another match, and use this one */
 				break;	
 			}
 	}
+
+	/* if we haven't found anything, clean up and exit */
 	if (!goodHit)
 	{
 		fclose(id);
 		id = 0;
 	}
+
+	/* return file we found */
 	return id;
 #undef Lines
 #undef Message
