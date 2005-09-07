@@ -541,23 +541,21 @@ opendirfile(int number)
 {
 	FILE *id = NULL;
 	string tmpfilename;
-	int dir_found = 0;
-	int dircount = 0;
 	struct stat status;
 
-	if (number == 0)		/* initialize tmp filename for file 1 */
-	{
-		if (tmpfilename1 != "")
-		{
-			unlink(tmpfilename1.c_str());	/* erase old tmpfile */
+	if (number == 0) {
+		/* initialize tmp filename for file 1 */
+		if (tmpfilename1 != "") {
+			/* erase old tmpfile */
+			unlink(tmpfilename1.c_str());	
 		}
 		tmpfilename = tmpfilename1;	/* later we will refere only to tmp1 */
 	}
 
-	int *fileendentries = (int*)xmalloc(infopaths.size() * sizeof(int));
+	vector<int> fileendentries;
 	/* go through all paths */
 	for (typeof(infopaths.size()) i = 0; i < infopaths.size(); i++)	{ 
-		int lang_found = 0;
+		bool lang_found = false;
 		for (int k = 0; k <= 1; k++) { /* Two passes: with and without LANG */
 			string bufstr;
 			if (k == 0) {
@@ -592,65 +590,62 @@ opendirfile(int number)
 					command_string += tmpfilename;
 					system(command_string.c_str());
 					lstat(tmpfilename.c_str(), &status);
-					fileendentries[dircount] = status.st_size;
-					dircount++;
-					dir_found = 1;
-					lang_found = 1;
+					fileendentries.push_back(status.st_size);
+					if (k == 0) {
+						lang_found = true;
+					}
 				}
 			}
 		}
 	}
-	if (dir_found)
+	if (fileendentries.size() > 0) {
 		id = fopen(tmpfilename.c_str(), "r");
+	}
+	if (!id) {
+		return NULL;
+	}
 	/*
 	 * Filter the concatenated dir pages to exclude hidden parts of info
 	 * entries
 	 */
-	if (id)
-	{
-		char *tmp;
-		long filelen, i;
-		int aswitch = 0;
-		int firstswitch = 0;
-		dircount = 0;
+	long filelen;
 
-		fseek(id, 0, SEEK_END);
-		filelen = ftell(id);
+	fseek(id, 0, SEEK_END);
+	filelen = ftell(id);
 
-		tmp = (char*)xmalloc(filelen);
-		fseek(id, 0, SEEK_SET);
-		fread(tmp, 1, filelen, id);
-		fclose(id);
-		id = fopen(tmpfilename.c_str(), "w");
-		for (i = 0; i < filelen; i++)
-		{
-			if (tmp[i] == INFO_TAG)
-			{
-				aswitch ^= 1;
-				if (!firstswitch)
-					fputc(tmp[i], id);
-				firstswitch = 1;
+	char *tmp;
+	tmp = (char*)xmalloc(filelen);
+	fseek(id, 0, SEEK_SET);
+	fread(tmp, 1, filelen, id);
+	fclose(id);
+	string tmpstr = tmp;
+	xfree(tmp);
+
+	id = fopen(tmpfilename.c_str(), "w");
+	bool aswitch = false;
+	bool firstswitch = false;
+	int dircount = 0;
+	for (long i = 0; i < tmpstr.length(); i++) {
+		if (tmpstr[i] == INFO_TAG) {
+			aswitch = !aswitch;
+			if (!firstswitch) {
+				fputc(tmpstr[i], id);
+				firstswitch = true;
 			}
-			else if ((aswitch) ||(!firstswitch))
-				fputc(tmp[i], id);
-			if (i + 1 == fileendentries[dircount])
-			{
-				if (aswitch != 0)
-					aswitch = 0;
-				dircount++;	/* the last dircount should fit to the end of filelen */
-			}
+		} else if (aswitch || !firstswitch) {
+			fputc(tmpstr[i], id);
 		}
-		fputc(INFO_TAG, id);
-		fputc('\n', id);
-		fclose(id);
-		id = fopen(tmpfilename.c_str(), "r");
-		xfree(tmp);
-
-		xfree(fileendentries);
-		return id;
+		if (i + 1 == fileendentries[dircount]) {
+			aswitch = false;
+			dircount++;	/* the last dircount should fit to the end of filelen */
+		}
 	}
-	xfree(fileendentries);
-	return NULL;
+	fputc(INFO_TAG, id);
+	fputc('\n', id);
+	fclose(id);
+
+	id = fopen(tmpfilename.c_str(), "r");
+	return id;
 }
 
 /*
