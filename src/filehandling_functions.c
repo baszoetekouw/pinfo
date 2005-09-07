@@ -88,7 +88,7 @@ matchfile(char **buf, char *name)
 	dir = opendir(Buf);
 	if (dir == NULL)
 	{
-		return 1;
+		return 0;
 	}
 
 	/* iterate over all files in the directory */
