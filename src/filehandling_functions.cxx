@@ -217,8 +217,8 @@ dirpage_lookup(char **type, char ***message, long *lines,
 		     && (this_line.length() != nameend + 1)
 		     && (this_line[nameend + 1] != ':')
 		     && ( (filestart = this_line.find('(', nameend + 1)) != string::npos )
-		     && ( (fileend = this_line.find(')', filestart)) != string::npos )
-		     && ( (dot = this_line.find('.', fileend)) != string::npos )
+		     && ( (fileend = this_line.find(')', filestart + 1)) != string::npos )
+		     && ( (dot = this_line.find('.', fileend + 1)) != string::npos )
 		   ) {
 			; /* Matches the pattern we want */
 		} else {
@@ -227,13 +227,15 @@ dirpage_lookup(char **type, char ***message, long *lines,
 
 		/* It looks like a match. */
 		string name(this_line, 2, nameend - 2);
-		string file(this_line, filestart + 1, fileend - filestart - 2);
-		string node(this_line, fileend + 1, dot - fileend - 2);
+		string file(this_line, filestart + 1, fileend - (filestart + 1) );
+		string node(this_line, fileend + 1, dot - (fileend + 1) );
 
-		if (strcasecmp(wanted_name.c_str(),
-		               name.substr(0, wanted_name.length()).c_str())
-        != 0) { 
-			/* Wrong name -- wanted_name must begin the name */
+		if (    (name.length() >= wanted_name.length())
+		     && (strcasecmp(wanted_name.c_str(),
+		                   name.substr(0, wanted_name.length()).c_str()) == 0)
+	     ) {
+			; /* Wanted_name begins the name, so it's a match */
+		} else {
 			continue;
 		}
 
@@ -252,22 +254,25 @@ dirpage_lookup(char **type, char ***message, long *lines,
 		}
 
 		if (id) {
-			fclose(id);
 			/* Close the previously opened file */
+			fclose(id);
+			id = 0;
 		}
-		id = 0;
 
 		if (file.find(".info") == string::npos) {
 			file += ".info";
 		}
+
+		/* See if this info file exists, and open it if it does */
 		id = openinfo(file, 0);
-		/* See if this info file exists */
-		goodHit = true;
-		if ((nameend - 2) == wanted_name.length()) {
+		if (id) {
+			goodHit = true;
+			if ((nameend - 2) == wanted_name.length()) {
 				/* the name matches perfectly to the query */
 				/* stop searching for another match, and use this one */
 				break;	
 			}
+		}
 	}
 
 	/* if we haven't found anything, clean up and exit */
