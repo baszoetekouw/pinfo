@@ -169,7 +169,7 @@ findemailstart(string str, string::size_type pos) {
 	} else if (idx == string::npos) {
 		return 0;
 	} else {
-		return idx + 1;
+		return pos + idx + 1;
 	}
 }
 
