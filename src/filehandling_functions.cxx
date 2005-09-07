@@ -28,6 +28,34 @@ using std::string;
 #include <vector>
 using std::vector;
 
+vector<string> infopaths;
+
+/******************************************************************************
+ * This piece of declarations says what to do with info files stored with      *
+ * different formats/compression methods, before putting them into a temporary *
+ * file. I.e. you don't do anything to plain `.info' suffix; for a `.info.gz'  *
+ * you dump the file through `gunzip -d -c', etc.                              *
+ ******************************************************************************/
+
+typedef struct Suffixes
+{
+	const char * const suffix;
+	const char * const command;
+}
+Suffixes;
+
+#define SuffixesNumber 4
+
+static const Suffixes suffixes[SuffixesNumber] =
+{
+	{"", 		"cat"},
+	{".gz",		"gzip -d -q -c"},
+	{".Z",		"gzip -d -q -c"},
+	{".bz2",	"bzip2 -d -c"}
+};
+
+/*****************************************************************************/
+
 void
 basename_and_dirname(const string filename, string& basename, string& dirname)
 {
@@ -65,34 +93,45 @@ dirname(const string filename, string& dirname_str)
 	}
 }
 
-
-/******************************************************************************
- * This piece of declarations says what to do with info files stored with      *
- * different formats/compression methods, before putting them into a temporary *
- * file. I.e. you don't do anything to plain `.info' suffix; for a `.info.gz'  *
- * you dump the file through `gunzip -d -c', etc.                              *
- ******************************************************************************/
-
-typedef struct Suffixes
+/*
+ * Strip one trailing .gz, .bz2, etc.
+ * Operates in place.
+ */
+void
+strip_compression_suffix(string& filename)
 {
-	const char * const suffix;
-	const char * const command;
+	for (int j = 0; j < SuffixesNumber; j++)
+	{
+		string::size_type suffix_len =  strlen(suffixes[j].suffix);
+		if (suffix_len == 0) {
+			/* Nothing is a suffix, but that gives an early false positive. */
+			continue;
+		}
+		if (    (filename.length() >= suffix_len)
+		     && (filename.compare(filename.length() - suffix_len,
+		                          suffix_len, suffixes[j].suffix) == 0)
+		   ) {
+			/* Truncate string. */
+			filename.resize(filename.length() - suffix_len);
+			break;
+		}
+	}
 }
-Suffixes;
 
-#define SuffixesNumber 4
-
-static const Suffixes suffixes[SuffixesNumber] =
+/*
+ * Strip trailing ".info" .
+ * Operates in place.
+ */
+void
+strip_info_suffix(string& filename)
 {
-	{"", 		"cat"},
-	{".gz",		"gzip -d -q -c"},
-	{".Z",		"gzip -d -q -c"},
-	{".bz2",	"bzip2 -d -c"}
-};
-
-/*****************************************************************************/
-
-vector<string> infopaths;
+	if (    (filename.length() >= 5)
+	     && (filename.compare(filename.length() - 5, 5, ".info") == 0)
+	   ) {
+		/* Truncate string. */
+		filename.resize(filename.length() - 5);
+	}
+}
 
 void
 sort_tag_table(void) {
@@ -112,25 +151,37 @@ matchfile(string& buf, const string name_string)
 	string dirname_string;
 	basename_and_dirname(name_string, basename_string, dirname_string);
 
+	/* remove a possible ".info" from the end of the file name
+	 * we're looking for */
+	strip_info_suffix(basename_string);
+
+	/* fix the name of the dir */
 	if (buf[buf.length()-1]!='/')
 		buf += "/";
 	buf += dirname_string;
 
+	/* open the directory */
 	DIR *dir;
-	dir = opendir(buf.c_str());	/* here we always have '/' at end */
-	if (dir == NULL)
+	dir = opendir(buf.c_str());
+	if (dir == NULL) {
 		return 1;
+	}
 
 	struct dirent *dp;
+	/* iterate over all files in the directory */
 	while ((dp = readdir(dir))) { /* Ends loop when NULL is returned */
 		string test_filename = dp->d_name;
-		strip_compression_suffix(test_filename); /* Strip in place */
-		string basename_info = basename_string;
-		basename_info += ".info";
-		if (test_filename  == basename_info) {
+
+		/* strip suffixes (so "gcc.info.gz" -> "gcc") */
+		strip_compression_suffix(test_filename);
+		strip_info_suffix(test_filename);
+
+		/* compare this file with the file we're looking for */
+		if (test_filename  == basename_string) {
 			/* Matched.  Clean up and return from function. */
 			buf += "/";
 			buf += test_filename;
+			buf += ".info";
 			closedir(dir);
 			return 0;
 		}
@@ -1064,30 +1115,5 @@ seeknode(int tag_table_pos, FILE ** Id)
 			fseek(id, off, SEEK_SET);
 	}
 #undef id
-}
-
-/*
- * Strip one trailing .gz, .bz2, etc.
- * Operates in place.
- */
-void
-strip_compression_suffix(string& filename)
-{
-	for (int j = 0; j < SuffixesNumber; j++)
-	{
-		string::size_type suffix_len =  strlen(suffixes[j].suffix);
-		if (suffix_len == 0) {
-			/* Nothing is a suffix, but that gives an early false positive. */
-			continue;
-		}
-		if (    (filename.length() >= suffix_len)
-		     && (filename.compare(filename.length() - suffix_len,
-		                          suffix_len, suffixes[j].suffix) == 0)
-		   ) {
-			/* Truncate string. */
-			filename.resize(filename.length() - suffix_len);
-			break;
-		}
-	}
 }
 
