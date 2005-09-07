@@ -423,45 +423,49 @@ load_indirect(vector<string> message)
 }
 
 void
-load_tag_table(char **message, long lines)
+load_tag_table(vector<string> message)
 {
-	int is_indirect = 0;
-
-	/*
-	 * if in the first line there is a(indirect) string, skip that line
-	 * by adding the value of is_indirect=1 to all message[line] references.
-	 */
-	if (strcasecmp("(Indirect)", message[1]) == 0)
-		is_indirect = 1;
 	tag_table.clear();
 
-	for (long i = 1; i < lines - is_indirect; i++)
-	{
-		string wsk_string = message[i + is_indirect];
+	if (message.size() == 0) {
+		/* Fail. */
+		return;
+	}
+
+	/*
+	 * If the first line begins with "(indirect)", skip that line.
+	 */
+	bool is_indirect = false;
+	if (strcasecmp("(Indirect)", message[0].substr(0, 10).c_str()) == 0)
+		is_indirect = true;
+
+	/* Run through all lines. */
+	for (typeof(message.size()) i = (is_indirect ? 1 : 0);
+	     i < message.size(); i++) {
 		/* Skip first character and nonwhitespace after it.
 		 * (Why first character? FIXME) 
 		 * plus one more (space) character */
 		string::size_type j;
-		for (j = 1; j < wsk_string.size(); j++) {
-			if (isspace(wsk_string[j])) {
+		for (j = 1; j < message[i].size(); j++) {
+			if (isspace(message[i][j])) {
 				j++;
 				break;
 			}
 		}
-		string trimmed = wsk_string.substr(j); /* Might be "" */
-		if (trimmed == "") {
+		if (j == message[i].size()) {
+			/* No characters left for the node name. */
 			continue;
 		}
 
 		/* Find INDIRECT_TAG character, but skip at least one character
 		 * so the node name is nonempty */
-		string::size_type ind_tag_idx = trimmed.find(INDIRECT_TAG, 1);
+		string::size_type ind_tag_idx = message[i].find(INDIRECT_TAG, j + 1);
 		if (ind_tag_idx == string::npos) {
 			continue;
 		}
 		TagTable my_tag;
-		my_tag.nodename.assign(trimmed, 0, ind_tag_idx);
-		string offset_string = trimmed.substr(ind_tag_idx + 1);
+		my_tag.nodename = message[i].substr(j, ind_tag_idx - j);
+		string offset_string = message[i].substr(ind_tag_idx + 1);
 		my_tag.offset = atoi(offset_string.c_str());
 		tag_table.push_back(my_tag);
 	}

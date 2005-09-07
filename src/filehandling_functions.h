@@ -62,7 +62,7 @@ int seek_tag_table (FILE * id,int quiet);
  */
 void load_indirect (std::vector<std::string> message);
 /* loads tag table (as above) */
-void load_tag_table (char **message, long lines);
+void load_tag_table (std::vector<std::string> message);
 /* opens info file */
 FILE *openinfo (const std::string filename, int number);
 /* opens dir info file */

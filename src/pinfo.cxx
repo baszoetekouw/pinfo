@@ -350,7 +350,16 @@ main(int argc, char *argv[]) {
 		if (ForceManualTagTable == 0)
 		{
 			read_item(id, &type, &message, &lines);
-			load_tag_table(message, lines);
+
+			/* Quick conversion to vector.  Temporary, FIXME. */
+			vector<string> my_message;
+			for (typeof(my_message.size()) x = 0; x < lines; x++) {
+				/* one-based to zero-based conversion, ick */
+				string foo = message[x + 1];
+				my_message.push_back(foo);
+			}
+
+			load_tag_table(my_message);
 		}
 		else
 		{
@@ -506,7 +515,16 @@ main(int argc, char *argv[]) {
 							if (ForceManualTagTable == 0)
 							{
 								read_item(id, &type, &message, &lines);
-								load_tag_table(message, lines);
+
+								/* Quick conversion to vector.  Temporary, FIXME. */
+								vector<string> my_message;
+								for (typeof(my_message.size()) x = 0; x < lines; x++) {
+									/* one-based to zero-based conversion, ick */
+									string foo = message[x + 1];
+									my_message.push_back(foo);
+								}
+
+								load_tag_table(my_message);
 							}
 							else /* create tag table manually */
 							{
