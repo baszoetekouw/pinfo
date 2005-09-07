@@ -864,7 +864,7 @@ skip_search:
 				cursorchanged = 0;
 				if (cursor != (typeof(hyperobjects.size()))-1)	{
 					/* if we must handle cursor... */
-					if ((cursor > 0) &&(hyperobjects.size()))
+					if ((cursor > 0) && (hyperobjects.size()))
 						/* if we really must handle it ;) */
 						/*
 						 * look if there's a cursor(link) pos available above,
@@ -887,7 +887,7 @@ skip_search:
 				}
 				if (!cursorchanged)	/* if the cursor wasn't changed */
 				{
-					if (pos > 2)	/* lower the nodepos */
+					if (pos > 1)	/* lower the nodepos */
 						pos--;
 					/* and scan for a hyperlink in the new line */
 					for (typeof(hyperobjects.size()) i = 0;
@@ -970,8 +970,7 @@ skip_search:
 				cursorchanged = 0;	/* works similar to keys.up */
 				if (cursor < hyperobjects.size())
 					for (typeof(hyperobjects.size()) i = cursor + 1;
-					     i < hyperobjects.size(); i++)
-					{
+					     i < hyperobjects.size(); i++) {
 						if ((hyperobjects[i].line >= pos) &&
 								(hyperobjects[i].line < pos +(maxy - 2)))
 						{
@@ -985,7 +984,8 @@ skip_search:
 					}
 				if (!cursorchanged)
 				{
-					if (pos <= my_message.size() -(maxy - 2))
+					/* FIXME: signed/unsigned issues */
+					if (pos <= (signed)my_message.size() -(maxy - 2))
 						pos++;
 					for (typeof(hyperobjects.size()) i = cursor + 1;
 					     i < hyperobjects.size(); i++)
