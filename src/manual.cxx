@@ -56,12 +56,11 @@ void strip_manual(string& buf);
 void man_initializelinks(string line, int carry);
 bool is_in_manlinks(vector<string> in, string find);
 
-void printmanual(char **Message, long Lines);
+void printmanual(vector<string> message);
 
 /* line by line stored manual */
-char **manual = 0;
-/* number of lines in manual */
-int ManualLines = 0;
+vector<string> manual;
+
 int selected = -1;		/* number of selected link(offset in 'manuallinks',
 						   bellow) */
 int manualpos = 0;		/* number of the first line, which is painted on
@@ -151,19 +150,9 @@ check_manwidth(void) {
 void
 manual_free_buffers()
 {
-	int i;
 	/* first free previously allocated memory */
 	/* for the manual itself... */
-	if (manual)
-	{
-		for (i = 0; i <= ManualLines; i++)
-		{
-			xfree(manual[i]);
-		}
-		xfree(manual);
-		manual = 0;
-		ManualLines = 0;
-	}
+	manual.clear();
 	/* ...and for the list of manual hypertext */
 	if (manuallinks.size() > 0)
 	{
@@ -434,75 +423,59 @@ loadmanual(FILE * id)
 	int carryflag = 0;
 	manualpos = 0;
 	manual_free_buffers();
-	manual = (char**)xmalloc(sizeof(char *));
+	manual.clear();
 	manuallinks.clear();
-	manual[ManualLines] = (char*)xmalloc(1024);
 
+	char* tmpline 	= (char*)xmalloc(1024);
 	/* we read until eof */
-	while (!feof(id))
-	{
+	while (!feof(id)) {
+		memset(tmpline, '\0', 1024);
 		/*
 		 * it happens sometimes, that the last line is weird
 		 * and causes sigsegvs by not entering anything to buffer, what
 		 * confuses strlen
 		 */
-		if (fgets(manual[ManualLines], 1024, id) == NULL)
-			manual[ManualLines][0] = 0;
-
-		if (cutheader)
-		{
-			if (strcmp(manual[cutheader], manual[ManualLines]) == 0)
-			{
-				manual[ManualLines][0] = '\n';
-				manual[ManualLines][1] = 0;
+		if (fgets(tmpline, 1024, id) == NULL) {
+			strcpy(tmpline, "");
+		}
+		if (cutheader) {
+			if (manual[cutheader] == tmpline) {
+				strcpy(tmpline, "\n");
 			}
 		}
-		if (FilterB7)
-		{
-			char *filter_pos = index(manual[ManualLines], 0xb7);
+		if (FilterB7) {
+			char *filter_pos = index(tmpline, 0xb7);
 			if (filter_pos)
 				*filter_pos = 'o';
 		}
-		if (CutManHeaders)
-			if (!cutheader)
-			{
-				if (strlen(manual[ManualLines]) > 1)
-				{
-					cutheader = ManualLines;
-				}
+		if ((CutEmptyManLines) &&((tmpline[0]) == '\n') &&
+				(prevlinechar == '\n')) {
+			;	/* do nothing */
+		} else {
+			if (CutManHeaders && !cutheader) {
+				cutheader = manual.size();
 			}
-		if ((CutEmptyManLines) &&((manual[ManualLines][0]) == '\n') &&
-				(prevlinechar == '\n'))
-			;			/* do nothing :)) */
-		else
-		{
-			int manlinelen = strlen(manual[ManualLines]);
-			manual[ManualLines] = (char*)xrealloc(manual[ManualLines],
-					manlinelen + 10);
+			int manlinelen = strlen(tmpline);
+
+			carryflag = 0;
+			if (    (manlinelen >= 2)
+				   && (ishyphen(tmpline[manlinelen - 2]))
+			   ) {
+				carryflag = 1;
+			}
+			prevlinechar = tmpline[0];
 
 			/* temporary variable for determining hypertextuality of fields */
 			string tmpstr;
-			tmpstr = manual[ManualLines];
+			tmpstr = tmpline;
 			strip_manual(tmpstr);
-
-			carryflag = 0;
-			if (manlinelen > 1)
-				if (ishyphen(manual[ManualLines][manlinelen - 2]))
-					carryflag = 1;
 			man_initializelinks(tmpstr, carryflag);
 
-			prevlinechar = manual[ManualLines][0];
-			/* increase the number of man lines */
-			ManualLines++;
-			/*
-			 * and realloc manual to add an empty space for
-			 * next entry of manual line
-			 */
-			manual = (char**)xrealloc(manual,(ManualLines + 5) * sizeof(char *));
-			manual[ManualLines] = (char*)xmalloc(1024);
+			string tmpline_str = tmpline;
+			manual.push_back(tmpline_str);
 		}
 	}
-
+	xfree(tmpline);
 }
 
 bool
@@ -535,7 +508,9 @@ man_initializelinks(string line, int carry)
 	{
 		urlend = findurlend(line, urlstart); /* always successful */
 		manuallink my_link;
-		my_link.line = ManualLines;
+		my_link.line = manual.size(); 
+			/* Eeew -- depends on this being called just before the line is pushed */
+			/* FIXME */
 		my_link.col = urlstart;
 		my_link.section = "HTTPSECTION";
 		my_link.section_mark = HTTPSECTION;
@@ -553,7 +528,7 @@ man_initializelinks(string line, int carry)
 	{
 		urlend = findurlend(line, urlstart); /* always successful */
 		manuallink my_link;
-		my_link.line = ManualLines;
+		my_link.line = manual.size(); /* See above, FIXME */
 		my_link.col = urlstart;
 		my_link.section = "FTPSECTION";
 		my_link.section_mark = FTPSECTION;
@@ -571,7 +546,7 @@ man_initializelinks(string line, int carry)
 	{
 		urlend = findurlend(line, urlstart); /* always successful */
 		manuallink my_link;
-		my_link.line = ManualLines;
+		my_link.line = manual.size(); /* See above, FIXME */
 		my_link.col = urlstart;
 		my_link.section = "MAILSECTION";
 		my_link.section_mark = MAILSECTION;
@@ -662,7 +637,7 @@ man_initializelinks(string line, int carry)
 				}
 				manuallink my_link;
 				my_link.name = chosen_name;
-				my_link.line = ManualLines;
+				my_link.line = manual.size(); /* See above, FIXME */
 				my_link.col = i;
 				if (LongManualLinks) {
 					my_link.section = "";
@@ -763,7 +738,7 @@ manualwork()
 					(key == keys.print_2))
 			{
 				if (yesno(_("Are you sure to print?"), 0))
-					printmanual(manual, ManualLines);
+					printmanual(manual);
 			}
 			/*====================================================*/
 			if ((key == keys.goto_1) ||
@@ -833,10 +808,12 @@ manualwork()
 					{
 						newpos = atol(token);
 						newpos -=(maxy - 1);
-						if ((newpos >= 0) &&(newpos < ManualLines -(maxy - 2)))
+						/* FIXME signed/unsigned */
+						if ((newpos >= 0) &&(newpos < (signed) manual.size() -(maxy - 2)))
 							manualpos = newpos;
 						else if (newpos > 0)
-							manualpos = ManualLines -(maxy - 2);
+						/* FIXME signed/unsigned */
+							manualpos = (signed) manual.size() -(maxy - 2);
 						else
 							manualpos = 0;
 					}
@@ -873,8 +850,8 @@ manualwork()
 				if (pipe != NULL)
 				{
 					/* and flush the msg to stdin */
-					for (int i = 0; i < ManualLines; i++)
-						fprintf(pipe, "%s", manual[i]);
+					for (int i = 0; i < manual.size(); i++)
+						fprintf(pipe, "%s", manual[i].c_str());
 					pclose(pipe);
 				}
 				getchar();
@@ -947,7 +924,7 @@ manualwork()
 					goto skip_search;
 				}
 				/* and search for it in all subsequential lines */
-				for (int i = manualpos + 1; i < ManualLines - 1; i++)
+				for (int i = manualpos + 1; i < manual.size() - 1; i++)
 				{
 					string tmpstr;
 					/*
@@ -1057,7 +1034,8 @@ skip_search:
 			if ((key == keys.end_1) ||
 					(key == keys.end_2))
 			{
-				manualpos = ManualLines -(maxy - 1);
+				/* FIXME signed/unsigned */
+				manualpos = (signed) manual.size() -(maxy - 1);
 				if (manualpos < 0)
 					manualpos = 0;
 				selected = manuallinks.size() - 1;
@@ -1066,7 +1044,7 @@ skip_search:
 			if ((key == keys.nextnode_1) ||
 					(key == keys.nextnode_2))
 			{
-				for (int i = manualpos + 1; i < ManualLines; i++)
+				for (int i = manualpos + 1; i < manual.size(); i++)
 				{
 					if (manual[i][1] == 8)
 					{
@@ -1092,14 +1070,17 @@ skip_search:
 			if ((key == keys.pgdn_1) ||
 					(key == keys.pgdn_2))
 			{
-				if (manualpos +(maxy - 2) < ManualLines -(maxy - 1))
+				/* FIXME signed/unsigned */
+				if (manualpos +(maxy - 2) < (signed) manual.size() -(maxy - 1))
 				{
 					manualpos +=(maxy - 2);
 					rescan_selected();
 				}
-				else if (ManualLines -(maxy - 1) >= 1)
+				/* FIXME signed/unsigned */
+				else if ((signed) manual.size() -(maxy - 1) >= 1)
 				{
-					manualpos = ManualLines -(maxy - 1);
+					/* FIXME signed/unsigned */
+					manualpos = (signed) manual.size() -(maxy - 1);
 					selected = manuallinks.size() - 1;
 				}
 				else
@@ -1150,7 +1131,8 @@ skip_search:
 					}
 				}
 				if (!selectedchanged) {
-					if (manualpos < ManualLines -(maxy - 1))
+					/* FIXME signed/unsigned */
+					if (manualpos < (signed) manual.size() -(maxy - 1))
 						manualpos++;
 					if (selected < manuallinks.size()) {
 						for (typeof(manuallinks.size()) i = selected + 1;
@@ -1361,7 +1343,7 @@ rescan_selected()
  * columns. But remember, that *man contains also nonprinteble characters for
  * boldface etc.
  */
-char *getmancolumn(char *man, int mancol)
+const char* getmancolumn(const char* man, int mancol)
 {
 	if (mancol==0) return man;
 	while (mancol>0)
@@ -1379,14 +1361,15 @@ showmanualscreen()
 #endif
 	attrset(normal);
 	/* print all visible text lines */
-	for (int i = manualpos;(i < manualpos +(maxy - 2)) &&(i < ManualLines); i++)
-	{
-		int len = strlen(manual[i]);
+	for (int i = manualpos;
+	     (i < manualpos + (maxy - 2)) && (i < manual.size()); 
+	     i++) {
+		int len = manual[i].length();
 		if (len)
 			manual[i][len - 1] = ' ';
 		/* if we have something to display */
 		if (len>manualcol) {
-			string yet_another_tmpstr = getmancolumn(manual[i],manualcol);
+			string yet_another_tmpstr = getmancolumn(manual[i].c_str(),manualcol);
 			mvaddstr_manual((i - manualpos) + 1, 0, yet_another_tmpstr);
 		}
 		else	/* otherwise, just clear the line to eol */
@@ -1414,10 +1397,10 @@ showmanualscreen()
 	mymvhline(0, 0, ' ', maxx);
 	mymvhline(maxy - 1, 0, ' ', maxx);
 	move(maxy - 1, 0);
-	if (((manualpos + maxy) < ManualLines) &&(ManualLines > maxy - 2))
-		printw(_("Viewing line %d/%d, %d%%"),(manualpos - 1 + maxy), ManualLines,((manualpos - 1 + maxy) * 100) / ManualLines);
+	if (((manualpos + maxy) < manual.size()) &&(manual.size() > maxy - 2))
+		printw(_("Viewing line %d/%d, %d%%"),(manualpos - 1 + maxy), manual.size(),((manualpos - 1 + maxy) * 100) / manual.size());
 	else
-		printw(_("Viewing line %d/%d, 100%%"), ManualLines, ManualLines);
+		printw(_("Viewing line %d/%d, 100%%"), manual.size(), manual.size());
 	move(maxy - 1, 0);
 	attrset(normal);
 }
@@ -1665,7 +1648,7 @@ is_in_manlinks(vector<string> manlinks, string to_find)
 }
 
 void
-printmanual(char **Message, long Lines)
+printmanual(vector<string> message)
 {
 	/* printer fd */
 	FILE *prnFD;
@@ -1674,9 +1657,9 @@ printmanual(char **Message, long Lines)
 	prnFD = popen(printutility.c_str(), "w");
 
 	/* scan through all lines */
-	for (i = 0; i < Lines; i++)
+	for (i = 0; i < message.size(); i++)
 	{
-		fprintf(prnFD, "\r%s", Message[i]);
+		fprintf(prnFD, "\r%s", message[i].c_str());
 	}
 	pclose(prnFD);
 }
