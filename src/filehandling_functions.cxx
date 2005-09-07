@@ -141,7 +141,7 @@ sort_tag_table(void) {
 
 /*
  * Looks for name_string -- appended to buf!
- * Returns 0 if it finds a match, 1 if not.
+ * Returns 1 if it finds a match, 0 if not.
  * Leaves the matching name in buf.
  */
 int
@@ -164,7 +164,7 @@ matchfile(string& buf, const string name_string)
 	DIR *dir;
 	dir = opendir(buf.c_str());
 	if (dir == NULL) {
-		return 1;
+		return 0;
 	}
 
 	struct dirent *dp;
@@ -183,11 +183,11 @@ matchfile(string& buf, const string name_string)
 			buf += test_filename;
 			buf += ".info";
 			closedir(dir);
-			return 0;
+			return 1;
 		}
 	}
 	closedir(dir);
-	return 1;
+	return 0;
 }
 
 FILE *
@@ -243,19 +243,23 @@ dirpage_lookup(char **type, char ***message, long *lines,
 			continue;
 		}
 
+		/* Find the name of the node link (without leading spaces) */
 		if (node != "") {
 			string::size_type idx = 0;
 			while (isspace(node[idx]))
 				idx++;
 			first_node = node.substr(idx);
 		}
-		if (id)
-			fclose(id);	/* we don't need dirfile/badly matched infofile open anymore */
+
+		if (id) {
+			fclose(id);
+			/* Close the previously opened file */
+		}
 		id = 0;
+
 		if (file.find(".info") == string::npos) {
 			file += ".info";
 		}
-
 		id = openinfo(file, 0);
 		/* See if this info file exists */
 		goodHit = true;
@@ -762,7 +766,7 @@ openinfo(const string filename, int number)
 			mybuf = infopaths[i];
 			/* Modify mybuf in place by suffixing filename -- eeewww */
 			int result = matchfile(mybuf, filename);
-			if (result == 1) {
+			if (result == 0) {
 				/* no match found in this directory */
 				continue;
 			}
