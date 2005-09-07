@@ -176,59 +176,58 @@ findemailstart(string str, string::size_type pos) {
 void
 initializelinks(const char *line1, const char *line2, int line)
 {
-	char *tmp;
-	char *notestart = 0;
-	char *quotestart = 0, *quoteend = 0;
-	char *buf = (char*)xmalloc(strlen(line1) + strlen(line2) + 1);
-	int changed;
+	bool changed;
 	int line1len = strlen(line1);
 
 	typeof(hyperobjects.size()) initial_hyperobjects_size = hyperobjects.size();
 
-	strcpy(buf, line1);		/* copy two lines into one */
-	if (strlen(line1))
-		buf[strlen(line1) - 1] = ' ';	/* replace trailing '\n' with ' ' */
-	strcat(buf, line2);
+	string buf;
+	buf = line1;
+	if (buf != "") {
+		/* replace trailing '\n' with ' ' */
+		buf[buf.length() - 1] = ' ';
+	}
+	buf += line2;
 
 	/******************************************************************************
 	 * First scan for some highlights ;) -- words enclosed with quotes             *
 	 ******************************************************************************/
-	quoteend = buf;
+	string::size_type quotestart = 0;
+	string::size_type quoteend = 0;
 	do {
-		changed = 0;
-		if ((quotestart = strchr(quoteend, '`')) != NULL)	/* find start of quoted text */
-		{
-			if (quotestart < buf + line1len)	/* if it's in the first line of the two glued together */
-				if ((quoteend = strchr(quotestart, '\'')) != NULL)		/* find the end of quoted text */
-				{
-					if (quoteend - quotestart > 1)
-					{
-						while (!strncmp(quoteend - 1, "n't", 3))	/* if this apostrophe is not a part of "haven't", "wouldn't", etc. */
-						{
-							quoteend = strchr(quoteend + 1, '\'');
-							if (!quoteend)
-								break;
-						}
-						if (quoteend)
-						{
-							changed = 1;
-							HyperObject my_ho;
-							my_ho.line = line;
-							my_ho.col = calculate_len(buf, quotestart + 1);
-							my_ho.breakpos = -1;	/* default */
-							if (quoteend > buf + line1len)
-							{
-								my_ho.breakpos = buf + line1len - quotestart - 1;
-							}
-							my_ho.type = HIGHLIGHT;
-							my_ho.node.assign(quotestart + 1,
-							                          quoteend - quotestart	- 1 );
-							my_ho.file = "";
-							my_ho.tagtableoffset = -1;
-							hyperobjects.push_back(my_ho);
-						}
-					}
+		changed = false;
+		if (    ( (quotestart = buf.find('`', quoteend)) != string::npos )
+		     && (quotestart < line1len)
+		     && ( (quoteend = buf.find('\'', quotestart)) != string::npos )
+		     && (quoteend - quotestart > 1)
+		   ) {
+			while (    (buf.length() > quoteend + 1) 
+				      && (buf.substr(quoteend - 1, 3) == "n't")
+			      ) {
+				/* if this apostrophe is not a part of "haven't", "wouldn't", etc. */
+				/* FIXME: This is totally insufficient */
+				quoteend = buf.find('\'', quoteend + 1);
+				if (quoteend == string::npos) {
+					break;
 				}
+			}
+			if (quoteend == string::npos) {
+				continue;
+			}
+			changed = true;
+			HyperObject my_ho;
+			my_ho.line = line;
+			const char* ick = buf.c_str(); /* ICK, FIXME */
+			my_ho.col = calculate_len(ick, ick + quotestart + 1);
+			my_ho.breakpos = -1;	/* default */
+			if (quoteend > line1len) {
+				my_ho.breakpos = line1len - (quotestart + 1);
+			}
+			my_ho.type = HIGHLIGHT;
+			my_ho.node = buf.substr(quotestart + 1, quoteend - (quotestart + 1));
+			my_ho.file = "";
+			my_ho.tagtableoffset = -1;
+			hyperobjects.push_back(my_ho);
 		}
 	} while (changed);
 
@@ -239,7 +238,7 @@ initializelinks(const char *line1, const char *line2, int line)
 	string::size_type urlstart = 0;
 	string::size_type urlend = 0;
 	do {
-		changed = 0;
+		changed = false;
 		if ((urlstart = findemailstart(url_tmpstr, urlend)) != string::npos)
 		{
 			urlend = findurlend(url_tmpstr, urlstart);	/* always successful */
@@ -256,13 +255,16 @@ initializelinks(const char *line1, const char *line2, int line)
 			} else {
 				hyperobjects.push_back(my_ho);
 			}
-			changed = 1;
+			changed = true;
 		}
 	} while (changed);
 
 	/******************************************************************************
 	 * First try to scan for menu. Use as many security mechanisms, as possible    *
 	 ******************************************************************************/
+	char *tmp;
+	char *notestart = 0;
+	const char *ugly_buf = buf.c_str();
 
 	if ((line1[0] == '*') &&(line1[1] == ' '))	/* menu */
 	{
@@ -376,9 +378,9 @@ handle_no_file_menu_label:
 	/******************************************************************************
 	 * Handle notes. In similar way as above.                                      *
 	 ******************************************************************************/
-	else if ((notestart = strstr(buf, "*note")) != NULL)
+	else if ((notestart = strstr(ugly_buf, "*note")) != NULL)
 		goto handlenote;
-	else if ((notestart = strstr(buf, "*Note")) != NULL)
+	else if ((notestart = strstr(ugly_buf, "*Note")) != NULL)
 	{
 handlenote:
 		/******************************************************************************
@@ -388,7 +390,7 @@ handlenote:
 		 ******************************************************************************/
 		/* make sure that we don't handle notes, which fit in the second line */
 		/* Signed-unsigned issues FIXME */
-		if ((long)(notestart - buf) < strlen(line1))
+		if ((long)(notestart - ugly_buf) < strlen(line1))
 		{
 			/* we can handle only those, who are in the first line, or who are split up into two lines */
 			tmp = strstr(notestart, "::");	/* "*note notelink:: comment" */
@@ -405,21 +407,21 @@ handlenote:
 						my_ho.file.assign(notestart + 7, FilenameLen);
 						my_ho.node.assign(end + 1, NodenameLen);
 						my_ho.type = 2;
-						if (notestart + 7 - buf < strlen(line1)) {
+						if (notestart + 7 - ugly_buf < strlen(line1)) {
 							my_ho.line = line;
-							my_ho.col = calculate_len(buf, notestart + 7);
+							my_ho.col = calculate_len(ugly_buf, notestart + 7);
 							/* if the note highlight fits int first line */
-							if (tmp - buf < strlen(line1))
+							if (tmp - ugly_buf < strlen(line1))
 								my_ho.breakpos = -1;
 								/* we don't need to break highlighting int several lines */
 							else
-								my_ho.breakpos = strlen(line1) -(long)(notestart + 7 - buf) + 1;	/* otherwise we need it */
+								my_ho.breakpos = strlen(line1) -(long)(notestart + 7 - ugly_buf) + 1;	/* otherwise we need it */
 						} else {
 							my_ho.line = line + 1;
-							my_ho.col = calculate_len(buf + strlen(line1), notestart + 7);
-							if (tmp - buf < strlen(line1))	/* as above */
+							my_ho.col = calculate_len(ugly_buf + strlen(line1), notestart + 7);
+							if (tmp - ugly_buf < strlen(line1))	/* as above */
 								my_ho.breakpos = -1;
-							else if ((my_ho.breakpos = strlen(line1) -(long)(notestart + 7 - buf) + 1) == 0)
+							else if ((my_ho.breakpos = strlen(line1) -(long)(notestart + 7 - ugly_buf) + 1) == 0)
 								my_ho.line--;
 						}
 						hyperobjects.push_back(my_ho);
@@ -432,20 +434,20 @@ handlenote:
 					my_ho.file = "";
 					my_ho.node.assign(notestart + 6, NodenameLen);
 					my_ho.type = 2;
-					if (notestart + 7 - buf < strlen(line1)) {
+					if (notestart + 7 - ugly_buf < strlen(line1)) {
 						my_ho.line = line;
-						my_ho.col = calculate_len(buf, notestart + 7) - 1;
+						my_ho.col = calculate_len(ugly_buf, notestart + 7) - 1;
 						/* if the note highlight fits int first line */
-						if (tmp - buf < strlen(line1))
+						if (tmp - ugly_buf < strlen(line1))
 							my_ho.breakpos = -1;	/* we don't need to break highlighting int several lines */
 						else
-							my_ho.breakpos = strlen(line1) -(long)(notestart + 7 - buf) + 1;	/* otherwise we need it */
+							my_ho.breakpos = strlen(line1) -(long)(notestart + 7 - ugly_buf) + 1;	/* otherwise we need it */
 					} else {
 						my_ho.line = line + 1;
-						my_ho.col = calculate_len(buf + strlen(line1), notestart + 7) - 1;
-						if (tmp - buf < strlen(line1))	/* as above */
+						my_ho.col = calculate_len(ugly_buf + strlen(line1), notestart + 7) - 1;
+						if (tmp - ugly_buf < strlen(line1))	/* as above */
 							my_ho.breakpos = -1;
-						else if ((my_ho.breakpos = strlen(line1) -(long)(notestart + 7 - buf) + 1) == 0)
+						else if ((my_ho.breakpos = strlen(line1) -(long)(notestart + 7 - ugly_buf) + 1) == 0)
 							my_ho.line--;
 					}
 					if (exists_in_tag_table(my_ho.node))
@@ -481,16 +483,16 @@ handlenote:
 							my_ho.file.assign(start + 1, FilenameLen);
 							my_ho.node.assign(end + 1, NodenameLen);
 							my_ho.type = 3;
-							if (start - buf < strlen(line1)) {
+							if (start - ugly_buf < strlen(line1)) {
 								my_ho.line = line;
-								my_ho.col = calculate_len(buf, start);
-								if (dot - buf < strlen(line1))	/* if the note highlight fits in first line */
+								my_ho.col = calculate_len(ugly_buf, start);
+								if (dot - ugly_buf < strlen(line1))	/* if the note highlight fits in first line */
 									my_ho.breakpos = -1;	/* we don't need to break highlighting int several lines */
 								else
-									my_ho.breakpos = strlen(line1) -(long)(start - buf);	/* otherwise we need it */
+									my_ho.breakpos = strlen(line1) -(long)(start - ugly_buf);	/* otherwise we need it */
 							} else {
 								my_ho.line = line + 1;
-								my_ho.col = calculate_len(buf + strlen(line1), start);
+								my_ho.col = calculate_len(ugly_buf + strlen(line1), start);
 								my_ho.breakpos = -1;
 							}
 							hyperobjects.push_back(my_ho);
@@ -515,19 +517,19 @@ handle_no_file_note_label:
 						my_ho.file = "";
 						my_ho.node.assign(start, NodenameLen);
 						my_ho.type = 3;
-						if (start - buf < strlen(line1))
+						if (start - ugly_buf < strlen(line1))
 						{
 							my_ho.line = line;
-							my_ho.col = calculate_len(buf, start);
-							if (dot - buf < strlen(line1))		/* if the note highlight fits in first line */
+							my_ho.col = calculate_len(ugly_buf, start);
+							if (dot - ugly_buf < strlen(line1))		/* if the note highlight fits in first line */
 								my_ho.breakpos = -1;		/* we don't need to break highlighting int several lines */
 							else
-								my_ho.breakpos = strlen(line1) -(long)(start - buf);	/* otherwise we need it */
+								my_ho.breakpos = strlen(line1) -(long)(start - ugly_buf);	/* otherwise we need it */
 						}
 						else
 						{
 							my_ho.line = line + 1;
-							my_ho.col = calculate_len(strlen(line1) + buf, start);
+							my_ho.col = calculate_len(strlen(line1) + ugly_buf, start);
 							my_ho.breakpos = -1;
 						}
 						if (exists_in_tag_table(my_ho.node))
@@ -540,7 +542,7 @@ handle_no_file_note_label:
 		}
 	}
 	if (notestart)
-		if (notestart + 6 < buf + strlen(buf) + 1)
+		if (notestart + 6 < ugly_buf + strlen(ugly_buf) + 1)
 		{
 			tmp = notestart;
 			if ((notestart = strstr(notestart + 6, "*Note")) != NULL)
@@ -594,10 +596,5 @@ handle_no_file_note_label:
 		typeof(hyperobjects.begin()) first_new_link
 			= hyperobjects.end() - (hyperobjects.size() - initial_hyperobjects_size);
 		sort_hyperlinks_from_current_line(first_new_link, hyperobjects.end());
-	}
-	if (buf)
-	{
-		xfree(buf);
-		buf = 0;
 	}
 }
