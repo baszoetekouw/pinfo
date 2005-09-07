@@ -296,7 +296,8 @@ read_item(FILE * id, string& type, vector<string>& buf)
 	/* then skip the trailing `\n' */
 	while (fgetc(id) != '\n');
 
-	char* tmpbuf = (char*) xmalloc(1024); /* Note, cleared like calloc */
+	/* Fixed-size buffer, FIXME */
+	char tmpbuf[1024];
 	memset(tmpbuf, '\0', 1024);
 
 	/* Read the header line */
@@ -338,7 +339,6 @@ read_item(FILE * id, string& type, vector<string>& buf)
 		string tmpstr = tmpbuf;
 		buf.push_back(tmpstr);
 	} while (tmpbuf[0] != INFO_TAG);	/* repeat until new node mark is found */
-	xfree(tmpbuf);
 
 	/* Note that we pushed the INFO_TAG line (or the read-zero-characters line) */
 	/* -- but check the feof case, FIXME */
@@ -433,115 +433,100 @@ load_tag_table(vector<string> message)
 	sort_tag_table();
 }
 
-int
+bool
 seek_indirect(FILE * id)
 {
-	int finito = 0;
+	bool finished = false;
 	long seek_pos;
 	int input;
-	char *type = (char*)xmalloc(1024);
+
+	/* Fixed-size buffer, FIXME */
+	char type[1024];
+	memset(type, '\0', 1024);
 	fseek(id, 0, SEEK_SET);
-	while (!finito)		/*
-						 * scan through the file, searching for "indirect:"
-						 * string in the type(header) line of node.
-						 */
-	{
-		while ((input = fgetc(id)) != INFO_TAG)
-			if (input == EOF)
-			{
-				if (type)
-				{
-					xfree(type);
-					type = 0;
-				}
-				return 0;
+	while (!finished)	{
+		/*
+		 * scan through the file, searching for "indirect:"
+		 * string in the type(header) line of node.
+		 */
+		while ((input = fgetc(id)) != INFO_TAG) {
+			if (input == EOF) {
+				return false;
 			}
+		}
 		seek_pos = ftell(id) - 2;
 		fgetc(id);
 		fgets(type, 1024, id);
-		if (strncasecmp("Indirect:", type, strlen("Indirect:")) == 0)
-		{
-			finito = 1;
+		if (strncasecmp("Indirect:", type, strlen("Indirect:")) == 0) {
+			finished = true;
 		}
 	}
-	xfree(type);
-	type = 0;
-	if (!curses_open)
-	{
+
+	if (!curses_open) {
 		printf(_("Searching for indirect done"));
 		printf("\n");
-	}
-	else
-	{
+	} else {
 		attrset(bottomline);
 		mvhline(maxy - 1, 0, ' ', maxx);
 		mvaddstr(maxy - 1, 0, _("Searching for indirect done"));
 		attrset(normal);
 	}
 	fseek(id, seek_pos, SEEK_SET);
-	return 1;
+	return true;
 }
 
 /*
  * second arg for dumping out verbose debug info or not :)
  */
 int
-seek_tag_table(FILE * id,int quiet)
+seek_tag_table(FILE * id, bool quiet)
 {
-	int finito = 0;
+	bool finished = false;
 	long seek_pos;
 	int input;
-	char *type = (char*)xmalloc(1024);
+
+	/* fixed-size buffer, FIXME */
+	char type[1024];
+	memset(type, '\0', 1024);
+
 	fseek(id, 0, SEEK_SET);
 	/*
 	 * Scan through the file, searching for a string
 	 * "Tag Table:" in the type(header) line of node.
 	 */
-	while (!finito)
-	{
-		while ((input = fgetc(id)) != INFO_TAG)
-		{
-			if (input == EOF)
-			{
-				if (!quiet)
-				{
+	while (!finished) {
+		while ((input = fgetc(id)) != INFO_TAG) {
+			if (input == EOF) {
+				if (!quiet) {
 					if (!curses_open) {
 						printf(_("Warning: could not find tag table"));
 						printf("\n");
-					} else
-					{
+					} else {
 						attrset(bottomline);
 						mvhline(maxy - 1, 0, ' ', maxx);
 						mvaddstr(maxy - 1, 0, _("Warning: could not find tag table"));
 						attrset(normal);
 					}
 				}
-				if (type)
-				{
-					xfree(type);
-					type = 0;
-				}
 				return 2;
 			}
 		}
+
 		seek_pos = ftell(id) - 2;
-		while (fgetc(id) != '\n')
-		{
-			if (feof(id))
+		while (fgetc(id) != '\n') {
+			if (feof(id)) {
 				break;
+			}
 		}
 		fgets(type, 1024, id);
-		if (strncasecmp("Tag Table:", type, strlen("Tag Table:")) == 0)
-		{
-			finito = 1;
+		if (strncasecmp("Tag Table:", type, strlen("Tag Table:")) == 0) {
+			finished = true;
 		}
 	}
-	xfree(type);
-	type = 0;
-	if (!curses_open)
+
+	if (!curses_open) {
 		printf(_("Searching for tag table done\n"));
-	else
-	{
+	} else {
 		attrset(bottomline);
 		mvhline(maxy - 1, 0, ' ', maxx);
 		mvaddstr(maxy - 1, 0, "Searching for tag table done");

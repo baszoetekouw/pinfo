@@ -426,7 +426,9 @@ loadmanual(FILE * id)
 	manual.clear();
 	manuallinks.clear();
 
-	char* tmpline 	= (char*)xmalloc(1024);
+	/* fixed-size buffer, FIXME */
+	char tmpline[1024];
+
 	/* we read until eof */
 	while (!feof(id)) {
 		memset(tmpline, '\0', 1024);
@@ -475,7 +477,6 @@ loadmanual(FILE * id)
 			manual.push_back(tmpline_str);
 		}
 	}
-	xfree(tmpline);
 }
 
 bool

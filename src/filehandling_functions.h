@@ -45,9 +45,9 @@ void seeknode (int tag_table_pos, FILE ** Id);
  */
 void read_item (FILE * id, std::string& type, std::vector<std::string>& buf);
 /* searches for indirect entry of info file */
-int seek_indirect (FILE * id);
+bool seek_indirect (FILE * id);
 /* as above, but with tag table entry */
-int seek_tag_table (FILE * id,int quiet);
+int seek_tag_table (FILE * id, bool quiet);
 /*
  * loads indirect table (from a special node, stored in message, of lines
  * length)
