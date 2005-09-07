@@ -60,7 +60,7 @@ int seek_tag_table (FILE * id,int quiet);
  * loads indirect table (from a special node, stored in message, of lines
  * length)
  */
-void load_indirect (char **message, long lines);
+void load_indirect (std::vector<std::string> message);
 /* loads tag table (as above) */
 void load_tag_table (char **message, long lines);
 /* opens info file */

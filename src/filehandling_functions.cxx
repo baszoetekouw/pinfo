@@ -405,19 +405,17 @@ read_item(FILE * id, char **type, char ***buf, long *lines)
 }
 
 void
-load_indirect(char **message, long lines)
+load_indirect(vector<string> message)
 {
-	for (long i = 1; i < lines; i++) { /* Avoid the last line.  (Why?) */
-		string wsk_string = message[i];
-		unsigned int n = 0;
+	for (typeof(message.size()) i = 0; i < message.size(); i++) {
 		/* Find the first colon, but not in position 0 */
-		n = wsk_string.find(':', 1);
+		string::size_type n = message[i].find(':', 1);
 		if (n == string::npos) {
 			; /* No colon.  Invalid entry. */
 		} else {
 			Indirect my_entry;
-			my_entry.filename = wsk_string.substr(0, n);
-			string remainder = wsk_string.substr(n + 2, string::npos);
+			my_entry.filename = message[i].substr(0, n);
+			string remainder = message[i].substr(n + 2, string::npos);
 			my_entry.offset = atoi(remainder.c_str());
 			indirect.push_back(my_entry);
 		}
