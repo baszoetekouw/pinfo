@@ -240,7 +240,7 @@ my_rl_display()
 	refresh();
 }
 
-char *
+string
 getstring(const char *prompt)
 {
 	char *buf;
@@ -259,7 +259,14 @@ getstring(const char *prompt)
 	
 	curs_set(0);
 
-	return buf;
+	string my_string;
+	if (buf == NULL) {
+		my_string = "";
+	} else {
+		my_string = buf;
+		xfree(buf);
+	}
+	return my_string;
 }
 
 void

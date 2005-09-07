@@ -118,7 +118,7 @@ work(const vector<string> my_message, string type_str, FILE * id, int tag_table_
 	int key = 0;
 	int return_value;
 	int statusline = FREE;
-	char *token, *tmp;
+	char *tmp;
 	/* if the static variable was allocated, free it */
 	rval.file = "";
 	rval.node = "";
@@ -252,26 +252,25 @@ work(const vector<string> my_message, string type_str, FILE * id, int tag_table_
 				move(maxy - 1, 0);
 				echo();
 				curs_set(1);
-				token = getstring(_("Enter line: "));
+				string token_string = getstring(_("Enter line: "));
 				curs_set(0);
 				noecho();
 				move(maxy - 1, 0);
 				myclrtoeol();
 				attrset(normal);
-				if (token)	/*
-							 * convert string to long.
-							 * careful with nondigit strings.
-							 */
-				{
-					int digit_val = 1;
-					for (int i = 0; token[i] != 0; i++)
-					{
-						if (!isdigit(token[i]))
-							digit_val = 0;
+				if (token_string != "") {
+					/*
+					 * convert string to long.
+					 * careful with nondigit strings.
+					 */
+					bool digit_val = true;
+					for (string::size_type i = 0; i < token_string.length(); i++) {
+						if (!isdigit(token_string[i]))
+							digit_val = false;
 					}
-					if (digit_val)	/* go to specified line */
-					{
-						newpos = atol(token);
+					if (digit_val) {
+						/* go to specified line */
+						newpos = atol(token_string.c_str());
 						newpos -=(maxy - 1);
 						if ((newpos > 0) &&(newpos < my_message.size() -(maxy - 2)))
 							pos = newpos;
@@ -280,8 +279,6 @@ work(const vector<string> my_message, string type_str, FILE * id, int tag_table_
 						else
 							pos = 1;
 					}
-					xfree(token);
-					token = 0;
 				}
 			}
 			/*==========================================================================*/
@@ -293,7 +290,7 @@ work(const vector<string> my_message, string type_str, FILE * id, int tag_table_
 				move(maxy - 1, 0);
 				echo();
 				curs_set(1);
-				token = getstring(_("Enter command: "));
+				string token_string = getstring(_("Enter command: "));
 				noecho();
 				move(maxy - 1, 0);
 				myclrtoeol();
@@ -301,9 +298,8 @@ work(const vector<string> my_message, string type_str, FILE * id, int tag_table_
 
 				myendwin();
 				system("clear");
-				pipe = popen(token, "w");	/* open pipe */
-				if (pipe != NULL)
-				{
+				pipe = popen(token_string.c_str(), "w");	/* open pipe */
+				if (pipe != NULL) {
 					/* and flush the msg to stdin */
 					for (int i = 0; i < my_message.size(); i++)	
 						fprintf(pipe, "%s", my_message[i].c_str());
@@ -314,8 +310,6 @@ work(const vector<string> my_message, string type_str, FILE * id, int tag_table_
 				curs_set(0);
 				if (pipe == NULL)
 					mvaddstr(maxy - 1, 0, _("Operation failed..."));
-				xfree(token);
-				token = 0;
 			}
 			/*==========================================================================*/
 			if ((key == keys.dirpage_1) ||
@@ -346,29 +340,27 @@ work(const vector<string> my_message, string type_str, FILE * id, int tag_table_
 				attrset(bottomline);
 				echo();
 				curs_set(1);
-				if (!searchagain.search)	/* if searchagain key wasn't hit */
-				{
-					token = getstring(_("Enter regexp: "));	/* get the token */
-					searchagain.lastsearch = token;	/* and save it to searchagain buffer */
+				string token_string;
+				if (!searchagain.search) {
+					/* if searchagain key wasn't hit */
+					token_string = getstring(_("Enter regexp: "));
+					/* save it to searchagain buffer */
+					searchagain.lastsearch = token_string;	
 					/*
 					 * give a hint, which key to ungetch to call this procedure
 					 * by searchagain
 					 */
 					searchagain.type = key;
-				}
-				else /* it IS searchagain */
-				{
-					token = (char*)xmalloc(searchagain.lastsearch.length() + 1);
-					/* allocate space for token */
-					strcpy(token, searchagain.lastsearch.c_str());
+				} else {
+					/* it IS searchagain */
+					token_string = searchagain.lastsearch;
 					/* copy the token from searchagain buffer */
 					searchagain.search = 0;
-					/* reset the searchagain swith(until it's set again
-					   by the keys.searchagain key handler) */
+					/* reset the searchagain switch (until it's set again
+					 * by the keys.searchagain key handler) */
 				}
-				if (strlen(token) == 0)
+				if (token_string == "")
 				{
-					xfree(token);
 					goto skip_search;
 				}
 				curs_set(0);
@@ -419,7 +411,7 @@ work(const vector<string> my_message, string type_str, FILE * id, int tag_table_
 						fread(tmp, 1, filelen - starttokenpos, fd);
 						tmp[filelen - starttokenpos + 1] = 0;
 
-						tokenpos = regexp_search(token, tmp);	/* search */
+						tokenpos = regexp_search(token_string.c_str(), tmp);	/* search */
 
 						if (tokenpos != -1)	/* if something was found */
 						{
@@ -513,7 +505,7 @@ work(const vector<string> my_message, string type_str, FILE * id, int tag_table_
 					tmp[filelen - starttokenpos + 1] = 0;
 
 					/* search */
-					tokenpos = regexp_search(token, tmp);
+					tokenpos = regexp_search(token_string.c_str(), tmp);
 
 					if (tokenpos != -1)	/* if we've found something */
 					{
@@ -572,8 +564,6 @@ work(const vector<string> my_message, string type_str, FILE * id, int tag_table_
 					}
 				}		/* end: if (!indirect) */
 				/*- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
-				xfree(token);
-				token = 0;
 
 				if (!aftersearch)
 				{
@@ -605,28 +595,27 @@ work(const vector<string> my_message, string type_str, FILE * id, int tag_table_
 				attrset(bottomline);
 				echo();
 				curs_set(1);
+				string token_string;
 				if (!searchagain.search)	/* searchagain handler. see totalsearch */
 				{
-					token = getstring(_("Enter regexp: "));
-					searchagain.lastsearch = token;
+					token_string = getstring(_("Enter regexp: "));
+					searchagain.lastsearch = token_string;
 					searchagain.type = key;
 				}
 				else
 				{
-					token = (char*)xmalloc(searchagain.lastsearch.length() + 1);
-					strcpy(token, searchagain.lastsearch.c_str());
+					token_string = searchagain.lastsearch;
 					searchagain.search = 0;
 				}		/* end of searchagain handler */
-				if (strlen(token) == 0)
+				if (token_string == "")
 				{
-					xfree(token);
 					goto skip_search;
 				}
 				curs_set(0);
 				noecho();
 				attrset(normal);
 				/* compile the read token */
-				if (pinfo_re_comp(token) != 0)
+				if (pinfo_re_comp(token_string.c_str()) != 0)
 				{
 					/* print error message */
 					attrset(bottomline);
@@ -677,8 +666,6 @@ work(const vector<string> my_message, string type_str, FILE * id, int tag_table_
 					mvaddstr(maxy - 1, 0, _("Search string not found..."));
 					statusline = LOCKED;
 				}
-				xfree(token);	/* free user's search token */
-				token = 0;
 				rescan_cursor();	/* rescan cursor position in the new place */
 			}
 skip_search:
@@ -703,14 +690,14 @@ skip_search:
 				move(maxy - 1, 0);
 				attrset(bottomline);
 				curs_set(1);
-				token = getstring(_("Enter node name: "));	/* read user's wish */
+				string token_string = getstring(_("Enter node name: "));
 				curs_set(0);
 				noecho();
 				attrset(normal);
 				for (typeof(tag_table.size()) i = 0; i < tag_table.size(); i++)
 				{
 					/* if the name was found in the tag table */
-					if (tag_table[i].nodename == token)
+					if (tag_table[i].nodename == token_string)
 					{
 						return_value = i;
 						break;
@@ -718,9 +705,6 @@ skip_search:
 				}
 				if (return_value != -1)	/* if the name was in tag table */
 				{
-					xfree(token);
-					token = 0;
-
 					infohistory[infohistory.size() - 1].pos = pos;
 					infohistory[infohistory.size() - 1].cursor = cursor;
 					infohistory[infohistory.size() - 1].menu = infomenu;
@@ -729,14 +713,13 @@ skip_search:
 					rval.keep_going = true;
 					aftersearch = 0;
 					return rval;
-				}
-				else
-					/* if the name wasn't in tag table */
-				{
+				} else {
+					/* the name wasn't in tag table */
 					/*
 					 * scan for filename: filenames may be specified in format:
 					 * (file)node
 					 */
+					char *token = strdup(token_string.c_str()); /* FIXME */
 					char *gotostartptr = strchr(token, '(');
 					if (gotostartptr)	/* if there was a `(' */
 					{
@@ -763,31 +746,28 @@ skip_search:
 							aftersearch = 0;
 							return rval;
 						}
-					}
-					/* handle the `file.info' format of crossinfo goto. */
-					else if (strstr(token, ".info"))
-					{
-						rval.file = token;
+					}	else if (strstr(token, ".info")) {
+						/* handle the `file.info' format of crossinfo goto. */
+						rval.file = token_string;
 						xfree(token);
 						token = 0;
 						rval.node = "";
 						aftersearch = 0;
 						rval.keep_going = true;
 						return rval;
-					}
-					else /* node not found */
-					{
+					} else {
+						/* node not found */
 						attrset(bottomline);
 						mymvhline(maxy - 1, 0, ' ', maxx);
 						move(maxy - 1, 0);
-						printw(_("Node %s not found"), token);
+						printw(_("Node %s not found"), token_string.c_str());
 						attrset(normal);
 						move(0, 0);
 					}
+					xfree(token);
+					token = 0;
 				}
 				statusline = LOCKED;
-				xfree(token);
-				token = 0;
 			}
 			/*==========================================================================*/
 			if ((key == keys.prevnode_1) ||	/* goto previous node */

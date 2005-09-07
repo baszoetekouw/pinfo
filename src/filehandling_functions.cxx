@@ -614,12 +614,12 @@ opendirfile(int number)
 	filelen = ftell(id);
 
 	char *tmp;
-	tmp = (char*)xmalloc(filelen);
+	tmp = new char[filelen];
 	fseek(id, 0, SEEK_SET);
 	fread(tmp, 1, filelen, id);
 	fclose(id);
 	string tmpstr = tmp;
-	xfree(tmp);
+	delete tmp;
 
 	id = fopen(tmpfilename.c_str(), "w");
 	bool aswitch = false;

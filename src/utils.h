@@ -50,7 +50,7 @@ void closeprogram ();
 /* initializes curses interface */
 void init_curses ();
 /* an interface to gnu readline */
-char *getstring (const char *prompt);
+std::string getstring (const char *prompt);
 /* for some reasons mvhline does not work quite properly... */
 void mymvhline (int y, int x, char ch, int len);
 /* this one supports color back/foreground */

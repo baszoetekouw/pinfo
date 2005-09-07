@@ -685,8 +685,6 @@ manualwork()
 {
 	/* for user's shell commands */
 	FILE *pipe;
-	/* a temporary buffer */
-	char *token;
 	/* key, which contains the value entered by user */
 	int key = 0;
 	/* tmp values */
@@ -783,7 +781,7 @@ manualwork()
 				move(maxy - 1, 0);
 				echo();
 				curs_set(1);
-				token = getstring(_("Enter line: "));
+				string token_string = getstring(_("Enter line: "));
 				curs_set(0);
 				noecho();
 				move(maxy - 1, 0);
@@ -796,18 +794,18 @@ manualwork()
 #endif
 				attrset(normal);
 				/* convert string to long.  careful with nondigit strings.  */
-				if (token)
+				if (token_string != "")
 				{
-					int digit_val = 1;
-					for (int i = 0; token[i] != 0; i++)
+					bool digit_val = true;
+					for (int i = 0; i < token_string.length(); i++)
 					{
-						if (!isdigit(token[i]))
-							digit_val = 0;
+						if (!isdigit(token_string[i]))
+							digit_val = false;
 					}
 					/* move cursor position */
 					if (digit_val)
 					{
-						newpos = atol(token);
+						newpos = atol(token_string.c_str());
 						newpos -=(maxy - 1);
 						/* FIXME signed/unsigned */
 						if ((newpos >= 0) &&(newpos < (signed) manual.size() -(maxy - 2)))
@@ -818,8 +816,6 @@ manualwork()
 						else
 							manualpos = 0;
 					}
-					xfree(token);
-					token = 0;
 				}
 			}
 			/*=====================================================*/
@@ -832,7 +828,7 @@ manualwork()
 				move(maxy - 1, 0);
 				echo();
 				/* get users cmd */
-				token = getstring(_("Enter command: "));
+				string token_string = getstring(_("Enter command: "));
 				noecho();
 				move(maxy - 1, 0);
 #ifdef HAVE_BKGDSET
@@ -847,7 +843,7 @@ manualwork()
 				myendwin();
 				system("clear");
 				/* open pipe */
-				pipe = popen(token, "w");
+				pipe = popen(token_string.c_str(), "w");
 				if (pipe != NULL)
 				{
 					/* and flush the msg to stdin */
@@ -879,25 +875,24 @@ manualwork()
 				attrset(bottomline);
 				echo();
 				curs_set(1);
+				string token_string;
 				/*
 				 * searchagain handler. see keys.totalsearch at mainfunction.c
 				 * for comments
 				 */
 				if (!searchagain.search)
 				{
-					token = getstring(_("Enter regexp: "));
-					searchagain.lastsearch = token;
+					token_string = getstring(_("Enter regexp: "));
+					searchagain.lastsearch = token_string;
 					searchagain.type = key;
 				}
 				else
 				{
-					token = (char*)xmalloc(searchagain.lastsearch.length() + 1);
-					strcpy(token, searchagain.lastsearch.c_str());
+					token_string = searchagain.lastsearch;
 					searchagain.search = 0;
 				}		/* end of searchagain handler */
-				if (strlen(token) == 0)
+				if (token_string == "")
 				{
-					xfree(token);
 					goto skip_search;
 				}
 				curs_set(0);
@@ -912,8 +907,7 @@ manualwork()
 #endif
 				attrset(normal);
 				/* compile regexp expression */
-				if (pinfo_re_comp(token) != 0)
-				{
+				if (pinfo_re_comp(token_string.c_str()) != 0) {
 					/* print error message */
 					attrset(bottomline);
 					mymvhline(maxy - 1, 0, ' ', maxx);
@@ -958,7 +952,6 @@ manualwork()
 					}
 					xfree(tmp);
 				}
-				xfree(token);
 				rescan_selected();
 				if (!success)
 				{
