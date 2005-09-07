@@ -970,13 +970,14 @@ create_indirect_tag_table()
 void
 create_tag_table(FILE * id)
 {
-	char *buf = (char*)xmalloc(1024);
+	/* Fixed-size buffer, FIXME */
+	char buf[1024];
 	long oldpos;
 	fseek(id, 0, SEEK_SET);
-	while (!feof(id))
-	{
-		if (fgetc(id) == INFO_TAG)	/* We've found a node entry! */
-		{
+
+	while (!feof(id)) {
+		if (fgetc(id) == INFO_TAG) {
+			/* We've found a node entry! */
 			while (fgetc(id) != '\n');	/* skip '\n' */
 			oldpos = ftell(id);	/* remember this file position! */
 			/*
@@ -984,30 +985,28 @@ create_tag_table(FILE * id)
 			 * the eof'ish end of node is additionaly signalised by an INFO_TAG
 			 * We give to such node an unlike to meet nodename.
 			 */
+			memset(buf, '\0', 1024);
 			if (fgets(buf, 1024, id) == NULL) {
 				TagTable my_tag;
 				my_tag.nodename = "12#!@#4";
 				my_tag.offset = 0;
 				tag_table.push_back(my_tag);
 			} else {
-				int colons = 0, i, j;
+				int colons = 0;
 				int buflen = strlen(buf);
-				for (i = 0; i < buflen; i++)
-				{
+				for (int i = 0; i < buflen; i++) {
 					if (buf[i] == ':')
 						colons++;
-					if (colons == 2)	/*
-										 * the string after the second colon
-										 * holds the name of current node.
-										 * The name may then end with `.',
-										 * or with a newline, which is scanned
-										 * bellow.
-										 */
-					{
-						for (j = i + 2; j < buflen; j++)
-						{
-							if ((buf[j] == ',') ||(buf[j] == '\n'))
-							{
+					if (colons == 2) {
+						/*
+						 * the string after the second colon
+						 * holds the name of current node.
+						 * The name may then end with `.',
+						 * or with a newline, which is scanned
+						 * bellow.
+						 */
+						for (int j = i + 2; j < buflen; j++) {
+							if ((buf[j] == ',') || (buf[j] == '\n')) {
 								TagTable my_tag;
 								buf[j] = 0;
 								buflen = j;
@@ -1019,14 +1018,13 @@ create_tag_table(FILE * id)
 						}
 						break;
 					}
-				}		/* end: for loop, looking for second colon */
-			}			/* end: not a fake node */
-		}			/* end: we've found a node entry(INFO_TAG) */
-	}				/* end: global while loop, looping until eof */
-	xfree(buf);
-	buf = 0;
-	if (indirect.empty()) /* originally (!indirect) -- check this NCN FIXME */
-	{
+				}	/* end: for loop, looking for second colon */
+			}	/* end: not a fake node */
+		}	/* end: we've found a node entry(INFO_TAG) */
+	}	/* end: global while loop, looping until eof */
+
+	if (indirect.empty()) {
+		/* originally (!indirect) -- check this NCN FIXME */
 		FirstNodeOffset = tag_table[0].offset;
 		FirstNodeName = tag_table[0].nodename;
 		sort_tag_table();
