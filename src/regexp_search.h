@@ -21,8 +21,25 @@
 
 #ifndef __REGEXP_SEARCH_H
 #define __REGEXP_SEARCH_H
+
 #ifndef ___DONT_USE_REGEXP_SEARCH___
-extern int pinfo_re_offset;
+#include <vector>
+#include <regex.h>
+#endif
+
+/* wrappers for re_comp and re_exec */
+int pinfo_re_comp (const char *name);
+int pinfo_re_exec (const char *name);
+
+#ifdef ___DONT_USE_REGEXP_SEARCH___
+extern char *pinfo_re_pattern;
+#endif
+
+#ifndef ___DONT_USE_REGEXP_SEARCH___
+
+extern std::vector<regex_t> h_regexp;	/* regexps to highlight */
+
 int regexp_search (char *pattern, char *string);
 #endif
+
 #endif

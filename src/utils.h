@@ -33,14 +33,6 @@ extern std::string safe_group;
 void curs_set (int a);
 #endif
 
-#ifdef ___DONT_USE_REGEXP_SEARCH___
-extern char *pinfo_re_pattern;
-#endif
-
-/* wrappers for re_comp and re_exec */
-int pinfo_re_comp (const char *name);
-int pinfo_re_exec (const char *name);
-
 /* user defined getch, capable of handling ALT keybindings */
 int pinfo_getch ();
 /* free() wrapper */

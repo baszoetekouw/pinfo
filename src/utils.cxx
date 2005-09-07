@@ -27,7 +27,6 @@ using std::string;
 #include <vector>
 using std::vector;
 
-#include <regex.h>
 #include <ctype.h>
 
 string safe_user = "nobody";
@@ -38,12 +37,6 @@ void
 curs_set(int a)
 {
 }
-#endif
-
-#ifdef ___DONT_USE_REGEXP_SEARCH___
-char *pinfo_re_pattern = 0;
-#else
-int pinfo_re_offset = -1;
 #endif
 
 /* Readline */
@@ -389,54 +382,6 @@ waitforgetch()
 	FD_ZERO(&rdfs);
 	FD_SET(0, &rdfs);
 	select(1, &rdfs, NULL, NULL, NULL);
-}
-
-/* returns 0 on success, 1 on error */
-int
-pinfo_re_comp(const char *name)
-{
-#ifdef ___DONT_USE_REGEXP_SEARCH___
-	if (pinfo_re_pattern)
-	{
-		free(pinfo_re_pattern);
-		pinfo_re_pattern = 0;
-	}
-	pinfo_re_pattern = strdup(name);
-	return 0;
-#else
-	if (pinfo_re_offset == -1)
-	{
-		pinfo_re_offset = h_regexp_num;
-		if (!h_regexp_num)
-			h_regexp = (regex_t*)malloc(sizeof(regex_t));
-		else
-			h_regexp = (regex_t*)realloc(h_regexp, sizeof(regex_t) *(h_regexp_num + 1));
-	}
-	else
-	{
-		regfree(&h_regexp[pinfo_re_offset]);
-	}
-	return regcomp(&h_regexp[pinfo_re_offset], name, REG_ICASE);
-#endif
-}
-
-int
-pinfo_re_exec(const char *name)
-{
-#ifdef ___DONT_USE_REGEXP_SEARCH___
-	char *found;
-	if (pinfo_re_pattern)
-	{
-		found = strstr(name, pinfo_re_pattern);
-		if (found != NULL)
-			return 1;
-		else
-			return 0;
-	}
-#else
-	regmatch_t pmatch[1];
-	return !regexec(&h_regexp[pinfo_re_offset], name, 1, pmatch, 0);
-#endif
 }
 
 int

@@ -207,15 +207,13 @@ info_add_highlights(int pos, int cursor, int column, const vector <string> messa
 	}
 
 #ifndef ___DONT_USE_REGEXP_SEARCH___
-	if ((h_regexp_num) ||(aftersearch))
+	if ((h_regexp.size() > 0) ||(aftersearch))
 	{
 		regmatch_t pmatch[1];
-		long maxpos = pos +(maxy - 2);
-		if (maxpos > message.size())
-			maxpos = message.size();
-		for (int i = pos - 1; i < maxpos; i++)
+		for (int i = pos - 1; 
+		     (i < message.size()) && (i + 1 < pos + (maxy - 2)); i++)
 		{
-			int maxregexp = aftersearch ? h_regexp_num + 1 : h_regexp_num;
+			int maxregexp = aftersearch ? h_regexp.size() + 1 : h_regexp.size();
 			/*
 			 * if it is after search, then we have user defined regexps+
 			 * a searched regexp to highlight
@@ -223,17 +221,17 @@ info_add_highlights(int pos, int cursor, int column, const vector <string> messa
 			for (int j = 0; j < maxregexp; j++)
 			{
 				const char * message_i = message[i].c_str();
-				const char *str = message_i;
-				while (!regexec(&h_regexp[j], str, 1, pmatch, 0))
+				const char *rest_of_str = message_i;
+				while (!regexec(&h_regexp[j], rest_of_str, 1, pmatch, 0))
 				{
-					int n = pmatch[0].rm_eo - pmatch[0].rm_so;
-					int x = calculate_len(message_i, pmatch[0].rm_so + str);
-					int txtoffset = (str - message_i) + pmatch[0].rm_so;
-					string tmpstr = message[i].substr(txtoffset, x + n);
+					int num_chars = pmatch[0].rm_eo - pmatch[0].rm_so;
+					int x = calculate_len(message_i, rest_of_str + pmatch[0].rm_so);
+					int txtoffset = (rest_of_str - message_i) + pmatch[0].rm_so;
+					string tmpstr = message[i].substr(txtoffset, num_chars);
 					attrset(searchhighlight);
 					mvaddstr(i + 1 - pos + 1, x, tmpstr.c_str());
 					attrset(normal);
-					str = str + pmatch[0].rm_eo;
+					rest_of_str = rest_of_str + pmatch[0].rm_eo;
 				}
 			}
 		}

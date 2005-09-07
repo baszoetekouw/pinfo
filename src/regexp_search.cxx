@@ -3,6 +3,7 @@
  *
  *  Copyright (C) 1999  Przemek Borys <pborys@dione.ids.pl>
  *  Copyright (C) 2005  Bas Zoetekouw <bas@debian.org>
+ *  Copyright 2005  Nathanael Nerode <neroden@gcc.gnu.org>
  *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of version 2 of the GNU General Public License as
@@ -19,11 +20,72 @@
  *  USA
  ***************************************************************************/
 
-#include"common_includes.h"
+#include "common_includes.h"
+#include <vector>
+using std::vector;
 
 #ifndef ___DONT_USE_REGEXP_SEARCH___
-#include"regex.h"
-#include<ctype.h>
+
+#include <regex.h>
+#include <ctype.h>
+
+vector<regex_t> h_regexp;	/* regexps to highlight */
+#endif
+
+#ifdef ___DONT_USE_REGEXP_SEARCH___
+char *pinfo_re_pattern = 0;
+#else
+int pinfo_re_offset = -1;
+#endif
+
+/* returns 0 on success, 1 on error */
+int
+pinfo_re_comp(const char *name)
+{
+#ifdef ___DONT_USE_REGEXP_SEARCH___
+	if (pinfo_re_pattern)
+	{
+		free(pinfo_re_pattern);
+		pinfo_re_pattern = 0;
+	}
+	pinfo_re_pattern = strdup(name);
+	return 0;
+#else
+	if (pinfo_re_offset == -1)
+	{
+		pinfo_re_offset = h_regexp.size();
+		regex_t my_regex_t;
+		h_regexp.push_back(my_regex_t);
+	}
+	else
+	{
+		regfree(&h_regexp[pinfo_re_offset]);
+	}
+	return regcomp(&h_regexp[pinfo_re_offset], name, REG_ICASE);
+#endif
+}
+
+int
+pinfo_re_exec(const char *name)
+{
+#ifdef ___DONT_USE_REGEXP_SEARCH___
+	char *found;
+	if (pinfo_re_pattern)
+	{
+		found = strstr(name, pinfo_re_pattern);
+		if (found != NULL)
+			return 1;
+		else
+			return 0;
+	}
+#else
+	regmatch_t pmatch[1];
+	return !regexec(&h_regexp[pinfo_re_offset], name, 1, pmatch, 0);
+#endif
+}
+
+#ifndef ___DONT_USE_REGEXP_SEARCH___
+
 /* adapted partialy from midnight commander view regexp search */
 
 enum
@@ -59,11 +121,9 @@ __regexp_search(char *pattern, char *string)
 		flags |= REG_EXTENDED;
 		if (pinfo_re_offset == -1)
 		{
-			pinfo_re_offset = h_regexp_num;
-			if (!h_regexp_num)
-				h_regexp = (regex_t*)malloc(sizeof(regex_t));
-			else
-				h_regexp = (regex_t*)realloc(h_regexp, sizeof(regex_t) *(h_regexp_num + 1));
+			pinfo_re_offset = h_regexp.size();
+			regex_t my_regex_t;
+			h_regexp.push_back(my_regex_t);
 		}
 		else
 		{

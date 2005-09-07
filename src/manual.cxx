@@ -1411,7 +1411,7 @@ void
 mvaddstr_manual(int y, int x, string my_str)
 {
 	static string strippedline_string;
-	if ((h_regexp_num) ||(manual_aftersearch))
+	if ((h_regexp.size() > 0) ||(manual_aftersearch))
 	{
 		strippedline_string = my_str;
 		strip_manual(strippedline_string);
@@ -1470,10 +1470,10 @@ label_skip_other:;
 #endif
 	attrset(normal);
 #ifndef ___DONT_USE_REGEXP_SEARCH___
-	if ((h_regexp_num) ||(manual_aftersearch))
+	if ((h_regexp.size() > 0) ||(manual_aftersearch))
 	{
 		regmatch_t pmatch[1];
-		int maxregexp = manual_aftersearch ? h_regexp_num + 1 : h_regexp_num;
+		int maxregexp = manual_aftersearch ? h_regexp.size() + 1 : h_regexp.size();
 
 		/* if it is after search, then we have user defined regexps+
 		   a searched regexp to highlight */

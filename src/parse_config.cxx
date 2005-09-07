@@ -23,15 +23,15 @@
 #include "common_includes.h"
 #include "datatypes.h"
 #include "colors.h"
+#include "regexp_search.h"
 #include <string>
 using std::string;
+#include <vector>
+using std::vector;
 
 #include <ctype.h>
 
 #define COLOR_DEFAULT -1	/* mutt uses this was for transparency */
-
-regex_t *h_regexp = 0;	/* regexps to highlight */
-int h_regexp_num = 0;	/* number of those regexps */
 
 struct keybindings keys =
 {
@@ -666,12 +666,9 @@ parse_line(char *line)
 			string tmpstr = temp;
 			string tmpstr2 = remove_quotes(tmpstr);
 			const char *tmp = tmpstr2.c_str();
-			if (!h_regexp_num)
-				h_regexp = (regex_t*)malloc(sizeof(regex_t));
-			else
-				h_regexp = (regex_t*)realloc(h_regexp, sizeof(regex_t) *(h_regexp_num + 1));
-			regcomp(&h_regexp[h_regexp_num], tmp, 0);
-			h_regexp_num++;
+			regex_t my_regex_t;
+			h_regexp.push_back(my_regex_t);
+			regcomp(&h_regexp[h_regexp.size() - 1], tmp, 0);
 		}
 		else
 			return 1;

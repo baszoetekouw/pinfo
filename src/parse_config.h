@@ -3,6 +3,7 @@
  *
  *  Copyright (C) 1999  Przemek Borys <pborys@dione.ids.pl>
  *  Copyright (C) 2005  Bas Zoetekouw <bas@debian.org>
+ *  Copyright 2005  Nathanael Nerode <neroden@gcc.gnu.org>
  *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of version 2 of the GNU General Public License as
@@ -21,10 +22,6 @@
 
 #ifndef __PARSE_CONFIG_H
 #define __PARSE_CONFIG_H
-
-#ifndef ___DONT_USE_REGEXP_SEARCH___
-#include <regex.h>
-#endif
 
 #define BOLD 1
 #define NO_BOLD 0
@@ -91,10 +88,5 @@ int parse_config (void);
 int parse_line (char *line);
 char *str_toupper (char *s);
 char *skip_whitespace (char *s);
-
-#ifndef ___DONT_USE_REGEXP_SEARCH___
-extern regex_t *h_regexp;	/* regexps to highlight */
-extern int h_regexp_num;	/* number of those regexps */
-#endif
 
 #endif
