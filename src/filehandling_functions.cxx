@@ -219,11 +219,8 @@ dirpage_lookup(char **type, char ***message, long *lines,
 		     && ( (filestart = this_line.find('(', nameend + 1)) != string::npos )
 		     && ( (fileend = this_line.find(')', filestart)) != string::npos )
 		     && ( (dot = this_line.find('.', fileend)) != string::npos )
-		     && (strcasecmp(wanted_name.c_str(),
-		                    this_line.substr(2, wanted_name.length()).c_str())
-             == 0) /* Right file */
 		   ) {
-			; /* Matches the pattern we want, with the right name */
+			; /* Matches the pattern we want */
 		} else {
 			continue;
 		}
@@ -232,6 +229,19 @@ dirpage_lookup(char **type, char ***message, long *lines,
 		string name(this_line, 2, nameend - 2);
 		string file(this_line, filestart + 1, fileend - filestart - 2);
 		string node(this_line, fileend + 1, dot - fileend - 2);
+
+		if (strcasecmp(wanted_name.c_str(),
+		               name.substr(0, wanted_name.length()).c_str())
+        != 0) { 
+			/* Wrong name -- wanted_name must begin the name */
+			continue;
+		}
+
+		if ( goodHit && (name.length() != wanted_name.length()) ) {
+			/* skip this hit if we have already found a previous partial match,
+		   * and this hit is not a perfect match */
+			continue;
+		}
 
 		if (node != "") {
 			string::size_type idx = 0;
@@ -752,8 +762,10 @@ openinfo(const string filename, int number)
 			mybuf = infopaths[i];
 			/* Modify mybuf in place by suffixing filename -- eeewww */
 			int result = matchfile(mybuf, filename);
-			if (result == 1)	/* no match found in this directory */
+			if (result == 1) {
+				/* no match found in this directory */
 				continue;
+			}
 		}
 		for (int j = 0; j < SuffixesNumber; j++) { /* go through all suffixes */
 			string buf_with_suffix = mybuf;
@@ -778,7 +790,7 @@ openinfo(const string filename, int number)
 				}
 			}
 		}
-		if ((i == -1) && ( !filenameprefix.empty() ))
+		if ((i == -1) && ( !filenameprefix.empty() )) {
 			/* if we have a nonzero filename prefix,
 				 that is we view a set of infopages,
 				 we don't want to search for a page
@@ -786,6 +798,7 @@ openinfo(const string filename, int number)
 				 the prefix directory. Therefore
 				 break here. */
 			break;
+		}
 	}
 	return 0;
 }
