@@ -39,7 +39,7 @@ extern char *pinfo_re_pattern;
 
 extern std::vector<regex_t> h_regexp;	/* regexps to highlight */
 
-int regexp_search (char *pattern, char *string);
+int regexp_search (const char *pattern, char *string);
 #endif
 
 #endif

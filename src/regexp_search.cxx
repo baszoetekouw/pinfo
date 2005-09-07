@@ -94,7 +94,7 @@ enum
 };
 
 int
-__regexp_search(char *pattern, char *string)
+__regexp_search(const char *pattern, char *string)
 {
 	int match_type = match_normal;
 	static char *old_pattern = NULL;
@@ -124,6 +124,8 @@ __regexp_search(char *pattern, char *string)
 			pinfo_re_offset = h_regexp.size();
 			regex_t my_regex_t;
 			h_regexp.push_back(my_regex_t);
+			/* FIXME: this is supposed to be an 'extra' which doesn't add to
+				 the number of regexps */
 		}
 		else
 		{
@@ -145,7 +147,7 @@ __regexp_search(char *pattern, char *string)
 }
 
 int
-regexp_search(char *pattern, char *string)
+regexp_search(const char *pattern, char *string)
 {
 	int newlines = 0, ptr_offset = -1;
 	char *__newlines[2];
