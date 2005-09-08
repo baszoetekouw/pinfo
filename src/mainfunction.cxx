@@ -720,41 +720,30 @@ skip_search:
 					 * scan for filename: filenames may be specified in format:
 					 * (file)node
 					 */
-					char *token = strdup(token_string.c_str()); /* FIXME */
-					char *gotostartptr = strchr(token, '(');
-					if (gotostartptr)	/* if there was a `(' */
-					{
-						char *gotoendptr = strchr(token, ')');	/* search for `)' */
-						/* if they're in the right order...  */
-						if (gotoendptr > gotostartptr)
-						{
-							char* tmp_ick = (char*)xmalloc(gotoendptr - gotostartptr + 1);
-							strncpy(tmp_ick, gotostartptr + 1, gotoendptr - gotostartptr - 1);
-							tmp_ick[gotoendptr - gotostartptr - 1] = 0;
-							rval.file = tmp_ick;
-							xfree(tmp_ick);
-							gotoendptr++;
-							while (gotoendptr)	/* skip whitespaces until nodename */
-							{
-								if (*gotoendptr != ' ')
-									break;
-								gotoendptr++;
-							}	/* skip spaces */
-							rval.node = gotoendptr; /* Needs cleanup.  Eeeew. */
+					string::size_type gotostart_idx = token_string.find('(');
+					if (gotostart_idx != string::npos) {
+						string::size_type gotoend_idx = token_string.find(')', gotostart_idx);
+						if (gotoend_idx != string::npos) {
+							rval.file = token_string.substr(gotostart_idx + 1, gotoend_idx - (gotostart_idx + 1));
+							/* skip whitespace before nodename */
+							string::size_type nodestart_idx = token_string.find_first_not_of(' ', gotoend_idx + 1);
+							if (nodestart_idx != string::npos) {
+								rval.node = token_string.substr(nodestart_idx);
+							} else {
+								rval.node = "";
+							}
 							rval.keep_going = true;
-							xfree(token);
-							token = 0;
 							if (aftersearch) {
 								aftersearch = 0;
 								h_regexp.pop_back();
 							}
 							return rval;
 						}
-					}	else if (strstr(token, ".info")) {
+					}	else if (    (token_string.length() > 5)
+					            && (token_string.substr(token_string.length() - 5) == ".info")
+					          ) {
 						/* handle the `file.info' format of crossinfo goto. */
 						rval.file = token_string;
-						xfree(token);
-						token = 0;
 						rval.node = "";
 						if (aftersearch) {
 							aftersearch = 0;
@@ -771,8 +760,6 @@ skip_search:
 						attrset(normal);
 						move(0, 0);
 					}
-					xfree(token);
-					token = 0;
 				}
 				statusline = LOCKED;
 			}
