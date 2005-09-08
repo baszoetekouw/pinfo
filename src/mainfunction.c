@@ -140,7 +140,7 @@ work(char ***message, char **type, long *lines, FILE * id, int tag_table_pos)
 			if ((key == keys.print_1) ||
 					(key == keys.print_2))
 			{
-				if (yesno(_("Are you sure to print?"), 0) == 1)
+				if (yesno(_("Are you sure you want to print?"), 0) == 1)
 					printnode(message, lines);
 			}
 			/*==========================================================================*/
@@ -1175,7 +1175,7 @@ skip_search:
 				break;
 			else
 			{
-				if (yesno(_("Are you sure to quit?"), QuitConfirmDefault))
+				if (yesno(_("Are you sure you want to quit?"), QuitConfirmDefault))
 					break;
 			}
 		}

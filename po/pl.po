@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: pinfo-0.6.8\n"
 "Report-Msgid-Bugs-To: pinfo-devel@lists.alioth.debian.org\n"
-"POT-Creation-Date: 2005-09-01 21:48+0200\n"
+"POT-Creation-Date: 2005-09-08 16:01+0200\n"
 "PO-Revision-Date: 2003-08-21 11:22+0200\n"
 "Last-Translator: Przemek Borys <pborys@dione.ids.pl>\n"
 "Language-Team:\n"
@@ -14,41 +14,41 @@ msgstr ""
 "Content-Type: text/plain; charset=ISO-8859-2\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: src/filehandling_functions.c:442 src/filehandling_functions.c:449
+#: src/filehandling_functions.c:469 src/filehandling_functions.c:476
 #, c-format
 msgid "Searching for indirect done"
 msgstr "Zakoñczono poszukiwanie mapowañ niebezpo¶rednich"
 
-#: src/filehandling_functions.c:480 src/filehandling_functions.c:486
+#: src/filehandling_functions.c:508 src/filehandling_functions.c:515
 #, c-format
 msgid "Warning: could not find tag table"
 msgstr "Ostrze¿enie: Nie znalaz³em tablicy mapowañ (tag table)..."
 
-#: src/filehandling_functions.c:513
+#: src/filehandling_functions.c:542
 #, c-format
 msgid "Searching for tag table done\n"
 msgstr "Zakoñczono poszukiwanie tablicy mapowañ\n"
 
-#: src/filehandling_functions.c:1172
+#: src/filehandling_functions.c:1203
 #, c-format
 msgid "Error: could not open info file\n"
 msgstr "B³ad: nie mog³em otworzyæ pliku info\n"
 
-#: src/mainfunction.c:143 src/manual.c:970
-msgid "Are you sure to print?"
+#: src/mainfunction.c:143 src/manual.c:971
+msgid "Are you sure you want to print?"
 msgstr "Czy na pewno chcesz drukowaæ?"
 
 #
 # Go line messages
 #
-#: src/mainfunction.c:195 src/manual.c:1015
+#: src/mainfunction.c:195 src/manual.c:1016
 msgid "Enter line: "
 msgstr "Podaj liniê: "
 
 #
 # Shellfeed messages
 #
-#: src/mainfunction.c:236 src/manual.c:1062
+#: src/mainfunction.c:236 src/manual.c:1063
 msgid "Enter command: "
 msgstr "Podaj komendê: "
 
@@ -59,19 +59,19 @@ msgstr "Operacja siê nie powiod³a..."
 #
 # Regexp search messages
 #
-#: src/mainfunction.c:291 src/mainfunction.c:551 src/manual.c:1115
+#: src/mainfunction.c:291 src/mainfunction.c:551 src/manual.c:1116
 msgid "Enter regexp: "
 msgstr "Podaj regexp: "
 
-#: src/mainfunction.c:521 src/mainfunction.c:615 src/manual.c:1190
+#: src/mainfunction.c:521 src/mainfunction.c:615 src/manual.c:1192
 msgid "Search string not found..."
 msgstr "Szukany ³añcuch nie zosta³ znaleziony..."
 
-#: src/mainfunction.c:576 src/manual.c:1148
+#: src/mainfunction.c:576 src/manual.c:1149
 msgid "Invalid regular expression;"
 msgstr ""
 
-#: src/mainfunction.c:578 src/manual.c:1150
+#: src/mainfunction.c:578 src/manual.c:1151
 msgid "Press any key to continue..."
 msgstr ""
 
@@ -89,11 +89,11 @@ msgid "Node %s not found"
 msgstr "Wêze³ %s nie istnieje"
 
 # Dialogs
-#: src/mainfunction.c:1177 src/manual.c:1540
-msgid "Are you sure to quit?"
+#: src/mainfunction.c:1178 src/manual.c:1542
+msgid "Are you sure you want to quit?"
 msgstr "Czy na pewno chcesz zakoñczyæ pracê?"
 
-#: src/manual.c:312
+#: src/manual.c:314
 #, c-format
 msgid "Error: Cannot call man command.\n"
 msgstr "B³±d: Nie mogê wywo³aæ komendy man.\n"
@@ -102,27 +102,27 @@ msgstr "B³±d: Nie mogê wywo³aæ komendy man.\n"
 # Manual messages
 #
 # loading:
-#: src/manual.c:321
+#: src/manual.c:323
 #, c-format
 msgid "Error: No manual page found either.\n"
 msgstr "B³ad: Nie ma równie¿ pasuj±cej strony podrêcznika man.\n"
 
 # apropos:
-#: src/manual.c:324
+#: src/manual.c:326
 #, fuzzy, c-format
 msgid "Apropos pages:\n"
 msgstr "Odpowiadaj±ce zapytaniu strony:\n"
 
-#: src/manual.c:367
+#: src/manual.c:369
 msgid "Calling gunzip for"
 msgstr "Wo³am gunzip dla"
 
-#: src/manual.c:373
+#: src/manual.c:375
 #, c-format
 msgid "Couldn't call gunzip.\n"
 msgstr "Nie mog³em wywo³aæ gunzip.\n"
 
-#: src/manual.c:410
+#: src/manual.c:412
 msgid "IGNORING"
 msgstr "IGNORUJÊ"
 
@@ -130,17 +130,17 @@ msgstr "IGNORUJÊ"
 # Manual messages
 #
 # loading:
-#: src/manual.c:453
+#: src/manual.c:455
 #, fuzzy, c-format
 msgid "Error: No manual page found\n"
 msgstr "B³ad: Nie ma równie¿ pasuj±cej strony podrêcznika man.\n"
 
-#: src/manual.c:458
+#: src/manual.c:460
 #, c-format
 msgid "Calling apropos \n"
 msgstr ""
 
-#: src/manual.c:463
+#: src/manual.c:465
 #, c-format
 msgid "Nothing appropiate\n"
 msgstr ""
@@ -148,12 +148,12 @@ msgstr ""
 #
 # Goto messages
 #
-#: src/manual.c:984
+#: src/manual.c:985
 #, fuzzy
 msgid "Enter manual name: "
 msgstr "Podaj nazwê wêz³a: "
 
-#: src/manual.c:1623 src/video.c:114
+#: src/manual.c:1625 src/video.c:114
 #, c-format
 msgid "Viewing line %d/%d, %d%%"
 msgstr "Przegl±danie linii %d/%d, %d%%"
@@ -161,7 +161,7 @@ msgstr "Przegl±danie linii %d/%d, %d%%"
 #
 # Viewer messages
 #
-#: src/manual.c:1625 src/video.c:116
+#: src/manual.c:1627 src/video.c:116
 #, c-format
 msgid "Viewing line %d/%d, 100%%"
 msgstr "Przegl±danie linii %d/%d, 100%%"
@@ -174,7 +174,7 @@ msgstr ""
 #
 # Messages from the config file parsing procedures:
 #
-#: src/parse_config.c:161
+#: src/parse_config.c:163
 #, c-format
 msgid "Parse error in config file on line %d\n"
 msgstr "B³±d sk³adni w linii %d pliku konfiguracyjnego\n"
@@ -228,7 +228,7 @@ msgstr "Poprzedni:"
 msgid "Up:"
 msgstr "Góra:"
 
-#: src/pinfo.c:113 src/pinfo.c:197
+#: src/pinfo.c:112 src/pinfo.c:197
 #, c-format
 msgid "Looking for man page...\n"
 msgstr "Szukam strony podrêcznika man...\n"
@@ -346,6 +346,9 @@ msgstr "Ostrze¿enie bezpieczeñstwa: Nie mogê pobraæ GID grupy: %s\n"
 #, c-format
 msgid "Security warning: Unable to get UID of user called: %s\n"
 msgstr "Ostrze¿enie bezpieczeñstwa: Nie mogê pobraæ UID u¿ytkownika: %s\n"
+
+#~ msgid "Are you sure to print?"
+#~ msgstr "Czy na pewno chcesz drukowaæ?"
 
 #~ msgid "Warning: could not find tag table\n"
 #~ msgstr "Ostrze¿enie: Nie znalaz³em tablicy mapowañ (tag table)...\n"

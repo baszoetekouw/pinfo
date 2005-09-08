@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: pinfo 0.6.3\n"
 "Report-Msgid-Bugs-To: pinfo-devel@lists.alioth.debian.org\n"
-"POT-Creation-Date: 2005-09-01 21:48+0200\n"
+"POT-Creation-Date: 2005-09-08 16:01+0200\n"
 "PO-Revision-Date: 2001-11-21 17:42+0900\n"
 "Last-Translator: Masayuki Hatta <mhatta@gnu.org>\n"
 "Language-Team: Japanese <ja@li.org>\n"
@@ -14,35 +14,35 @@ msgstr ""
 "Content-Type: text/plain; charset=euc-jp\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: src/filehandling_functions.c:442 src/filehandling_functions.c:449
+#: src/filehandling_functions.c:469 src/filehandling_functions.c:476
 #, c-format
 msgid "Searching for indirect done"
 msgstr "indirectの検索完了"
 
-#: src/filehandling_functions.c:480 src/filehandling_functions.c:486
+#: src/filehandling_functions.c:508 src/filehandling_functions.c:515
 #, c-format
 msgid "Warning: could not find tag table"
 msgstr "警告: タグテーブルが見つかりませんでした"
 
-#: src/filehandling_functions.c:513
+#: src/filehandling_functions.c:542
 #, c-format
 msgid "Searching for tag table done\n"
 msgstr "タグテーブルの検索完了\n"
 
-#: src/filehandling_functions.c:1172
+#: src/filehandling_functions.c:1203
 #, c-format
 msgid "Error: could not open info file\n"
 msgstr "エラー: infoファイルが開けませんでした\n"
 
-#: src/mainfunction.c:143 src/manual.c:970
-msgid "Are you sure to print?"
+#: src/mainfunction.c:143 src/manual.c:971
+msgid "Are you sure you want to print?"
 msgstr "本当に印刷してよろしいですか?"
 
-#: src/mainfunction.c:195 src/manual.c:1015
+#: src/mainfunction.c:195 src/manual.c:1016
 msgid "Enter line: "
 msgstr "行を入力: "
 
-#: src/mainfunction.c:236 src/manual.c:1062
+#: src/mainfunction.c:236 src/manual.c:1063
 msgid "Enter command: "
 msgstr "コマンドを入力: "
 
@@ -50,20 +50,20 @@ msgstr "コマンドを入力: "
 msgid "Operation failed..."
 msgstr "操作に失敗しました..."
 
-#: src/mainfunction.c:291 src/mainfunction.c:551 src/manual.c:1115
+#: src/mainfunction.c:291 src/mainfunction.c:551 src/manual.c:1116
 msgid "Enter regexp: "
 msgstr "正規表現を入力: "
 
-#: src/mainfunction.c:521 src/mainfunction.c:615 src/manual.c:1190
+#: src/mainfunction.c:521 src/mainfunction.c:615 src/manual.c:1192
 #, fuzzy
 msgid "Search string not found..."
 msgstr "警告: タグテーブルが見つかりませんでした...\n"
 
-#: src/mainfunction.c:576 src/manual.c:1148
+#: src/mainfunction.c:576 src/manual.c:1149
 msgid "Invalid regular expression;"
 msgstr ""
 
-#: src/mainfunction.c:578 src/manual.c:1150
+#: src/mainfunction.c:578 src/manual.c:1151
 msgid "Press any key to continue..."
 msgstr ""
 
@@ -76,63 +76,63 @@ msgstr "ノード名を入力: "
 msgid "Node %s not found"
 msgstr "ノード %s は見つかりませんでした"
 
-#: src/mainfunction.c:1177 src/manual.c:1540
-msgid "Are you sure to quit?"
+#: src/mainfunction.c:1178 src/manual.c:1542
+msgid "Are you sure you want to quit?"
 msgstr "本当に終了してよろしいですか?"
 
-#: src/manual.c:312
+#: src/manual.c:314
 #, c-format
 msgid "Error: Cannot call man command.\n"
 msgstr "エラー: manコマンドが呼び出せません。\n"
 
-#: src/manual.c:321
+#: src/manual.c:323
 #, c-format
 msgid "Error: No manual page found either.\n"
 msgstr "エラー: どのマニュアルページも見つかりませんでした。\n"
 
-#: src/manual.c:324
+#: src/manual.c:326
 #, fuzzy, c-format
 msgid "Apropos pages:\n"
 msgstr "適切なページ:\n"
 
-#: src/manual.c:367
+#: src/manual.c:369
 msgid "Calling gunzip for"
 msgstr "gunzipを呼び出し中: "
 
-#: src/manual.c:373
+#: src/manual.c:375
 #, c-format
 msgid "Couldn't call gunzip.\n"
 msgstr "gunzipを呼び出せませんでした。\n"
 
-#: src/manual.c:410
+#: src/manual.c:412
 msgid "IGNORING"
 msgstr "無視"
 
-#: src/manual.c:453
+#: src/manual.c:455
 #, fuzzy, c-format
 msgid "Error: No manual page found\n"
 msgstr "エラー: どのマニュアルページも見つかりませんでした。\n"
 
-#: src/manual.c:458
+#: src/manual.c:460
 #, c-format
 msgid "Calling apropos \n"
 msgstr ""
 
-#: src/manual.c:463
+#: src/manual.c:465
 #, c-format
 msgid "Nothing appropiate\n"
 msgstr ""
 
-#: src/manual.c:984
+#: src/manual.c:985
 msgid "Enter manual name: "
 msgstr "マニュアル名を入力: "
 
-#: src/manual.c:1623 src/video.c:114
+#: src/manual.c:1625 src/video.c:114
 #, c-format
 msgid "Viewing line %d/%d, %d%%"
 msgstr "現在 %d/%d 行目、%d%%"
 
-#: src/manual.c:1625 src/video.c:116
+#: src/manual.c:1627 src/video.c:116
 #, c-format
 msgid "Viewing line %d/%d, 100%%"
 msgstr "現在 %d/%d 行目、100%%"
@@ -142,7 +142,7 @@ msgstr "現在 %d/%d 行目、100%%"
 msgid "Can't open config file!\n"
 msgstr ""
 
-#: src/parse_config.c:161
+#: src/parse_config.c:163
 #, c-format
 msgid "Parse error in config file on line %d\n"
 msgstr "設定ファイルの %d 行目で解析エラー\n"
@@ -189,7 +189,7 @@ msgstr "前: "
 msgid "Up:"
 msgstr "上: "
 
-#: src/pinfo.c:113 src/pinfo.c:197
+#: src/pinfo.c:112 src/pinfo.c:197
 #, c-format
 msgid "Looking for man page...\n"
 msgstr "manページを探しています...\n"
@@ -294,6 +294,9 @@ msgstr "セキュリティ警告: 以下のグループのGIDを得ることができません: %s\n"
 #, c-format
 msgid "Security warning: Unable to get UID of user called: %s\n"
 msgstr "セキュリティ警告: 以下のユーザのUIDを取得することができません: %s\n"
+
+#~ msgid "Are you sure to print?"
+#~ msgstr "本当に印刷してよろしいですか?"
 
 #~ msgid "Warning: could not find tag table\n"
 #~ msgstr "警告: タグテーブルが見つかりませんでした\n"
