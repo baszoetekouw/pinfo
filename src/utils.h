@@ -35,12 +35,6 @@ void curs_set (int a);
 
 /* user defined getch, capable of handling ALT keybindings */
 int pinfo_getch ();
-/* free() wrapper */
-void xfree (void *ptr);
-/* malloc() wrapper */
-void *xmalloc (size_t size);
-/* realloc() wrapper */
-void *xrealloc (void *ptr, size_t size);
 /* initializes GNU locales */
 void initlocale ();
 /* bail out if file name causes security problems */

@@ -44,154 +44,13 @@ curs_set(int a)
 #include <readline/history.h>
 #include <term.h>
 
-
-/*
- * the below define enables malloc/realloc/free logging to stderr.
- * They start to log their argument values.
- *
- * #define ___DEBUG___
- *
- */
-
-#ifdef ___DEBUG___
-unsigned long malloc_addr[1000];
-unsigned long msizes[1000];
-long addrescount = 0;
-/* ___DEBUG___ */
-#endif
-
-
 int curses_open = 0;
 
 int shell_cursor = 1;
 
 void
-xfree(void *ptr)
-{
-#ifdef ___DEBUG___
-	int i, j;
-	int flag = 0;
-	unsigned long msize = 0;
-	for (i = 0; i < addrescount; i++)
-		msize += msizes[i];
-	fprintf(stderr, "Size: %lu, count: %ld, freeing %lu\n", msize, addrescount,(unsigned long) ptr);
-	for (i = 0; i < addrescount; i++)
-		if (malloc_addr[i] ==(unsigned long) ptr)
-		{
-			flag = 1;
-			for (j = i + 1; j < addrescount; j++)
-			{
-				malloc_addr[j - 1] = malloc_addr[j];
-				msizes[j - 1] = msizes[j];
-			}
-			addrescount--;
-			break;
-		}
-	if (flag == 0)
-	{
-		fprintf(stderr, "ERROR!!!\n");
-		getchar();
-	}
-/* ___DEBUG___ */
-#endif
-	free(ptr);
-}
-
-void *
-xmalloc(size_t size)
-{
-	register void *value = malloc(size);
-#ifdef ___DEBUG___
-	unsigned long msize = 0;
-	int i;
-/* ___DEBUG___ */
-#endif
-	if (value == 0)
-	{
-		closeprogram();
-		printf(_("Virtual memory exhausted\n"));
-		exit(1);
-	}
-#ifdef ___DEBUG___
-	for (i = 0; i < addrescount; i++)
-		msize += msizes[i];
-	fprintf(stderr, "Size %lu, count: %ld, allocated %lu\n", msize, addrescount,(unsigned long) value);
-	malloc_addr[addrescount] =(unsigned long) value;
-	msizes[addrescount] = size;
-	if (addrescount < 1000)
-		addrescount++;
-	else
-	{
-		fprintf(stderr, "trace buffer exhausted\n");
-	}
-/* ___DEBUG___ */
-#endif
-	memset(value, 0, size);
-	return value;
-}
-
-void *
-xrealloc(void *ptr, size_t size)
-{
-#ifdef ___DEBUG___
-	int i, j, flag = 0;
-	register void *value;
-	unsigned long msize = 0;
-	for (i = 0; i < addrescount; i++)
-		msize += msizes[i];
-	fprintf(stderr, "Size: %lu, count: %ld, reallocating %lu to ", msize, addrescount,(unsigned long) ptr);
-	for (i = 0; i < addrescount; i++)
-		if (malloc_addr[i] ==(unsigned long) ptr)
-		{
-			flag = 1;
-			for (j = i + 1; j < addrescount; j++)
-			{
-				malloc_addr[j - 1] = malloc_addr[j];
-				msizes[j - 1] = msizes[j];
-			}
-			addrescount--;
-			break;
-		}
-	if (flag == 0)
-	{
-		fprintf(stderr, "ERROR!!!\n");
-		getchar();
-	}
-	value = realloc(ptr, size);
-#else
-	register void *value = realloc(ptr, size + 1024);
-/* ___DEBUG___ */
-#endif
-	if (value == 0)
-	{
-		closeprogram();
-		printf(_("Virtual memory exhausted\n"));
-		exit(1);
-	}
-#ifdef ___DEBUG___
-	fprintf(stderr, "%lu, with size %lu\n",(unsigned long) value,(unsigned long) size);
-	malloc_addr[addrescount] =(unsigned long) value;
-	msizes[addrescount] = size;
-	if (addrescount < 1000)
-		addrescount++;
-	else
-	{
-		fprintf(stderr, "trace buffer exhausted\n");
-	}
-/* ___DEBUG___ */
-#endif
-	return value;
-}
-
-void
 initlocale()
 {
-#ifdef ___DEBUG___
-	int i;
-	for (i = 0; i < 1000; i++)
-		malloc_addr[i] = 0;
-/* ___DEBUG___ */
-#endif
 	sbrk(100000);
 	setlocale(LC_ALL, "");
 	bindtextdomain(PACKAGE, LOCALEDIR);
@@ -264,7 +123,7 @@ getstring(const char *prompt)
 		my_string = "";
 	} else {
 		my_string = buf;
-		xfree(buf);
+		free(buf);
 	}
 	return my_string;
 }

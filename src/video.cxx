@@ -73,7 +73,6 @@ void
 showscreen(const vector <string> message, long pos, long cursor, int column)
 {
 	/* pos is 1-based, message is 0-based */
-	long i;
 #ifdef getmaxyx
 	getmaxyx(stdscr, maxy, maxx);
 #endif
@@ -123,8 +122,6 @@ showscreen(const vector <string> message, long pos, long cursor, int column)
 void
 info_addstring(int y, string::size_type x, string txt, string::size_type column)
 {
-  int maxy, maxx;
-  getmaxyx(stdscr, maxy, maxx);
   /* Use maxx and mvaddnstr to force clipping.
    * Fairly blunt instrument, but the best I could come up with.
    * Breaks in the presence of tabs; I don't see how to handle them. */
