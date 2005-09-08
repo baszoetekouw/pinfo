@@ -327,7 +327,12 @@ handlemanual(string name)
 		getmaxyx(stdscr, maxy, maxx);
 		check_manwidth();
 
-		manual_aftersearch = 0;
+		if (manual_aftersearch) {
+			/* Clear regexp from prior page */
+			h_regexp.pop_back();
+			manual_aftersearch = 0;
+		}
+
 		/* -1 is quit key */
 		if (return_value != -1)
 		{
@@ -1404,8 +1409,7 @@ void
 mvaddstr_manual(int y, int x, string my_str)
 {
 	static string strippedline_string;
-	if ((h_regexp.size() > 0) ||(manual_aftersearch))
-	{
+	if (h_regexp.size() > 0) {
 		strippedline_string = my_str;
 		strip_manual(strippedline_string);
 	}
@@ -1463,19 +1467,15 @@ label_skip_other:;
 #endif
 	attrset(normal);
 #ifndef ___DONT_USE_REGEXP_SEARCH___
-	if ((h_regexp.size() > 0) ||(manual_aftersearch))
-	{
+	if (h_regexp.size() > 0) {
 		regmatch_t pmatch[1];
-		int maxregexp = manual_aftersearch ? h_regexp.size() + 1 : h_regexp.size();
 
 		/* if it is after search, then we have user defined regexps+
 		   a searched regexp to highlight */
-		for (int j = 0; j < maxregexp; j++)
-		{
+		for (int j = 0; j < h_regexp.size(); j++) {
 			const char* strippedline = strippedline_string.c_str();
 			const char* tmpstr = strippedline;
-			while (!regexec(&h_regexp[j], tmpstr, 1, pmatch, 0))
-			{
+			while (!regexec(&h_regexp[j], tmpstr, 1, pmatch, 0)) {
 				int n = pmatch[0].rm_eo - pmatch[0].rm_so;
 				int rx = pmatch[0].rm_so + tmpstr - strippedline;
 				int curY, curX;

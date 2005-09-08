@@ -207,18 +207,16 @@ info_add_highlights(int pos, int cursor, int column, const vector <string> messa
 	}
 
 #ifndef ___DONT_USE_REGEXP_SEARCH___
-	if ((h_regexp.size() > 0) ||(aftersearch))
+	if (h_regexp.size() > 0)
 	{
 		regmatch_t pmatch[1];
 		for (int i = pos - 1; 
-		     (i < message.size()) && (i + 1 < pos + (maxy - 2)); i++)
-		{
-			int maxregexp = aftersearch ? h_regexp.size() + 1 : h_regexp.size();
+		     (i < message.size()) && (i + 1 < pos + (maxy - 2)); i++) {
 			/*
 			 * if it is after search, then we have user defined regexps+
 			 * a searched regexp to highlight
 			 */
-			for (int j = 0; j < maxregexp; j++)
+			for (int j = 0; j < h_regexp.size(); j++)
 			{
 				const char * message_i = message[i].c_str();
 				const char *rest_of_str = message_i;
