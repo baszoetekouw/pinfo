@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: pinfo-devel@lists.alioth.debian.org\n"
-"POT-Creation-Date: 2005-09-08 06:47-0400\n"
+"POT-Creation-Date: 2005-09-08 08:22-0400\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -36,48 +36,48 @@ msgstr ""
 msgid "Error: could not open info file\n"
 msgstr ""
 
-#: src/mainfunction.cxx:206 src/manual.cxx:744
+#: src/mainfunction.cxx:205 src/manual.cxx:744
 msgid "Are you sure you want to print?"
 msgstr ""
 
-#: src/mainfunction.cxx:255 src/manual.cxx:789
+#: src/mainfunction.cxx:254 src/manual.cxx:789
 msgid "Enter line: "
 msgstr ""
 
-#: src/mainfunction.cxx:293 src/manual.cxx:836
+#: src/mainfunction.cxx:292 src/manual.cxx:836
 msgid "Enter command: "
 msgstr ""
 
-#: src/mainfunction.cxx:312
+#: src/mainfunction.cxx:311
 msgid "Operation failed..."
 msgstr ""
 
-#: src/mainfunction.cxx:346 src/mainfunction.cxx:602 src/manual.cxx:890
+#: src/mainfunction.cxx:348 src/mainfunction.cxx:607 src/manual.cxx:890
 msgid "Enter regexp: "
 msgstr ""
 
-#: src/mainfunction.cxx:571 src/mainfunction.cxx:667 src/manual.cxx:964
+#: src/mainfunction.cxx:576 src/mainfunction.cxx:664 src/manual.cxx:959
 msgid "Search string not found..."
 msgstr ""
 
-#: src/mainfunction.cxx:625 src/manual.cxx:920
+#: src/mainfunction.cxx:630 src/manual.cxx:920
 msgid "Invalid regular expression;"
 msgstr ""
 
-#: src/mainfunction.cxx:627 src/manual.cxx:922
+#: src/mainfunction.cxx:632 src/manual.cxx:922
 msgid "Press any key to continue..."
 msgstr ""
 
-#: src/mainfunction.cxx:694
+#: src/mainfunction.cxx:691
 msgid "Enter node name: "
 msgstr ""
 
-#: src/mainfunction.cxx:764
+#: src/mainfunction.cxx:759
 #, c-format
 msgid "Node %s not found"
 msgstr ""
 
-#: src/mainfunction.cxx:1210 src/manual.cxx:1316
+#: src/mainfunction.cxx:1221 src/manual.cxx:1311
 msgid "Are you sure you want to quit?"
 msgstr ""
 
@@ -100,12 +100,12 @@ msgstr ""
 msgid "Enter manual name: "
 msgstr ""
 
-#: src/manual.cxx:1400 src/video.cxx:106
+#: src/manual.cxx:1395 src/video.cxx:105
 #, c-format
 msgid "Viewing line %d/%d, %d%%"
 msgstr ""
 
-#: src/manual.cxx:1402 src/video.cxx:109
+#: src/manual.cxx:1397 src/video.cxx:108
 #, c-format
 msgid "Viewing line %d/%d, 100%%"
 msgstr ""
@@ -213,23 +213,18 @@ msgstr ""
 msgid "Security warning: Unable to get UID of user called: %s\n"
 msgstr ""
 
-#: src/utils.cxx:112 src/utils.cxx:168
-#, c-format
-msgid "Virtual memory exhausted\n"
-msgstr ""
-
-#: src/utils.cxx:226
+#: src/utils.cxx:85
 #, c-format
 msgid ""
 "Illegal characters in filename!\n"
 "*** %s\n"
 msgstr ""
 
-#: src/utils.cxx:397
+#: src/utils.cxx:256
 msgid "yes"
 msgstr ""
 
-#: src/utils.cxx:398
+#: src/utils.cxx:257
 msgid "no"
 msgstr ""
 
