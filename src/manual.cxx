@@ -936,26 +936,21 @@ manualwork()
 					strip_manual(tmpstr);
 
 					/* execute search */
-					char* tmp = strdup(tmpstr.c_str());
-					if (pinfo_re_exec(tmp))
+					if (pinfo_re_exec(tmpstr.c_str()))
 					{		/* if found, enter here... */
 						success = 1;
-						xfree(tmp);
 						string newtmpstr = manual[i + 1];
 						strip_manual(newtmpstr);
 						/*
 						 * if it was found in the second line of the glued
 						 * expression.
 						 */
-						char* newtmp = strdup(newtmpstr.c_str());
-						if (pinfo_re_exec(newtmp))
+						if (pinfo_re_exec(newtmpstr.c_str()))
 							manualpos = i + 1;
 						else
 							manualpos = i;
-						xfree(newtmp);
 						break;
 					}
-					xfree(tmp);
 				}
 				rescan_selected();
 				if (!success)
@@ -1515,51 +1510,51 @@ add_highlights()
 					attrset(note);
 
 				/* if it's a link split into two lines */
-				if (manuallinks[i].carry == 1)
-				{
-					int x, y, ltline = manuallinks[i].line - 1;
-					/* find the line, where starts the split link */
-					int ltlinelen;
-					char *newlinemark;
-					string tmp_string = manual[ltline];
-					strip_manual(tmp_string);
-					char *tmpstr = strdup(tmp_string.c_str());
-					/* calculate the length of this line */
-					ltlinelen = strlen(tmpstr);
-					/* set this var to the last character of this line(to an '\n')*/
-					newlinemark = tmpstr + ltlinelen - 1;
+				if (manuallinks[i].carry == 1) {
+					int x, y;
 					getyx(stdscr, y, x);
-					if (y > 2)
-					{
-#define TestCh tmpstr[ltlinelen]
-						/* skip \n, -, and the at least one char... */
-						if (ltlinelen > 2)
-							ltlinelen -= 3;
+
+					int ltline = manuallinks[i].line - 1;
+					string tmp_string = manual[ltline];
+
+					strip_manual(tmp_string);
+
+					string::size_type link_begin = tmp_string.length();
+					if (y > 2) {
+						/* skip \n, -, and at least one more character */
+						if (link_begin > 2) {
+							link_begin -= 3;
+						}
 
 						/*
-						 * positon ltlinelen to the beginning of the link to be
+						 * positon link_begin to the beginning of the link to be
 						 * highlighted
 						 */
-						while ((isalpha(TestCh)) ||(TestCh == '.') ||(TestCh == '_'))
-							ltlinelen--;
+						while (    isalpha(tmp_string[link_begin])
+						        || (tmp_string[link_begin] == '.')
+						        || (tmp_string[link_begin] == '_')
+						      ) {
+							link_begin--;
+						}
 
-						*newlinemark = 0;
-						/* OK, link horizontally fits into screen */
-						if (ltlinelen>manualcol)
-							mvaddstr(manuallinks[i].line - manualpos + 1 - 1,
-									ltlinelen-manualcol, &tmpstr[ltlinelen]);
-						/*
-						 * we cut here a part of the link, and draw only what's
-						 * visible on screen
-						 */
-						else if (ltlinelen+strlen(&tmpstr[ltlinelen])>manualcol)
-							mvaddstr(manuallinks[i].line - manualpos + 1 - 1,
-									ltlinelen-manualcol, &tmpstr[manualcol]);
+						/* Chop off \n */
+						tmp_string.resize(tmp_string.length() - 1);
+						/* Chop off pre-link portion */
+						tmp_string = tmp_string.substr(link_begin);
 
-						*newlinemark = '\n';
-#undef TestCh
+						if (link_begin > manualcol) {
+							/* OK, link horizontally fits into screen */
+							mvaddstr(manuallinks[i].line - manualpos + 1 - 1,
+							         link_begin-manualcol, tmp_string.c_str());
+						} else if (link_begin + tmp_string.length() > manualcol) {
+							/*
+							 * we cut here a part of the link, and draw only what's
+							 * visible on screen
+							 */
+							mvaddstr(manuallinks[i].line - manualpos + 1 - 1,
+							         link_begin-manualcol, tmp_string.c_str());
+						}
 					}
-					xfree(tmpstr);
 					move(y, x);
 				}
 			}
