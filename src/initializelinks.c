@@ -153,8 +153,8 @@ finddot(char *str, int mynote)
 			return 0;
 		ptr++;
 	}
-	end[0] = strrchr(str, '.');	/* nodename entry may end with dot, comma */
-	end[1] = strrchr(str, ',');	/* tabulation, or newline */
+	end[0] = strchr(str, '.');	/* nodename entry may end with dot, comma */
+	end[1] = strchr(str, ',');	/* tabulation, or newline */
 	if (!mynote)
 	{
 		end[2] = strchr(str, '\t');
@@ -211,7 +211,7 @@ findemailstart(char *str)
 	return 0;
 }
 
-	void
+void
 initializelinks(char *line1, char *line2, int line)
 {
 	char *tmp;
