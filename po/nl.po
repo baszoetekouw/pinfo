@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: pinfo 0.6.8-svn\n"
 "Report-Msgid-Bugs-To: pinfo-devel@lists.alioth.debian.org\n"
-"POT-Creation-Date: 2005-09-01 21:48+0200\n"
+"POT-Creation-Date: 2005-09-08 16:01+0200\n"
 "PO-Revision-Date: 2005-09-01 21:21+0200\n"
 "Last-Translator: Bas Zoetekouw <bas@debian.org>\n"
 "Language-Team: Dutch <nl@li.org>\n"
@@ -15,35 +15,35 @@ msgstr ""
 "Content-Type: text/plain; charset=ISO-8859-15\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: src/filehandling_functions.c:442 src/filehandling_functions.c:449
+#: src/filehandling_functions.c:469 src/filehandling_functions.c:476
 #, c-format
 msgid "Searching for indirect done"
 msgstr "Indirectie zoekopdracht afgerond"
 
-#: src/filehandling_functions.c:480 src/filehandling_functions.c:486
+#: src/filehandling_functions.c:508 src/filehandling_functions.c:515
 #, c-format
 msgid "Warning: could not find tag table"
 msgstr "Waarschuwing: tag-tabel niet gevonden"
 
-#: src/filehandling_functions.c:513
+#: src/filehandling_functions.c:542
 #, c-format
 msgid "Searching for tag table done\n"
 msgstr "Zoeken naar tag-tabel afgerond\n"
 
-#: src/filehandling_functions.c:1172
+#: src/filehandling_functions.c:1203
 #, c-format
 msgid "Error: could not open info file\n"
 msgstr "Fout: kon de info file niet openen\n"
 
-#: src/mainfunction.c:143 src/manual.c:970
-msgid "Are you sure to print?"
+#: src/mainfunction.c:143 src/manual.c:971
+msgid "Are you sure you want to print?"
 msgstr "Weet u zeker dat u wilt printen?"
 
-#: src/mainfunction.c:195 src/manual.c:1015
+#: src/mainfunction.c:195 src/manual.c:1016
 msgid "Enter line: "
 msgstr "Voer regel in: "
 
-#: src/mainfunction.c:236 src/manual.c:1062
+#: src/mainfunction.c:236 src/manual.c:1063
 msgid "Enter command: "
 msgstr "Voer commando in:"
 
@@ -51,19 +51,19 @@ msgstr "Voer commando in:"
 msgid "Operation failed..."
 msgstr "Opdracht mislukt..."
 
-#: src/mainfunction.c:291 src/mainfunction.c:551 src/manual.c:1115
+#: src/mainfunction.c:291 src/mainfunction.c:551 src/manual.c:1116
 msgid "Enter regexp: "
 msgstr "Voer reguliere expressie in: "
 
-#: src/mainfunction.c:521 src/mainfunction.c:615 src/manual.c:1190
+#: src/mainfunction.c:521 src/mainfunction.c:615 src/manual.c:1192
 msgid "Search string not found..."
 msgstr "Zoekstring niet gevonden..."
 
-#: src/mainfunction.c:576 src/manual.c:1148
+#: src/mainfunction.c:576 src/manual.c:1149
 msgid "Invalid regular expression;"
 msgstr "Ongeldige reguliere expressie;"
 
-#: src/mainfunction.c:578 src/manual.c:1150
+#: src/mainfunction.c:578 src/manual.c:1151
 msgid "Press any key to continue..."
 msgstr "Druk een toets om door te gaan..."
 
@@ -76,63 +76,63 @@ msgstr "Voer node-naam in: "
 msgid "Node %s not found"
 msgstr "Node %s niet gevonden"
 
-#: src/mainfunction.c:1177 src/manual.c:1540
-msgid "Are you sure to quit?"
+#: src/mainfunction.c:1178 src/manual.c:1542
+msgid "Are you sure you want to quit?"
 msgstr "Weet u zeker dat u het programma wilt verlaten?"
 
-#: src/manual.c:312
+#: src/manual.c:314
 #, c-format
 msgid "Error: Cannot call man command.\n"
 msgstr "Fout: kan het man commando niet aanroepen.\n"
 
-#: src/manual.c:321
+#: src/manual.c:323
 #, c-format
 msgid "Error: No manual page found either.\n"
 msgstr "Fout: ook geen manual pagina gevonden.\n"
 
-#: src/manual.c:324
+#: src/manual.c:326
 #, c-format
 msgid "Apropos pages:\n"
 msgstr "Verwante pagina's:\n"
 
-#: src/manual.c:367
+#: src/manual.c:369
 msgid "Calling gunzip for"
 msgstr "Aanroepen van gunzip voor"
 
-#: src/manual.c:373
+#: src/manual.c:375
 #, c-format
 msgid "Couldn't call gunzip.\n"
 msgstr "Kon gunzip niet aanroepen.\n"
 
-#: src/manual.c:410
+#: src/manual.c:412
 msgid "IGNORING"
 msgstr "WORDT GENEGEERD"
 
-#: src/manual.c:453
+#: src/manual.c:455
 #, c-format
 msgid "Error: No manual page found\n"
 msgstr "Fout: geen manual pagina gevonden\n"
 
-#: src/manual.c:458
+#: src/manual.c:460
 #, c-format
 msgid "Calling apropos \n"
 msgstr "Aanroepen van apropos \n"
 
-#: src/manual.c:463
+#: src/manual.c:465
 #, c-format
 msgid "Nothing appropiate\n"
 msgstr "Niets geschikts\n"
 
-#: src/manual.c:984
+#: src/manual.c:985
 msgid "Enter manual name: "
 msgstr "Geef manual naam in: "
 
-#: src/manual.c:1623 src/video.c:114
+#: src/manual.c:1625 src/video.c:114
 #, c-format
 msgid "Viewing line %d/%d, %d%%"
 msgstr "Bekijken van regel %d/%d, %d%%"
 
-#: src/manual.c:1625 src/video.c:116
+#: src/manual.c:1627 src/video.c:116
 #, c-format
 msgid "Viewing line %d/%d, 100%%"
 msgstr "Bekijken van regel %d/%d, 100%%"
@@ -142,7 +142,7 @@ msgstr "Bekijken van regel %d/%d, 100%%"
 msgid "Can't open config file!\n"
 msgstr "Kan configuratiebestand niet openen!\n"
 
-#: src/parse_config.c:161
+#: src/parse_config.c:163
 #, c-format
 msgid "Parse error in config file on line %d\n"
 msgstr "Ontledingsfout in het configuratiebestand op regel %d\n"
@@ -189,7 +189,7 @@ msgstr "Vorige:"
 msgid "Up:"
 msgstr "Omhoog:"
 
-#: src/pinfo.c:113 src/pinfo.c:197
+#: src/pinfo.c:112 src/pinfo.c:197
 #, c-format
 msgid "Looking for man page...\n"
 msgstr "Opzoeken van man pagina...\n"
@@ -302,3 +302,6 @@ msgstr "Beveiligingswaarschuwing: kan GID van de groep `%s' niet vinden\n"
 #, c-format
 msgid "Security warning: Unable to get UID of user called: %s\n"
 msgstr "Beveiligingswaarschuwing: kan UID van de gebruiker `%s' niet vinden\n"
+
+#~ msgid "Are you sure to print?"
+#~ msgstr "Weet u zeker dat u wilt printen?"

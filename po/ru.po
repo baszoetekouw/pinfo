@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 0.5.3\n"
 "Report-Msgid-Bugs-To: pinfo-devel@lists.alioth.debian.org\n"
-"POT-Creation-Date: 2005-09-01 21:48+0200\n"
+"POT-Creation-Date: 2005-09-08 16:01+0200\n"
 "PO-Revision-Date: 2003-08-21 11:22+0200\n"
 "Last-Translator: Volosenkov Dmitry <_bil_@mail.ru>\n"
 "Language-Team: russian <ru@li.org>\n"
@@ -14,35 +14,35 @@ msgstr ""
 "Content-Type: text/plain; charset=koi8-r\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: src/filehandling_functions.c:442 src/filehandling_functions.c:449
+#: src/filehandling_functions.c:469 src/filehandling_functions.c:476
 #, c-format
 msgid "Searching for indirect done"
 msgstr ""
 
-#: src/filehandling_functions.c:480 src/filehandling_functions.c:486
+#: src/filehandling_functions.c:508 src/filehandling_functions.c:515
 #, c-format
 msgid "Warning: could not find tag table"
 msgstr "Предупреждение: не могу найти табличный тэг"
 
-#: src/filehandling_functions.c:513
+#: src/filehandling_functions.c:542
 #, c-format
 msgid "Searching for tag table done\n"
 msgstr "Поиск табличного тэга завершен\n"
 
-#: src/filehandling_functions.c:1172
+#: src/filehandling_functions.c:1203
 #, c-format
 msgid "Error: could not open info file\n"
 msgstr "Ошибка: не могу найти info файл\n"
 
-#: src/mainfunction.c:143 src/manual.c:970
-msgid "Are you sure to print?"
+#: src/mainfunction.c:143 src/manual.c:971
+msgid "Are you sure you want to print?"
 msgstr "Вы действительно желаете напечатать"
 
-#: src/mainfunction.c:195 src/manual.c:1015
+#: src/mainfunction.c:195 src/manual.c:1016
 msgid "Enter line: "
 msgstr "Введите строку: "
 
-#: src/mainfunction.c:236 src/manual.c:1062
+#: src/mainfunction.c:236 src/manual.c:1063
 msgid "Enter command: "
 msgstr "Введите команду: "
 
@@ -50,19 +50,19 @@ msgstr "Введите команду: "
 msgid "Operation failed..."
 msgstr "Действие не удалось..."
 
-#: src/mainfunction.c:291 src/mainfunction.c:551 src/manual.c:1115
+#: src/mainfunction.c:291 src/mainfunction.c:551 src/manual.c:1116
 msgid "Enter regexp: "
 msgstr "Введите регулярное выражение: "
 
-#: src/mainfunction.c:521 src/mainfunction.c:615 src/manual.c:1190
+#: src/mainfunction.c:521 src/mainfunction.c:615 src/manual.c:1192
 msgid "Search string not found..."
 msgstr "Строка не найдена..."
 
-#: src/mainfunction.c:576 src/manual.c:1148
+#: src/mainfunction.c:576 src/manual.c:1149
 msgid "Invalid regular expression;"
 msgstr ""
 
-#: src/mainfunction.c:578 src/manual.c:1150
+#: src/mainfunction.c:578 src/manual.c:1151
 msgid "Press any key to continue..."
 msgstr ""
 
@@ -75,63 +75,63 @@ msgstr "Введите имя ноды: "
 msgid "Node %s not found"
 msgstr "Узел %s не найден"
 
-#: src/mainfunction.c:1177 src/manual.c:1540
-msgid "Are you sure to quit?"
+#: src/mainfunction.c:1178 src/manual.c:1542
+msgid "Are you sure you want to quit?"
 msgstr "Вы действительно желаете выйти?"
 
-#: src/manual.c:312
+#: src/manual.c:314
 #, c-format
 msgid "Error: Cannot call man command.\n"
 msgstr "Ошибка: Невозможно запустить man\n"
 
-#: src/manual.c:321
+#: src/manual.c:323
 #, c-format
 msgid "Error: No manual page found either.\n"
 msgstr "Ошибка: Man страница не найдена также.\n"
 
-#: src/manual.c:324
+#: src/manual.c:326
 #, fuzzy, c-format
 msgid "Apropos pages:\n"
 msgstr "Подходящие страницы:\n"
 
-#: src/manual.c:367
+#: src/manual.c:369
 msgid "Calling gunzip for"
 msgstr "Запуск gunzip для"
 
-#: src/manual.c:373
+#: src/manual.c:375
 #, c-format
 msgid "Couldn't call gunzip.\n"
 msgstr "Невозможно запустить gunzip \n"
 
-#: src/manual.c:410
+#: src/manual.c:412
 msgid "IGNORING"
 msgstr ""
 
-#: src/manual.c:453
+#: src/manual.c:455
 #, c-format
 msgid "Error: No manual page found\n"
 msgstr "Ошибка: страница руководства не найдена.\n"
 
-#: src/manual.c:458
+#: src/manual.c:460
 #, c-format
 msgid "Calling apropos \n"
 msgstr ""
 
-#: src/manual.c:463
+#: src/manual.c:465
 #, fuzzy, c-format
 msgid "Nothing appropiate\n"
 msgstr "Ничего подходящего\n"
 
-#: src/manual.c:984
+#: src/manual.c:985
 msgid "Enter manual name: "
 msgstr "Введите название руководства: "
 
-#: src/manual.c:1623 src/video.c:114
+#: src/manual.c:1625 src/video.c:114
 #, c-format
 msgid "Viewing line %d/%d, %d%%"
 msgstr "Просматриваю строчку %d/%d, %d%%"
 
-#: src/manual.c:1625 src/video.c:116
+#: src/manual.c:1627 src/video.c:116
 #, c-format
 msgid "Viewing line %d/%d, 100%%"
 msgstr "Просматриваю строчку %d/%d, 100%%"
@@ -141,7 +141,7 @@ msgstr "Просматриваю строчку %d/%d, 100%%"
 msgid "Can't open config file!\n"
 msgstr ""
 
-#: src/parse_config.c:161
+#: src/parse_config.c:163
 #, c-format
 msgid "Parse error in config file on line %d\n"
 msgstr "Синтаксическая ошибка конфигурационного файла в строке %d\n"
@@ -188,7 +188,7 @@ msgstr "Пред.:"
 msgid "Up:"
 msgstr "Вверх:"
 
-#: src/pinfo.c:113 src/pinfo.c:197
+#: src/pinfo.c:112 src/pinfo.c:197
 #, c-format
 msgid "Looking for man page...\n"
 msgstr "Ищу man страницу...\n"
@@ -275,6 +275,9 @@ msgstr ""
 #, c-format
 msgid "Security warning: Unable to get UID of user called: %s\n"
 msgstr ""
+
+#~ msgid "Are you sure to print?"
+#~ msgstr "Вы действительно желаете напечатать"
 
 #~ msgid "Warning: could not find tag table\n"
 #~ msgstr "Предупреждение: не могу найти табличный тэг\n"
