@@ -504,6 +504,7 @@ handle_no_file_menu_label:
 	else if (    ( (notestart = strstr(buf, "*note")) != NULL )
 		      || ( (notestart = strstr(buf, "*Note")) != NULL ) )
 	{
+handlenote:
 		/*************************************************************************
 		 * Scan for normal note of kind "*(infofile)reference:: comment", where  *
 		 * the infofile parameter is optional, and indicates, that a reference   *
