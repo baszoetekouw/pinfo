@@ -381,7 +381,7 @@ main(int argc, char *argv[])
 			/* read the node */
 			read_item(id, &type, &message, &lines);
 
-			/* handle goto/link where no file was found -- see bellow */
+			/* handle goto/link where no file was found -- see below */
 			if (!filenotfound)
 				addinfohistory(curfile, tag_table[tag_table_pos].nodename, -1, -1, -1);
 			else
