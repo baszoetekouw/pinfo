@@ -118,7 +118,6 @@ work(const vector<string> my_message, string type_str, FILE * id, int tag_table_
 	int key = 0;
 	int return_value;
 	int statusline = FREE;
-	char *tmp;
 	/* if the static variable was allocated, free it */
 	rval.file = "";
 	rval.node = "";
@@ -407,6 +406,7 @@ work(const vector<string> my_message, string type_str, FILE * id, int tag_table_
 							fseek(fd, FirstNodeOffset, SEEK_SET);
 						starttokenpos = ftell(fd);
 
+						char *tmp;
 						tmp = (char*)xmalloc(filelen - starttokenpos + 10);	/* read data */
 						fread(tmp, 1, filelen - starttokenpos, fd);
 						tmp[filelen - starttokenpos + 1] = 0;
@@ -474,12 +474,12 @@ work(const vector<string> my_message, string type_str, FILE * id, int tag_table_
 								break;
 							}
 						}	/* end: if (tokenpos) */
+						if (tmp)	/* free tmp buffer */
+						{
+							xfree(tmp);
+							tmp = 0;
+						}
 					}		/* end: indirect file loop */
-					if (tmp)	/* free tmp buffer */
-					{
-						xfree(tmp);
-						tmp = 0;
-					}
 					fclose(fd);
 				}		/* end: if (indirect) */
 				else /* if not indirect */
@@ -489,6 +489,7 @@ work(const vector<string> my_message, string type_str, FILE * id, int tag_table_
 					long filepos = ftell(id);
 					long tokenpos;
 					long starttokenpos;
+					char *tmp;
 
 					fseek(id, 0, SEEK_END);	/* calculate filelength */
 					filelen = ftell(id);
@@ -639,26 +640,18 @@ work(const vector<string> my_message, string type_str, FILE * id, int tag_table_
 					 */
 					string tmpstr = my_message[i];
 					tmpstr += my_message[i + 1];
-					tmp = strdup(tmpstr.c_str());
-					if (pinfo_re_exec(tmp))	{ /* execute the search command */
+					if (pinfo_re_exec(tmpstr.c_str()))	{ /* execute the search command */
 						/* if found, enter here */
 						success = 1;
-						char* tmp2 = strdup(my_message[i + 1].c_str());
-						if (pinfo_re_exec(tmp2)) {
+						if (pinfo_re_exec(my_message[i + 1].c_str())) {
 						/* if token was found in the second line, make pos=i+1.  */
 							pos = i + 1;
 						}	else {
 							/* otherwise, pos=i. This happens when we have a split expression. */
 							pos = i;
 						}
-						free(tmp2);
-						free(tmp);
-						tmp = 0;
 						aftersearch = 1;
 						break;
-					} else { /* nothing found */
-						xfree(tmp);	/* free tmp buffer */
-						tmp = 0;
 					}
 				}
 				if (!success)
