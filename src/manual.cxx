@@ -741,7 +741,7 @@ manualwork()
 			if ((key == keys.print_1) ||
 					(key == keys.print_2))
 			{
-				if (yesno(_("Are you sure to print?"), 0))
+				if (yesno(_("Are you sure you want to print?"), 0))
 					printmanual(manual);
 			}
 			/*====================================================*/
@@ -1313,7 +1313,7 @@ skip_search:
 				break;
 			else
 			{
-				if (yesno(_("Are you sure to quit?"), QuitConfirmDefault))
+				if (yesno(_("Are you sure you want to quit?"), QuitConfirmDefault))
 					break;
 			}
 		}

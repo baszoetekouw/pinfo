@@ -583,6 +583,7 @@ work(const vector<string> my_message, string type_str, FILE * id, int tag_table_
 					rval.node = tag_table[return_value].nodename;
 					rval.file = "";
 					rval.keep_going = true;
+					/* NOTE: This is the only case where aftersearch is not reset */
 					return rval;
 				}
 			}			/* end: if key_totalsearch */
@@ -1206,7 +1207,7 @@ skip_search:
 				break;
 			else
 			{
-				if (yesno(_("Are you sure to quit?"), QuitConfirmDefault))
+				if (yesno(_("Are you sure you want to quit?"), QuitConfirmDefault))
 					break;
 			}
 		}
