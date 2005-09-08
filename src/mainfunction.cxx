@@ -317,7 +317,10 @@ work(const vector<string> my_message, string type_str, FILE * id, int tag_table_
 				rval.file = "dir";
 				rval.node = "";
 				rval.keep_going = true;
-				aftersearch = 0;
+				if (aftersearch) {
+					aftersearch = 0;
+					h_regexp.pop_back();
+				}
 				return rval;
 			}
 			/*==========================================================================*/
@@ -706,7 +709,10 @@ skip_search:
 					rval.node = tag_table[return_value].nodename;
 					rval.file = "";
 					rval.keep_going = true;
-					aftersearch = 0;
+					if (aftersearch) {
+						aftersearch = 0;
+						h_regexp.pop_back();
+					}
 					return rval;
 				} else {
 					/* the name wasn't in tag table */
@@ -738,7 +744,10 @@ skip_search:
 							rval.keep_going = true;
 							xfree(token);
 							token = 0;
-							aftersearch = 0;
+							if (aftersearch) {
+								aftersearch = 0;
+								h_regexp.pop_back();
+							}
 							return rval;
 						}
 					}	else if (strstr(token, ".info")) {
@@ -747,7 +756,10 @@ skip_search:
 						xfree(token);
 						token = 0;
 						rval.node = "";
-						aftersearch = 0;
+						if (aftersearch) {
+							aftersearch = 0;
+							h_regexp.pop_back();
+						}
 						rval.keep_going = true;
 						return rval;
 					} else {
@@ -778,7 +790,10 @@ skip_search:
 					rval.node = tag_table[return_value].nodename;
 					rval.file = "";
 					rval.keep_going = true;
-					aftersearch = 0;
+					if (aftersearch) {
+						aftersearch = 0;
+						h_regexp.pop_back();
+					}
 					return rval;
 				}
 			}
@@ -797,7 +812,10 @@ skip_search:
 					rval.node = tag_table[return_value].nodename;
 					rval.file = "";
 					rval.keep_going = true;
-					aftersearch = 0;
+					if (aftersearch) {
+						aftersearch = 0;
+						h_regexp.pop_back();
+					}
 					return rval;
 				}
 			}
@@ -822,7 +840,10 @@ skip_search:
 					rval.node = tag_table[return_value].nodename;
 					rval.file = "";
 					rval.keep_going = true;
-					aftersearch = 0;
+					if (aftersearch) {
+						aftersearch = 0;
+						h_regexp.pop_back();
+					}
 					return rval;
 				}
 			}
@@ -990,7 +1011,10 @@ skip_search:
 				rval.node = FirstNodeName;
 				rval.file = "";
 				rval.keep_going = true;
-				aftersearch = 0;
+				if (aftersearch) {
+					aftersearch = 0;
+					h_regexp.pop_back();
+				}
 				return rval;
 			}
 			/*==========================================================================*/
@@ -1010,7 +1034,10 @@ skip_search:
 					ncursor = infohistory[infohistory.size() - 1].cursor;
 					nmenu = infohistory[infohistory.size() - 1].menu;
 					dellastinfohistory();	/* remove history entry for previous node */
-					aftersearch = 0;
+					if (aftersearch) {
+						aftersearch = 0;
+						h_regexp.pop_back();
+					}
 					return rval;
 				}
 			}
@@ -1034,7 +1061,10 @@ skip_search:
 							rval.node = hyperobjects[cursor].node;
 							rval.file = hyperobjects[cursor].file;
 							rval.keep_going = true;
-							aftersearch = 0;
+							if (aftersearch) {
+								aftersearch = 0;
+								h_regexp.pop_back();
+							}
 							return rval;
 						}
 						else if (hyperobjects[cursor].type < HIGHLIGHT)	/* we deal with an url */
@@ -1206,7 +1236,10 @@ skip_search:
 			}
 		}
 	}
-	aftersearch = 0;
+	if (aftersearch) {
+		aftersearch = 0;
+		h_regexp.pop_back();
+	}
 	return rval;
 }
 
