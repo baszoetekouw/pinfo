@@ -407,7 +407,8 @@ work(const vector<string> my_message, string type_str, FILE * id, int tag_table_
 						starttokenpos = ftell(fd);
 
 						char *tmp;
-						tmp = (char*)xmalloc(filelen - starttokenpos + 10);	/* read data */
+						tmp = new char[filelen - starttokenpos + 10];
+						/* read data */
 						fread(tmp, 1, filelen - starttokenpos, fd);
 						tmp[filelen - starttokenpos + 1] = 0;
 
@@ -468,7 +469,7 @@ work(const vector<string> my_message, string type_str, FILE * id, int tag_table_
 							{
 								if (tmp)	/* free tmp buffer */
 								{
-									xfree(tmp);
+									delete tmp;
 									tmp = 0;
 								}
 								break;
@@ -476,7 +477,7 @@ work(const vector<string> my_message, string type_str, FILE * id, int tag_table_
 						}	/* end: if (tokenpos) */
 						if (tmp)	/* free tmp buffer */
 						{
-							xfree(tmp);
+							delete tmp;
 							tmp = 0;
 						}
 					}		/* end: indirect file loop */
@@ -489,7 +490,6 @@ work(const vector<string> my_message, string type_str, FILE * id, int tag_table_
 					long filepos = ftell(id);
 					long tokenpos;
 					long starttokenpos;
-					char *tmp;
 
 					fseek(id, 0, SEEK_END);	/* calculate filelength */
 					filelen = ftell(id);
@@ -500,8 +500,9 @@ work(const vector<string> my_message, string type_str, FILE * id, int tag_table_
 					/* remember the number of skipped bytes.*/
 					starttokenpos = ftell(id);
 
+					char *tmp;
 					/* read data */
-					tmp = (char*)xmalloc(filelen - starttokenpos + 10);
+					tmp = new char[filelen - starttokenpos + 10]; /* FIXME */
 					fread(tmp, 1, filelen - starttokenpos, id);
 					tmp[filelen - starttokenpos + 1] = 0;
 
@@ -560,7 +561,7 @@ work(const vector<string> my_message, string type_str, FILE * id, int tag_table_
 					}		/* end: if (tokenpos) <--> token found */
 					if (tmp)	/* free tmp buffer */
 					{
-						xfree(tmp);
+						delete tmp;
 						tmp = 0;
 					}
 				}		/* end: if (!indirect) */
