@@ -124,8 +124,8 @@ finddot(char *str, int note)
 			return 0;
 		ptr++;
 	}
-	end[0] = strrchr(str, '.');	/* nodename entry may end with dot, comma */
-	end[1] = strrchr(str, ',');	/* tabulation, or newline */
+	end[0] = strchr(str, '.');	/* nodename entry may end with dot, comma */
+	end[1] = strchr(str, ',');	/* tabulation, or newline */
 	if (!note)
 	{
 		end[2] = strchr(str, '\t');
