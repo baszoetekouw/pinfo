@@ -426,7 +426,6 @@ main(int argc, char *argv[]) {
 					filenameprefix.clear();
 					id = openinfo(work_return_value.file, 0);
 
-					char *tmp = NULL;
 					/* if the file doesn't exist */
 					if (id == NULL)
 					{
@@ -446,7 +445,6 @@ main(int argc, char *argv[]) {
 						strip_info_suffix_from_file(curfile);
 						string tmpstr = curfile;
 						id = openinfo(tmpstr, 0);
-						tmp = NULL;
 						if (id == NULL)
 						{
 							closeprogram();

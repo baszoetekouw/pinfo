@@ -314,7 +314,7 @@ myclrtoeol()
 void
 copy_stripped_from_regexp(char *src, char *dest)
 {
-	char *forbidden = "*.\\()[]\n";
+	const char *forbidden = "*.\\()[]\n";
 	while (strchr(forbidden, *src) == NULL)
 	{
 		if (*src == 0)
