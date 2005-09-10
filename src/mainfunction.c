@@ -288,7 +288,7 @@ work(char ***message, char **type, long *lines, FILE * id, int tag_table_pos)
 				curs_set(1);
 				if (!searchagain.search)	/* if searchagain key wasn't hit */
 				{
-					token = getstring(_("Enter regexp: "));	/* get the token */
+					token = getstring(_("Enter regular expression: "));	/* get the token */
 					strcpy(searchagain.lastsearch, token);	/* and save it to searchagain buffer */
 					/*
 					 * give a hint, which key to ungetch to call this procedure
@@ -548,7 +548,7 @@ work(char ***message, char **type, long *lines, FILE * id, int tag_table_pos)
 				curs_set(1);
 				if (!searchagain.search)	/* searchagain handler. see totalsearch */
 				{
-					token = getstring(_("Enter regexp: "));
+					token = getstring(_("Enter regular expression: "));
 					strcpy(searchagain.lastsearch, token);
 					searchagain.type = key;
 				}

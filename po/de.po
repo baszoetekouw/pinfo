@@ -6,9 +6,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: pinfo-0.5.0\n"
 "Report-Msgid-Bugs-To: pinfo-devel@lists.alioth.debian.org\n"
-"POT-Creation-Date: 2005-09-08 16:01+0200\n"
+"POT-Creation-Date: 2005-09-09 21:37+0200\n"
 "PO-Revision-Date: 1999-04-21 01:50+0200\n"
-"Last-Translator: Matthias Warkus <mawa@iname.com>\n"
+"Last-Translator: René van Bevern <rvb@pro-linux.de>\n"
 "Language-Team: German <de@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=ISO-8859-1\n"
@@ -17,7 +17,7 @@ msgstr ""
 #: src/filehandling_functions.c:469 src/filehandling_functions.c:476
 #, c-format
 msgid "Searching for indirect done"
-msgstr "Suche nach Node-Verzeichnis abgeschlossen."
+msgstr "Suche nach Knotenverzeichnis abgeschlossen."
 
 #: src/filehandling_functions.c:508 src/filehandling_functions.c:515
 #, c-format
@@ -40,7 +40,7 @@ msgstr "Wollen Sie wirklich drucken?"
 
 #: src/mainfunction.c:195 src/manual.c:1016
 msgid "Enter line: "
-msgstr "Zeile eingeben: "
+msgstr "Bitte Zeilennummer eingeben: "
 
 #: src/mainfunction.c:236 src/manual.c:1063
 msgid "Enter command: "
@@ -51,8 +51,9 @@ msgid "Operation failed..."
 msgstr "Funktion fehlgeschlagen..."
 
 #: src/mainfunction.c:291 src/mainfunction.c:551 src/manual.c:1116
-msgid "Enter regexp: "
-msgstr "Bitte Regexp eingeben: "
+#, fuzzy
+msgid "Enter regular expression: "
+msgstr "Bitte regulären Ausdruck eingeben: "
 
 #: src/mainfunction.c:521 src/mainfunction.c:615 src/manual.c:1192
 #, fuzzy
@@ -61,29 +62,29 @@ msgstr "Warnung: Konnte keine Tag-Tabelle finden...\n"
 
 #: src/mainfunction.c:576 src/manual.c:1149
 msgid "Invalid regular expression;"
-msgstr ""
+msgstr "Ungültiger regulärer Ausdruck;"
 
 #: src/mainfunction.c:578 src/manual.c:1151
 msgid "Press any key to continue..."
-msgstr ""
+msgstr "Beliebige Taste drücken, um fortzufahren..."
 
 #: src/mainfunction.c:644
 msgid "Enter node name: "
-msgstr "Bitte Node-Namen eingeben: "
+msgstr "Bitte Knotennamen eingeben: "
 
 #: src/mainfunction.c:720
 #, c-format
 msgid "Node %s not found"
-msgstr "Node %s wurde nicht gefunden."
+msgstr "Knoten %s wurde nicht gefunden."
 
 #: src/mainfunction.c:1178 src/manual.c:1542
 msgid "Are you sure you want to quit?"
-msgstr "Sind Sie sicher, daß Sie beenden wollen?"
+msgstr "Sind Sie sicher, dass Sie pinfo beenden wollen?"
 
 #: src/manual.c:314
 #, c-format
 msgid "Error: Cannot call man command.\n"
-msgstr ""
+msgstr "Fehler: Kann 'man' nicht ausführen.\n"
 
 #: src/manual.c:323
 #, c-format
@@ -97,36 +98,36 @@ msgstr "Passende Seiten:\n"
 
 #: src/manual.c:369
 msgid "Calling gunzip for"
-msgstr ""
+msgstr "Rufe gunzip auf für"
 
 #: src/manual.c:375
 #, c-format
 msgid "Couldn't call gunzip.\n"
-msgstr ""
+msgstr "Konnte gunzip nicht ausführen.\n"
 
 #: src/manual.c:412
 msgid "IGNORING"
-msgstr ""
+msgstr "IGNORIERE"
 
 #: src/manual.c:455
 #, fuzzy, c-format
 msgid "Error: No manual page found\n"
-msgstr "Fehler: Es wurde auch keine Manpage gefunden.\n"
+msgstr "Fehler: Es wurde keine Manpage gefunden.\n"
 
 #: src/manual.c:460
 #, c-format
 msgid "Calling apropos \n"
-msgstr ""
+msgstr "Rufe apropos auf \n"
 
 #: src/manual.c:465
 #, c-format
 msgid "Nothing appropiate\n"
-msgstr ""
+msgstr "Nichts entsprechendes gefunden.\n"
 
 #: src/manual.c:985
 #, fuzzy
 msgid "Enter manual name: "
-msgstr "Bitte Node-Namen eingeben: "
+msgstr "Bitte Manpage-Namen eingeben: "
 
 #: src/manual.c:1625 src/video.c:114
 #, c-format
@@ -141,7 +142,7 @@ msgstr "Zeile %d/%d, 100%%"
 #: src/parse_config.c:113
 #, c-format
 msgid "Can't open config file!\n"
-msgstr ""
+msgstr "Kann Konfigurationsdatei nicht öffnen.\n"
 
 #: src/parse_config.c:163
 #, c-format
@@ -159,7 +160,7 @@ msgid ""
 "Illegal characters in filename!\n"
 "*** %s\n"
 msgstr ""
-"Ungültiges Zeichen im Dateinamen!\n"
+"Ungültiges Zeichen im Dateinamen.\n"
 "*** %s\n"
 
 #: src/utils.c:432
@@ -176,7 +177,7 @@ msgstr "Datei:"
 
 #: src/video.c:62
 msgid "Node:"
-msgstr "Node:"
+msgstr "Knoten:"
 
 #: src/video.c:63
 msgid "Next:"
@@ -203,7 +204,7 @@ msgstr "--node-Option ohne Argument benutzt\n"
 #: src/pinfo.c:160
 #, fuzzy, c-format
 msgid "--rcfile option used without argument\n"
-msgstr "--node-Option ohne Argument benutzt\n"
+msgstr "--rcfile-Option ohne Argument benutzt\n"
 
 #: src/pinfo.c:171
 #, fuzzy, c-format
@@ -236,8 +237,9 @@ msgstr ""
 "-v, --version                         Version\n"
 "-m, --manual                          Man-Page verwenden\n"
 "-r, --raw-filename                    rohen Dateinamen verwenden\n"
-"-a, --apropos                         Apropos aufrufen, wenn nichts "
-"gefunden\n"
+"-f, --file                            synonym für -r\n"
+"-a, --apropos                         Apropos aufrufen, wenn nichts gefunden\n"
+"-p, --plain-apropos                   nur apropos aufrufen\n"
 "-c, --cut-man-headers                 wiederholte Man-Kopfzeilen entfernen\n"
 "-l, --long-manual-links               lange Linknamen in Man-Pages benutzen\n"
 "-s, --squeeze-manlines                leere Zeilen aus Man-Pages entfernen\n"
@@ -246,12 +248,14 @@ msgstr ""
 "-t, --force-manual-tag-table          Manuelles Auffinden der Tagtabelle\n"
 "                                      erzwingen\n"
 "-x, --clear-at-exit                   Schirm beim Verlassen löschen\n"
-"    --node=knoten, --node knoten      direkt zum Knoten knoten springen\n"
+"    --node=knoten, --node knoten      direkt zum Knoten 'knoten' springen\n"
+"    --rcfile=datei, --rcfile datei    alternative Konfigurationsdatei "
+"benutzen\n"
 
 #: src/pinfo.c:311
 #, c-format
 msgid "Error: could not open info file, trying manual\n"
-msgstr "Fehler: Info Datei nicht gefunden, suche nach einer Manpage... \n"
+msgstr "Fehler: Info-Datei nicht gefunden, suche nach einer Manpage... \n"
 
 #: src/pinfo.c:344
 #, c-format
@@ -289,12 +293,12 @@ msgstr "Versuche eine alternative Tag-Tabelle zu erstellen..."
 #: src/pinfo.c:583
 #, c-format
 msgid "Security warning: Unable to get GID of group called: %s\n"
-msgstr ""
+msgstr "Sicherheitswarnung: Konnte GID der Gruppe %s nicht ermitteln.\n"
 
 #: src/pinfo.c:603
 #, c-format
 msgid "Security warning: Unable to get UID of user called: %s\n"
-msgstr ""
+msgstr "Sicherheitswarnung: Konnte UID des Benutzers %s nicht ermitteln.\n"
 
 #~ msgid "Are you sure to print?"
 #~ msgstr "Wollen Sie wirklich drucken?"
