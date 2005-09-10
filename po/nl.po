@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: pinfo 0.6.8-svn\n"
 "Report-Msgid-Bugs-To: pinfo-devel@lists.alioth.debian.org\n"
-"POT-Creation-Date: 2005-09-08 16:01+0200\n"
+"POT-Creation-Date: 2005-09-09 21:37+0200\n"
 "PO-Revision-Date: 2005-09-01 21:21+0200\n"
 "Last-Translator: Bas Zoetekouw <bas@debian.org>\n"
 "Language-Team: Dutch <nl@li.org>\n"
@@ -52,7 +52,7 @@ msgid "Operation failed..."
 msgstr "Opdracht mislukt..."
 
 #: src/mainfunction.c:291 src/mainfunction.c:551 src/manual.c:1116
-msgid "Enter regexp: "
+msgid "Enter regular expression: "
 msgstr "Voer reguliere expressie in: "
 
 #: src/mainfunction.c:521 src/mainfunction.c:615 src/manual.c:1192
@@ -303,5 +303,3 @@ msgstr "Beveiligingswaarschuwing: kan GID van de groep `%s' niet vinden\n"
 msgid "Security warning: Unable to get UID of user called: %s\n"
 msgstr "Beveiligingswaarschuwing: kan UID van de gebruiker `%s' niet vinden\n"
 
-#~ msgid "Are you sure to print?"
-#~ msgstr "Weet u zeker dat u wilt printen?"

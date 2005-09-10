@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: pinfo 0.6.3\n"
 "Report-Msgid-Bugs-To: pinfo-devel@lists.alioth.debian.org\n"
-"POT-Creation-Date: 2005-09-08 16:01+0200\n"
+"POT-Creation-Date: 2005-09-09 21:37+0200\n"
 "PO-Revision-Date: 2001-11-21 17:42+0900\n"
 "Last-Translator: Masayuki Hatta <mhatta@gnu.org>\n"
 "Language-Team: Japanese <ja@li.org>\n"
@@ -51,7 +51,8 @@ msgid "Operation failed..."
 msgstr "操作に失敗しました..."
 
 #: src/mainfunction.c:291 src/mainfunction.c:551 src/manual.c:1116
-msgid "Enter regexp: "
+#, fuzzy
+msgid "Enter regular expression: "
 msgstr "正規表現を入力: "
 
 #: src/mainfunction.c:521 src/mainfunction.c:615 src/manual.c:1192

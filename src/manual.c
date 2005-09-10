@@ -1113,7 +1113,7 @@ manualwork()
 				 */
 				if (!searchagain.search)
 				{
-					token = getstring(_("Enter regexp: "));
+					token = getstring(_("Enter regular expression: "));
 					strcpy(searchagain.lastsearch, token);
 					searchagain.type = key;
 				}

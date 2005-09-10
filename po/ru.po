@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 0.5.3\n"
 "Report-Msgid-Bugs-To: pinfo-devel@lists.alioth.debian.org\n"
-"POT-Creation-Date: 2005-09-08 16:01+0200\n"
+"POT-Creation-Date: 2005-09-09 21:37+0200\n"
 "PO-Revision-Date: 2003-08-21 11:22+0200\n"
 "Last-Translator: Volosenkov Dmitry <_bil_@mail.ru>\n"
 "Language-Team: russian <ru@li.org>\n"
@@ -51,7 +51,8 @@ msgid "Operation failed..."
 msgstr "Действие не удалось..."
 
 #: src/mainfunction.c:291 src/mainfunction.c:551 src/manual.c:1116
-msgid "Enter regexp: "
+#, fuzzy
+msgid "Enter regular expression: "
 msgstr "Введите регулярное выражение: "
 
 #: src/mainfunction.c:521 src/mainfunction.c:615 src/manual.c:1192

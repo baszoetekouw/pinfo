@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: pinfo-0.5.6\n"
 "Report-Msgid-Bugs-To: pinfo-devel@lists.alioth.debian.org\n"
-"POT-Creation-Date: 2005-09-08 16:01+0200\n"
+"POT-Creation-Date: 2005-09-09 21:37+0200\n"
 "PO-Revision-Date: 1999-08-28 00:05+0200\n"
 "Last-Translator: Jiøí Pavlovský <pavlovsk@ff.cuni.cz>\n"
 "Language-Team: Czech <cs@li.org>\n"
@@ -50,7 +50,8 @@ msgid "Operation failed..."
 msgstr "Operace se nezdaøila..."
 
 #: src/mainfunction.c:291 src/mainfunction.c:551 src/manual.c:1116
-msgid "Enter regexp: "
+#, fuzzy
+msgid "Enter regular expression: "
 msgstr "Zadejte regulární výraz: "
 
 #: src/mainfunction.c:521 src/mainfunction.c:615 src/manual.c:1192
