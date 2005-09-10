@@ -565,7 +565,13 @@ check_node_name( const char * const node_name, const char * const node_header)
 	/* so, now str_start point to a \0-terminated string containing the 
 	 * node name from the header.
 	 * Let's compare it with the node_name we're looking for */
-	if ( strcmp(str_start, node_name)==0 )
+	res = strcmp(str_start, node_name);
+
+	/* we're done, so free alloc'ed vars */
+	xfree(header);
+
+	/* check result of strcmp() and return */
+	if ( res==0 )
 	{
 		/* match found */
 		return 1;
