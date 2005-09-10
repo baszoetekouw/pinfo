@@ -78,4 +78,16 @@ void waitforgetch ();
 /* is curses screen open? */
 extern int curses_open;
 
+/*
+ * this functions checks whether the node header node_header 
+ * corresponds to node node_name
+ *
+ * returns  0 if node_header does not belong to a node with name node_name
+ * returns -1 if no checking was done (e.g. because node_name was NULL)
+ * returns  1 if check turned out ok
+ */
+int
+check_node_name( const char * const node_name, const char * const node_header);
+
+
 #endif
