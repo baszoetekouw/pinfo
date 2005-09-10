@@ -61,6 +61,7 @@ main(int argc, char *argv[])
 	/* this will hold the node's header */
 	char *type = 0;
 	int tag_table_pos = 1;
+	char *file_name_force = NULL;
 #ifdef HAVE_GETOPT_LONG
 	static struct option long_options[] =
 	{
@@ -383,10 +384,71 @@ main(int argc, char *argv[])
 
 			/* handle goto/link where no file was found -- see below */
 			if (!filenotfound)
-				addinfohistory(curfile, tag_table[tag_table_pos].nodename, -1, -1, -1);
+			{
+				addinfohistory(curfile, tag_table[tag_table_pos].nodename, 
+						-1, -1, -1);
+			}
 			else
 				filenotfound = 0;
-			work_return_value = work(&message, &type, &lines, id, tag_table_pos);
+
+			/* this might have been allocated in the previous iteration */
+			if (file_name_force!=NULL) 
+			{
+				xfree(file_name_force);
+				file_name_force = NULL;
+			}
+
+			/* check if we really found the node we were looking for
+			 * (don't do this for tag tables we manually created, as this 
+			 * might cause a loop if somethign goes wrong)
+			 *
+			 * the entire handling of file_name_force and work_return_value.file is a 
+			 * big hack, but it'll have to do for now, until the entire work 
+			 * loop thing is rewritten.
+			 */
+			if ( (ForceManualTagTable==0)
+				 && (check_node_name(work_return_value.node, type) == 0 ))
+			{
+				/* Oops, we found the wrong node! */
+
+				/* display error message to make the user aware of 
+				 * the broken info page 
+				 */
+				char msg[81];
+				snprintf(msg, 81, "%s (%s)", 
+						_("Tag table is corrupt, trying to fix..."),
+						_("press a key to continue") );
+				attrset(bottomline);
+				mvhline(maxy - 1, 0, ' ', maxx);
+				mvaddstr(maxy - 1, 0, msg);
+				move(0, 0);
+				attrset(normal);
+				getch();
+
+				/* We found another node than we were looking for, so the 
+				 * tag table must be corrupt. Try to fix it by manually
+				 * creating tag tables and... */
+				ForceManualTagTable = 1;
+				
+				/* forcing the current file to reload by seting 
+				 * work_return_value.file to the current file, and the current 
+				 * file to \0
+				 */
+				if (file_name_force) xfree(file_name_force);
+				file_name_force = xmalloc( strlen(curfile)+1 ); /* freed below */
+				strcpy(file_name_force, curfile);
+				curfile[0] = '\0';
+				work_return_value.file = file_name_force;
+
+				/* remove this try from the history stack */
+				dellastinfohistory();
+			}
+			else 
+			{
+				/* everything went fine, so display the node and wait for
+				 * key events and stuff */
+				work_return_value = work(&message, &type, &lines, id, tag_table_pos);
+			}
 			if (work_return_value.node)
 			{
 				/* no cross-file link selected */

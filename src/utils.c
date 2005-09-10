@@ -518,3 +518,62 @@ handlewinch()
 	getmaxyx(stdscr, maxy, maxx);
 	ungetch(keys.refresh_1);
 }
+
+/*
+ * this functions checks whether the node header node_header 
+ * corresponds to node node_name
+ *
+ * e.g. the header is something like:
+ * File: bash.info,  Node: Introduction,  Next: Defs,  Prev: Top,  Up: Top
+ * and we check here if the Node: entry in this header is equal to node_name
+ *
+ * returns  0 if node_header does not belong to a node with name node_name
+ * returns -1 if no checking was done
+ * returns  1 if check turned out ok
+ */
+int
+check_node_name( const char * const node_name, const char * const node_header)
+{
+	/* if either one of node_name or node_header is NULL or a zero 
+	 * sized string, we have nothing to check, so return success */
+	if ( (node_name==NULL) || (node_header==NULL) 
+		|| (strlen(node_name)==0) || (strlen(node_header)==0) )
+	{
+		return 1;
+	}
+
+	size_t header_len = strlen(node_header);
+	
+	/* copy node_header to a local string which can be mutilated */
+	/* don't use strdup here, as xmalloc handles all errors */
+	char *header = xmalloc( header_len + 1 );
+	strcpy(header, node_header);
+
+	/* search for "Node: foobar," in node_header */
+	char *str_start = strstr(header, "Node: ");
+	if (str_start==NULL) /* no match */
+	{
+		return 0;
+	}
+	/* advance str_start to the start of the node name */
+	str_start += strlen("Node: ");
+	/* and search for the next comma, tab, or newline */
+	char *c = str_start;
+	while ( (*c!=',') && (*c!='\t') && (*c!='\n') && (*c!='\0') ) c++;
+	*c = '\0';
+	
+	/* so, now str_start point to a \0-terminated string containing the 
+	 * node name from the header.
+	 * Let's compare it with the node_name we're looking for */
+	if ( strcmp(str_start, node_name)==0 )
+	{
+		/* match found */
+		return 1;
+	}
+	else
+	{
+		/* no match */
+		return 0;
+	}
+}
+
