@@ -613,13 +613,12 @@ opendirfile(int number)
 	fseek(id, 0, SEEK_END);
 	filelen = ftell(id);
 
-	char *tmp;
-	tmp = new char[filelen];
+	char *tmp = new char[filelen];
 	fseek(id, 0, SEEK_SET);
 	fread(tmp, 1, filelen, id);
 	fclose(id);
 	string tmpstr = tmp;
-	delete tmp;
+	delete [] tmp;
 
 	id = fopen(tmpfilename.c_str(), "w");
 	bool aswitch = false;

@@ -409,8 +409,7 @@ work(const vector<string> my_message, string type_str, FILE * id, int tag_table_
 							fseek(fd, FirstNodeOffset, SEEK_SET);
 						starttokenpos = ftell(fd);
 
-						char *tmp;
-						tmp = new char[filelen - starttokenpos + 10];
+						char *tmp = new char[filelen - starttokenpos + 10];
 						/* read data */
 						fread(tmp, 1, filelen - starttokenpos, fd);
 						tmp[filelen - starttokenpos + 1] = 0;
@@ -472,7 +471,7 @@ work(const vector<string> my_message, string type_str, FILE * id, int tag_table_
 							{
 								if (tmp)	/* free tmp buffer */
 								{
-									delete tmp;
+									delete [] tmp;
 									tmp = 0;
 								}
 								break;
@@ -480,7 +479,7 @@ work(const vector<string> my_message, string type_str, FILE * id, int tag_table_
 						}	/* end: if (tokenpos) */
 						if (tmp)	/* free tmp buffer */
 						{
-							delete tmp;
+							delete [] tmp;
 							tmp = 0;
 						}
 					}		/* end: indirect file loop */
