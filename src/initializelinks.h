@@ -22,7 +22,9 @@
 #ifndef __INITIALIZELINKS_H
 #define __INITIALIZELINKS_H
 /* initializes node links.  */
-void initializelinks (const char *line1, const char *line2, int line);
+void initializelinks (const std::string line1,
+                      const std::string line2, 
+                      int line);
 /*
  * scans for url end in given url-string (from pos).
  * returns index of found place.

@@ -106,48 +106,31 @@ findurlend(const string str, string::size_type pos)
 }
 
 /*
- * Searchs for a note/menu delimiter.  it may be dot, comma, tab, or newline.
+ * Searches for a note/menu delimiter: period, comma, tab, or newline.
+ * Returns index where found.
+ * is_note is true (== NOTE_DOT) if we're looking for a note, and
+ * false (== MENU_DOT) if we're looking for a menu.
  */
-char *
-finddot(char *str, int note)
+string::size_type
+finddot(string str, string::size_type pos, bool is_note)
 {
-	char *ptr = str;
-	char *end[4] =
-	{
-		0, 0, 0, 0
-	};
-	char *closest = 0;
-	int i;
-	while (isspace(*ptr))	/* if there are only spaces and newline... */
-	{
-		if (*ptr == '\n')		/* then it's a `Menu:   \n' entry--skip it */
-			return 0;
-		ptr++;
+	string::size_type idx = pos;
+	while (isspace(str[idx])) {
+		/* if there are only spaces and newline... */
+		if (str[idx] == '\n') {
+			/* `Menu:   \n' entry--skip it */
+			return string::npos;
+		}
+		++idx;
 	}
-	end[0] = strchr(str, '.');	/* nodename entry may end with dot, comma */
-	end[1] = strchr(str, ',');	/* tabulation, or newline */
-	if (!note)
-	{
-		end[2] = strchr(str, '\t');
-		end[3] = strchr(str, '\n');
+
+	string::size_type result_idx = string::npos;
+	if (!is_note) {
+		result_idx = str.find_first_of(".,\t\n", pos);
+	} else {
+		result_idx = str.find_first_of(".,", pos);
 	}
-	else
-		note = 2;
-	if (end[0])
-		closest = end[0];
-	else if (end[1])
-		closest = end[1];
-	else if (end[2])
-		closest = end[2];
-	else if (end[3])
-		closest = end[3];
-	for (i = 1; i < note; i++)	/* find the delimiter, which was found most
-								   recently */
-	{
-		if ((end[i] < closest) &&(end[i]))
-			closest = end[i];
-	}
-	return closest;
+	return result_idx;
 }
 
 /*
@@ -174,10 +157,9 @@ findemailstart(string str, string::size_type pos) {
 }
 
 void
-initializelinks(const char *line1, const char *line2, int line)
+initializelinks(const string line1, const string line2, int line)
 {
 	bool changed;
-	int line1len = strlen(line1);
 
 	typeof(hyperobjects.size()) initial_hyperobjects_size = hyperobjects.size();
 
@@ -197,7 +179,7 @@ initializelinks(const char *line1, const char *line2, int line)
 	do {
 		changed = false;
 		if (    ( (quotestart = buf.find('`', quoteend)) != string::npos )
-		     && (quotestart < line1len)
+		     && (quotestart < line1.length())
 		     && ( (quoteend = buf.find('\'', quotestart)) != string::npos )
 		     && (quoteend - quotestart > 1)
 		   ) {
@@ -220,8 +202,8 @@ initializelinks(const char *line1, const char *line2, int line)
 			const char* ick = buf.c_str(); /* ICK, FIXME */
 			my_ho.col = calculate_len(ick, ick + quotestart + 1);
 			my_ho.breakpos = -1;	/* default */
-			if (quoteend > line1len) {
-				my_ho.breakpos = line1len - (quotestart + 1);
+			if (quoteend > line1.length()) {
+				my_ho.breakpos = line1.length() - (quotestart + 1);
 			}
 			my_ho.type = HIGHLIGHT;
 			my_ho.node = buf.substr(quotestart + 1, quoteend - (quotestart + 1));
@@ -239,12 +221,11 @@ initializelinks(const char *line1, const char *line2, int line)
 	string::size_type urlend = 0;
 	do {
 		changed = false;
-		if ((urlstart = findemailstart(url_tmpstr, urlend)) != string::npos)
-		{
+		if ((urlstart = findemailstart(url_tmpstr, urlend)) != string::npos) {
 			urlend = findurlend(url_tmpstr, urlstart);	/* always successful */
 			HyperObject my_ho;
 			my_ho.line = line;
-			my_ho.col = calculate_len(line1, line1 + urlstart);
+			my_ho.col = calculate_len(line1.c_str(), line1.c_str() + urlstart);
 			my_ho.breakpos = -1;
 			my_ho.type = 6;
 			my_ho.node = url_tmpstr.substr(urlstart, urlend - urlstart);
@@ -263,271 +244,269 @@ initializelinks(const char *line1, const char *line2, int line)
 	 * First try to scan for menu. Use as many security mechanisms, as possible    *
 	 ******************************************************************************/
 	char *tmp;
-	char *notestart = 0;
+	string::size_type tmp_idx = string::npos;
 	const char *ugly_buf = buf.c_str();
 
-	if ((line1[0] == '*') &&(line1[1] == ' '))	/* menu */
-	{
-		/******************************************************************************
-		 * Scan for normal menu of kind "*(infofile)reference:: comment",  where      *
-		 * the infofile parameter is optional, and indicates, that a reference         *
-		 * matches different info file.                                                *
-		 ******************************************************************************/
-		tmp = strstr(line1, "::");	/* "* menulink:: comment" */
-		if (tmp != NULL)
-		{
-			if (line1[2] == '(')	/* if cross-info link */
-			{
-				char *end = strchr(line1, ')');
-				if ((end != NULL) &&(end < tmp))		/* if the ')' char was found, and was before '::' */
-				{
+	if (    (line1.length() >= 3)
+	     && (line1[0] == '*')
+	     && (line1[1] == ' ')
+	   ) {
+		/* It looks like a menu line. */
+		if ((tmp_idx = line1.find("::")) != string::npos) {
+			/******************************************************************************
+			 * Scan for normal menu of kind "*(infofile)reference:: comment",  where      *
+			 * the infofile parameter is optional, and indicates, that a reference         *
+			 * matches different info file.                                                *
+			 ******************************************************************************/
+			if (line1[2] == '(') {
+				/* cross-info link */
+				string::size_type end = line1.find(')');
+				if ((end != string::npos) && (end < tmp_idx)) {
+					/* if the ')' char was found, and was before '::' */
 					HyperObject my_ho;
-					long FilenameLen =(long)(end - line1 - 3);
-					long NodenameLen =(long)(tmp - end - 1);
-					my_ho.file.assign(line1 + 3, FilenameLen);
-					my_ho.node.assign(end + 1, NodenameLen);
+					my_ho.file = line1.substr(3, end - 3);
+					my_ho.node = line1.substr(end + 1, tmp_idx - (end + 1));
 					my_ho.type = 0;
 					my_ho.line = line;
 					my_ho.col = 2;
 					my_ho.breakpos = -1;
 					hyperobjects.push_back(my_ho);
 				}
-			}
-			else
-				/* if not cross-info link */
-			{
+			} else {
+				/* not cross-info link */
 				HyperObject my_ho;
-				long NodenameLen =(long)(tmp - line1 - 2);
 				my_ho.file = "";
-				my_ho.node.assign(line1 + 2, NodenameLen);
+				my_ho.node = line1.substr(2, tmp_idx - 2);
 				my_ho.type = 0;
 				my_ho.line = line;
 				my_ho.col = 2;
-				my_ho.breakpos = -1;
-				if (exists_in_tag_table(my_ho.node))
-				{
-					hyperobjects.push_back(my_ho);
-				}
-			}
-		}
-		/******************************************************************************
-		 * Scan for menu references of form                                            *
-		 * "* Comment:[spaces](infofile)reference."                                    *
-		 ******************************************************************************/
-		else if ((tmp = strrchr(line1, ':')) != NULL)
-		{
-			char *start = 0, *end = 0, *dot = 0;
-			dot = finddot(tmp + 1, MENU_DOT);	/* find the trailing dot */
-			if (dot != NULL)
-				if (dot + 7 < dot + strlen(dot))
-				{
-					/* skip possible '.info' filename suffix when searching for ending dot */
-					if (strncmp(dot, ".info)", 6) == 0)
-						dot = finddot(dot + 1, MENU_DOT);
-				}
-			/* we make use of sequential AND evaluation: start must not be NULL! */
-			if (    ( (start = strchr(tmp, '(')) != NULL )
-			     && (dot != NULL)
-			     && ( (end = strchr(start, ')')) != NULL )
-			     && (start < dot) /* "security mechanism" according to previous author */
-			   ) {
-				if (end < dot)	/* security mechanism ;)) */
-				{
-					long FilenameLen =(long)(end - start - 1);
-					long NodenameLen =(long)(dot - end - 1);
-					HyperObject my_ho;
-					my_ho.file.assign(start + 1, FilenameLen);
-					my_ho.node.assign(end + 1, NodenameLen);
-					my_ho.type = 1;
-					my_ho.line = line;
-					my_ho.col = calculate_len(line1, start);
-					my_ho.breakpos = -1;
-					hyperobjects.push_back(my_ho);
-				}
-			} else if (dot != NULL) {
-				/* not cross-info reference */
-				long NodenameLen;
-				HyperObject my_ho;
-
-				start = tmp + 1;	/* move after the padding spaces */
-				while (isspace(*start))
-					start++;
-				NodenameLen =(long)(dot - start);
-				my_ho.file = "";
-				my_ho.node.assign(start, NodenameLen);
-				my_ho.type = 1;
-				my_ho.line = line;
-				my_ho.col = calculate_len(line1, start);
 				my_ho.breakpos = -1;
 				if (exists_in_tag_table(my_ho.node)) {
 					hyperobjects.push_back(my_ho);
 				}
 			}
-		}
-	}
-	/******************************************************************************
-	 * Handle notes. In similar way as above.                                      *
-	 ******************************************************************************/
-	else if (    ( (notestart = strstr(ugly_buf, "*note")) != NULL )
-					  || ( (notestart = strstr(ugly_buf, "*Note")) != NULL )
-					) {
-
-handlenote:
-		/******************************************************************************
-		 * Scan for normal note of kind "*(infofile)reference:: comment", where       *
-		 * the infofile parameter is optional, and indicates, that a reference         *
-		 * matches different info file.                                                *
-		 ******************************************************************************/
-		/* make sure that we don't handle notes, which fit in the second line */
-		/* Signed-unsigned issues FIXME */
-		if ((long)(notestart - ugly_buf) < strlen(line1))
-		{
-			/* we can handle only those, who are in the first line, or who are split up into two lines */
-			tmp = strstr(notestart, "::");	/* "*note notelink:: comment" */
-			if (tmp != NULL)
-			{
-				if (notestart[6] == '(')	/* if cross-info link */
-				{
-					char *end = strchr(notestart, ')');
-					if ((end != NULL) &&(end < tmp))	/* if the ')' char was found, and was before '::' */
-					{
-						HyperObject my_ho;
-						long FilenameLen =(long)(end - notestart - 7);
-						long NodenameLen =(long)(tmp - end - 1);
-						my_ho.file.assign(notestart + 7, FilenameLen);
-						my_ho.node.assign(end + 1, NodenameLen);
-						my_ho.type = 2;
-						if (notestart + 7 - ugly_buf < strlen(line1)) {
-							my_ho.line = line;
-							my_ho.col = calculate_len(ugly_buf, notestart + 7);
-							/* if the note highlight fits int first line */
-							if (tmp - ugly_buf < strlen(line1))
-								my_ho.breakpos = -1;
-								/* we don't need to break highlighting int several lines */
-							else
-								my_ho.breakpos = strlen(line1) -(long)(notestart + 7 - ugly_buf) + 1;	/* otherwise we need it */
-						} else {
-							my_ho.line = line + 1;
-							my_ho.col = calculate_len(ugly_buf + strlen(line1), notestart + 7);
-							if (tmp - ugly_buf < strlen(line1))	/* as above */
-								my_ho.breakpos = -1;
-							else if ((my_ho.breakpos = strlen(line1) -(long)(notestart + 7 - ugly_buf) + 1) == 0)
-								my_ho.line--;
-						}
-						hyperobjects.push_back(my_ho);
-					}
-				}
-				else /* if not cross-info link */
-				{
-					HyperObject my_ho;
-					long NodenameLen =(long)(tmp - notestart - 6);
-					my_ho.file = "";
-					my_ho.node.assign(notestart + 6, NodenameLen);
-					my_ho.type = 2;
-					if (notestart + 7 - ugly_buf < strlen(line1)) {
-						my_ho.line = line;
-						my_ho.col = calculate_len(ugly_buf, notestart + 7) - 1;
-						/* if the note highlight fits int first line */
-						if (tmp - ugly_buf < strlen(line1))
-							my_ho.breakpos = -1;	/* we don't need to break highlighting int several lines */
-						else
-							my_ho.breakpos = strlen(line1) -(long)(notestart + 7 - ugly_buf) + 1;	/* otherwise we need it */
-					} else {
-						my_ho.line = line + 1;
-						my_ho.col = calculate_len(ugly_buf + strlen(line1), notestart + 7) - 1;
-						if (tmp - ugly_buf < strlen(line1))	/* as above */
-							my_ho.breakpos = -1;
-						else if ((my_ho.breakpos = strlen(line1) -(long)(notestart + 7 - ugly_buf) + 1) == 0)
-							my_ho.line--;
-					}
-					if (exists_in_tag_table(my_ho.node))
-					{
-						hyperobjects.push_back(my_ho);
+		} else if ((tmp_idx = line1.find_last_of(':')) != string::npos) {
+			/******************************************************************************
+			 * Scan for menu references of form                                            *
+			 * "* Comment:[spaces](infofile)reference."                                    *
+			 ******************************************************************************/
+			/* find the end of the entry */
+			string::size_type dot = finddot(line1, tmp_idx + 1, MENU_DOT);	
+			if (dot != string::npos) {
+				if (dot + 7 < line1.length()) {
+					/* skip possible '.info' filename suffix
+					 * when searching for ending dot */
+					if ( line1.substr(dot, 6) == ".info)" ) {
+						dot = finddot(line1, dot + 1, MENU_DOT);
 					}
 				}
 			}
-			/******************************************************************************
-			 * Scan for note references of form                                            *
-			 * "* Comment:[spaces](infofile)reference."                                    *
-			 ******************************************************************************/
-			else if ((tmp = strstr(notestart, ":")) != NULL)
-			{
-				char *start = 0, *end = 0, *dot = 0;
-				dot = finddot(tmp + 1, NOTE_DOT);	/* find the trailing dot */
-				if (dot != NULL)
-					if (dot + 7 < dot + strlen(dot))
-					{
-						if (strncmp(dot, ".info)", 6) == 0)
-							dot = finddot(dot + 1, NOTE_DOT);
-					}
-				if (    ( (start = strchr(tmp, '(')) != NULL )
-				     && (dot != NULL)
-				     && ( (end = strchr(start, ')')) != NULL )
-				     && (start < dot) /* supposed security mechanism */
+
+			if (dot != string::npos) {
+				string::size_type start;
+				string::size_type end;
+				if (    ( (start = line1.find('(', tmp_idx)) != string::npos )
+				     && (start < dot)
+						 && ( (end = line1.find(')', start)) != string::npos )
+			  	   && (end < dot)
 				   ) {
-					if (end < dot)	/* security mechanism ;)) */
-					{
-						long FilenameLen =(long)(end - start - 1);
-						long NodenameLen =(long)(dot - end - 1);
-						HyperObject my_ho;
-						my_ho.file.assign(start + 1, FilenameLen);
-						my_ho.node.assign(end + 1, NodenameLen);
-						my_ho.type = 3;
-						if (start - ugly_buf < strlen(line1)) {
-							my_ho.line = line;
-							my_ho.col = calculate_len(ugly_buf, start);
-							if (dot - ugly_buf < strlen(line1))	/* if the note highlight fits in first line */
-								my_ho.breakpos = -1;	/* we don't need to break highlighting int several lines */
-							else
-								my_ho.breakpos = strlen(line1) -(long)(start - ugly_buf);	/* otherwise we need it */
-						} else {
-							my_ho.line = line + 1;
-							my_ho.col = calculate_len(ugly_buf + strlen(line1), start);
-							my_ho.breakpos = -1;
-						}
-						hyperobjects.push_back(my_ho);
-					}
-				} else if (dot != NULL)	{
+					HyperObject my_ho;
+					my_ho.file = line1.substr(start + 1, end - (start + 1));
+					my_ho.node = line1.substr(end + 1, dot - (end + 1));
+					my_ho.type = 1;
+					my_ho.line = line;
+					my_ho.col = calculate_len(line1.c_str(), line1.c_str() + start);
+					my_ho.breakpos = -1;
+					hyperobjects.push_back(my_ho);
+				} else {
 					/* not cross-info reference */
-					long NodenameLen;
 					HyperObject my_ho;
 
-					start = tmp + 1;	/* move after the padding spaces */
-					while (isspace(*start))
+					start = tmp_idx + 1;
+					/* move after the padding spaces */
+					while (isspace(line1[start]))
 						start++;
-					NodenameLen =(long)(dot - start);
 					my_ho.file = "";
-					my_ho.node.assign(start, NodenameLen);
-					my_ho.type = 3;
-					if (start - ugly_buf < strlen(line1)) {
-						my_ho.line = line;
-						my_ho.col = calculate_len(ugly_buf, start);
-						if (dot - ugly_buf < strlen(line1))		/* if the note highlight fits in first line */
-							my_ho.breakpos = -1;		/* we don't need to break highlighting int several lines */
-						else
-							my_ho.breakpos = strlen(line1) -(long)(start - ugly_buf);	/* otherwise we need it */
-					} else {
-						my_ho.line = line + 1;
-						my_ho.col = calculate_len(strlen(line1) + ugly_buf, start);
-						my_ho.breakpos = -1;
-					}
+					my_ho.node = line1.substr(start, dot - start);
+					my_ho.type = 1;
+					my_ho.line = line;
+					my_ho.col = calculate_len(line1.c_str(), line1.c_str() + start);
+					my_ho.breakpos = -1;
 					if (exists_in_tag_table(my_ho.node)) {
 						hyperobjects.push_back(my_ho);
 					}
 				}
 			}
 		}
-	}
-	if (notestart)
-		if (notestart + 6 < ugly_buf + strlen(ugly_buf) + 1)
-		{
-			tmp = notestart;
-			if ((notestart = strstr(notestart + 6, "*Note")) != NULL)
-				goto handlenote;
-			notestart = tmp;
-			if ((notestart = strstr(notestart + 6, "*note")) != NULL)
-				goto handlenote;
+	} else {
+		/******************************************************************************
+		 * Handle notes. In similar way as above.                                      *
+		 ******************************************************************************/
+    /* This is in an else so that menu lines never contain notes.
+     * Is this right?  FIXME */
+		string::size_type notestart = string::npos;
+		string::size_type old_noteend = 0;
+		while (    ((notestart = line1.find("*note", old_noteend)) != string::npos)
+					  || ((notestart = line1.find("*Note", old_noteend)) != string::npos)
+					) {
+			/******************************************************************************
+			 * Scan for normal note of kind "*(infofile)reference:: comment", where       *
+			 * the infofile parameter is optional, and indicates, that a reference         *
+			 * matches different info file.                                                *
+			 ******************************************************************************/
+			if ((tmp_idx = buf.find("::", notestart)) != string::npos) {
+				if (buf[notestart + 6] == '(') {
+					/* cross-info link */
+					string::size_type end = buf.find(')', notestart);
+					if ((end != string::npos) && (end < tmp_idx)) {
+						/* the ')' char was found, and was before '::' */
+						HyperObject my_ho;
+						my_ho.file = buf.substr(notestart + 7, end - (notestart + 7));
+						my_ho.node = buf.substr(end + 1, tmp_idx - (end + 1));
+						my_ho.type = 2;
+						if (notestart + 7 < line1.length()) {
+							my_ho.line = line;
+							my_ho.col = calculate_len(ugly_buf, ugly_buf + notestart + 7);
+							if (tmp_idx < line1.length()) {
+								/* if the note highlight fits into the first line */
+								/* we don't need to break highlighting into several lines */
+								my_ho.breakpos = -1;
+							} else {
+								/* otherwise we need it */
+								my_ho.breakpos = line1.length() - (notestart + 7) + 1;
+							}
+						} else {
+							my_ho.line = line + 1;
+							my_ho.col = calculate_len(ugly_buf + line1.length(), ugly_buf + notestart + 7);
+							if (tmp_idx < line1.length())	{
+								my_ho.breakpos = -1;
+							} else {
+								my_ho.breakpos = line1.length() - (notestart + 7) + 1;
+								if (my_ho.breakpos == 0) {
+									my_ho.line--;
+								}
+							}
+						}
+						hyperobjects.push_back(my_ho);
+					}
+				} else {
+					/* not cross-info link */
+					HyperObject my_ho;
+					my_ho.file = "";
+					my_ho.node = buf.substr(notestart + 6, tmp_idx - (notestart + 6));
+					my_ho.type = 2;
+					if (notestart + 7 < line1.length()) {
+						my_ho.line = line;
+						my_ho.col = calculate_len(ugly_buf, ugly_buf + notestart + 7) - 1;
+						if (tmp_idx < line1.length()) {
+							/* if the note highlight fits into the first line */
+							/* we don't need to break highlighting into several lines */
+							my_ho.breakpos = -1;
+						} else {
+							/* otherwise we need it */
+							my_ho.breakpos = line1.length() - (notestart + 7) + 1;
+						}
+					} else {
+						my_ho.line = line + 1;
+						my_ho.col = calculate_len(ugly_buf + line1.length(), ugly_buf + notestart + 7) - 1;
+						if (tmp_idx < line1.length()) {
+							my_ho.breakpos = -1;
+						} else {
+							my_ho.breakpos = line1.length() - (notestart + 7) + 1;
+							if (my_ho.breakpos == 0) {
+								my_ho.line--;
+							}
+						}
+					}
+					if (exists_in_tag_table(my_ho.node)) {
+						hyperobjects.push_back(my_ho);
+					}
+				}
+			} else if ((tmp_idx = buf.find(':', notestart)) != string::npos) {
+				/******************************************************************************
+				 * Scan for note references of form                                            *
+				 * "* Comment:[spaces](infofile)reference."                                    *
+				 ******************************************************************************/
+				/* find the end of the note */
+				string::size_type dot = finddot(buf, tmp_idx + 1, NOTE_DOT);
+				if (dot != string::npos) {
+					if (dot + 7 < buf.length()) {
+						/* skip possible '.info' filename suffix
+						 * when searching for ending dot */
+						if ( buf.substr(dot, 6) == ".info)" ) {
+							dot = finddot(buf, dot + 1, NOTE_DOT);
+						}
+					}
+				}
+				if (dot != string::npos) {
+					string::size_type start;
+					string::size_type end;
+					if (    ( (start = buf.find('(', tmp_idx)) != string::npos )
+					     && (start < dot)
+							 && ( (end = buf.find(')', start)) != string::npos )
+			  		   && (end < dot)
+				  	 ) {
+						HyperObject my_ho;
+						my_ho.file = buf.substr(start + 1, dot - (end + 1));
+						my_ho.node = buf.substr(end + 1, dot - (end + 1));
+						my_ho.type = 3;
+						if (start < line1.length()) {
+							my_ho.line = line;
+							my_ho.col = calculate_len(ugly_buf, ugly_buf + start);
+							if (dot < line1.length()) {
+								/* if the note highlight fits in first line */
+								/* we don't need to break highlighting into several lines */
+								my_ho.breakpos = -1;
+							} else {
+								/* otherwise we need it */
+								my_ho.breakpos = line1.length() - start;	
+							}
+						} else {
+							my_ho.line = line + 1;
+							my_ho.col = calculate_len(ugly_buf + line1.length(), ugly_buf + start);
+							my_ho.breakpos = -1;
+						}
+						hyperobjects.push_back(my_ho);
+					} else {
+						/* not cross-info reference */
+						HyperObject my_ho;
+
+						start = tmp_idx + 1;
+						/* move after the padding spaces */
+						while (isspace(buf[start]))
+							start++;
+
+						my_ho.file = "";
+						my_ho.node = buf.substr(start, dot - start);
+						my_ho.type = 3;
+						if (start < line1.length()) {
+							my_ho.line = line;
+							my_ho.col = calculate_len(ugly_buf, ugly_buf + start);
+							if (dot < line1.length()) {
+								/* if the note highlight fits in first line */
+								/* we don't need to break highlighting into several lines */
+								my_ho.breakpos = -1;
+							} else {
+								/* otherwise we need it */
+								my_ho.breakpos = line1.length() - start;
+							}
+						} else {
+							my_ho.line = line + 1;
+							my_ho.col = calculate_len(ugly_buf + line1.length(), ugly_buf + start);
+							my_ho.breakpos = -1;
+						}
+						if (exists_in_tag_table(my_ho.node)) {
+							hyperobjects.push_back(my_ho);
+						}
+					}
+				}
+			}
+			old_noteend = notestart + 6;
+			if (old_noteend > line1.length()) {
+				old_noteend = line1.length(); /* Don't start searches past here */
+			}
 		}
+	}
 
 	/******************************************************************************
 	 * Try to scan for some url-like objects in single line; mainly               *
@@ -536,14 +515,14 @@ handlenote:
 	 * username@something.else[space|\n|\t]                                       *
 	 *****************************************************************************/
 	/* http:// */
-	url_tmpstr = line1;
+	url_tmpstr = line1.c_str();
 	urlstart = 0;
 	urlend = 0;
 	while ( (urlstart = url_tmpstr.find("http://", urlend)) != string::npos) {
 		urlend = findurlend(url_tmpstr, urlstart);	/* always successful */
 		HyperObject my_ho;
 		my_ho.line = line;
-		my_ho.col = calculate_len(line1, line1 + urlstart);
+		my_ho.col = calculate_len(line1.c_str(), line1.c_str() + urlstart);
 		my_ho.breakpos = -1;
 		my_ho.type = 4;
 		my_ho.node = url_tmpstr.substr(urlstart, urlend - urlstart);
@@ -552,7 +531,7 @@ handlenote:
 		hyperobjects.push_back(my_ho);
 	}
 	/* ftp:// */
-	url_tmpstr = line1;
+	url_tmpstr = line1.c_str();
 	urlstart = 0;
 	urlend = 0;
 	while ( (urlstart = url_tmpstr.find("ftp://", urlend)) != string::npos)
@@ -560,7 +539,7 @@ handlenote:
 		urlend = findurlend(url_tmpstr, urlstart);	/* always successful */
 		HyperObject my_ho;
 		my_ho.line = line;
-		my_ho.col = calculate_len(line1, line1 + urlstart);
+		my_ho.col = calculate_len(line1.c_str(), line1.c_str() + urlstart);
 		my_ho.breakpos = -1;
 		my_ho.type = 5;
 		my_ho.node = url_tmpstr.substr(urlstart, urlend - urlstart);

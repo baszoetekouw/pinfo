@@ -137,10 +137,10 @@ work(const vector<string> my_message, string type_str, FILE * id, int tag_table_
 	for (int i = 0; i < my_message.size() - 1; i++)
 	{
 		/* Horrible conversion to 1-based index here. FIXME. */
-		initializelinks(my_message[i].c_str(), my_message[i + 1].c_str(), i + 1);
+		initializelinks(my_message[i], my_message[i + 1], i + 1);
 	}
 	/* Horrible conversion to 1-based index here. FIXME. */
-	initializelinks(my_message[my_message.size() - 1].c_str(),"",
+	initializelinks(my_message[my_message.size() - 1],"",
 	                my_message.size());
 
 	/* infomenu will remain -1 if it's the last pos, or if there's no menu item */
