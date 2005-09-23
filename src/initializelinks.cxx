@@ -199,8 +199,7 @@ initializelinks(const string line1, const string line2, int line)
 			changed = true;
 			HyperObject my_ho;
 			my_ho.line = line;
-			const char* ick = buf.c_str(); /* ICK, FIXME */
-			my_ho.col = calculate_len(ick, ick + quotestart + 1);
+			my_ho.col = calculate_len(buf.c_str(), buf.c_str() + quotestart + 1);
 			my_ho.breakpos = -1;	/* default */
 			if (quoteend > line1.length()) {
 				my_ho.breakpos = line1.length() - (quotestart + 1);
@@ -244,8 +243,6 @@ initializelinks(const string line1, const string line2, int line)
 	 * First try to scan for menu. Use as many security mechanisms, as possible    *
 	 ******************************************************************************/
 	string::size_type tmp_idx = string::npos;
-	const char *ugly_buf = buf.c_str();
-
 	if (    (line1.length() >= 3)
 	     && (line1[0] == '*')
 	     && (line1[1] == ' ')
@@ -368,7 +365,7 @@ initializelinks(const string line1, const string line2, int line)
 						my_ho.type = 2;
 						if (notestart + 7 < line1.length()) {
 							my_ho.line = line;
-							my_ho.col = calculate_len(ugly_buf, ugly_buf + notestart + 7);
+							my_ho.col = calculate_len(buf.c_str(), buf.c_str() + notestart + 7);
 							if (tmp_idx < line1.length()) {
 								/* if the note highlight fits into the first line */
 								/* we don't need to break highlighting into several lines */
@@ -379,7 +376,7 @@ initializelinks(const string line1, const string line2, int line)
 							}
 						} else {
 							my_ho.line = line + 1;
-							my_ho.col = calculate_len(ugly_buf + line1.length(), ugly_buf + notestart + 7);
+							my_ho.col = calculate_len(buf.c_str() + line1.length(), buf.c_str() + notestart + 7);
 							if (tmp_idx < line1.length())	{
 								my_ho.breakpos = -1;
 							} else {
@@ -399,7 +396,7 @@ initializelinks(const string line1, const string line2, int line)
 					my_ho.type = 2;
 					if (notestart + 7 < line1.length()) {
 						my_ho.line = line;
-						my_ho.col = calculate_len(ugly_buf, ugly_buf + notestart + 7) - 1;
+						my_ho.col = calculate_len(buf.c_str(), buf.c_str() + notestart + 7) - 1;
 						if (tmp_idx < line1.length()) {
 							/* if the note highlight fits into the first line */
 							/* we don't need to break highlighting into several lines */
@@ -410,7 +407,7 @@ initializelinks(const string line1, const string line2, int line)
 						}
 					} else {
 						my_ho.line = line + 1;
-						my_ho.col = calculate_len(ugly_buf + line1.length(), ugly_buf + notestart + 7) - 1;
+						my_ho.col = calculate_len(buf.c_str() + line1.length(), buf.c_str() + notestart + 7) - 1;
 						if (tmp_idx < line1.length()) {
 							my_ho.breakpos = -1;
 						} else {
@@ -454,7 +451,7 @@ initializelinks(const string line1, const string line2, int line)
 						my_ho.type = 3;
 						if (start < line1.length()) {
 							my_ho.line = line;
-							my_ho.col = calculate_len(ugly_buf, ugly_buf + start);
+							my_ho.col = calculate_len(buf.c_str(), buf.c_str() + start);
 							if (dot < line1.length()) {
 								/* if the note highlight fits in first line */
 								/* we don't need to break highlighting into several lines */
@@ -465,7 +462,7 @@ initializelinks(const string line1, const string line2, int line)
 							}
 						} else {
 							my_ho.line = line + 1;
-							my_ho.col = calculate_len(ugly_buf + line1.length(), ugly_buf + start);
+							my_ho.col = calculate_len(buf.c_str() + line1.length(), buf.c_str() + start);
 							my_ho.breakpos = -1;
 						}
 						hyperobjects.push_back(my_ho);
@@ -483,7 +480,7 @@ initializelinks(const string line1, const string line2, int line)
 						my_ho.type = 3;
 						if (start < line1.length()) {
 							my_ho.line = line;
-							my_ho.col = calculate_len(ugly_buf, ugly_buf + start);
+							my_ho.col = calculate_len(buf.c_str(), buf.c_str() + start);
 							if (dot < line1.length()) {
 								/* if the note highlight fits in first line */
 								/* we don't need to break highlighting into several lines */
@@ -494,7 +491,7 @@ initializelinks(const string line1, const string line2, int line)
 							}
 						} else {
 							my_ho.line = line + 1;
-							my_ho.col = calculate_len(ugly_buf + line1.length(), ugly_buf + start);
+							my_ho.col = calculate_len(buf.c_str() + line1.length(), buf.c_str() + start);
 							my_ho.breakpos = -1;
 						}
 						if (exists_in_tag_table(my_ho.node)) {
@@ -517,7 +514,7 @@ initializelinks(const string line1, const string line2, int line)
 	 * username@something.else[space|\n|\t]                                       *
 	 *****************************************************************************/
 	/* http:// */
-	url_tmpstr = line1.c_str();
+	url_tmpstr = line1;
 	urlstart = 0;
 	urlend = 0;
 	while ( (urlstart = url_tmpstr.find("http://", urlend)) != string::npos) {
@@ -533,7 +530,7 @@ initializelinks(const string line1, const string line2, int line)
 		hyperobjects.push_back(my_ho);
 	}
 	/* ftp:// */
-	url_tmpstr = line1.c_str();
+	url_tmpstr = line1;
 	urlstart = 0;
 	urlend = 0;
 	while ( (urlstart = url_tmpstr.find("ftp://", urlend)) != string::npos)
