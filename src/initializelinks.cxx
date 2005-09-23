@@ -243,7 +243,6 @@ initializelinks(const string line1, const string line2, int line)
 	/******************************************************************************
 	 * First try to scan for menu. Use as many security mechanisms, as possible    *
 	 ******************************************************************************/
-	char *tmp;
 	string::size_type tmp_idx = string::npos;
 	const char *ugly_buf = buf.c_str();
 
@@ -290,42 +289,45 @@ initializelinks(const string line1, const string line2, int line)
 			 * Scan for menu references of form                                            *
 			 * "* Comment:[spaces](infofile)reference."                                    *
 			 ******************************************************************************/
-			/* find the end of the entry */
-			string::size_type dot = finddot(line1, tmp_idx + 1, MENU_DOT);	
-			if (dot != string::npos) {
-				if (dot + 7 < line1.length()) {
+			string::size_type start;
+			string::size_type end;
+			string::size_type dot;
+			if (    ( (start = line1.find('(', tmp_idx)) != string::npos )
+					 && ( (end = line1.find(')', start + 1)) != string::npos )
+					 && ( (dot = finddot(line1, end + 1, MENU_DOT)) != string::npos )
+			   ) {
+				if (    (dot + 7 < line1.length())
+				     && ( line1.substr(dot, 6) == ".info)" )
+				   ) {
 					/* skip possible '.info' filename suffix
 					 * when searching for ending dot */
-					if ( line1.substr(dot, 6) == ".info)" ) {
 						dot = finddot(line1, dot + 1, MENU_DOT);
-					}
 				}
-			}
+				HyperObject my_ho;
+				my_ho.file = line1.substr(start + 1, end - (start + 1));
+				my_ho.node = line1.substr(end + 1, dot - (end + 1));
+				my_ho.type = 1;
+				my_ho.line = line;
+				my_ho.col = calculate_len(line1.c_str(), line1.c_str() + start);
+				my_ho.breakpos = -1;
+				hyperobjects.push_back(my_ho);
+			} else {
+				/* not cross-info reference */
+				HyperObject my_ho;
 
-			if (dot != string::npos) {
-				string::size_type start;
-				string::size_type end;
-				if (    ( (start = line1.find('(', tmp_idx)) != string::npos )
-				     && (start < dot)
-						 && ( (end = line1.find(')', start)) != string::npos )
-			  	   && (end < dot)
-				   ) {
-					HyperObject my_ho;
-					my_ho.file = line1.substr(start + 1, end - (start + 1));
-					my_ho.node = line1.substr(end + 1, dot - (end + 1));
-					my_ho.type = 1;
-					my_ho.line = line;
-					my_ho.col = calculate_len(line1.c_str(), line1.c_str() + start);
-					my_ho.breakpos = -1;
-					hyperobjects.push_back(my_ho);
-				} else {
-					/* not cross-info reference */
-					HyperObject my_ho;
-
-					start = tmp_idx + 1;
-					/* move after the padding spaces */
-					while (isspace(line1[start]))
-						start++;
+				start = tmp_idx + 1;
+				/* move after the padding spaces */
+				while (isspace(line1[start])) {
+					start++;
+				}
+				if ((dot = finddot(line1, start, MENU_DOT)) != string::npos) {
+					if (    (dot + 7 < line1.length())
+					     && ( line1.substr(dot, 6) == ".info)" )
+					   ) {
+						/* skip possible '.info' filename suffix
+						 * when searching for ending dot */
+							dot = finddot(line1, dot + 1, MENU_DOT);
+					}
 					my_ho.file = "";
 					my_ho.node = line1.substr(start, dot - start);
 					my_ho.type = 1;
