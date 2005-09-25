@@ -136,12 +136,10 @@ work(const vector<string> my_message, string type_str, FILE * id, int tag_table_
 	/* initialize node-links for every line */
 	for (int i = 0; i < my_message.size() - 1; i++)
 	{
-		/* Horrible conversion to 1-based index here. FIXME. */
-		initializelinks(my_message[i], my_message[i + 1], i + 1);
+		initializelinks(my_message[i], my_message[i + 1], i);
 	}
-	/* Horrible conversion to 1-based index here. FIXME. */
 	initializelinks(my_message[my_message.size() - 1],"",
-	                my_message.size());
+	                my_message.size() - 1);
 
 	/* infomenu will remain -1 if it's the last pos, or if there's no menu item */
 	next_infomenu();
@@ -817,8 +815,8 @@ skip_search:
 						 */
 						for (int i = cursor - 1; i >= 0; i--)
 						{
-							if ((hyperobjects[i].line >= pos) &&
-									(hyperobjects[i].line < pos +(maxy - 1)))
+							if ((hyperobjects[i].line >= pos - 1) &&
+									(hyperobjects[i].line < pos - 1 +(maxy - 1)))
 							{
 								/* don't play with `highlight' objects */
 								if (hyperobjects[i].type < HIGHLIGHT)
@@ -837,7 +835,7 @@ skip_search:
 					/* and scan for a hyperlink in the new line */
 					for (typeof(hyperobjects.size()) i = 0;
 					     i < hyperobjects.size(); i++) {
-						if (hyperobjects[i].line == pos)
+						if (hyperobjects[i].line == pos - 1)
 						{
 							if (hyperobjects[i].type < HIGHLIGHT)
 							{
@@ -918,8 +916,8 @@ skip_search:
 				if (cursor < hyperobjects.size())
 					for (typeof(hyperobjects.size()) i = cursor + 1;
 					     i < hyperobjects.size(); i++) {
-						if ((hyperobjects[i].line >= pos) &&
-								(hyperobjects[i].line < pos +(maxy - 2)))
+						if ((hyperobjects[i].line >= pos - 1) &&
+								(hyperobjects[i].line < pos - 1 +(maxy - 2)))
 						{
 							if (hyperobjects[i].type < HIGHLIGHT)
 							{
@@ -937,8 +935,8 @@ skip_search:
 					for (typeof(hyperobjects.size()) i = cursor + 1;
 					     i < hyperobjects.size(); i++)
 					{
-						if ((hyperobjects[i].line >= pos) &&
-								(hyperobjects[i].line < pos +(maxy - 2)))
+						if ((hyperobjects[i].line >= pos - 1) &&
+								(hyperobjects[i].line < pos - 1 +(maxy - 2)))
 						{
 							if (hyperobjects[i].type < HIGHLIGHT)
 							{
@@ -992,8 +990,8 @@ skip_search:
 				if (!toggled_by_menu)
 					infohistory[infohistory.size() - 1].menu = cursor;
 				if ((cursor >= 0) && (cursor < hyperobjects.size()))
-					if ((hyperobjects[cursor].line >= pos) &&
-							(hyperobjects[cursor].line < pos +(maxy - 2)) ||
+					if ((hyperobjects[cursor].line >= pos - 1) &&
+							(hyperobjects[cursor].line < pos - 1 +(maxy - 2)) ||
 							(toggled_by_menu))
 					{
 						toggled_by_menu = 0;
@@ -1065,7 +1063,7 @@ skip_search:
 					{
 						for (typeof(hyperobjects.size()) i = cursor; i > 0; i--)
 						{
-							if (hyperobjects[i].line == mouse.y + pos - 1)
+							if (hyperobjects[i].line == mouse.y + pos - 2)
 							{
 								if (hyperobjects[i].col <= mouse.x - 1)
 								{
@@ -1085,7 +1083,7 @@ skip_search:
 							for (typeof(hyperobjects.size()) i = cursor;
 							     i < hyperobjects.size(); i++)
 							{
-								if (hyperobjects[i].line == mouse.y + pos - 1)
+								if (hyperobjects[i].line == mouse.y + pos - 2)
 								{
 									if (hyperobjects[i].col <= mouse.x - 1)
 									{
@@ -1114,7 +1112,7 @@ skip_search:
 						/* signed/unsigned.  Use iterators.  FIXME. */
 						for (int i = cursor; i >= 0; i--)
 						{
-							if (hyperobjects[i].line == mouse.y + pos - 1)
+							if (hyperobjects[i].line == mouse.y + pos - 2)
 							{
 								if (hyperobjects[i].col <= mouse.x - 1)
 								{
@@ -1134,7 +1132,7 @@ skip_search:
 							for (typeof(hyperobjects.size()) i = cursor;
 							     i < hyperobjects.size(); i++)
 							{
-								if (hyperobjects[i].line == mouse.y + pos - 1)
+								if (hyperobjects[i].line == mouse.y + pos - 2)
 								{
 									if (hyperobjects[i].col <= mouse.x - 1)
 									{
@@ -1198,8 +1196,8 @@ rescan_cursor()
 {
 	for (typeof(hyperobjects.size()) i = 0; i < hyperobjects.size(); i++)
 	{
-		if ((hyperobjects[i].line >= pos) &&
-				(hyperobjects[i].line < pos +(maxy - 2)))
+		if ((hyperobjects[i].line >= pos - 1) &&
+				(hyperobjects[i].line < pos - 1 +(maxy - 2)))
 		{
 			if (hyperobjects[i].type < HIGHLIGHT)
 			{

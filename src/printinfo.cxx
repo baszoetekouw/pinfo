@@ -50,7 +50,7 @@ printnode(const vector<string> message)
 		 * Handle the highlights which belong to our (i'th) line.
 		 */
 		int highlight = 0; /* counter to track which highlights have been handled */
-		while (hyperobjects[highlight].line <= i + 1) {
+		while (hyperobjects[highlight].line <= i) {
 			string mynode;
 			/* build a complete highlighted text */
 			if (hyperobjects[highlight].file[0] == 0)
@@ -62,7 +62,7 @@ printnode(const vector<string> message)
 				mynode += hyperobjects[highlight].node;
 			}
 			/* if it's a contiunuation of last's line highlight */
-			if (hyperobjects[highlight].line == i) {
+			if (hyperobjects[highlight].line == i - 1) {
 				int length = 1;
 				if (hyperobjects[highlight].breakpos == -1)
 					length = mynode.length() - hyperobjects[highlight].breakpos;
@@ -71,7 +71,7 @@ printnode(const vector<string> message)
 				                        string::npos);
 				fputs(trimmed.c_str(), prnFD);
 				lineprinted += trimmed.length();
-			} else if (hyperobjects[highlight].line == i + 1) {
+			} else if (hyperobjects[highlight].line == i) {
 				for (int j = 0; j < hyperobjects[highlight].col - lineprinted; j++)
 					fputc(' ', prnFD);
 				fputs(mynode.c_str(), prnFD);

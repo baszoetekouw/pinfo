@@ -142,8 +142,8 @@ void
 info_add_highlights(int pos, int cursor, int column, const vector <string> message)
 {
 	for (typeof(hyperobjects.size()) i = 0; i < hyperobjects.size(); i++) {
-		if ((hyperobjects[i].line < pos) ||
-				(hyperobjects[i].line >= pos +(maxy - 2)))
+		if ((hyperobjects[i].line < pos - 1) ||
+				(hyperobjects[i].line >= pos - 1 +(maxy - 2)))
 			continue; /* Off screen */
 
 		/* first set of ifs sets the required attributes */
@@ -177,7 +177,7 @@ info_add_highlights(int pos, int cursor, int column, const vector <string> messa
 			mynode += hyperobjects[i].node;
 		}
 		if (hyperobjects[i].breakpos == -1) {
-			info_addstring(1 + hyperobjects[i].line - pos,
+			info_addstring(1 + hyperobjects[i].line + 1 - pos,
 					hyperobjects[i].col,
 					mynode,
 					column);
@@ -185,7 +185,7 @@ info_add_highlights(int pos, int cursor, int column, const vector <string> messa
 			int j;
 			string part1, part2;
 			part1 = mynode.substr(0, hyperobjects[i].breakpos);
-			info_addstring(1 + hyperobjects[i].line - pos,
+			info_addstring(1 + hyperobjects[i].line + 1 - pos,
 					hyperobjects[i].col,
 					part1,
 					column);
@@ -194,8 +194,8 @@ info_add_highlights(int pos, int cursor, int column, const vector <string> messa
 			while (mynode[j] == ' ')
 				j++;
 			part2 = mynode.substr(j, string::npos);
-			if (hyperobjects[i].line - pos + 3 < maxy)
-				info_addstring(1 + hyperobjects[i].line - pos + 1,
+			if (hyperobjects[i].line + 1 - pos + 3 < maxy)
+				info_addstring(1 + hyperobjects[i].line + 1 - pos + 1,
 						j - hyperobjects[i].breakpos,
 						part2,
 						column);
