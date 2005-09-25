@@ -55,7 +55,7 @@ void strip_manual(string& buf);
  * Initialize links in a line .  Links are entries of form reference(section),
  * and are stored in `manuallinks' var, described bellow.
  */
-void man_initializelinks(string line, int carry);
+void man_initializelinks(string line, int line_num, int carry);
 bool is_in_manlinks(vector<string> in, string find);
 
 void printmanual(vector<string> message);
@@ -472,7 +472,9 @@ loadmanual(FILE * id)
 			string tmpstr;
 			tmpstr = tmpline;
 			strip_manual(tmpstr);
-			man_initializelinks(tmpstr, carryflag);
+			int line_num = manual.size();
+			/* Above depends on link initializing happening right before push_back. */
+			man_initializelinks(tmpstr, line_num, carryflag);
 
 			string tmpline_str = tmpline;
 			manual.push_back(tmpline_str);
@@ -497,7 +499,7 @@ sort_manuallinks_from_current_line(
 
 /* initializes hyperlinks in manual */
 void
-man_initializelinks(string line, int carry)
+man_initializelinks(string line, int line_num, int carry)
 {
 	typeof(manuallinks.size()) initialManualLinks = manuallinks.size();
 	/******************************************************************************
@@ -510,9 +512,7 @@ man_initializelinks(string line, int carry)
 	{
 		urlend = findurlend(line, urlstart); /* always successful */
 		manuallink my_link;
-		my_link.line = manual.size(); 
-			/* Eeew -- depends on this being called just before the line is pushed */
-			/* FIXME */
+		my_link.line = line_num;
 		my_link.col = urlstart;
 		my_link.section = "HTTPSECTION";
 		my_link.section_mark = HTTPSECTION;
@@ -530,7 +530,7 @@ man_initializelinks(string line, int carry)
 	{
 		urlend = findurlend(line, urlstart); /* always successful */
 		manuallink my_link;
-		my_link.line = manual.size(); /* See above, FIXME */
+		my_link.line = line_num;
 		my_link.col = urlstart;
 		my_link.section = "FTPSECTION";
 		my_link.section_mark = FTPSECTION;
@@ -548,7 +548,7 @@ man_initializelinks(string line, int carry)
 	{
 		urlend = findurlend(line, urlstart); /* always successful */
 		manuallink my_link;
-		my_link.line = manual.size(); /* See above, FIXME */
+		my_link.line = line_num;
 		my_link.col = urlstart;
 		my_link.section = "MAILSECTION";
 		my_link.section_mark = MAILSECTION;
@@ -639,7 +639,7 @@ man_initializelinks(string line, int carry)
 				}
 				manuallink my_link;
 				my_link.name = chosen_name;
-				my_link.line = manual.size(); /* See above, FIXME */
+				my_link.line = line_num;
 				my_link.col = i;
 				if (LongManualLinks) {
 					my_link.section = "";
