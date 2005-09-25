@@ -39,7 +39,6 @@ void next_infomenu();	/* go to the next menu item for sequential reading */
 int getnodeoffset(int tag_table_pos,
 			typeof(indirect.size())& indirectstart);	/* get node offset in file */
 
-int aftersearch = 0;
 /*
  * this flag is turned on when the engine receives a simulated `key.back',
  * caused by the sequential auto-pgdn reading code
@@ -50,7 +49,8 @@ long infocolumn=0;
 
 int cursor;
 
-
+/* Line found by global search, to jump to.  -1 if not after global search. */
+int found_line = -1;
 
 /* Inline support functions formerly in menu_and_note_utils.cxx */
 
@@ -150,10 +150,11 @@ work(const vector<string> my_message, string type_str, FILE * id, int tag_table_
 		pos = npos;			/* set eventual history pos */
 
 	/* if we're in a node found using 's'earch function. */
-	if (aftersearch)
+	if (found_line != -1)
 	{
-		pos = aftersearch;	/* set pos to the found position */
-		/*  aftersearch=0;  * don't reset this--we want to know if we mus highlight something */
+		pos = found_line;
+		/* set pos to the found position */
+		found_line = -1;
 	}
 
 	if (ncursor != -1)
@@ -317,10 +318,6 @@ work(const vector<string> my_message, string type_str, FILE * id, int tag_table_
 				rval.file = "dir";
 				rval.node = "";
 				rval.keep_going = true;
-				if (aftersearch) {
-					aftersearch = 0;
-					h_regexp.pop_back();
-				}
 				return rval;
 			}
 			/*==========================================================================*/
@@ -336,7 +333,7 @@ work(const vector<string> my_message, string type_str, FILE * id, int tag_table_
 			if ((key == keys.totalsearch_1) ||	/* search in all nodes later than this one */
 					(key == keys.totalsearch_2))
 			{
-				int tmpaftersearch = aftersearch;
+				int tmpfound_line = found_line;
 				indirectstart = -1;
 				move(maxy - 1, 0);
 				attrset(bottomline);
@@ -378,7 +375,7 @@ work(const vector<string> my_message, string type_str, FILE * id, int tag_table_
 				fileoffset += getnodeoffset(tag_table_pos, indirectstart);	/* also load the variable indirectstart */
 
 				/* Searching part...  */
-				aftersearch = 0;
+				found_line = -1;
 
 				/*- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
 				return_value = -1;
@@ -424,7 +421,8 @@ work(const vector<string> my_message, string type_str, FILE * id, int tag_table_
 							 */
 							tokenpos += starttokenpos;
 							{	/* local scope for tmpvar, matched */
-								int tmpvar = -1, matched = 0;
+								int tmpvar = -1;
+								int matched = 0;
 								for (int i = tag_table.size() - 1; i >= 0; i--)
 								{
 									if ((tag_table[i].offset > tag_table[tmpvar].offset) &&
@@ -436,58 +434,51 @@ work(const vector<string> my_message, string type_str, FILE * id, int tag_table_
 									}
 								}
 							}
-							/* this means, that indirect entry was found.  */
-							if (return_value != -1)
-							{
+							if (return_value != -1) {
+								/* this means, that indirect entry was found.  */
 								fseek(fd, tag_table[return_value].offset - indirect[j].offset + FirstNodeOffset, SEEK_SET);
 								/* seek to the found node offset */
 								while (fgetc(fd) != INFO_TAG);
 								fgetc(fd);	/* skip newline */
 
-								aftersearch = 1;
+								found_line = 0;
 
 								/*
-								 * count, how many lines stands befor the token
-								 * line.
+								 * count how many lines are before the token line.
 								 */
 								while (ftell(fd) < tokenpos)
 								{
 									int chr = fgetc(fd);
 									if (chr == '\n')
-										aftersearch++;
+										found_line++;
 									else if (chr == EOF)
 										break;
 								}
 								/*
-								 * the number ofline where a token is found, is
-								 * now in the variable `aftersearch'
+								 * the number of the line where the token was found, is
+								 * now in the variable `found_line'
 								 */
-								if (aftersearch > 1)
-									aftersearch--;
-								else
-									aftersearch = 1;
-							}	/* end: if (indirect entry was found) */
-							if (aftersearch)	/* if something was found */
-							{
-								if (tmp)	/* free tmp buffer */
-								{
+								/* something was found */
+								if (tmp) {
 									delete [] tmp;
 									tmp = 0;
 								}
 								break;
-							}
-						}	/* end: if (tokenpos) */
-						if (tmp)	/* free tmp buffer */
-						{
+								/* end: if (indirect entry was found) */
+							}	
+							/* end: if (tokenpos) */
+						}
+						if (tmp) {
 							delete [] tmp;
 							tmp = 0;
 						}
-					}		/* end: indirect file loop */
+						/* end: indirect file loop */
+					}
 					fclose(fd);
-				}		/* end: if (indirect) */
-				else /* if not indirect */
-				/*- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
-				{
+				  /* end: if (indirect) */
+				} else {
+				  /* if not indirect */
+				  /*- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
 					long filelen;
 					long filepos = ftell(id);
 					long tokenpos;
@@ -542,21 +533,17 @@ work(const vector<string> my_message, string type_str, FILE * id, int tag_table_
 							while (fgetc(id) != INFO_TAG);
 							fgetc(id);	/* skip newline */
 
-							aftersearch = 1;
+							found_line = 0;
 							/* count lines in found node, until found line is
 							 * met. */
 							while (ftell(id) < tokenpos)
 							{
 								int chr = fgetc(id);
 								if (chr == '\n')
-									aftersearch++;
+									found_line++;
 								else if (chr == EOF)
 									break;
 							}
-							if (aftersearch > 1)
-								aftersearch--;
-							else
-								aftersearch = 1;
 							fseek(id, filepos, SEEK_SET);	/* seek to old
 															 * filepos. */
 						}
@@ -566,31 +553,30 @@ work(const vector<string> my_message, string type_str, FILE * id, int tag_table_
 						delete tmp;
 						tmp = 0;
 					}
-				}		/* end: if (!indirect) */
+					/* end: if (!indirect) */
+				}		
 				/*- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
 
-				if (!aftersearch)
-				{
+				if (found_line == -1) {
 					attrset(bottomline);
 					mvaddstr(maxy - 1, 0, _("Search string not found..."));
 					statusline = LOCKED;
 				}
 
-				if (!aftersearch)
-					aftersearch = tmpaftersearch;
-
-				if (return_value != -1)
-				{
+				if (return_value != -1) {
 					infohistory[infohistory.size() - 1].pos = pos;
 					infohistory[infohistory.size() - 1].cursor = cursor;
 					infohistory[infohistory.size() - 1].menu = infomenu;
 					rval.node = tag_table[return_value].nodename;
 					rval.file = "";
 					rval.keep_going = true;
-					/* NOTE: This is the only case where aftersearch is not reset */
+					regex_is_global = true;
+					regex_is_current = true;
 					return rval;
 				}
-			}			/* end: if key_totalsearch */
+				found_line = tmpfound_line;
+				/* end: if key_totalsearch */
+			}
 			/*==========================================================================*/
 			if ((key == keys.search_1) ||		/* search in current node */
 					(key == keys.search_2))
@@ -653,7 +639,8 @@ work(const vector<string> my_message, string type_str, FILE * id, int tag_table_
 							/* otherwise, pos=i. This happens when we have a split expression. */
 							pos = i;
 						}
-						aftersearch = 1;
+						regex_is_current = true;
+						regex_is_global = false;
 						break;
 					}
 				}
@@ -708,10 +695,6 @@ skip_search:
 					rval.node = tag_table[return_value].nodename;
 					rval.file = "";
 					rval.keep_going = true;
-					if (aftersearch) {
-						aftersearch = 0;
-						h_regexp.pop_back();
-					}
 					return rval;
 				} else {
 					/* the name wasn't in tag table */
@@ -732,10 +715,6 @@ skip_search:
 								rval.node = "";
 							}
 							rval.keep_going = true;
-							if (aftersearch) {
-								aftersearch = 0;
-								h_regexp.pop_back();
-							}
 							return rval;
 						}
 					}	else if (    (token_string.length() > 5)
@@ -744,10 +723,6 @@ skip_search:
 						/* handle the `file.info' format of crossinfo goto. */
 						rval.file = token_string;
 						rval.node = "";
-						if (aftersearch) {
-							aftersearch = 0;
-							h_regexp.pop_back();
-						}
 						rval.keep_going = true;
 						return rval;
 					} else {
@@ -776,10 +751,6 @@ skip_search:
 					rval.node = tag_table[return_value].nodename;
 					rval.file = "";
 					rval.keep_going = true;
-					if (aftersearch) {
-						aftersearch = 0;
-						h_regexp.pop_back();
-					}
 					return rval;
 				}
 			}
@@ -798,10 +769,6 @@ skip_search:
 					rval.node = tag_table[return_value].nodename;
 					rval.file = "";
 					rval.keep_going = true;
-					if (aftersearch) {
-						aftersearch = 0;
-						h_regexp.pop_back();
-					}
 					return rval;
 				}
 			}
@@ -826,10 +793,6 @@ skip_search:
 					rval.node = tag_table[return_value].nodename;
 					rval.file = "";
 					rval.keep_going = true;
-					if (aftersearch) {
-						aftersearch = 0;
-						h_regexp.pop_back();
-					}
 					return rval;
 				}
 			}
@@ -997,10 +960,6 @@ skip_search:
 				rval.node = FirstNodeName;
 				rval.file = "";
 				rval.keep_going = true;
-				if (aftersearch) {
-					aftersearch = 0;
-					h_regexp.pop_back();
-				}
 				return rval;
 			}
 			/*==========================================================================*/
@@ -1020,10 +979,6 @@ skip_search:
 					ncursor = infohistory[infohistory.size() - 1].cursor;
 					nmenu = infohistory[infohistory.size() - 1].menu;
 					dellastinfohistory();	/* remove history entry for previous node */
-					if (aftersearch) {
-						aftersearch = 0;
-						h_regexp.pop_back();
-					}
 					return rval;
 				}
 			}
@@ -1047,10 +1002,6 @@ skip_search:
 							rval.node = hyperobjects[cursor].node;
 							rval.file = hyperobjects[cursor].file;
 							rval.keep_going = true;
-							if (aftersearch) {
-								aftersearch = 0;
-								h_regexp.pop_back();
-							}
 							return rval;
 						}
 						else if (hyperobjects[cursor].type < HIGHLIGHT)	/* we deal with an url */
@@ -1221,10 +1172,6 @@ skip_search:
 					break;
 			}
 		}
-	}
-	if (aftersearch) {
-		aftersearch = 0;
-		h_regexp.pop_back();
 	}
 	return rval;
 }

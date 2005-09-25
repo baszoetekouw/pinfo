@@ -38,7 +38,10 @@ extern char *pinfo_re_pattern;
 
 #ifndef ___DONT_USE_REGEXP_SEARCH___
 
-extern std::vector<regex_t> h_regexp;	/* regexps to highlight */
+extern std::vector<regex_t> h_regexp;	/* compiled regexps to highlight */
+extern regex_t current_regex;	/* current regex to highlight */
+extern bool regex_is_current; /* Should we highlight it? */
+extern bool regex_is_global; /* Search transcends node boundaries */
 
 int regexp_search (const char *pattern, char *string);
 #endif

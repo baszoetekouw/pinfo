@@ -400,35 +400,33 @@ main(int argc, char *argv[]) {
 			filenotfound = 0;
 
 		work_return_value = work(message, type, id, tag_table_pos);
-		if (work_return_value.keep_going)
-		{
-			/* no cross-file link selected */
-			if (work_return_value.file[0] == 0)
-			{
+		if (work_return_value.keep_going) {
+			/* Reset regexp */
+			if (!regex_is_global) {
+				regex_is_current = false;
+			}
+			if (work_return_value.file[0] == 0) {
+				/* no cross-file link selected */
 				int tmppos = gettagtablepos(work_return_value.node);
 				if (tmppos != -1)
 					tag_table_pos = tmppos;
-			}
-			else /* file was specified */
-			{
+			} else {
+				/* file was specified */
 				strip_info_suffix_from_file(work_return_value.file);
-				/* file name was the same with the file currently viewed */
-				if (curfile == work_return_value.file)
-				{
+				if (curfile == work_return_value.file) {
+					/* file name was the same as the file currently viewed */
 					int tmppos = gettagtablepos(work_return_value.node);
 					if (tmppos != -1)
 						tag_table_pos = tmppos;
-				}
-				else /* open new info file */
-				{
+				} else {
+					/* open new info file */
 					fclose(id);
 					/* Reset global filenameprefix */
 					filenameprefix.clear();
 					id = openinfo(work_return_value.file, 0);
 
-					/* if the file doesn't exist */
-					if (id == NULL)
-					{
+					if (id == NULL) {
+						/* if the file doesn't exist */
 						attrset(bottomline);
 						mvhline(maxy - 1, 0, ' ', maxx);
 						mvaddstr(maxy - 1, 0, _("File not found. Press any key..."));
@@ -436,24 +434,21 @@ main(int argc, char *argv[]) {
 						attrset(normal);
 						getch();
 						filenotfound = 1;
-						if (infohistory.size())
-						{
+						if (infohistory.size()) {
 							npos = infohistory[infohistory.size() - 1].pos;
 							ncursor = infohistory[infohistory.size() - 1].pos;
 						}
-						/* open back the old file */
+						/* open the old file back up */
 						strip_info_suffix_from_file(curfile);
 						string tmpstr = curfile;
 						id = openinfo(tmpstr, 0);
-						if (id == NULL)
-						{
+						if (id == NULL) {
 							closeprogram();
 							printf(_("Unexpected error.\n"));
 							return 1;
 						}
-					}
-					else /* if we succeeded in opening new file */
-					{
+					} else {
+						/* we succeeded in opening new file */
 						curfile = work_return_value.file;
 						indirect.clear();
 						/* find the indirect entry */

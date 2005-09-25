@@ -38,8 +38,9 @@ typedef struct WorkRVal
 }
 WorkRVal;
 
-/* this determines whether we are in a position, found after search */
-extern int aftersearch;
+/* line to jump to within node, if we got here as a result of global
+ * search; -1 if we didn't just do a global search. */
+extern int found_line;	
 
 /*
  * this is main function which handles almost all of the work (keyboard

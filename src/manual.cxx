@@ -20,7 +20,9 @@
  *  USA
  ***************************************************************************/
 #include "common_includes.h"
+#include "regexp_search.h"
 #include "tmpfiles.h"
+
 
 #include <ctype.h>
 #include <sys/stat.h>
@@ -68,9 +70,6 @@ int manualpos = 0;		/* number of the first line, which is painted on
 
 int manualcol = 0;		/* the first displayed column of manpage--
 						   for moving the screen left/right */
-
-int manual_aftersearch = 0;	/* this is set if man page is now after search
-							   operation */
 
 /*
  * type for the `lastread' history entries, when viewing
@@ -327,11 +326,8 @@ handlemanual(string name)
 		getmaxyx(stdscr, maxy, maxx);
 		check_manwidth();
 
-		if (manual_aftersearch) {
-			/* Clear regexp from prior page */
-			h_regexp.pop_back();
-			manual_aftersearch = 0;
-		}
+		/* Changing page, so clear regexp */
+		regex_is_current = false;
 
 		/* -1 is quit key */
 		if (return_value != -1)
@@ -936,8 +932,8 @@ manualwork()
 					strip_manual(tmpstr);
 
 					/* execute search */
-					if (pinfo_re_exec(tmpstr.c_str()))
-					{		/* if found, enter here... */
+					if (pinfo_re_exec(tmpstr.c_str())) {
+						/* if found, enter here... */
 						success = 1;
 						string newtmpstr = manual[i + 1];
 						strip_manual(newtmpstr);
@@ -959,8 +955,7 @@ manualwork()
 					mvaddstr(maxy - 1, 0, _("Search string not found..."));
 					statusline = LOCKED;
 				}
-
-				manual_aftersearch = 1;
+				regex_is_current = true;
 			}
 			/*=====================================================*/
 			/* search again */
@@ -1404,7 +1399,7 @@ void
 mvaddstr_manual(int y, int x, string my_str)
 {
 	static string strippedline_string;
-	if (h_regexp.size() > 0) {
+	if ((h_regexp.size() > 0) || regex_is_current) {
 		strippedline_string = my_str;
 		strip_manual(strippedline_string);
 	}
@@ -1485,6 +1480,27 @@ label_skip_other:;
 				tmpstr = tmpstr + pmatch[0].rm_eo;
 				move(curY, curX);
 			}
+		}
+	}
+	/* Duplicate code, this time for the interactive search */
+	if (regex_is_current) {
+		regmatch_t pmatch[1];
+		const char* strippedline = strippedline_string.c_str();
+		const char* tmpstr = strippedline;
+		while (!regexec(&current_regex, tmpstr, 1, pmatch, 0)) {
+			int n = pmatch[0].rm_eo - pmatch[0].rm_so;
+			int rx = pmatch[0].rm_so + tmpstr - strippedline;
+			int curY, curX;
+			getyx(stdscr, curY, curX);
+
+			attrset(searchhighlight);
+			string str_to_print;
+			str_to_print.assign(strippedline_string, rx, n);
+			mvaddstr(y, rx, str_to_print.c_str());
+			attrset(normal);
+
+			tmpstr = tmpstr + pmatch[0].rm_eo;
+			move(curY, curX);
 		}
 	}
 #endif

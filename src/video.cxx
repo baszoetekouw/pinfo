@@ -204,21 +204,14 @@ info_add_highlights(int pos, int cursor, int column, const vector <string> messa
 	}
 
 #ifndef ___DONT_USE_REGEXP_SEARCH___
-	if (h_regexp.size() > 0)
-	{
+	if (h_regexp.size() > 0) {
 		regmatch_t pmatch[1];
 		for (int i = pos - 1; 
 		     (i < message.size()) && (i + 1 < pos + (maxy - 2)); i++) {
-			/*
-			 * if it is after search, then we have user defined regexps+
-			 * a searched regexp to highlight
-			 */
-			for (int j = 0; j < h_regexp.size(); j++)
-			{
+			for (int j = 0; j < h_regexp.size(); j++) {
 				const char * message_i = message[i].c_str();
 				const char *rest_of_str = message_i;
-				while (!regexec(&h_regexp[j], rest_of_str, 1, pmatch, 0))
-				{
+				while (!regexec(&h_regexp[j], rest_of_str, 1, pmatch, 0)) {
 					int num_chars = pmatch[0].rm_eo - pmatch[0].rm_so;
 					int x = calculate_len(message_i, rest_of_str + pmatch[0].rm_so);
 					int txtoffset = (rest_of_str - message_i) + pmatch[0].rm_so;
@@ -228,6 +221,25 @@ info_add_highlights(int pos, int cursor, int column, const vector <string> messa
 					attrset(normal);
 					rest_of_str = rest_of_str + pmatch[0].rm_eo;
 				}
+			}
+		}
+	}
+	/* Duplicate code, this time for the interactive search. */
+	if (regex_is_current) {
+		regmatch_t pmatch[1];
+		for (int i = pos - 1; 
+		     (i < message.size()) && (i + 1 < pos + (maxy - 2)); i++) {
+			const char * message_i = message[i].c_str();
+			const char *rest_of_str = message_i;
+			while (!regexec(&current_regex, rest_of_str, 1, pmatch, 0)) {
+				int num_chars = pmatch[0].rm_eo - pmatch[0].rm_so;
+				int x = calculate_len(message_i, rest_of_str + pmatch[0].rm_so);
+				int txtoffset = (rest_of_str - message_i) + pmatch[0].rm_so;
+				string tmpstr = message[i].substr(txtoffset, num_chars);
+				attrset(searchhighlight);
+				mvaddstr(i + 1 - pos + 1, x, tmpstr.c_str());
+				attrset(normal);
+				rest_of_str = rest_of_str + pmatch[0].rm_eo;
 			}
 		}
 	}

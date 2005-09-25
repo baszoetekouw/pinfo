@@ -29,7 +29,11 @@ using std::vector;
 #include <regex.h>
 #include <ctype.h>
 
-vector<regex_t> h_regexp;	/* regexps to highlight */
+vector<regex_t> h_regexp;	/* configured regexps to highlight */
+regex_t current_regex; /* Selected interactively */
+bool prior_regex = false; /* No prior regexes */
+bool regex_is_current = false; /* No regex yet */
+bool regex_is_global = false; /* Regex not global */
 #endif
 
 #ifdef ___DONT_USE_REGEXP_SEARCH___
@@ -51,17 +55,13 @@ pinfo_re_comp(const char *name)
 	pinfo_re_pattern = strdup(name);
 	return 0;
 #else
-	if (pinfo_re_offset == -1)
-	{
-		pinfo_re_offset = h_regexp.size();
-		regex_t my_regex_t;
-		h_regexp.push_back(my_regex_t);
+	if (prior_regex) {
+		regfree(&current_regex);
 	}
-	else
-	{
-		regfree(&h_regexp[pinfo_re_offset]);
-	}
-	return regcomp(&h_regexp[pinfo_re_offset], name, REG_ICASE);
+	int result;
+	result = regcomp(&current_regex, name, REG_ICASE);
+	prior_regex = true;
+	return result;
 #endif
 }
 
@@ -80,7 +80,7 @@ pinfo_re_exec(const char *name)
 	}
 #else
 	regmatch_t pmatch[1];
-	return !regexec(&h_regexp[pinfo_re_offset], name, 1, pmatch, 0);
+	return !regexec(&current_regex, name, 1, pmatch, 0);
 #endif
 }
 
@@ -119,27 +119,17 @@ __regexp_search(const char *pattern, char *string)
 			}
 		}
 		flags |= REG_EXTENDED;
-		if (pinfo_re_offset == -1)
-		{
-			pinfo_re_offset = h_regexp.size();
-			regex_t my_regex_t;
-			h_regexp.push_back(my_regex_t);
-			/* FIXME: this is supposed to be an 'extra' which doesn't add to
-				 the number of regexps */
-		}
-		else
-		{
-			regfree(&h_regexp[pinfo_re_offset]);
+		if (prior_regex) {
+			regfree(&current_regex);
 		}
 		/* invalid regexp */
-		if (regcomp(&h_regexp[pinfo_re_offset], pattern, flags))
-		{
+		if (regcomp(&current_regex, pattern, flags)) {
 			return 0;
 		}
 		old_pattern = strdup(pattern);
 		old_type = match_type;
 	}
-	rval = regexec(&h_regexp[pinfo_re_offset], string, 1, pmatch, 0);
+	rval = regexec(&current_regex, string, 1, pmatch, 0);
 	if (rval != 0)
 		return -1;
 	else
