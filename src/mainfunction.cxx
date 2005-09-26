@@ -44,7 +44,8 @@ int getnodeoffset(int tag_table_pos,
  * caused by the sequential auto-pgdn reading code
  */
 int toggled_by_menu = 0;
-long pos, infomenu;
+long pos;
+long infomenu;
 long infocolumn=0;
 
 int cursor;
@@ -123,7 +124,9 @@ work(const vector<string> my_message, string type_str, FILE * id, int tag_table_
 	rval.node = "";
 	rval.keep_going = false; /* Important */
 
-	pos = 1, cursor = 0, infomenu = -1;	/* default position, and selected number */
+	pos = 0;
+	cursor = 0;
+	infomenu = -1;	/* default position, and selected number */
 
 #ifdef getmaxyx
 	getmaxyx(stdscr, maxy, maxx);	/* initialize maxx, maxy */
@@ -181,8 +184,7 @@ work(const vector<string> my_message, string type_str, FILE * id, int tag_table_
 		if (key == ERR)
 		{
 			if (statusline == FREE) {
-				/* Convert back to 0-based.  FIXME. */
-				showscreen(my_message, pos - 1, cursor, infocolumn);
+				showscreen(my_message, pos, cursor, infocolumn);
 			}
 			waitforgetch();
 			key = pinfo_getch();
@@ -211,19 +213,21 @@ work(const vector<string> my_message, string type_str, FILE * id, int tag_table_
 					(key == keys.pgdn_auto_2) ||
 					(toggled_by_menu))
 			{
+				/* FIXME: This depends on a weird fallthrough to keys.pgdn in
+				 * the 'normal' case.
+				 */
 				int wastoggled = toggled_by_menu;
 				toggled_by_menu = 0;
 				/* if hyperobject type <= 1, then we have a menu */
-				if ((pos >= my_message.size() -lines_visible) ||(wastoggled))
-				{
+				if ((pos + lines_visible >= my_message.size()) || wastoggled) {
+					/* Either toggled, or the end of the node is on the screen */
 					if ((infomenu != -1) &&(!wastoggled))
 					{
 						cursor = infomenu;
 						key = keys.followlink_1;	/* the handler for keys.followlink must be bellow this statement! */
 					}
 					else
-						/* we shouldn't select a menu item if this node is called via `up:' from bottom, or if there is no menu */
-					{
+						/* we shouldn't select a menu item if this node is called via `up:' from bottom, or if there is no menu */					{
 						string next_node_name = getnextnode(type_str);
 						if (next_node_name != ERRNODE) {
 							key = keys.nextnode_1;
@@ -268,15 +272,18 @@ work(const vector<string> my_message, string type_str, FILE * id, int tag_table_
 							digit_val = false;
 					}
 					if (digit_val) {
-						/* go to specified line */
+						/* go to specified line (as bottom line, 1-based) */
 						newpos = atol(token_string.c_str());
-						newpos -=(maxy - 1);
-						if ((newpos > 0) &&(newpos < my_message.size() -lines_visible))
+						newpos -= lines_visible; /* Get top line, 0-based */
+						if (newpos < 0) {
+							pos = 0;
+						} else if (newpos + lines_visible <= my_message.size()) {
 							pos = newpos;
-						else if ((newpos > 0) &&((my_message.size() -lines_visible) > 0))
-							pos = my_message.size() -lines_visible;
-						else
-							pos = 1;
+						} else if (lines_visible <= my_message.size()) {
+							pos = my_message.size() - lines_visible;
+						} else { /* very short message */
+							pos = 0;
+						}
 					}
 				}
 			}
@@ -367,8 +374,12 @@ work(const vector<string> my_message, string type_str, FILE * id, int tag_table_
 
 				/* Calculate current info file offset...  */
 				fileoffset = 0;
-				for (int i = 0; i < pos + 1; i++)	/* count the length of curnode */
+				for (int i = 0; i <= pos; i++)	{
+					/* count the length of current node
+					 * up to and including current line
+					 */
 					fileoffset += my_message[i].length();
+				}
 				fileoffset += type_str.length();	/* add also header length */
 
 				fileoffset += getnodeoffset(tag_table_pos, indirectstart);	/* also load the variable indirectstart */
@@ -619,9 +630,7 @@ work(const vector<string> my_message, string type_str, FILE * id, int tag_table_
 					
 				}
 				/* scan for the token in the following lines.  */
-				/* Note that pos is still 1-based */
-				for (int i = pos; i < my_message.size() - 1; i++)
-				{
+				for (int i = pos + 1; i < my_message.size(); i++) {
 					/*
 					 * glue two following lines into one -- to find matches
 					 * split up into two lines.
@@ -816,8 +825,8 @@ skip_search:
 						 */
 						for (int i = cursor - 1; i >= 0; i--)
 						{
-							if ((hyperobjects[i].line >= pos - 1) &&
-									(hyperobjects[i].line < pos - 1 +(maxy - 1)))
+							if ((hyperobjects[i].line >= pos) &&
+									(hyperobjects[i].line < pos + lines_visible))
 							{
 								/* don't play with `highlight' objects */
 								if (hyperobjects[i].type < HIGHLIGHT)
@@ -831,12 +840,12 @@ skip_search:
 				}
 				if (!cursorchanged)	/* if the cursor wasn't changed */
 				{
-					if (pos > 1)	/* lower the nodepos */
+					if (pos > 0)	/* lower the nodepos */
 						pos--;
 					/* and scan for a hyperlink in the new line */
 					for (typeof(hyperobjects.size()) i = 0;
 					     i < hyperobjects.size(); i++) {
-						if (hyperobjects[i].line == pos - 1)
+						if (hyperobjects[i].line == pos)
 						{
 							if (hyperobjects[i].type < HIGHLIGHT)
 							{
@@ -851,30 +860,24 @@ skip_search:
 			if ((key == keys.end_1) ||
 					(key == keys.end_2))
 			{
-				pos = my_message.size() -lines_visible;
-				if (pos < 1)
-					pos = 1;
+				pos = my_message.size() - lines_visible;
+				if (pos < 0)
+					pos = 0;
 				cursor = hyperobjects.size() - 1;
 			}
 			/*==========================================================================*/
 			if ((key == keys.pgdn_1) ||
 					(key == keys.pgdn_2))
 			{
-				/* Signed/unsigned issues.  FIXME */
-				if (pos +lines_visible < (signed)my_message.size() -lines_visible)
-				{
-					pos +=lines_visible;
+				/* Signed/unsigned issues in comparisons.  FIXME */
+				if (pos + lines_visible + lines_visible <= my_message.size()) {
+					pos += lines_visible;
 					rescan_cursor();
-				}
-				/* Signed/unsigned issues.  FIXME */
-				else if ((signed)my_message.size() -lines_visible >= 1)
-				{
-					pos = my_message.size() -lines_visible;
+				} else if (lines_visible < my_message.size()) {
+					pos = my_message.size() - lines_visible;
 					cursor = hyperobjects.size() - 1;
-				}
-				else
-				{
-					pos = 1;
+				} else {
+					pos = 0;
 					cursor = hyperobjects.size() - 1;
 				}
 			}
@@ -882,24 +885,25 @@ skip_search:
 			if ((key == keys.home_1) ||
 					(key == keys.home_2))
 			{
-				pos = 1;
+				pos = 0;
 				rescan_cursor();
 			}
 			/*==========================================================================*/
 			if ((key == keys.pgup_1) |
 					(key == keys.pgup_2))
 			{
-				if (pos >lines_visible)
-					pos -=lines_visible;
-				else
-					pos = 1;
+				if (pos >= lines_visible) {
+					pos -= lines_visible;
+				} else {
+					pos = 0;
+				}
 				rescan_cursor();
 			}
 			/*==========================================================================*/
 			if ((key == keys.pgup_auto_1) ||
 					(key == keys.pgup_auto_2))
 			{
-				if (pos == 1)
+				if (pos == 0)
 					ungetch(keys.upnode_1);
 			}
 			/*==========================================================================*/
@@ -917,8 +921,8 @@ skip_search:
 				if (cursor < hyperobjects.size())
 					for (typeof(hyperobjects.size()) i = cursor + 1;
 					     i < hyperobjects.size(); i++) {
-						if ((hyperobjects[i].line >= pos - 1) &&
-								(hyperobjects[i].line < pos - 1 +lines_visible))
+						if ((hyperobjects[i].line >= pos) &&
+								(hyperobjects[i].line < pos + lines_visible))
 						{
 							if (hyperobjects[i].type < HIGHLIGHT)
 							{
@@ -931,13 +935,13 @@ skip_search:
 				if (!cursorchanged)
 				{
 					/* FIXME: signed/unsigned issues */
-					if (pos <= (signed)my_message.size() -lines_visible)
+					if (pos + lines_visible < my_message.size())
 						pos++;
 					for (typeof(hyperobjects.size()) i = cursor + 1;
 					     i < hyperobjects.size(); i++)
 					{
-						if ((hyperobjects[i].line >= pos - 1) &&
-								(hyperobjects[i].line < pos - 1 +lines_visible))
+						if ((hyperobjects[i].line >= pos) &&
+								(hyperobjects[i].line < pos + lines_visible))
 						{
 							if (hyperobjects[i].type < HIGHLIGHT)
 							{
@@ -988,13 +992,15 @@ skip_search:
 				infohistory[infohistory.size() - 1].pos = pos;
 				infohistory[infohistory.size() - 1].cursor = cursor;
 				infohistory[infohistory.size() - 1].menu = infomenu;
-				if (!toggled_by_menu)
+				if (!toggled_by_menu) {
 					infohistory[infohistory.size() - 1].menu = cursor;
-				if ((cursor >= 0) && (cursor < hyperobjects.size()))
-					if ((hyperobjects[cursor].line >= pos - 1) &&
-							(hyperobjects[cursor].line < pos - 1 +lines_visible) ||
-							(toggled_by_menu))
-					{
+				}
+				if ((cursor >= 0) && (cursor < hyperobjects.size())) {
+					if (    toggled_by_menu
+					     || (   (hyperobjects[cursor].line >= pos)
+					          && (hyperobjects[cursor].line < pos + lines_visible)
+					        )
+					   ) {
 						toggled_by_menu = 0;
 						if (hyperobjects[cursor].type < 4)	/* normal info link */
 						{
@@ -1035,6 +1041,7 @@ skip_search:
 							}
 						}
 					}
+				}
 			}
 			/*==========================================================================*/
 			if ((key == keys.left_1) ||(key == keys.left_2))
@@ -1064,7 +1071,7 @@ skip_search:
 					{
 						for (typeof(hyperobjects.size()) i = cursor; i > 0; i--)
 						{
-							if (hyperobjects[i].line == mouse.y + pos - 2)
+							if (hyperobjects[i].line - pos == mouse.y - 1)
 							{
 								if (hyperobjects[i].col <= mouse.x - 1)
 								{
@@ -1084,7 +1091,7 @@ skip_search:
 							for (typeof(hyperobjects.size()) i = cursor;
 							     i < hyperobjects.size(); i++)
 							{
-								if (hyperobjects[i].line == mouse.y + pos - 2)
+								if (hyperobjects[i].line - pos == mouse.y - 1)
 								{
 									if (hyperobjects[i].col <= mouse.x - 1)
 									{
@@ -1113,7 +1120,7 @@ skip_search:
 						/* signed/unsigned.  Use iterators.  FIXME. */
 						for (int i = cursor; i >= 0; i--)
 						{
-							if (hyperobjects[i].line == mouse.y + pos - 2)
+							if (hyperobjects[i].line - pos == mouse.y - 1)
 							{
 								if (hyperobjects[i].col <= mouse.x - 1)
 								{
@@ -1133,7 +1140,7 @@ skip_search:
 							for (typeof(hyperobjects.size()) i = cursor;
 							     i < hyperobjects.size(); i++)
 							{
-								if (hyperobjects[i].line == mouse.y + pos - 2)
+								if (hyperobjects[i].line - pos == mouse.y - 1)
 								{
 									if (hyperobjects[i].col <= mouse.x - 1)
 									{
@@ -1197,8 +1204,8 @@ rescan_cursor()
 {
 	for (typeof(hyperobjects.size()) i = 0; i < hyperobjects.size(); i++)
 	{
-		if ((hyperobjects[i].line >= pos - 1) &&
-				(hyperobjects[i].line < pos - 1 +lines_visible))
+		if ((hyperobjects[i].line >= pos) &&
+				(hyperobjects[i].line < pos + lines_visible))
 		{
 			if (hyperobjects[i].type < HIGHLIGHT)
 			{
