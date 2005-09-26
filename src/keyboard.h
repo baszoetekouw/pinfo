@@ -35,6 +35,39 @@
 
 /***********************************/
 
+typedef struct keybindings
+{
+	int totalsearch_1, totalsearch_2;
+	int search_1, search_2;
+	int goto_1, goto_2;
+	int prevnode_1, prevnode_2;
+	int nextnode_1, nextnode_2;
+	int upnode_1, upnode_2;
+	int up_1, up_2;
+	int end_1, end_2;
+	int pgdn_1, pgdn_2;
+	int home_1, home_2;
+	int pgup_1, pgup_2;
+	int down_1, down_2;
+	int top_1, top_2;
+	int back_1, back_2;
+	int followlink_1, followlink_2;
+	int quit_1, quit_2;
+	int refresh_1, refresh_2;
+	int shellfeed_1, shellfeed_2;
+	int dirpage_1, dirpage_2;
+	int pgdn_auto_1, pgdn_auto_2;
+	int pgup_auto_1, pgup_auto_2;
+	int search_again_1, search_again_2;
+	int goline_1, goline_2;
+	int twoup_1, twoup_2;
+	int twodown_1, twodown_2;
+	int print_1, print_2;
+	int left_1, left_2;
+	int right_1, right_2;
+}
+keybindings;
+
 /* a structure, which holds the keybindings */
 extern struct keybindings keys;
 

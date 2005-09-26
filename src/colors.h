@@ -55,8 +55,32 @@ extern int infohighlight;
 extern int searchhighlight;
 
 #ifndef NO_COLOR_CURSES
+typedef struct colours
+{
+	int normal_fore, normal_back, normal_bold, normal_blink;
+	int menuselected_fore, menuselected_back, menuselected_bold, menuselected_blink;
+	int menu_fore, menu_back, menu_bold, menu_blink;
+	int noteselected_fore, noteselected_back, noteselected_bold, noteselected_blink;
+	int note_fore, note_back, note_bold, note_blink;
+	int topline_fore, topline_back, topline_bold, topline_blink;
+	int bottomline_fore, bottomline_back, bottomline_bold, bottomline_blink;
+	int manualbold_fore, manualbold_back, manualbold_bold, manualbold_blink;
+	int manualitalic_fore, manualitalic_back, manualitalic_bold, manualitalic_blink;
+	int url_fore, url_back, url_bold, url_blink;
+	int urlselected_fore, urlselected_back, urlselected_bold, urlselected_blink;
+	int infohighlight_fore, infohighlight_back, infohighlight_bold, infohighlight_blink;
+	int searchhighlight_fore, searchhighlight_back, searchhighlight_bold,
+		searchhighlight_blink;
+} colours;
+
 extern struct colours cols;
-#endif
+#endif /* NO_COLOR_CURSES */
+
+/* Monochrome defines */
+#define BOLD 1
+#define NO_BOLD 0
+#define BLINK 1
+#define NO_BLINK 0
 
 /*
  * initialize color values/attributes/etc.  Either for color and monochrome

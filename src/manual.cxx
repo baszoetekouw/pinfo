@@ -31,6 +31,7 @@ using std::vector;
 #include <sys/stat.h>
 
 #include "colors.h"
+#include "initializelinks.h"
 #include "keyboard.h"
 #include "manual.h"
 #include "regexp_search.h"

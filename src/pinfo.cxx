@@ -33,6 +33,7 @@ using std::vector;
 
 #include "colors.h"
 #include "manual.h"
+#include "parse_config.h"
 #include "regexp_search.h"
 #include "signal_handler.h"
 #include "tmpfiles.h"

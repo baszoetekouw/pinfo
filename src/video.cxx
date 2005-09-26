@@ -28,6 +28,7 @@ using std::string;
 using std::vector;
 
 #include "colors.h"
+#include "initializelinks.h" // for bletchulous calculate_len
 #include "regexp_search.h"
 
 /*

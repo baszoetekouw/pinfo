@@ -31,6 +31,7 @@ using std::vector;
 #include "colors.h"
 #include "datatypes.h"
 #include "keyboard.h"
+#include "parse_config.h"
 #include "regexp_search.h"
 
 #define COLOR_DEFAULT -1	/* mutt uses this was for transparency */
@@ -86,67 +87,31 @@ remove_quotes(string str) {
 	return str;
 }
 
-int
-parse_config(void)
+static char *
+skip_whitespace(char *str)
 {
-	string config_file_name;
-	string home;
-	FILE *f;
+	int i = 0;
 
-	if (rcfile != "") { /* User specified config file */
-		f = fopen(rcfile.c_str(), "r");
-		if (f == NULL) {
-			fprintf(stderr, _("Can't open config file!\n"));
-			exit(1);
-		}
-	} else { /* rcfile == "" */
-		char* rawhome = getenv("HOME");
-		if (rawhome != NULL)
-			home = rawhome;
-		if (home != "") {
-			config_file_name = home;
-			config_file_name += "/.pinforc";
-			f = fopen(config_file_name.c_str(), "r");
-			if (f == NULL) {
-				config_file_name = CONFIGDIR;
-				f = fopen(config_file_name.c_str(), "r");
-				if (f == NULL) {
-					return 0;	/* no config file available */
-				}
-			}
-		} else { /* home == "" */
-			config_file_name = CONFIGDIR;
-			f = fopen(config_file_name.c_str(), "r");
-			if (f == NULL) {
-				return 0; /* no config file available */
-			}
-		}
-	}
+	if (!str)
+		return NULL;
 
-	int line_number = 0;
-	while (!feof(f)) {
-		char line[256];
-		if (!(fgets(line, 255, f))) {
-			fclose(f);
-			return 0;
-		}
-		if (parse_line(line)) {
-			/* Line parse failure */
-			line_number++;
-			fclose(f);
-			fprintf(stderr, _("Parse error in config file on line %d\n"), line_number);
-			exit(1);
-		} else {
-			/* Line parsed successfully */
-			line_number++;
-		}
-	}
+	while (str[i] == ' ' || str[i] == '\t' || str[i] == '\n')
+		i++;
 
-	fclose(f);
-	return 0;
+	return str + i;
 }
 
-int
+static char *
+str_toupper(char *str)
+{
+	for (unsigned int i = 0; i < strlen(str); ++i)
+		if (islower(str[i]))
+			str[i] = toupper(str[i]);
+
+	return str;
+}
+
+static int
 parse_line(char *line)
 {
 	char *temp;
@@ -925,27 +890,63 @@ parse_line(char *line)
 	return 0;
 }
 
-char *
-str_toupper(char *str)
+int
+parse_config(void)
 {
-	for (unsigned int i = 0; i < strlen(str); ++i)
-		if (islower(str[i]))
-			str[i] = toupper(str[i]);
+	string config_file_name;
+	string home;
+	FILE *f;
 
-	return str;
-}
+	if (rcfile != "") { /* User specified config file */
+		f = fopen(rcfile.c_str(), "r");
+		if (f == NULL) {
+			fprintf(stderr, _("Can't open config file!\n"));
+			exit(1);
+		}
+	} else { /* rcfile == "" */
+		char* rawhome = getenv("HOME");
+		if (rawhome != NULL)
+			home = rawhome;
+		if (home != "") {
+			config_file_name = home;
+			config_file_name += "/.pinforc";
+			f = fopen(config_file_name.c_str(), "r");
+			if (f == NULL) {
+				config_file_name = CONFIGDIR;
+				f = fopen(config_file_name.c_str(), "r");
+				if (f == NULL) {
+					return 0;	/* no config file available */
+				}
+			}
+		} else { /* home == "" */
+			config_file_name = CONFIGDIR;
+			f = fopen(config_file_name.c_str(), "r");
+			if (f == NULL) {
+				return 0; /* no config file available */
+			}
+		}
+	}
 
-char *
-skip_whitespace(char *str)
-{
-	int i = 0;
+	int line_number = 0;
+	while (!feof(f)) {
+		char line[256];
+		if (!(fgets(line, 255, f))) {
+			fclose(f);
+			return 0;
+		}
+		if (parse_line(line)) {
+			/* Line parse failure */
+			line_number++;
+			fclose(f);
+			fprintf(stderr, _("Parse error in config file on line %d\n"), line_number);
+			exit(1);
+		} else {
+			/* Line parsed successfully */
+			line_number++;
+		}
+	}
 
-	if (!str)
-		return NULL;
-
-	while (str[i] == ' ' || str[i] == '\t' || str[i] == '\n')
-		i++;
-
-	return str + i;
+	fclose(f);
+	return 0;
 }
 
