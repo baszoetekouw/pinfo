@@ -23,18 +23,18 @@
 #ifndef __INITIALIZELINKS_H
 #define __INITIALIZELINKS_H
 /* initializes node links.  */
-void initializelinks (const std::string line1,
-                      const std::string line2, 
+void initializelinks (const std::string & line1,
+                      const std::string & line2, 
                       int line);
 /*
  * scans for url end in given url-string (from pos).
  * returns index of found place.
  */
-std::string::size_type findurlend (std::string str,
+std::string::size_type findurlend (const std::string & str,
 																	 std::string::size_type pos = 0);
 
 /* scans for the beginning of username. Returns its index.  */
-std::string::size_type findemailstart (std::string str,
+std::string::size_type findemailstart (const std::string & str,
 																			 std::string::size_type pos = 0);
 
 /*

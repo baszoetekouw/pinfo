@@ -36,7 +36,7 @@ compare_hyperlink(HyperObject a, HyperObject b)
 	return (a.col < b.col);
 }
 
-void
+static void
 sort_hyperlinks_from_current_line(
 	typeof(hyperobjects.begin()) startlink,
 	typeof(hyperobjects.begin()) endlink)
@@ -48,14 +48,14 @@ sort_hyperlinks_from_current_line(
  * checks if an item belongs to tag table. returns 1 on success and 0 on
  * failure.  It should be optimised...
  */
-inline int
-exists_in_tag_table(const string item)
+static inline bool
+exists_in_tag_table(const string& item)
 {
 	int result = gettagtablepos(item);
 	if (result != -1)
-		return 1;
+		return true;
 	else
-		return 0;
+		return false;
 }
 
 /*
@@ -88,7 +88,7 @@ calculate_len(const char *start, const char *end)
  * FIXME: This is really not a sufficient test for a URL.
  */
 string::size_type
-findurlend(const string str, string::size_type pos)
+findurlend(const string& str, string::size_type pos)
 {
 	const char* const allowedchars =
 		"QWERTYUIOPASDFGHJKLZXCVBNMqwertyuiopasdfghjklzxcvbnm1234567890-_/~.%=|:@­";
@@ -111,8 +111,8 @@ findurlend(const string str, string::size_type pos)
  * is_note is true (== NOTE_DOT) if we're looking for a note, and
  * false (== MENU_DOT) if we're looking for a menu.
  */
-string::size_type
-finddot(string str, string::size_type pos, bool is_note)
+static string::size_type
+finddot(const string & str, string::size_type pos, bool is_note)
 {
 	string::size_type idx = pos;
 	while (isspace(str[idx])) {
@@ -139,7 +139,7 @@ finddot(string str, string::size_type pos, bool is_note)
  * Treat string as starting with pos.
  */
 string::size_type
-findemailstart(string str, string::size_type pos) {
+findemailstart(const string & str, string::size_type pos) {
 	const char * const allowedchars = "QWERTYUIOPASDFGHJKLZXCVBNMqwertyuiopasdfghjklzxcvbnm1234567890-_/~.%=|:";
 	const string my_str = str.substr(pos);
 	const string::size_type at_idx = my_str.find('@');
@@ -157,7 +157,7 @@ findemailstart(string str, string::size_type pos) {
 }
 
 void
-initializelinks(const string line1, const string line2, int line)
+initializelinks(const string & line1, const string & line2, int line)
 {
 	bool changed;
 
