@@ -3,6 +3,10 @@
 (2) Fix parse_config.cxx 's use of strtok.
     And wipe out all other uses of strtok.
 
+Finish the process of making common_includes only include really common
+includes, and the related process of converting from C headers to
+C++ C-wrapper headers.
+
 Sigh.  The easy string conversions are done; the hard ones remain.
 
 (medium term)
