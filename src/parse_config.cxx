@@ -21,15 +21,17 @@
  ***************************************************************************/
 
 #include "common_includes.h"
-#include "datatypes.h"
-#include "colors.h"
-#include "regexp_search.h"
 #include <string>
 using std::string;
 #include <vector>
 using std::vector;
 
 #include <ctype.h>
+
+#include "colors.h"
+#include "datatypes.h"
+#include "keyboard.h"
+#include "regexp_search.h"
 
 #define COLOR_DEFAULT -1	/* mutt uses this was for transparency */
 

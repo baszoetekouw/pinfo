@@ -70,7 +70,6 @@
 #include "mainfunction.h"
 #include "utils.h"
 #include "parse_config.h"
-#include "keyboard.h"
 #include "initializelinks.h"
 
 /* I hear voices, that it is needed by RH5.2 ;) */

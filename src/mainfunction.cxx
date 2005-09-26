@@ -31,6 +31,7 @@ using std::vector;
 #include <ctype.h>
 
 #include "colors.h"
+#include "keyboard.h"
 #include "printinfo.h"
 #include "regexp_search.h"
 #include "video.h"

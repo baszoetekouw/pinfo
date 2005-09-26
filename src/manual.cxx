@@ -30,9 +30,10 @@ using std::vector;
 #include <sys/stat.h>
 
 #include "colors.h"
+#include "keyboard.h"
+#include "manual.h"
 #include "regexp_search.h"
 #include "tmpfiles.h"
-#include "manual.h"
 
 #define HTTPSECTION 100
 #define FTPSECTION 101

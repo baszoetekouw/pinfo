@@ -27,6 +27,8 @@
 #include <termios.h>
 #include <sys/ioctl.h>
 
+#include "keyboard.h"
+
 void
 handle_crash(int signum)
 {

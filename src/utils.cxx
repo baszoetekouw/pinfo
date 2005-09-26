@@ -30,6 +30,7 @@ using std::vector;
 #include <ctype.h>
 
 #include "colors.h"
+#include "keyboard.h"
 #include "tmpfiles.h"
 
 string safe_user = "nobody";
