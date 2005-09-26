@@ -44,6 +44,7 @@ int getnodeoffset(int tag_table_pos,
  * caused by the sequential auto-pgdn reading code
  */
 int toggled_by_menu = 0;
+/* File-scope globals.  FIXME */
 long pos;
 long infomenu;
 long infocolumn=0;
@@ -279,7 +280,7 @@ work(const vector<string> my_message, string type_str, FILE * id, int tag_table_
 							pos = 0;
 						} else if (newpos + lines_visible <= my_message.size()) {
 							pos = newpos;
-						} else if (lines_visible <= my_message.size()) {
+						} else if (lines_visible < my_message.size()) {
 							pos = my_message.size() - lines_visible;
 						} else { /* very short message */
 							pos = 0;
@@ -860,9 +861,11 @@ skip_search:
 			if ((key == keys.end_1) ||
 					(key == keys.end_2))
 			{
-				pos = my_message.size() - lines_visible;
-				if (pos < 0)
+				if (lines_visible < my_message.size()) {
+					pos = my_message.size() - lines_visible;
+				} else {
 					pos = 0;
+				}
 				cursor = hyperobjects.size() - 1;
 			}
 			/*==========================================================================*/
