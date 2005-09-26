@@ -31,10 +31,12 @@ using std::vector;
 #include <ctype.h>
 
 #include "colors.h"
+#include "curse_utils.h"
 #include "initializelinks.h"
 #include "keyboard.h"
 #include "printinfo.h"
 #include "regexp_search.h"
+#include "utils.h"
 #include "video.h"
 
 /* File-scope globals.  FIXME */

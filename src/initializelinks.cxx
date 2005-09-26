@@ -26,9 +26,10 @@ using std::string;
 using std::vector;
 #include <algorithm> // for std::sort
 
+#include "utils.h"
+
 #define MENU_DOT 0
 #define NOTE_DOT 1
-
 
 bool
 compare_hyperlink(HyperObject a, HyperObject b)

@@ -14,8 +14,6 @@ pinfo_COMMON_SRC = pinfo.cxx \
 		parse_config.cxx \
 		regexp_search.cxx \
 		signal_handler.cxx \
-		utils.cxx \
-		video.cxx \
 		colors.h \
 		common_includes.h \
 		datatypes.h \
@@ -26,8 +24,12 @@ pinfo_COMMON_SRC = pinfo.cxx \
 		parse_config.h \
 		regexp_search.h \
 		signal_handler.h \
+		curse_utils.h \
+		curse_utils.cxx \
 		utils.h \
+		utils.cxx \
 		video.h \
+		video.cxx \
 		initializelinks.cxx \
 		initializelinks.h \
 		printinfo.cxx \

@@ -27,6 +27,7 @@
 #include <termios.h>
 #include <sys/ioctl.h>
 
+#include "curse_utils.h"
 #include "keyboard.h"
 
 void

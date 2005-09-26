@@ -29,47 +29,14 @@
 extern std::string safe_user;
 extern std::string safe_group;
 
-#ifndef HAVE_CURS_SET
-void curs_set (int a);
-#endif
-
-/* user defined getch, capable of handling ALT keybindings */
-int pinfo_getch ();
-/* initializes GNU locales */
-void initlocale ();
 /* bail out if file name causes security problems */
 void checkfilename (const std::string filename);
-/* closes the program, and removes temporary files */
-void closeprogram ();
-/* initializes curses interface */
-void init_curses ();
-/* an interface to gnu readline */
-std::string getstring (const char *prompt);
-/* for some reasons mvhline does not work quite properly... */
-void mymvhline (int y, int x, char ch, int len);
-/* this one supports color back/foreground */
-void myclrtoeol ();
-/* takes care of the cursor, which is turned off */
-void myendwin ();
 
 /* strcmp, which is insensitive to whitespaces */
-int compare_tag_table_string (const char *base, const char *compared);
 bool compare_tags (TagTable a, TagTable b);
 
 /* get offset of "node" in tag_table variable */
-int gettagtablepos (std::string node);
-
-/* handle localized `(y/n)' dialog box.  */
-int yesno (const char *prompt, int def);
-
-/* Block until something's on STDIN */
-void waitforgetch ();
-
-/* Handle SIGWINCH */
-void handlewinch ();
-
-/* is curses screen open? */
-extern int curses_open;
+int gettagtablepos (const std::string & node);
 
 /* Explode a string into a vector */
 std::vector<std::string>

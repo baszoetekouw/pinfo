@@ -31,11 +31,13 @@ using std::vector;
 #include <sys/stat.h>
 
 #include "colors.h"
+#include "curse_utils.h"
 #include "initializelinks.h"
 #include "keyboard.h"
 #include "manual.h"
 #include "regexp_search.h"
 #include "tmpfiles.h"
+#include "utils.h"
 
 #define HTTPSECTION 100
 #define FTPSECTION 101

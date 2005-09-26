@@ -32,6 +32,7 @@ using std::vector;
 #endif
 
 #include "colors.h"
+#include "curse_utils.h"
 #include "manual.h"
 #include "parse_config.h"
 #include "regexp_search.h"

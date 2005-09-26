@@ -33,6 +33,7 @@ using std::vector;
 #include "keyboard.h"
 #include "parse_config.h"
 #include "regexp_search.h"
+#include "utils.h"
 
 #define COLOR_DEFAULT -1	/* mutt uses this was for transparency */
 
