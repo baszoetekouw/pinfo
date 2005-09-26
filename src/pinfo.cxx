@@ -222,7 +222,7 @@ main(int argc, char *argv[]) {
 	searchagain.type = 0;
 	searchagain.search = 0;
 	initlocale();
-	inithistory();
+	infohistory.clear();
 	for (int i = 1; i < argc; i++)
 		if (strncmp(argv[i], "--rcfile", 8) == 0)
 			userdefinedrc = 1;

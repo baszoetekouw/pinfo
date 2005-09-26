@@ -80,12 +80,6 @@ int quote_ignored = 0;
 
 int winchanged = 0;
 
-void
-inithistory()
-{
-	infohistory.clear();
-}
-
 /*
  * Add history entry
  */

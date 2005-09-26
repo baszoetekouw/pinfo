@@ -23,7 +23,30 @@
 #ifndef __COMMON_INCLUDES_H
 #define __COMMON_INCLUDES_H
 
-#include "localestuff.h"
+#ifdef HAVE_CONFIG_H
+# include "config.h"
+#endif
+
+/* Locale support. Adapted from binutils */
+/* Take care of NLS matters.  */
+
+#ifdef HAVE_LOCALE_H
+# include <locale.h>
+#endif
+#ifndef HAVE_SETLOCALE
+# define setlocale(Category, Locale)	/* empty */
+#endif
+
+#ifdef ENABLE_NLS
+# include <libintl.h>
+# define _(Text) gettext (Text)
+#else
+# undef bindtextdomain
+# define bindtextdomain(Domain, Directory)	/* empty */
+# undef textdomain
+# define textdomain(Domain)	/* empty */
+# define _(Text) Text
+#endif
 
 #if defined(USE_NCURSES) && !defined(RENAMED_NCURSES)
 #include <ncurses.h>
@@ -41,10 +64,6 @@
 #include <pwd.h>
 #include <grp.h>
 #include <ctype.h>
-
-#ifdef HAVE_CONFIG_H
-#include "config.h"
-#endif
 
 #include "datatypes.h"
 #include "filehandling_functions.h"

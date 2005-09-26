@@ -183,8 +183,6 @@ extern int use_raw_filename;
 /* Needed by parse_config.cxx, in pinfo.cxx */
 extern int DontHandleWithoutTagTable;
 
-/* initialize history (see struct above) * variables for `lastread' history */
-void inithistory ();
 /* adds a history entry to the info file `lastread' history */
 void addinfohistory (std::string file, std::string node,
                      int cursor, int menu, int pos);

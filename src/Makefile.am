@@ -33,8 +33,7 @@ pinfo_COMMON_SRC = pinfo.cxx \
 		printinfo.cxx \
 		printinfo.h \
 		tmpfiles.cxx \
-		tmpfiles.h \
-		localestuff.h
+		tmpfiles.h
 
 pinfo_SIGBLOCK = sigblock.cxx sigblock.h
 

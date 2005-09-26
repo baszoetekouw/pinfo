@@ -48,6 +48,4 @@
 # define _(Text) Text
 #endif
 
-#define STREQ(a,b) (strcmp((a), (b)) == 0)
-
 #endif
