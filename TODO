@@ -1,9 +1,30 @@
-GPM text console mouse support
+(1) Clean up the manual code as much as possible; it's still giving
+	valgrind errors, which is BAD.
+(2) Fix parse_config.cxx 's use of strtok.
+    And wipe out all other uses of strtok.
+
+Sigh.  The easy string conversions are done; the hard ones remain.
+
+(medium term)
+(1) Squelch all negative-integer issues.  (Sigh.)  This is probably best
+		done by changing return values to use a struct or some such.
+(2) Put a C++ wrapper around ncurses.
+
+Arrr.  I've broken the manual code when
+used with narrow narrow windows.  Well,
+actually it was already broken; I just broke
+it *more*.
+
+(long term)
+Fix temp file usage better.  Ideally, we would open a file, keep a handle to
+it, and refer only to the handle.  But how do we pass a filehandle to a
+system() call?
+
+Unify manual and info code.
+
+--
+From old TODO:
 
 add search backwards
+Add default search-again when doing second search
 
-Wojciech Filipczyk patch
-
-Christian's bugreport
-
-Add default search-again when doing second search.
