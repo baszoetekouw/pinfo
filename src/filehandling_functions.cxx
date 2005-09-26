@@ -761,34 +761,6 @@ addrawpath(const string filename_string)
 	infopaths.insert(infopaths.begin(), dirstring);
 }
 
-int
-isininfopath(char *name)
-{
-	for (typeof(infopaths.size()) i = 0; i < infopaths.size(); i++)
-	{
-		if (infopaths[i] == name)
-			return 1;		/* path already exists */
-	}
-	return 0;			/* path not found in previous links */
-}
-
-/* returns the number of chars ch in string str */
-unsigned int
-charcount(const char *str, const char ch)
-{
-	int num = 0;
-	const char *c;
-
-	c = str;
-
-	while (*c != '\0')
-	{
-		if (*c++ == ch)
-			num++;
-	}
-	return num;
-}
-
 /*
  * find the paths where info files are to be found,
  * and put them in the global var infopaths[]

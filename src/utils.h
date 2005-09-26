@@ -61,9 +61,6 @@ int gettagtablepos (std::string node);
 
 /* handle localized `(y/n)' dialog box.  */
 int yesno (const char *prompt, int def);
-/* copies the first part of string, which is without regexp */
-void copy_stripped_from_regexp (char *src, char *dest);
-
 
 /* Block until something's on STDIN */
 void waitforgetch ();

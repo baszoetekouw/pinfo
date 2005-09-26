@@ -315,21 +315,6 @@ myclrtoeol()
 }
 
 void
-copy_stripped_from_regexp(char *src, char *dest)
-{
-	const char *forbidden = "*.\\()[]\n";
-	while (strchr(forbidden, *src) == NULL)
-	{
-		if (*src == 0)
-			break;
-		*dest = *src;
-		src++;
-		dest++;
-	}
-	*dest = 0;
-}
-
-void
 myendwin()
 {
 	curs_set(shell_cursor);
