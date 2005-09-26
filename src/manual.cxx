@@ -158,7 +158,7 @@ strip_manual(string& buf)
  * manual sections.
  */
 static bool
-is_in_manlinks(vector<string> manlinks, string to_find)
+is_in_manlinks(const vector<string>& manlinks, string to_find)
 {
 	/* Normalize case */
 	string to_find_uppercase = string_toupper(to_find);
@@ -540,7 +540,7 @@ loadmanual(FILE * id)
 }
 
 static void
-printmanual(vector<string> message)
+printmanual(const vector<string>& message)
 {
 	/* printer fd */
 	FILE *prnFD;

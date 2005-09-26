@@ -408,7 +408,7 @@ do_totalsearch(const vector<string> & my_message,
  * Main work function
  */
 WorkRVal
-work(const vector<string> my_message, string type_str, FILE * id, int tag_table_pos)
+work(const vector<string>& my_message, string type_str, FILE * id, int tag_table_pos)
 {
 	static WorkRVal rval;
 	FILE *pipe;
