@@ -25,8 +25,7 @@
 using std::string;
 #include <vector>
 using std::vector;
-
-#include <ctype.h>
+#include <cctype>
 
 #include "colors.h"
 #include "datatypes.h"

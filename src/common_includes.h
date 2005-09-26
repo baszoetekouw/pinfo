@@ -56,10 +56,6 @@
 #include <grp.h>
 #include <ctype.h>
 
-#include "datatypes.h"
-#include "filehandling_functions.h"
-#include "mainfunction.h"
-
 /* I hear voices, that it is needed by RH5.2 ;) */
 #define _REGEX_RE_COMP
 

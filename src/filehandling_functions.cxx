@@ -30,6 +30,7 @@ using std::vector;
 
 #include "colors.h"
 #include "curse_utils.h"
+#include "filehandling_functions.h"
 #include "tmpfiles.h"
 #include "utils.h"
 

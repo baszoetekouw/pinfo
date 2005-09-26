@@ -20,14 +20,14 @@
  ***************************************************************************/
 #include "common_includes.h"
 
+#include <signal.h>
+
 #ifndef HAVE_SIGBLOCK
 #include "sigblock.h"
 #endif
 
-#include <termios.h>
-#include <sys/ioctl.h>
-
 #include "curse_utils.h"
+#include "datatypes.h"
 #include "keyboard.h"
 
 void

@@ -25,9 +25,9 @@
 using std::vector;
 
 #ifndef ___DONT_USE_REGEXP_SEARCH___
+#include <cctype>
 
 #include <regex.h>
-#include <ctype.h>
 
 vector<regex_t> h_regexp;	/* configured regexps to highlight */
 regex_t current_regex; /* Selected interactively */

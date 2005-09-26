@@ -27,13 +27,14 @@ using std::string;
 using std::vector;
 #include <exception> // For 'throw'
 #include <stdexcept> // For std::invalid_argument
-
-#include <ctype.h>
+#include <cctype> // For isdigit
 
 #include "colors.h"
 #include "curse_utils.h"
+#include "filehandling_functions.h"
 #include "initializelinks.h"
 #include "keyboard.h"
+#include "mainfunction.h"
 #include "printinfo.h"
 #include "regexp_search.h"
 #include "utils.h"

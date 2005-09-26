@@ -31,8 +31,13 @@ using std::vector;
  #include <getopt.h>
 #endif
 
+#include <pwd.h>
+#include <grp.h>
+
 #include "colors.h"
 #include "curse_utils.h"
+#include "filehandling_functions.h"
+#include "mainfunction.h"
 #include "manual.h"
 #include "parse_config.h"
 #include "regexp_search.h"

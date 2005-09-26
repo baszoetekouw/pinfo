@@ -26,6 +26,8 @@ using std::string;
 #include <vector>
 using std::vector;
 
+#include "datatypes.h"
+
 /*
  * Algorithm: We first print highlights, then we send `\r' to the printer,
  * and we draw the base line. Thus highlights are printed `twice', and

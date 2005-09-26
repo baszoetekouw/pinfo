@@ -26,8 +26,8 @@ using std::string;
 #include <vector>
 using std::vector;
 #include <algorithm> // for std::sort and std::find
+#include <cctype>
 
-#include <ctype.h>
 #include <sys/stat.h>
 
 #include "colors.h"

@@ -23,13 +23,10 @@
 #ifndef __FILEHANDLING_FUNCTIONS_H
 #define __FILEHANDLING_FUNCTIONS_H
 
-#include <dirent.h>
-#include <sys/types.h>
-#include <sys/stat.h>
-#include <unistd.h>
-#include <errno.h>
-
 #include <string>
+
+#include <dirent.h>
+#include <sys/stat.h>
 
 #define INFO_TAG (char)0x1f
 #define INDIRECT_TAG (char)0x7f
