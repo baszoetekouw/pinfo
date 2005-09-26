@@ -31,11 +31,12 @@ using std::vector;
  #include <getopt.h>
 #endif
 
-#include "signal_handler.h"
-#include "utils.h"
-#include "tmpfiles.h"
-#include "regexp_search.h"
+#include "colors.h"
 #include "manual.h"
+#include "regexp_search.h"
+#include "signal_handler.h"
+#include "tmpfiles.h"
+#include "utils.h"
 
 const char * const version = VERSION;
 int DontHandleWithoutTagTable = 0;

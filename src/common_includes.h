@@ -3,6 +3,7 @@
  *
  *  Copyright (C) 1999  Przemek Borys <pborys@dione.ids.pl>
  *  Copyright (C) 2005  Bas Zoetekouw <bas@debian.org>
+ *  Copyright 2005  Nathanael Nerode <neroden@gcc.gnu.org>
  *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of version 2 of the GNU General Public License as
@@ -47,10 +48,8 @@
 
 #include "datatypes.h"
 #include "filehandling_functions.h"
-#include "video.h"
 #include "mainfunction.h"
 #include "utils.h"
-#include "colors.h"
 #include "parse_config.h"
 #include "keyboard.h"
 #include "initializelinks.h"

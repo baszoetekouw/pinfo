@@ -21,13 +21,16 @@
  ***************************************************************************/
 
 #include "common_includes.h"
-#include "tmpfiles.h"
+
 #include <string>
 using std::string;
 #include <vector>
 using std::vector;
 
 #include <ctype.h>
+
+#include "colors.h"
+#include "tmpfiles.h"
 
 string safe_user = "nobody";
 string safe_group = "nogroup";

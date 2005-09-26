@@ -20,6 +20,7 @@
  ***************************************************************************/
 
 #include "common_includes.h"
+#include "colors.h"
 
 #ifndef NO_COLOR_CURSES
 struct colours cols =

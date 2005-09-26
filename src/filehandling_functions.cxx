@@ -21,12 +21,15 @@
  ***************************************************************************/
 
 #include "common_includes.h"
-#include "utils.h"
-#include "tmpfiles.h"
+
 #include <string>
 using std::string;
 #include <vector>
 using std::vector;
+
+#include "colors.h"
+#include "tmpfiles.h"
+#include "utils.h"
 
 vector<string> infopaths;
 

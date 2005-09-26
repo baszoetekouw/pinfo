@@ -29,6 +29,7 @@ using std::vector;
 #include <ctype.h>
 #include <sys/stat.h>
 
+#include "colors.h"
 #include "regexp_search.h"
 #include "tmpfiles.h"
 #include "manual.h"

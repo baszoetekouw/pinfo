@@ -30,8 +30,10 @@ using std::vector;
 
 #include <ctype.h>
 
+#include "colors.h"
 #include "printinfo.h"
 #include "regexp_search.h"
+#include "video.h"
 
 #ifndef MIN
 #define        MIN(a,b)(((a)<(b))?(a):(b))
