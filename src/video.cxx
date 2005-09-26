@@ -30,8 +30,6 @@ using std::vector;
 #include "colors.h"
 #include "regexp_search.h"
 
-void info_add_highlights(int pos, int cursor, int column, const vector <string> message);
-
 /*
  * Replace first occurence of substring in string.
  * Used for internationalization of info headers.
@@ -44,6 +42,9 @@ substitutestring(string& strbuf, string find, string replace) {
 	}
 }
 
+/*
+ * Print the header line.
+ */
 void
 addtopline(const string type, string::size_type column)
 {
@@ -72,49 +73,6 @@ addtopline(const string type, string::size_type column)
 	attrset(normal);
 }
 
-void
-showscreen(const vector <string> message, long pos, long cursor, int column)
-{
-#ifdef getmaxyx
-	getmaxyx(stdscr, maxy, maxx);
-#endif
-#ifdef HAVE_BKGDSET
-	bkgdset(' ' | normal);
-#endif
-	attrset(normal);
-	for (long i = pos; (i < message.size()) && (i < pos + lines_visible); i++)
-	{
-		/* Chop off trailing newline */
-		string tmpstr = message[i].substr(0, message[i].length() - 1);
-		if (tmpstr.length()>column)
-			mvaddstr(1 + i - pos, 0, tmpstr.substr(column).c_str());
-		else
-			move(1 + i - pos,0);
-#ifdef HAVE_BKGDSET
-		clrtoeol();
-#else
-		myclrtoeol();
-#endif
-	}
-	clrtobot();
-#ifdef HAVE_BKGDSET
-	bkgdset(0);
-#endif
-	attrset(bottomline);
-	mymvhline(maxy - 1, 0, ' ', maxx);
-	move(maxy - 1, 0);
-	if (pos + lines_visible >= message.size()) {
-		printw(_("Viewing line %d/%d, 100%%"), message.size(), message.size());
-	} else {
-		/* 1-based printout */
-		printw(_("Viewing line %d/%d, %d%%"), pos + lines_visible,
-		       message.size(), ((pos + lines_visible) * 100) / message.size());
-	}
-	info_add_highlights(pos, cursor, column, message);
-	attrset(normal);
-	move(0, 0);
-	refresh();
-}
 
 /*
  *  Prints a line, taking care for the horizontal scrolling.
@@ -123,7 +81,7 @@ showscreen(const vector <string> message, long pos, long cursor, int column)
  *
  *  Does not alter the string passed to it.
  */
-void
+static void
 info_addstring(int y, string::size_type x, string txt, string::size_type column)
 {
   /* Use maxx and mvaddnstr to force clipping.
@@ -142,7 +100,10 @@ info_addstring(int y, string::size_type x, string txt, string::size_type column)
 #endif /* __DEBUG__ */
 }
 
-void
+/*
+ * Add all the highlights.
+ */
+static void
 info_add_highlights(int pos, int cursor, int column, const vector <string> message)
 {
 	for (typeof(hyperobjects.size()) i = 0; i < hyperobjects.size(); i++) {
@@ -247,3 +208,51 @@ info_add_highlights(int pos, int cursor, int column, const vector <string> messa
 	}
 #endif
 }
+
+/*
+ * Print the entire screen.
+ */
+void
+showscreen(const vector <string> message, long pos, long cursor, int column)
+{
+#ifdef getmaxyx
+	getmaxyx(stdscr, maxy, maxx);
+#endif
+#ifdef HAVE_BKGDSET
+	bkgdset(' ' | normal);
+#endif
+	attrset(normal);
+	for (long i = pos; (i < message.size()) && (i < pos + lines_visible); i++)
+	{
+		/* Chop off trailing newline */
+		string tmpstr = message[i].substr(0, message[i].length() - 1);
+		if (tmpstr.length()>column)
+			mvaddstr(1 + i - pos, 0, tmpstr.substr(column).c_str());
+		else
+			move(1 + i - pos,0);
+#ifdef HAVE_BKGDSET
+		clrtoeol();
+#else
+		myclrtoeol();
+#endif
+	}
+	clrtobot();
+#ifdef HAVE_BKGDSET
+	bkgdset(0);
+#endif
+	attrset(bottomline);
+	mymvhline(maxy - 1, 0, ' ', maxx);
+	move(maxy - 1, 0);
+	if (pos + lines_visible >= message.size()) {
+		printw(_("Viewing line %d/%d, 100%%"), message.size(), message.size());
+	} else {
+		/* 1-based printout */
+		printw(_("Viewing line %d/%d, %d%%"), pos + lines_visible,
+		       message.size(), ((pos + lines_visible) * 100) / message.size());
+	}
+	info_add_highlights(pos, cursor, column, message);
+	attrset(normal);
+	move(0, 0);
+	refresh();
+}
+
