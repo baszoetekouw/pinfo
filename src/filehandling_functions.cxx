@@ -26,6 +26,7 @@
 using std::string;
 #include <vector>
 using std::vector;
+#include <algorithm> // for std::sort
 
 #include "colors.h"
 #include "tmpfiles.h"

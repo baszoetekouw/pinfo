@@ -26,6 +26,8 @@
 using std::string;
 #include <vector>
 using std::vector;
+#include <utility> // for std::pair
+#include <algorithm> // for std::equal_range
 
 #include <ctype.h>
 
@@ -220,7 +222,7 @@ gettagtablepos(string node)
 	std::pair<typeof(tag_table.begin()), typeof(tag_table.begin())> my_result;
 	/* The following does binary search */
 	my_result = std::equal_range(tag_table.begin(), tag_table.end(),
-	                             dummy, compare_tags);
+	                        dummy, compare_tags);
 	if (my_result.first == my_result.second) {
 		/* Degenerate range: it's a miss. */
 		return -1;

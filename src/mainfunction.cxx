@@ -25,8 +25,8 @@
 using std::string;
 #include <vector>
 using std::vector;
-#include <exception>
-#include <stdexcept>
+#include <exception> // For 'throw'
+#include <stdexcept> // For std::invalid_argument
 
 #include <ctype.h>
 

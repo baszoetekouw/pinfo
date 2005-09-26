@@ -24,6 +24,7 @@
 using std::string;
 #include <vector>
 using std::vector;
+#include <algorithm> // for std::sort
 
 #define MENU_DOT 0
 #define NOTE_DOT 1
