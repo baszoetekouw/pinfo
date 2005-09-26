@@ -20,12 +20,13 @@
  *  USA
  ***************************************************************************/
 
-
-#include "common_includes.h"
 #include <string>
 using std::string;
 #include <vector>
 using std::vector;
+
+#include "common_includes.h"
+#include "regexp_search.h"
 
 void info_add_highlights(int pos, int cursor, int column, const vector <string> message);
 

@@ -20,16 +20,18 @@
  *  USA
  ***************************************************************************/
 #include "common_includes.h"
-#include "regexp_search.h"
-#include "tmpfiles.h"
 
-
-#include <ctype.h>
-#include <sys/stat.h>
 #include <string>
 using std::string;
 #include <vector>
 using std::vector;
+
+#include <ctype.h>
+#include <sys/stat.h>
+
+#include "regexp_search.h"
+#include "tmpfiles.h"
+#include "manual.h"
 
 #define HTTPSECTION 100
 #define FTPSECTION 101

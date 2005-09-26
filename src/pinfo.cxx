@@ -21,9 +21,6 @@
  ***************************************************************************/
 
 #include "common_includes.h"
-#include "signal_handler.h"
-#include "utils.h"
-#include "tmpfiles.h"
 
 #include <string>
 using std::string;
@@ -33,6 +30,12 @@ using std::vector;
 #ifdef HAVE_GETOPT_LONG
  #include <getopt.h>
 #endif
+
+#include "signal_handler.h"
+#include "utils.h"
+#include "tmpfiles.h"
+#include "regexp_search.h"
+#include "manual.h"
 
 const char * const version = VERSION;
 int DontHandleWithoutTagTable = 0;
@@ -236,7 +239,7 @@ main(int argc, char *argv[]) {
 	}
 	if ((strlen(argv[0]) >= 3)||(use_manual))
 		/* handle any 'man' alias to 'pinfo' */
-		if ((strstr(argv[0], "man") != NULL)||(use_manual))
+		if ((string(argv[0]).find("man") != string::npos) || use_manual)
 		{
 			if (verbose)
 				printf(_("Looking for man page...\n"));

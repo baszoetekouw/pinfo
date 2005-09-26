@@ -51,8 +51,6 @@
 #include "mainfunction.h"
 #include "utils.h"
 #include "colors.h"
-#include "regexp_search.h"
-#include "manual.h"
 #include "parse_config.h"
 #include "keyboard.h"
 #include "initializelinks.h"

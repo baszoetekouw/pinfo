@@ -20,7 +20,7 @@
  *  USA
  ***************************************************************************/
 #include "common_includes.h"
-#include "printinfo.h"
+
 #include <string>
 using std::string;
 #include <vector>
@@ -29,6 +29,9 @@ using std::vector;
 #include <stdexcept>
 
 #include <ctype.h>
+
+#include "printinfo.h"
+#include "regexp_search.h"
 
 #ifndef MIN
 #define        MIN(a,b)(((a)<(b))?(a):(b))
