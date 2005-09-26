@@ -50,6 +50,8 @@ extern int found_line;
  * id: file descriptor of current info file
  * tag_table_pos: position in tag table of the current node (needed for history)
  */
-WorkRVal work (const std::vector<std::string>& message, std::string type,
-		FILE * id, int tag_table_pos);
+WorkRVal work (const std::vector<std::string> & message,
+               const std::string & type,
+							 FILE * id,
+               int tag_table_pos);
 #endif

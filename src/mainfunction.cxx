@@ -61,7 +61,7 @@ int found_line = -1;
  */
 #define ERRNODE "ERR@!#$$@#!%%^#@!OR"
 static inline string
-get_foo_node(const char * const foo, string type)
+get_foo_node(const char * const foo, const string & type)
 {
 	string::size_type start_idx = type.find(foo);
 	if (start_idx == string::npos) {
@@ -78,28 +78,28 @@ get_foo_node(const char * const foo, string type)
 
 /* read the `Next:' header entry */
 static inline string
-getnextnode(string type)
+getnextnode(const string & type)
 {
 	return get_foo_node("Next: ", type);
 }
 
 /* read the `Prev:' header entry */
 static inline string
-getprevnode(string type)
+getprevnode(const string & type)
 {
 	return get_foo_node("Prev: ", type);
 }
 
 /* read the `Up:' header entry */
 static inline string
-getupnode(string type)
+getupnode(const string & type)
 {
 	return get_foo_node("Up: ", type);
 }
 
 /* read the `Node:' header entry */
 static inline string
-getnodename(string type)
+getnodename(const string & type)
 {
 	return get_foo_node("Node: ", type);
 }
@@ -408,7 +408,10 @@ do_totalsearch(const vector<string> & my_message,
  * Main work function
  */
 WorkRVal
-work(const vector<string>& my_message, string type_str, FILE * id, int tag_table_pos)
+work(const vector<string>& my_message,
+     const string & type_str,
+     FILE * id, 
+     int tag_table_pos)
 {
 	static WorkRVal rval;
 	int key = 0;

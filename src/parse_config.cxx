@@ -72,8 +72,19 @@ struct keybindings keys =
 	'6',		0			/* scroll right */
 };
 
-/* Forward declarations */
-string remove_quotes(const string);
+/*
+ * Return a version of a string with quotes replaced with spaces.
+ * Why?  No idea.
+ */
+string
+remove_quotes(string str) {
+	for (string::size_type i = 0; i < str.length(); i++) {
+		if (str[i] == '\"') {
+			str[i] = ' ';
+		}
+	}
+	return str;
+}
 
 int
 parse_config(void)
@@ -938,16 +949,3 @@ skip_whitespace(char *str)
 	return str + i;
 }
 
-/*
- * Return a version of a string with quotes replaced with spaces.
- * Why?  No idea.
- */
-string
-remove_quotes(const string str) {
-	string result = str;
-	for (string::size_type i = 0; i < result.length(); i++) {
-		if (result[i] == '\"')
-			result[i] = ' ';
-	}
-	return result;
-}

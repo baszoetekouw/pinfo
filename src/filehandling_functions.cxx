@@ -59,8 +59,8 @@ static const Suffixes suffixes[SuffixesNumber] =
 
 /*****************************************************************************/
 
-void
-basename_and_dirname(const string filename, string& basename, string& dirname)
+static void
+basename_and_dirname(const string& filename, string& basename, string& dirname)
 {
 	/* Dirname should end with a slash, or be empty. */
 	string::size_type index = filename.rfind('/');
@@ -74,7 +74,7 @@ basename_and_dirname(const string filename, string& basename, string& dirname)
 }
 
 void
-basename(const string filename, string& basename_str)
+basename(const string& filename, string& basename_str)
 {
 	string::size_type index = filename.rfind('/');
 	if (index == string::npos) {
@@ -85,8 +85,8 @@ basename(const string filename, string& basename_str)
 }
 
 /* In this one, dirname *doesn't* have a trailing slash. */
-void
-dirname(const string filename, string& dirname_str)
+static void
+dirname(const string& filename, string& dirname_str)
 {
 	string::size_type index = filename.rfind('/');
 	if (index == string::npos) {
@@ -136,7 +136,7 @@ strip_info_suffix(string& filename)
 	}
 }
 
-void
+static void
 sort_tag_table(void) {
 	if (!tag_table.empty())
 		std::sort(tag_table.begin(), tag_table.end(), compare_tags);
@@ -147,8 +147,8 @@ sort_tag_table(void) {
  * Returns true if it finds a match, false if not.
  * Leaves the matching name in buf.
  */
-bool
-matchfile(string& buf, const string name_string)
+static bool
+matchfile(string& buf, const string& name_string)
 {
 	string basename_string;
 	string dirname_string;
@@ -191,98 +191,6 @@ matchfile(string& buf, const string name_string)
 	}
 	closedir(dir);
 	return false;
-}
-
-FILE *
-dirpage_lookup(string& type, vector<string>& message,
-               string wanted_name, string& first_node)
-{
-	FILE *id = 0;
-	bool goodHit = false;
-
-	id = opendirfile(0);
-	if (!id)
-		return 0;
-
-	read_item(id, type, message);
-	/* search for node-links in every line */
-	for (int i = 0; i < message.size(); i++)	{
-		/* we want: `* name:(file)node.' */
-		string::size_type nameend, filestart, fileend, dot;
-		if (    (message[i].length() >= 2)
-		     && (message[i][0] == '*')
-		     && (message[i][1] == ' ')
-		     && ( (nameend = message[i].find(':')) != string::npos )
-		     && (message[i].length() != nameend + 1)
-		     && (message[i][nameend + 1] != ':')
-		     && ( (filestart = message[i].find('(', nameend + 1)) != string::npos )
-		     && ( (fileend = message[i].find(')', filestart + 1)) != string::npos )
-		     && ( (dot = message[i].find('.', fileend + 1)) != string::npos )
-		   ) {
-			; /* Matches the pattern we want */
-		} else {
-			continue;
-		}
-
-		/* It looks like a match. */
-		string name(message[i], 2, nameend - 2);
-		string file(message[i], filestart + 1, fileend - (filestart + 1) );
-		string node(message[i], fileend + 1, dot - (fileend + 1) );
-
-		if (    (name.length() >= wanted_name.length())
-		     && (strcasecmp(wanted_name.c_str(),
-		                   name.substr(0, wanted_name.length()).c_str()) == 0)
-	     ) {
-			; /* Wanted_name begins the name, so it's a match */
-		} else {
-			continue;
-		}
-
-		if ( goodHit && (name.length() != wanted_name.length()) ) {
-			/* skip this hit if we have already found a previous partial match,
-		   * and this hit is not a perfect match */
-			continue;
-		}
-
-		/* Find the name of the node link (without leading spaces) */
-		if (node != "") {
-			string::size_type idx = 0;
-			while (isspace(node[idx]))
-				idx++;
-			first_node = node.substr(idx);
-		}
-
-		if (id) {
-			/* Close the previously opened file */
-			fclose(id);
-			id = 0;
-		}
-
-		if (file.find(".info") == string::npos) {
-			file += ".info";
-		}
-
-		/* See if this info file exists, and open it if it does */
-		id = openinfo(file, 0);
-		if (id) {
-			goodHit = true;
-			if ((nameend - 2) == wanted_name.length()) {
-				/* the name matches perfectly to the query */
-				/* stop searching for another match, and use this one */
-				break;	
-			}
-		}
-	}
-
-	/* if we haven't found anything, clean up and exit */
-	if (!goodHit)
-	{
-		fclose(id);
-		id = 0;
-	}
-
-	/* return file we found */
-	return id;
 }
 
 void
@@ -539,7 +447,7 @@ seek_tag_table(FILE * id, bool quiet)
 	return 1;
 }
 
-FILE *
+static FILE *
 opendirfile(int number)
 {
 	FILE *id = NULL;
@@ -650,6 +558,98 @@ opendirfile(int number)
 	return id;
 }
 
+FILE *
+dirpage_lookup(string& type, vector<string>& message,
+               const string& wanted_name, string& first_node)
+{
+	FILE *id = 0;
+	bool goodHit = false;
+
+	id = opendirfile(0);
+	if (!id)
+		return 0;
+
+	read_item(id, type, message);
+	/* search for node-links in every line */
+	for (int i = 0; i < message.size(); i++)	{
+		/* we want: `* name:(file)node.' */
+		string::size_type nameend, filestart, fileend, dot;
+		if (    (message[i].length() >= 2)
+		     && (message[i][0] == '*')
+		     && (message[i][1] == ' ')
+		     && ( (nameend = message[i].find(':')) != string::npos )
+		     && (message[i].length() != nameend + 1)
+		     && (message[i][nameend + 1] != ':')
+		     && ( (filestart = message[i].find('(', nameend + 1)) != string::npos )
+		     && ( (fileend = message[i].find(')', filestart + 1)) != string::npos )
+		     && ( (dot = message[i].find('.', fileend + 1)) != string::npos )
+		   ) {
+			; /* Matches the pattern we want */
+		} else {
+			continue;
+		}
+
+		/* It looks like a match. */
+		string name(message[i], 2, nameend - 2);
+		string file(message[i], filestart + 1, fileend - (filestart + 1) );
+		string node(message[i], fileend + 1, dot - (fileend + 1) );
+
+		if (    (name.length() >= wanted_name.length())
+		     && (strcasecmp(wanted_name.c_str(),
+		                   name.substr(0, wanted_name.length()).c_str()) == 0)
+	     ) {
+			; /* Wanted_name begins the name, so it's a match */
+		} else {
+			continue;
+		}
+
+		if ( goodHit && (name.length() != wanted_name.length()) ) {
+			/* skip this hit if we have already found a previous partial match,
+		   * and this hit is not a perfect match */
+			continue;
+		}
+
+		/* Find the name of the node link (without leading spaces) */
+		if (node != "") {
+			string::size_type idx = 0;
+			while (isspace(node[idx]))
+				idx++;
+			first_node = node.substr(idx);
+		}
+
+		if (id) {
+			/* Close the previously opened file */
+			fclose(id);
+			id = 0;
+		}
+
+		if (file.find(".info") == string::npos) {
+			file += ".info";
+		}
+
+		/* See if this info file exists, and open it if it does */
+		id = openinfo(file, 0);
+		if (id) {
+			goodHit = true;
+			if ((nameend - 2) == wanted_name.length()) {
+				/* the name matches perfectly to the query */
+				/* stop searching for another match, and use this one */
+				break;	
+			}
+		}
+	}
+
+	/* if we haven't found anything, clean up and exit */
+	if (!goodHit)
+	{
+		fclose(id);
+		id = 0;
+	}
+
+	/* return file we found */
+	return id;
+}
+
 /*
  * Note: openinfo is a function for reading info files, and putting
  * uncompressed content into a temporary filename.  For a flexibility, there
@@ -660,7 +660,7 @@ opendirfile(int number)
  * filenameprefix and then in the rest of userdefined paths.
  */
 FILE *
-openinfo(const string filename, int number)
+openinfo(const string& filename, int number)
 {
 	FILE *id = NULL;
 	string tmpfilename;
@@ -747,7 +747,7 @@ openinfo(const string filename, int number)
 }
 
 void
-addrawpath(const string filename_string)
+addrawpath(const string& filename_string)
 {
 	/* Get the portion up to the last slash. */
 	string dirstring;

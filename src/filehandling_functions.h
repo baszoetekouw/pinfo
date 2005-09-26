@@ -35,7 +35,7 @@
 #define INDIRECT_TAG (char)0x7f
 
 void initpaths ();
-void addrawpath (const std::string filename);
+void addrawpath (const std::string& filename);
 
 /*  seek to a node in certain info file */
 void seeknode (int tag_table_pos, FILE * & id);
@@ -56,9 +56,7 @@ void load_indirect (const std::vector<std::string>& message);
 /* loads tag table (as above) */
 void load_tag_table (const std::vector<std::string>& message);
 /* opens info file */
-FILE *openinfo (const std::string filename, int number);
-/* opens dir info file */
-FILE *opendirfile (int number);
+FILE *openinfo (const std::string& filename, int number);
 
 /* creates tag table for info file */
 void create_tag_table (FILE * id);
@@ -77,12 +75,12 @@ void create_indirect_tag_table ();
  */
 FILE *
 dirpage_lookup (std::string& type, std::vector<std::string>& message,
-		const std::string filename, std::string& first_node);
+		const std::string& wanted_name, std::string& first_node);
 
 /* removes trailing .gz, .bz2, etc. */
 void strip_compression_suffix (std::string& filename);
 
 /* Gets the base file name from a filename-with-directory */
-void basename (std::string filename, std::string& basename_str);
+void basename (const std::string& filename, std::string& basename_str);
 
 #endif
