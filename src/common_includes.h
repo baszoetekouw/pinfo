@@ -48,12 +48,8 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
-#include <signal.h>
 #include <unistd.h>
 #include <sys/types.h>
-#include <sys/stat.h>
-#include <pwd.h>
-#include <grp.h>
 
 /* I hear voices, that it is needed by RH5.2 ;) */
 #define _REGEX_RE_COMP
