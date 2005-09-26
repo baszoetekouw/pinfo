@@ -40,11 +40,6 @@ using std::vector;
 #define        MIN(a,b)(((a)<(b))?(a):(b))
 #endif
 
-void rescan_cursor();	/* set the cursor to 1st item on visible screen */
-void next_infomenu();	/* go to the next menu item for sequential reading */
-int getnodeoffset(int tag_table_pos,
-			typeof(indirect.size())& indirectstart);	/* get node offset in file */
-
 /*
  * this flag is turned on when the engine receives a simulated `key.back',
  * caused by the sequential auto-pgdn reading code
@@ -113,8 +108,70 @@ getnodename(string type)
 	return get_foo_node("Node: ", type);
 }
 
-/* Main work functions */
+/* More support functions */
+static void
+next_infomenu()
+{
+	if (hyperobjects.size() == 0) {
+		infomenu = -1;
+		return;
+	}
+	for (typeof(hyperobjects.size()) i = infomenu + 1;
+	     i < hyperobjects.size(); i++) {
+		if (hyperobjects[i].type <= 1) { /* menu item */
+			infomenu = i;
+			return;
+		}
+	}
+	infomenu = -1;		/* no more menuitems found */
+}
 
+static void
+rescan_cursor()
+{
+	for (typeof(hyperobjects.size()) i = 0; i < hyperobjects.size(); i++)
+	{
+		if ((hyperobjects[i].line >= pos) &&
+				(hyperobjects[i].line < pos + lines_visible))
+		{
+			if (hyperobjects[i].type < HIGHLIGHT)
+			{
+				cursor = i;
+				break;
+			}
+		}
+	}
+}
+
+static int
+getnodeoffset(int tag_table_pos,
+              typeof(indirect.size())& indirectstart)
+							/* count node offset in file */
+{
+	int fileoffset = 0;
+	if (!indirect.empty())
+	{
+		/* signed/unsigned.  Use iterators. FIXME */
+		for (int i = indirect.size() - 1; i >= 0; i--)
+		{
+			if (indirect[i].offset <= tag_table[tag_table_pos].offset)
+			{
+				fileoffset +=(tag_table[tag_table_pos].offset - indirect[i].offset + FirstNodeOffset);
+				indirectstart = i;
+				break;
+			}
+		}
+	}
+	else
+	{
+		fileoffset +=(tag_table[tag_table_pos].offset - 2);
+	}
+	return fileoffset;
+}
+
+/*
+ * Main work function
+ */
 WorkRVal
 work(const vector<string> my_message, string type_str, FILE * id, int tag_table_pos)
 {
@@ -1180,62 +1237,3 @@ skip_search:
 	return rval;
 }
 
-void
-next_infomenu()
-{
-	if (hyperobjects.size() == 0) {
-		infomenu = -1;
-		return;
-	}
-	for (typeof(hyperobjects.size()) i = infomenu + 1;
-	     i < hyperobjects.size(); i++) {
-		if (hyperobjects[i].type <= 1) { /* menu item */
-			infomenu = i;
-			return;
-		}
-	}
-	infomenu = -1;		/* no more menuitems found */
-}
-
-void
-rescan_cursor()
-{
-	for (typeof(hyperobjects.size()) i = 0; i < hyperobjects.size(); i++)
-	{
-		if ((hyperobjects[i].line >= pos) &&
-				(hyperobjects[i].line < pos + lines_visible))
-		{
-			if (hyperobjects[i].type < HIGHLIGHT)
-			{
-				cursor = i;
-				break;
-			}
-		}
-	}
-}
-
-int
-getnodeoffset(int tag_table_pos,
-              typeof(indirect.size())& indirectstart)
-							/* count node offset in file */
-{
-	int fileoffset = 0;
-	if (!indirect.empty())
-	{
-		/* signed/unsigned.  Use iterators. FIXME */
-		for (int i = indirect.size() - 1; i >= 0; i--)
-		{
-			if (indirect[i].offset <= tag_table[tag_table_pos].offset)
-			{
-				fileoffset +=(tag_table[tag_table_pos].offset - indirect[i].offset + FirstNodeOffset);
-				indirectstart = i;
-				break;
-			}
-		}
-	}
-	else
-	{
-		fileoffset +=(tag_table[tag_table_pos].offset - 2);
-	}
-	return fileoffset;
-}
