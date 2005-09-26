@@ -36,16 +36,13 @@ using std::vector;
 #include "regexp_search.h"
 #include "video.h"
 
-#ifndef MIN
-#define        MIN(a,b)(((a)<(b))?(a):(b))
-#endif
+/* File-scope globals.  FIXME */
 
 /*
  * this flag is turned on when the engine receives a simulated `key.back',
  * caused by the sequential auto-pgdn reading code
  */
 int toggled_by_menu = 0;
-/* File-scope globals.  FIXME */
 long pos;
 long infomenu;
 long infocolumn=0;
@@ -55,15 +52,14 @@ int cursor;
 /* Line found by global search, to jump to.  -1 if not after global search. */
 int found_line = -1;
 
-/* Inline support functions formerly in menu_and_note_utils.cxx */
+/* 
+ * Inline support functions formerly in menu_and_note_utils.cxx
+ */
 
 /*
  * Read the `$foo' header entry
- * Eliminates former duplicate code
  */
-
 #define ERRNODE "ERR@!#$$@#!%%^#@!OR"
-
 static inline string
 get_foo_node(const char * const foo, string type)
 {
@@ -222,23 +218,22 @@ work(const vector<string> my_message, string type_str, FILE * id, int tag_table_
 		found_line = -1;
 	}
 
-	if (ncursor != -1)
-	{
+	if (ncursor != -1) {
 		cursor = ncursor;		/* set eventual cursor pos  */
 		infomenu = nmenu;		/* same with last sequential reading menu pos */
-	}
-	else
-	{
+	} else {
 		rescan_cursor();		/* scan for cursor position */
 	}
-	if (toggled_by_menu)		/* this node will not be shown to the user--it shouldn't go to history */
-		dellastinfohistory();	/* delete the history entry for this node--it's not even seen by the user */
+	if (toggled_by_menu) {
+		/* this node will not be shown to the user--it shouldn't go to history */
+		/* delete the history entry for this node--it's not even seen by the user */
+		dellastinfohistory();
+	}
 	npos = -1;			/* turn off the `next-time' pos/cursor modifiers */
 	ncursor = -1;
 	nmenu = -1;
 	addtopline(type_str,infocolumn);
-	while (1)
-	{
+	while (1) {
 		/*
 		 * read key, and show screen only if there is nothing in the input
 		 * buffer.  Otherwise the scrolling would be too slow.
