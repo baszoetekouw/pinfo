@@ -72,7 +72,6 @@ addtopline(const string type, string::size_type column)
 void
 showscreen(const vector <string> message, long pos, long cursor, int column)
 {
-	/* pos is 1-based, message is 0-based */
 #ifdef getmaxyx
 	getmaxyx(stdscr, maxy, maxx);
 #endif
@@ -80,14 +79,14 @@ showscreen(const vector <string> message, long pos, long cursor, int column)
 	bkgdset(' ' | normal);
 #endif
 	attrset(normal);
-	for (long i = pos - 1; (i < message.size()) && (i + 1 < pos + maxy - 2); i++)
+	for (long i = pos; (i < message.size()) && (i < pos + lines_visible); i++)
 	{
 		/* Chop off trailing newline */
 		string tmpstr = message[i].substr(0, message[i].length() - 1);
 		if (tmpstr.length()>column)
-			mvaddstr(i + 2 - pos, 0, tmpstr.substr(column).c_str());
+			mvaddstr(1 + i - pos, 0, tmpstr.substr(column).c_str());
 		else
-			move(i + 2 - pos,0);
+			move(1 + i - pos,0);
 #ifdef HAVE_BKGDSET
 		clrtoeol();
 #else
@@ -101,11 +100,13 @@ showscreen(const vector <string> message, long pos, long cursor, int column)
 	attrset(bottomline);
 	mymvhline(maxy - 1, 0, ' ', maxx);
 	move(maxy - 1, 0);
-	if ((pos < message.size() - 1) &&(message.size() > pos + maxy - 2))
-		printw(_("Viewing line %d/%d, %d%%"), pos + maxy - 2,
-		       message.size(), ((pos + maxy - 2) * 100) / message.size());
-	else
+	if (pos + lines_visible >= message.size()) {
 		printw(_("Viewing line %d/%d, 100%%"), message.size(), message.size());
+	} else {
+		/* 1-based printout */
+		printw(_("Viewing line %d/%d, %d%%"), pos + lines_visible,
+		       message.size(), ((pos + lines_visible) * 100) / message.size());
+	}
 	info_add_highlights(pos, cursor, column, message);
 	attrset(normal);
 	move(0, 0);
@@ -142,9 +143,12 @@ void
 info_add_highlights(int pos, int cursor, int column, const vector <string> message)
 {
 	for (typeof(hyperobjects.size()) i = 0; i < hyperobjects.size(); i++) {
-		if ((hyperobjects[i].line < pos - 1) ||
-				(hyperobjects[i].line >= pos - 1 +(maxy - 2)))
-			continue; /* Off screen */
+		if (    (hyperobjects[i].line < pos)
+				 || (hyperobjects[i].line >= pos + lines_visible)
+		   ) {
+			/* Off screen */
+			continue;
+		}
 
 		/* first set of ifs sets the required attributes */
 		if (hyperobjects[i].type < 2)	{	/* menu */
@@ -177,7 +181,7 @@ info_add_highlights(int pos, int cursor, int column, const vector <string> messa
 			mynode += hyperobjects[i].node;
 		}
 		if (hyperobjects[i].breakpos == -1) {
-			info_addstring(1 + hyperobjects[i].line + 1 - pos,
+			info_addstring(1 + hyperobjects[i].line - pos,
 					hyperobjects[i].col,
 					mynode,
 					column);
@@ -185,7 +189,7 @@ info_add_highlights(int pos, int cursor, int column, const vector <string> messa
 			int j;
 			string part1, part2;
 			part1 = mynode.substr(0, hyperobjects[i].breakpos);
-			info_addstring(1 + hyperobjects[i].line + 1 - pos,
+			info_addstring(1 + hyperobjects[i].line - pos,
 					hyperobjects[i].col,
 					part1,
 					column);
@@ -194,8 +198,8 @@ info_add_highlights(int pos, int cursor, int column, const vector <string> messa
 			while (mynode[j] == ' ')
 				j++;
 			part2 = mynode.substr(j, string::npos);
-			if (hyperobjects[i].line + 1 - pos + 3 < maxy)
-				info_addstring(1 + hyperobjects[i].line + 1 - pos + 1,
+			if (hyperobjects[i].line + 1 < pos + lines_visible)
+				info_addstring(1 + hyperobjects[i].line - pos + 1,
 						j - hyperobjects[i].breakpos,
 						part2,
 						column);
@@ -204,40 +208,35 @@ info_add_highlights(int pos, int cursor, int column, const vector <string> messa
 	}
 
 #ifndef ___DONT_USE_REGEXP_SEARCH___
-	if (h_regexp.size() > 0) {
-		regmatch_t pmatch[1];
-		for (int i = pos - 1; 
-		     (i < message.size()) && (i + 1 < pos + (maxy - 2)); i++) {
-			for (int j = 0; j < h_regexp.size(); j++) {
-				const char * message_i = message[i].c_str();
-				const char *rest_of_str = message_i;
-				while (!regexec(&h_regexp[j], rest_of_str, 1, pmatch, 0)) {
-					int num_chars = pmatch[0].rm_eo - pmatch[0].rm_so;
-					int x = calculate_len(message_i, rest_of_str + pmatch[0].rm_so);
-					int txtoffset = (rest_of_str - message_i) + pmatch[0].rm_so;
-					string tmpstr = message[i].substr(txtoffset, num_chars);
-					attrset(searchhighlight);
-					mvaddstr(i + 1 - pos + 1, x, tmpstr.c_str());
-					attrset(normal);
-					rest_of_str = rest_of_str + pmatch[0].rm_eo;
-				}
+	for (int i = pos; 
+				(i < message.size()) && (i < pos + lines_visible); i++) {
+		for (int j = 0; j < h_regexp.size(); j++) {
+			regmatch_t pmatch[1];
+			const char * message_i = message[i].c_str();
+			const char * rest_of_str = message_i;
+			while (!regexec(&h_regexp[j], rest_of_str, 1, pmatch, 0)) {
+				int num_chars = pmatch[0].rm_eo - pmatch[0].rm_so;
+				int x = calculate_len(message_i, rest_of_str + pmatch[0].rm_so);
+				int txtoffset = (rest_of_str - message_i) + pmatch[0].rm_so;
+				string tmpstr = message[i].substr(txtoffset, num_chars);
+				attrset(searchhighlight);
+				mvaddstr(1 + i - pos, x, tmpstr.c_str());
+				attrset(normal);
+				rest_of_str = rest_of_str + pmatch[0].rm_eo;
 			}
 		}
-	}
-	/* Duplicate code, this time for the interactive search. */
-	if (regex_is_current) {
-		regmatch_t pmatch[1];
-		for (int i = pos - 1; 
-		     (i < message.size()) && (i + 1 < pos + (maxy - 2)); i++) {
+		if (regex_is_current) {
+			/* Duplicate code, this time for the interactive search. */
+			regmatch_t pmatch[1];
 			const char * message_i = message[i].c_str();
-			const char *rest_of_str = message_i;
+			const char * rest_of_str = message_i;
 			while (!regexec(&current_regex, rest_of_str, 1, pmatch, 0)) {
 				int num_chars = pmatch[0].rm_eo - pmatch[0].rm_so;
 				int x = calculate_len(message_i, rest_of_str + pmatch[0].rm_so);
 				int txtoffset = (rest_of_str - message_i) + pmatch[0].rm_so;
 				string tmpstr = message[i].substr(txtoffset, num_chars);
 				attrset(searchhighlight);
-				mvaddstr(i + 1 - pos + 1, x, tmpstr.c_str());
+				mvaddstr(1 + i - pos, x, tmpstr.c_str());
 				attrset(normal);
 				rest_of_str = rest_of_str + pmatch[0].rm_eo;
 			}

@@ -809,11 +809,11 @@ manualwork()
 						newpos = atol(token_string.c_str());
 						newpos -=(maxy - 1);
 						/* FIXME signed/unsigned */
-						if ((newpos >= 0) &&(newpos < (signed) manual.size() -(maxy - 2)))
+						if ((newpos >= 0) &&(newpos < (signed) manual.size() -(lines_visible)))
 							manualpos = newpos;
 						else if (newpos > 0)
 						/* FIXME signed/unsigned */
-							manualpos = (signed) manual.size() -(maxy - 2);
+							manualpos = (signed) manual.size() -(lines_visible);
 						else
 							manualpos = 0;
 					}
@@ -1060,9 +1060,9 @@ skip_search:
 					(key == keys.pgdn_2))
 			{
 				/* FIXME signed/unsigned */
-				if (manualpos +(maxy - 2) < (signed) manual.size() -(maxy - 1))
+				if (manualpos +(lines_visible) < (signed) manual.size() -(maxy - 1))
 				{
-					manualpos +=(maxy - 2);
+					manualpos +=(lines_visible);
 					rescan_selected();
 				}
 				/* FIXME signed/unsigned */
@@ -1112,7 +1112,7 @@ skip_search:
 					for (typeof(manuallinks.size()) i = selected + 1;
 					     i < manuallinks.size(); i++) {
 						if ((manuallinks[i].line >= manualpos) &&
-								(manuallinks[i].line < manualpos +(maxy - 2))) {
+								(manuallinks[i].line < manualpos +(lines_visible))) {
 							selected = i;
 							selectedchanged = 1;
 							break;
@@ -1127,7 +1127,7 @@ skip_search:
 						for (typeof(manuallinks.size()) i = selected + 1;
 						     i < manuallinks.size(); i++) {
 							if ((manuallinks[i].line >= manualpos) &&
-									(manuallinks[i].line < manualpos +(maxy - 2))) {
+									(manuallinks[i].line < manualpos +(lines_visible))) {
 								selected = i;
 								selectedchanged = 1;
 								break;
@@ -1351,7 +1351,7 @@ showmanualscreen()
 	attrset(normal);
 	/* print all visible text lines */
 	for (int i = manualpos;
-	     (i < manualpos + (maxy - 2)) && (i < manual.size()); 
+	     (i < manualpos + (lines_visible)) && (i < manual.size()); 
 	     i++) {
 		int len = manual[i].length();
 		if (len)
@@ -1386,7 +1386,7 @@ showmanualscreen()
 	mymvhline(0, 0, ' ', maxx);
 	mymvhline(maxy - 1, 0, ' ', maxx);
 	move(maxy - 1, 0);
-	if (((manualpos + maxy) < manual.size()) &&(manual.size() > maxy - 2))
+	if (((manualpos + maxy) < manual.size()) &&(manual.size() > lines_visible))
 		printw(_("Viewing line %d/%d, %d%%"),(manualpos - 1 + maxy), manual.size(),((manualpos - 1 + maxy) * 100) / manual.size());
 	else
 		printw(_("Viewing line %d/%d, 100%%"), manual.size(), manual.size());
@@ -1515,7 +1515,7 @@ add_highlights()
 	{
 		/* if the object is on the current screen */
 		if ((manuallinks[i].line >= manualpos) &&
-				(manuallinks[i].line < manualpos +(maxy - 2)))
+				(manuallinks[i].line < manualpos +(lines_visible)))
 		{
 			/* if it's a simple man link */
 			if (manuallinks[i].section_mark < HTTPSECTION)

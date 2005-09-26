@@ -59,4 +59,11 @@
 
 /* I hear voices, that it is needed by RH5.2 ;) */
 #define _REGEX_RE_COMP
+
+/* This comes up appallingly often.
+ * Note that this is correct: maxy is one beyond the end of screen,
+ * and a header and footer line take up space as well.
+ */
+#define lines_visible (maxy - 2)
+
 #endif
