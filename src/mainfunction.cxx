@@ -598,19 +598,15 @@ work(const vector<string> my_message, string type_str, FILE * id, int tag_table_
 				echo();
 				curs_set(1);
 				string token_string;
-				if (!searchagain.search)	/* searchagain handler. see totalsearch */
-				{
+				if (searchagain.search) {
+					token_string = searchagain.lastsearch;
+					searchagain.search = 0;
+				} else {
 					token_string = getstring(_("Enter regexp: "));
 					searchagain.lastsearch = token_string;
 					searchagain.type = key;
 				}
-				else
-				{
-					token_string = searchagain.lastsearch;
-					searchagain.search = 0;
-				}		/* end of searchagain handler */
-				if (token_string == "")
-				{
+				if (token_string == "") {
 					goto skip_search;
 				}
 				curs_set(0);
@@ -633,21 +629,14 @@ work(const vector<string> my_message, string type_str, FILE * id, int tag_table_
 				/* scan for the token in the following lines.  */
 				for (int i = pos + 1; i < my_message.size(); i++) {
 					/*
-					 * glue two following lines into one -- to find matches
-					 * split up into two lines.
+					 * TODO: handle matches over a long sequence of lines.
+					 * Requires a *totally* different code structure; the old
+					 * 'two-line' code was no good.  FIXME.
 					 */
-					string tmpstr = my_message[i];
-					tmpstr += my_message[i + 1];
-					if (pinfo_re_exec(tmpstr.c_str()))	{ /* execute the search command */
+					if (pinfo_re_exec(my_message[i].c_str()))	{
 						/* if found, enter here */
 						success = 1;
-						if (pinfo_re_exec(my_message[i + 1].c_str())) {
-						/* if token was found in the second line, make pos=i+1.  */
-							pos = i + 1;
-						}	else {
-							/* otherwise, pos=i. This happens when we have a split expression. */
-							pos = i;
-						}
+						pos = i;
 						regex_is_current = true;
 						regex_is_global = false;
 						break;
