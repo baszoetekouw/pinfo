@@ -358,7 +358,7 @@ read_item(FILE * id, string& type, vector<string>& buf)
 }
 
 void
-load_indirect(vector<string> message)
+load_indirect(const vector<string> & message)
 {
 	for (typeof(message.size()) i = 0; i < message.size(); i++) {
 		/* Find the first colon, but not in position 0 */
@@ -376,7 +376,7 @@ load_indirect(vector<string> message)
 }
 
 void
-load_tag_table(vector<string> message)
+load_tag_table(const vector<string> & message)
 {
 	tag_table.clear();
 

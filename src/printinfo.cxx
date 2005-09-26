@@ -32,7 +32,7 @@ using std::vector;
  * are darker than the rest :)
  */
 void
-printnode(const vector<string> message)
+printnode(const vector<string> & message)
 {
 	/* printer fd */
 	FILE *prnFD;

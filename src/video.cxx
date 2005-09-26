@@ -104,7 +104,8 @@ info_addstring(int y, string::size_type x, string txt, string::size_type column)
  * Add all the highlights.
  */
 static void
-info_add_highlights(int pos, int cursor, int column, const vector <string> message)
+info_add_highlights(int pos, int cursor, int column,
+                    const vector<string> & message)
 {
 	for (typeof(hyperobjects.size()) i = 0; i < hyperobjects.size(); i++) {
 		if (    (hyperobjects[i].line < pos)
@@ -213,7 +214,7 @@ info_add_highlights(int pos, int cursor, int column, const vector <string> messa
  * Print the entire screen.
  */
 void
-showscreen(const vector <string> message, long pos, long cursor, int column)
+showscreen(const vector<string> & message, long pos, long cursor, int column)
 {
 #ifdef getmaxyx
 	getmaxyx(stdscr, maxy, maxx);

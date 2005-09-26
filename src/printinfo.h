@@ -26,6 +26,6 @@
 #include <string>
 #include <vector>
 /* prints node, pointed by `message', of `lines' length.  */
-void printnode (const std::vector<std::string> message);
+void printnode (const std::vector<std::string> & message);
 
 #endif

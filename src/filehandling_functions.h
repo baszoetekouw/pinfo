@@ -52,9 +52,9 @@ int seek_tag_table (FILE * id, bool quiet);
  * loads indirect table (from a special node, stored in message, of lines
  * length)
  */
-void load_indirect (std::vector<std::string> message);
+void load_indirect (const std::vector<std::string>& message);
 /* loads tag table (as above) */
-void load_tag_table (std::vector<std::string> message);
+void load_tag_table (const std::vector<std::string>& message);
 /* opens info file */
 FILE *openinfo (const std::string filename, int number);
 /* opens dir info file */

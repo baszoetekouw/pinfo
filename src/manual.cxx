@@ -39,31 +39,6 @@ using std::vector;
 #define FTPSECTION 101
 #define MAILSECTION 102
 
-/* check if a char is a hyphen character */
-int ishyphen(unsigned char ch);
-/* load manual */
-void loadmanual(FILE * id);
-/* handle keyboard */
-int manualwork();
-void rescan_selected();	/* scan for potential link to select on
-							   viewed manual page */
-/* self explanatory */
-void showmanualscreen();
-/* mvaddstr with bold/italic */
-void mvaddstr_manual(int y, int x, string str);
-/* adds highlights to a painted screen */
-void add_highlights();
-/* strips line of formatting characters */
-void strip_manual(string& buf);
-/*
- * Initialize links in a line .  Links are entries of form reference(section),
- * and are stored in `manuallinks' var, described bellow.
- */
-void man_initializelinks(string line, int line_num, int carry);
-bool is_in_manlinks(vector<string> in, string find);
-
-void printmanual(vector<string> message);
-
 /* line by line stored manual */
 vector<string> manual;
 
@@ -125,8 +100,19 @@ dumplink(manuallink a) {
  * $MANWIDTH was changed by pinfo */
 static bool manwidthChanged = false;
 
+/*** START OF FUNCTIONS ***/
+
+/* check if a char is a hyphen character */
+static int
+ishyphen(unsigned char ch)
+{
+	if ((ch == '-') ||(ch == SOFT_HYPHEN))
+		return 1;
+	return 0;
+}
+
 /* Set MANWIDTH environment variable as needed */
-void
+static void
 check_manwidth(void) {
 	if ((!getenv("MANWIDTH")) ||(manwidthChanged))
 	{
@@ -148,24 +134,57 @@ check_manwidth(void) {
 	}
 }
 
-
-/* free buffers allocated by current man page */
-void
-manual_free_buffers()
+/* Cleanse a line of backspaces; overwrites argument. */
+/* Should probably be rewritten to not overwrite argument. */
+static void
+strip_manual(string& buf)
 {
-	/* first free previously allocated memory */
-	/* for the manual itself... */
-	manual.clear();
-	/* ...and for the list of manual hypertext */
-	if (manuallinks.size() > 0)
+	/* in general, tmp buffer will hold a line with highlight marks stripped */
+	/* Overwrite as we go.  Length will change as we go, too. */
+	for (string::size_type i = 0; i < buf.length(); i++)
 	{
-		manuallinks.clear();
-		selected = -1;
+		/* strip from the line "'_',0x8" -- underline marks */
+		if ((buf[i] == '_') && (buf[i + 1] == 8))
+			buf.erase(i, 2);
+		/* and 0x8 -- overstrike marks */
+		else if ((buf[i + 1] == 8) &&(buf[i + 2] == buf[i]))
+			buf.erase(i, 2);
+		/* else we don't do anything */
 	}
 }
 
+/*
+ * checks if a construction, which looks like hyperlink, belongs to the allowed
+ * manual sections.
+ */
+static bool
+is_in_manlinks(vector<string> manlinks, string to_find)
+{
+	/* Normalize case */
+	string to_find_uppercase = string_toupper(to_find);
+	typeof(manlinks.begin()) result_iter;
+	result_iter = std::find(manlinks.begin(), manlinks.end(), to_find_uppercase);
+	return (result_iter != manlinks.end()); /* True if found */
+}
+
+/* scan for some hyperlink, available on current screen */
+static void
+rescan_selected()
+{
+	for (typeof(manuallinks.size()) i = 0; i < manuallinks.size(); i++)
+	{
+		if ((manuallinks[i].line >= manualpos) &&
+				(manuallinks[i].line < manualpos +(maxy - 1)))
+		{
+			selected = i;
+			break;
+		}
+	}
+}
+
+
 /* initialize history variables for manual pages.  */
-void
+static void
 set_initial_history(string name)
 {
 	/* filter trailing spaces */
@@ -195,7 +214,7 @@ set_initial_history(string name)
 }
 
 /* construct man name; take care about carry */
-void
+static void
 construct_manualname(string& buf, int which)
 {
 	if (!manuallinks[which].carry) {
@@ -254,246 +273,14 @@ construct_manualname(string& buf, int which)
 	}
 }
 
-/* this is something like main() function for the manual viewer code.  */
-int
-handlemanual(string name)
-{
-	int return_value;
-	struct stat statbuf;
-	FILE *id;
-
-	string manualname_string; /* Filled by construct_manualname */
-
-	if (tmpfilename1 != "")
-	{
-		unlink(tmpfilename1.c_str());
-	}
-
-	init_curses();
-	getmaxyx(stdscr, maxy, maxx);
-	myendwin();
-
-	check_manwidth();
-
-	if (!plain_apropos) {
-		string cmd_string = "man ";
-		cmd_string += ManOptions;
-		cmd_string += " ";
-		cmd_string += name;
-		cmd_string += " ";
-		cmd_string += StderrRedirection;
-		cmd_string += " > ";
-		cmd_string += tmpfilename1;
-
-		int cmd_result;
-		cmd_result = system(cmd_string.c_str());
-		if (cmd_result != 0) {
-			unlink(tmpfilename1.c_str());
-			printf(_("Error: No manual page found\n"));
-			plain_apropos = 1; /* Fallback */
-		} else {
-			id = fopen(tmpfilename1.c_str(), "r");
-		}
-	}
-	if (plain_apropos) {
-		plain_apropos = 0;
-		if (!use_apropos) {
-			return 1;
-		}
-		printf(_("Calling apropos \n"));
-		apropos_tmpfilename = tmpdirname;
-		apropos_tmpfilename += "/apropos_result";
-		string cmd_string = "apropos ";
-		cmd_string += name;
-		cmd_string += " > ";
-		cmd_string += apropos_tmpfilename;
-		if (system(cmd_string.c_str()) != 0) {
-			printf(_("Nothing appropriate\n"));
-			unlink(apropos_tmpfilename.c_str());
-			return 1;
-		} else {
-			id = fopen(apropos_tmpfilename.c_str(), "r");
-		}
-	}
-
-	init_curses();
-
-	set_initial_history(name);
-	/* load manual to memory */
-	loadmanual(id);
-	fclose(id);
-	do {
-		/* manualwork handles all actions when viewing man page */
-		return_value = manualwork();
-		/* Return value may specify link to follow */
-
-		getmaxyx(stdscr, maxy, maxx);
-		check_manwidth();
-
-		/* Changing page, so clear regexp */
-		regex_is_current = false;
-
-		/* -1 is quit key */
-		if (return_value != -1)
-		{
-			if (tmpfilename2 != "")
-			{
-				unlink(tmpfilename2.c_str());
-			}
-
-			bool historical = false;
-			string cmd_string = "man ";
-			cmd_string += ManOptions;
-			cmd_string += " ";
-			if (return_value == -2) {
-				/* key_back was pressed */
-				if ( (manualhistory.size() - 2) == 0 && apropos_tmpfilename != "")
-				{
-					id = fopen(apropos_tmpfilename.c_str(), "r");
-					loadmanual(id);
-					fclose(id);
-					continue;
-				}
-				if (manualhistory[manualhistory.size() - 2].sect == "") {
-					cmd_string += manualhistory[manualhistory.size() - 2].name;
-				} else {
-					cmd_string += manualhistory[manualhistory.size() - 2].sect;
-					cmd_string += " ";
-					cmd_string += manualhistory[manualhistory.size() - 2].name;
-				}
-				manualhistory.pop_back();
-				historical = true;
-			} else {
-				/*
-				 * key_back was not pressed; and return_value is an offset to
-				 * manuallinks
-				 */
-				construct_manualname(manualname_string, return_value);
-				cmd_string += manuallinks[return_value].section;
-				cmd_string += " ";
-				cmd_string += manualname_string;
-			}
-			cmd_string += " ";
-			cmd_string += StderrRedirection;
-			cmd_string += " > ";
-			cmd_string += tmpfilename2;
-			system(cmd_string.c_str());
-			stat(tmpfilename2.c_str(), &statbuf);
-			if (statbuf.st_size > 0) {
-				string cmd_string2 = "mv ";
-				cmd_string2 += tmpfilename2;
-				cmd_string2 += " ";
-				cmd_string2 += tmpfilename1;
-				/* create tmp file containing man page */
-				system(cmd_string2.c_str());
-				/* open man page */
-				id = fopen(tmpfilename1.c_str(), "r");
-				if (id != NULL) {
-					manhistory my_hist;
-					/* now we create history entry for new page */
-					if (!historical)
-					{
-						/*
-						 * we can write so since this code applies
-						 * only when it's not a history call
-						 */
-						my_hist.name = manualname_string;
-						my_hist.sect = manuallinks[return_value].section;
-						my_hist.pos = 0;
-						my_hist.selected = -1;
-						manualhistory.push_back(my_hist);
-					}
-					/* loading manual page and its defaults... */
-					loadmanual(id);
-					fclose(id);
-				} else {
-					return_value = -1;
-				}
-			}
-		}
-	} while (return_value != -1);
-	if (apropos_tmpfilename != "")
-		unlink(apropos_tmpfilename.c_str());
-	/* raw-manpage for scanning */
-	return 0;
-}
-
-void
-/* loads manual from given filedescriptor */
-loadmanual(FILE * id)
-{
-	char prevlinechar = 0;
-	/* tmp variable, set after reading first nonempty line of input */
-	int cutheader = 0;
-	int carryflag = 0;
-	manualpos = 0;
-	manual_free_buffers();
-	manual.clear();
-	manuallinks.clear();
-
-	/* fixed-size buffer, FIXME */
-	char tmpline[1024];
-
-	/* we read until eof */
-	while (!feof(id)) {
-		memset(tmpline, '\0', 1024);
-		/*
-		 * it happens sometimes, that the last line is weird
-		 * and causes sigsegvs by not entering anything to buffer, what
-		 * confuses strlen
-		 */
-		if (fgets(tmpline, 1024, id) == NULL) {
-			strcpy(tmpline, "");
-		}
-		if (cutheader) {
-			if (manual[cutheader] == tmpline) {
-				strcpy(tmpline, "\n");
-			}
-		}
-		if (FilterB7) {
-			char *filter_pos = index(tmpline, 0xb7);
-			if (filter_pos)
-				*filter_pos = 'o';
-		}
-		if ((CutEmptyManLines) &&((tmpline[0]) == '\n') &&
-				(prevlinechar == '\n')) {
-			;	/* do nothing */
-		} else {
-			if (CutManHeaders && !cutheader) {
-				cutheader = manual.size();
-			}
-			int manlinelen = strlen(tmpline);
-
-			carryflag = 0;
-			if (    (manlinelen >= 2)
-				   && (ishyphen(tmpline[manlinelen - 2]))
-			   ) {
-				carryflag = 1;
-			}
-			prevlinechar = tmpline[0];
-
-			/* temporary variable for determining hypertextuality of fields */
-			string tmpstr;
-			tmpstr = tmpline;
-			strip_manual(tmpstr);
-			int line_num = manual.size();
-			/* Above depends on link initializing happening right before push_back. */
-			man_initializelinks(tmpstr, line_num, carryflag);
-
-			string tmpline_str = tmpline;
-			manual.push_back(tmpline_str);
-		}
-	}
-}
-
-bool
+static bool
 compare_manuallink(manuallink a, manuallink b)
 {
 	/* Should a sort before b? */
   return (a.col < b.col);
 }
 
-void
+static void
 sort_manuallinks_from_current_line(
 	typeof(manuallinks.begin()) startlink,
 	typeof(manuallinks.begin()) endlink)
@@ -502,7 +289,7 @@ sort_manuallinks_from_current_line(
 }
 
 /* initializes hyperlinks in manual */
-void
+static void
 man_initializelinks(string line, int line_num, int carry)
 {
 	typeof(manuallinks.size()) initialManualLinks = manuallinks.size();
@@ -684,8 +471,386 @@ man_initializelinks(string line, int line_num, int carry)
 	}
 }
 
+/* loads manual from given filedescriptor */
+static void
+loadmanual(FILE * id)
+{
+	char prevlinechar = 0;
+	/* tmp variable, set after reading first nonempty line of input */
+	int cutheader = 0;
+	int carryflag = 0;
+	manualpos = 0;
+	selected = -1;
+	manual.clear();
+	manuallinks.clear();
+
+	/* fixed-size buffer, FIXME */
+	char tmpline[1024];
+
+	/* we read until eof */
+	while (!feof(id)) {
+		memset(tmpline, '\0', 1024);
+		/*
+		 * it happens sometimes, that the last line is weird
+		 * and causes sigsegvs by not entering anything to buffer, what
+		 * confuses strlen
+		 */
+		if (fgets(tmpline, 1024, id) == NULL) {
+			strcpy(tmpline, "");
+		}
+		if (cutheader) {
+			if (manual[cutheader] == tmpline) {
+				strcpy(tmpline, "\n");
+			}
+		}
+		if (FilterB7) {
+			char *filter_pos = index(tmpline, 0xb7);
+			if (filter_pos)
+				*filter_pos = 'o';
+		}
+		if ((CutEmptyManLines) &&((tmpline[0]) == '\n') &&
+				(prevlinechar == '\n')) {
+			;	/* do nothing */
+		} else {
+			if (CutManHeaders && !cutheader) {
+				cutheader = manual.size();
+			}
+			int manlinelen = strlen(tmpline);
+
+			carryflag = 0;
+			if (    (manlinelen >= 2)
+				   && (ishyphen(tmpline[manlinelen - 2]))
+			   ) {
+				carryflag = 1;
+			}
+			prevlinechar = tmpline[0];
+
+			/* temporary variable for determining hypertextuality of fields */
+			string tmpstr;
+			tmpstr = tmpline;
+			strip_manual(tmpstr);
+			int line_num = manual.size();
+			/* Above depends on link initializing happening right before push_back. */
+			man_initializelinks(tmpstr, line_num, carryflag);
+
+			string tmpline_str = tmpline;
+			manual.push_back(tmpline_str);
+		}
+	}
+}
+
+static void
+printmanual(vector<string> message)
+{
+	/* printer fd */
+	FILE *prnFD;
+	int i;
+
+	prnFD = popen(printutility.c_str(), "w");
+
+	/* scan through all lines */
+	for (i = 0; i < message.size(); i++)
+	{
+		fprintf(prnFD, "\r%s", message[i].c_str());
+	}
+	pclose(prnFD);
+}
+
+/* add hyperobject highlights */
+static void
+add_highlights()
+{
+	/* scan through the visible objects */
+	for (typeof(manuallinks.size()) i = 0; i < manuallinks.size(); i++)
+	{
+		/* if the object is on the current screen */
+		if ((manuallinks[i].line >= manualpos) &&
+				(manuallinks[i].line < manualpos +(lines_visible)))
+		{
+			/* if it's a simple man link */
+			if (manuallinks[i].section_mark < HTTPSECTION)
+			{
+				if (i == selected)
+					attrset(noteselected);
+				else
+					attrset(note);
+
+				/* if it's a link split into two lines */
+				if (manuallinks[i].carry == 1) {
+					int x, y;
+					getyx(stdscr, y, x);
+
+					int ltline = manuallinks[i].line - 1;
+					string tmp_string = manual[ltline];
+
+					strip_manual(tmp_string);
+
+					string::size_type link_begin = tmp_string.length();
+					if (y > 2) {
+						/* skip \n, -, and at least one more character */
+						if (link_begin > 2) {
+							link_begin -= 3;
+						}
+
+						/*
+						 * positon link_begin to the beginning of the link to be
+						 * highlighted
+						 */
+						while (    isalpha(tmp_string[link_begin])
+						        || (tmp_string[link_begin] == '.')
+						        || (tmp_string[link_begin] == '_')
+						      ) {
+							link_begin--;
+						}
+
+						/* Chop off \n */
+						tmp_string.resize(tmp_string.length() - 1);
+						/* Chop off pre-link portion */
+						tmp_string = tmp_string.substr(link_begin);
+
+						if (link_begin > manualcol) {
+							/* OK, link horizontally fits into screen */
+							mvaddstr(manuallinks[i].line - manualpos + 1 - 1,
+							         link_begin-manualcol, tmp_string.c_str());
+						} else if (link_begin + tmp_string.length() > manualcol) {
+							/*
+							 * we cut here a part of the link, and draw only what's
+							 * visible on screen
+							 */
+							mvaddstr(manuallinks[i].line - manualpos + 1 - 1,
+							         link_begin-manualcol, tmp_string.c_str());
+						}
+					}
+					move(y, x);
+				}
+			}
+			else
+			{
+				if (i == selected)
+					attrset(urlselected);
+				else
+					attrset(url);
+				if (manuallinks[i].carry == 1)
+				{
+					int ltline = manuallinks[i].line + 1;
+					/*
+					 * the split part to find is lying down
+					 * to the line defined in manlinks(line+1)
+					 */
+					string tmp_string = manual[ltline];
+					strip_manual(tmp_string);
+					/* skip spaces */
+					string::size_type wsk_idx = 0;
+					while (isspace(tmp_string[wsk_idx]))
+						wsk_idx++;
+
+					/* find the end of url */
+					string::size_type wskend_idx = findurlend(tmp_string, wsk_idx);
+					string printable_str = tmp_string.substr(wsk_idx, wskend_idx - wsk_idx);
+
+					/* Print */
+					if (wsk_idx < manualcol) {
+						mvaddstr(manuallinks[i].line - manualpos + 2, wsk_idx - manualcol,
+						         printable_str.c_str());
+					} else if (wskend_idx < manualcol) {
+						mvaddstr(manuallinks[i].line - manualpos + 2, 0,
+						         printable_str.substr(manualcol).c_str());
+					}
+				}
+			}
+			if (manuallinks[i].col>manualcol)
+				mvaddstr(1 + manuallinks[i].line - manualpos,
+						manuallinks[i].col - manualcol, manuallinks[i].name.c_str());
+			else if (manuallinks[i].col+manuallinks[i].name.length()>manualcol)
+				mvaddstr(1 + manuallinks[i].line - manualpos, 0,
+						manuallinks[i].name.substr(manualcol-manuallinks[i].col).c_str());
+			attrset(normal);
+		}
+	}
+}
+
+/*
+ * calculate from which to start displaying of manual line *man. Skip `mancol'
+ * columns. But remember, that *man contains also nonprinteble characters for
+ * boldface etc.
+ */
+static const char*
+getmancolumn(const char* man, int mancol)
+{
+	if (mancol==0) return man;
+	while (mancol>0)
+	{ if (*(man+1) == 8) man+=3; else man++; mancol--; }
+	return man;
+}
+
+/* print a manual line */
+static void
+mvaddstr_manual(int y, int x, string my_str)
+{
+	static string strippedline_string;
+	if ((h_regexp.size() > 0) || regex_is_current) {
+		strippedline_string = my_str;
+		strip_manual(strippedline_string);
+	}
+
+	move(y, x);
+	for (int i = 0; i < my_str.length(); i++) {
+		if ((i > 0) &&(i < my_str.length() - 1))
+		{
+			/* handle bold highlight */
+			if ((my_str[i] == 8) &&(my_str[i - 1] == '_'))
+			{
+				attrset(manualbold);
+				addch(my_str[i] & 0xff);
+				addch(my_str[i + 1] & 0xff);
+				attrset(normal);
+				i++;
+				goto label_skip_other;
+			}
+			/*
+			 * if it wasn't bold, check italic, before default, unhighlighted
+			 * line will be painted.  We can do it only if i<my_str.length()-3.
+			 */
+			else if (i < my_str.length() - 3)
+				goto label_check_italic;
+			else /* unhighlighted */
+			{
+				addch(my_str[i] & 0xff);
+				goto label_skip_other;
+			}
+		}
+		/* italic highlight */
+		if (i < my_str.length() - 3)
+		{
+label_check_italic:
+			if ((my_str[i + 1] == 8) &&(my_str[i + 2] == my_str[i]))
+			{
+				attrset(manualitalic);
+				addch(my_str[i] & 0xff);
+				i += 2;
+				attrset(normal);
+			}
+			else
+			{
+				addch(my_str[i] & 0xff);
+			}
+		}
+label_skip_other:;
+	}
+#ifdef HAVE_BKGDSET
+	bkgdset(' ' | normal);
+	clrtoeol();
+	bkgdset(0);
+#else
+	myclrtoeol();
+#endif
+	attrset(normal);
+#ifndef ___DONT_USE_REGEXP_SEARCH___
+	if (h_regexp.size() > 0) {
+		regmatch_t pmatch[1];
+
+		/* if it is after search, then we have user defined regexps+
+		   a searched regexp to highlight */
+		for (int j = 0; j < h_regexp.size(); j++) {
+			const char* strippedline = strippedline_string.c_str();
+			const char* tmpstr = strippedline;
+			while (!regexec(&h_regexp[j], tmpstr, 1, pmatch, 0)) {
+				int n = pmatch[0].rm_eo - pmatch[0].rm_so;
+				int rx = pmatch[0].rm_so + tmpstr - strippedline;
+				int curY, curX;
+				getyx(stdscr, curY, curX);
+
+				attrset(searchhighlight);
+				string str_to_print;
+				str_to_print.assign(strippedline_string, rx, n);
+				mvaddstr(y, rx, str_to_print.c_str());
+				attrset(normal);
+
+				tmpstr = tmpstr + pmatch[0].rm_eo;
+				move(curY, curX);
+			}
+		}
+	}
+	/* Duplicate code, this time for the interactive search */
+	if (regex_is_current) {
+		regmatch_t pmatch[1];
+		const char* strippedline = strippedline_string.c_str();
+		const char* tmpstr = strippedline;
+		while (!regexec(&current_regex, tmpstr, 1, pmatch, 0)) {
+			int n = pmatch[0].rm_eo - pmatch[0].rm_so;
+			int rx = pmatch[0].rm_so + tmpstr - strippedline;
+			int curY, curX;
+			getyx(stdscr, curY, curX);
+
+			attrset(searchhighlight);
+			string str_to_print;
+			str_to_print.assign(strippedline_string, rx, n);
+			mvaddstr(y, rx, str_to_print.c_str());
+			attrset(normal);
+
+			tmpstr = tmpstr + pmatch[0].rm_eo;
+			move(curY, curX);
+		}
+	}
+#endif
+}
+
+/* show the currently visible part of manpage */
+static void
+showmanualscreen()
+{
+#ifdef getmaxyx
+	/* refresh maxy, maxx values */
+	getmaxyx(stdscr, maxy, maxx);
+#endif
+	attrset(normal);
+	/* print all visible text lines */
+	for (int i = manualpos;
+	     (i < manualpos + (lines_visible)) && (i < manual.size()); 
+	     i++) {
+		int len = manual[i].length();
+		if (len)
+			manual[i][len - 1] = ' ';
+		/* if we have something to display */
+		if (len>manualcol) {
+			string yet_another_tmpstr = getmancolumn(manual[i].c_str(),manualcol);
+			mvaddstr_manual((i - manualpos) + 1, 0, yet_another_tmpstr);
+		}
+		else	/* otherwise, just clear the line to eol */
+		{
+			move((i - manualpos) + 1, 0);
+			bkgdset(' ' | normal);
+			clrtoeol();
+		}
+		if (len)
+			manual[i][len - 1] = '\n';
+	}
+#ifdef HAVE_BKGDSET
+	bkgdset(' ' | normal);
+#endif
+	/* and clear to bottom */
+	clrtobot();
+#ifdef HAVE_BKGDSET
+	bkgdset(0);
+#endif
+	attrset(normal);
+	/* add highlights */
+	add_highlights();
+	/* draw bottomline with user informations */
+	attrset(bottomline);
+	mymvhline(0, 0, ' ', maxx);
+	mymvhline(maxy - 1, 0, ' ', maxx);
+	move(maxy - 1, 0);
+	if (((manualpos + maxy) < manual.size()) &&(manual.size() > lines_visible))
+		printw(_("Viewing line %d/%d, %d%%"),(manualpos - 1 + maxy), manual.size(),((manualpos - 1 + maxy) * 100) / manual.size());
+	else
+		printw(_("Viewing line %d/%d, 100%%"), manual.size(), manual.size());
+	move(maxy - 1, 0);
+	attrset(normal);
+}
+
 /* viewer function. Handles keyboard actions--main event loop */
-int
+static int
 manualwork()
 {
 	/* for user's shell commands */
@@ -1316,367 +1481,168 @@ skip_search:
 	return -1;
 }
 
-void
-/* scan for some hyperlink, available on current screen */
-rescan_selected()
-{
-	for (typeof(manuallinks.size()) i = 0; i < manuallinks.size(); i++)
-	{
-		if ((manuallinks[i].line >= manualpos) &&
-				(manuallinks[i].line < manualpos +(maxy - 1)))
-		{
-			selected = i;
-			break;
-		}
-	}
-}
-
-/*
- * calculate from which to start displaying of manual line *man. Skip `mancol'
- * columns. But remember, that *man contains also nonprinteble characters for
- * boldface etc.
- */
-const char* getmancolumn(const char* man, int mancol)
-{
-	if (mancol==0) return man;
-	while (mancol>0)
-	{ if (*(man+1) == 8) man+=3; else man++; mancol--; }
-	return man;
-}
-
-/* show the currently visible part of manpage */
-void
-showmanualscreen()
-{
-#ifdef getmaxyx
-	/* refresh maxy, maxx values */
-	getmaxyx(stdscr, maxy, maxx);
-#endif
-	attrset(normal);
-	/* print all visible text lines */
-	for (int i = manualpos;
-	     (i < manualpos + (lines_visible)) && (i < manual.size()); 
-	     i++) {
-		int len = manual[i].length();
-		if (len)
-			manual[i][len - 1] = ' ';
-		/* if we have something to display */
-		if (len>manualcol) {
-			string yet_another_tmpstr = getmancolumn(manual[i].c_str(),manualcol);
-			mvaddstr_manual((i - manualpos) + 1, 0, yet_another_tmpstr);
-		}
-		else	/* otherwise, just clear the line to eol */
-		{
-			move((i - manualpos) + 1, 0);
-			bkgdset(' ' | normal);
-			clrtoeol();
-		}
-		if (len)
-			manual[i][len - 1] = '\n';
-	}
-#ifdef HAVE_BKGDSET
-	bkgdset(' ' | normal);
-#endif
-	/* and clear to bottom */
-	clrtobot();
-#ifdef HAVE_BKGDSET
-	bkgdset(0);
-#endif
-	attrset(normal);
-	/* add highlights */
-	add_highlights();
-	/* draw bottomline with user informations */
-	attrset(bottomline);
-	mymvhline(0, 0, ' ', maxx);
-	mymvhline(maxy - 1, 0, ' ', maxx);
-	move(maxy - 1, 0);
-	if (((manualpos + maxy) < manual.size()) &&(manual.size() > lines_visible))
-		printw(_("Viewing line %d/%d, %d%%"),(manualpos - 1 + maxy), manual.size(),((manualpos - 1 + maxy) * 100) / manual.size());
-	else
-		printw(_("Viewing line %d/%d, 100%%"), manual.size(), manual.size());
-	move(maxy - 1, 0);
-	attrset(normal);
-}
-
-void
-/* print a manual line */
-mvaddstr_manual(int y, int x, string my_str)
-{
-	static string strippedline_string;
-	if ((h_regexp.size() > 0) || regex_is_current) {
-		strippedline_string = my_str;
-		strip_manual(strippedline_string);
-	}
-
-	move(y, x);
-	for (int i = 0; i < my_str.length(); i++) {
-		if ((i > 0) &&(i < my_str.length() - 1))
-		{
-			/* handle bold highlight */
-			if ((my_str[i] == 8) &&(my_str[i - 1] == '_'))
-			{
-				attrset(manualbold);
-				addch(my_str[i] & 0xff);
-				addch(my_str[i + 1] & 0xff);
-				attrset(normal);
-				i++;
-				goto label_skip_other;
-			}
-			/*
-			 * if it wasn't bold, check italic, before default, unhighlighted
-			 * line will be painted.  We can do it only if i<my_str.length()-3.
-			 */
-			else if (i < my_str.length() - 3)
-				goto label_check_italic;
-			else /* unhighlighted */
-			{
-				addch(my_str[i] & 0xff);
-				goto label_skip_other;
-			}
-		}
-		/* italic highlight */
-		if (i < my_str.length() - 3)
-		{
-label_check_italic:
-			if ((my_str[i + 1] == 8) &&(my_str[i + 2] == my_str[i]))
-			{
-				attrset(manualitalic);
-				addch(my_str[i] & 0xff);
-				i += 2;
-				attrset(normal);
-			}
-			else
-			{
-				addch(my_str[i] & 0xff);
-			}
-		}
-label_skip_other:;
-	}
-#ifdef HAVE_BKGDSET
-	bkgdset(' ' | normal);
-	clrtoeol();
-	bkgdset(0);
-#else
-	myclrtoeol();
-#endif
-	attrset(normal);
-#ifndef ___DONT_USE_REGEXP_SEARCH___
-	if (h_regexp.size() > 0) {
-		regmatch_t pmatch[1];
-
-		/* if it is after search, then we have user defined regexps+
-		   a searched regexp to highlight */
-		for (int j = 0; j < h_regexp.size(); j++) {
-			const char* strippedline = strippedline_string.c_str();
-			const char* tmpstr = strippedline;
-			while (!regexec(&h_regexp[j], tmpstr, 1, pmatch, 0)) {
-				int n = pmatch[0].rm_eo - pmatch[0].rm_so;
-				int rx = pmatch[0].rm_so + tmpstr - strippedline;
-				int curY, curX;
-				getyx(stdscr, curY, curX);
-
-				attrset(searchhighlight);
-				string str_to_print;
-				str_to_print.assign(strippedline_string, rx, n);
-				mvaddstr(y, rx, str_to_print.c_str());
-				attrset(normal);
-
-				tmpstr = tmpstr + pmatch[0].rm_eo;
-				move(curY, curX);
-			}
-		}
-	}
-	/* Duplicate code, this time for the interactive search */
-	if (regex_is_current) {
-		regmatch_t pmatch[1];
-		const char* strippedline = strippedline_string.c_str();
-		const char* tmpstr = strippedline;
-		while (!regexec(&current_regex, tmpstr, 1, pmatch, 0)) {
-			int n = pmatch[0].rm_eo - pmatch[0].rm_so;
-			int rx = pmatch[0].rm_so + tmpstr - strippedline;
-			int curY, curX;
-			getyx(stdscr, curY, curX);
-
-			attrset(searchhighlight);
-			string str_to_print;
-			str_to_print.assign(strippedline_string, rx, n);
-			mvaddstr(y, rx, str_to_print.c_str());
-			attrset(normal);
-
-			tmpstr = tmpstr + pmatch[0].rm_eo;
-			move(curY, curX);
-		}
-	}
-#endif
-}
-
-/* add hyperobject highlights */
-void
-add_highlights()
-{
-	/* scan through the visible objects */
-	for (typeof(manuallinks.size()) i = 0; i < manuallinks.size(); i++)
-	{
-		/* if the object is on the current screen */
-		if ((manuallinks[i].line >= manualpos) &&
-				(manuallinks[i].line < manualpos +(lines_visible)))
-		{
-			/* if it's a simple man link */
-			if (manuallinks[i].section_mark < HTTPSECTION)
-			{
-				if (i == selected)
-					attrset(noteselected);
-				else
-					attrset(note);
-
-				/* if it's a link split into two lines */
-				if (manuallinks[i].carry == 1) {
-					int x, y;
-					getyx(stdscr, y, x);
-
-					int ltline = manuallinks[i].line - 1;
-					string tmp_string = manual[ltline];
-
-					strip_manual(tmp_string);
-
-					string::size_type link_begin = tmp_string.length();
-					if (y > 2) {
-						/* skip \n, -, and at least one more character */
-						if (link_begin > 2) {
-							link_begin -= 3;
-						}
-
-						/*
-						 * positon link_begin to the beginning of the link to be
-						 * highlighted
-						 */
-						while (    isalpha(tmp_string[link_begin])
-						        || (tmp_string[link_begin] == '.')
-						        || (tmp_string[link_begin] == '_')
-						      ) {
-							link_begin--;
-						}
-
-						/* Chop off \n */
-						tmp_string.resize(tmp_string.length() - 1);
-						/* Chop off pre-link portion */
-						tmp_string = tmp_string.substr(link_begin);
-
-						if (link_begin > manualcol) {
-							/* OK, link horizontally fits into screen */
-							mvaddstr(manuallinks[i].line - manualpos + 1 - 1,
-							         link_begin-manualcol, tmp_string.c_str());
-						} else if (link_begin + tmp_string.length() > manualcol) {
-							/*
-							 * we cut here a part of the link, and draw only what's
-							 * visible on screen
-							 */
-							mvaddstr(manuallinks[i].line - manualpos + 1 - 1,
-							         link_begin-manualcol, tmp_string.c_str());
-						}
-					}
-					move(y, x);
-				}
-			}
-			else
-			{
-				if (i == selected)
-					attrset(urlselected);
-				else
-					attrset(url);
-				if (manuallinks[i].carry == 1)
-				{
-					int ltline = manuallinks[i].line + 1;
-					/*
-					 * the split part to find is lying down
-					 * to the line defined in manlinks(line+1)
-					 */
-					string tmp_string = manual[ltline];
-					strip_manual(tmp_string);
-					/* skip spaces */
-					string::size_type wsk_idx = 0;
-					while (isspace(tmp_string[wsk_idx]))
-						wsk_idx++;
-
-					/* find the end of url */
-					string::size_type wskend_idx = findurlend(tmp_string, wsk_idx);
-					string printable_str = tmp_string.substr(wsk_idx, wskend_idx - wsk_idx);
-
-					/* Print */
-					if (wsk_idx < manualcol) {
-						mvaddstr(manuallinks[i].line - manualpos + 2, wsk_idx - manualcol,
-						         printable_str.c_str());
-					} else if (wskend_idx < manualcol) {
-						mvaddstr(manuallinks[i].line - manualpos + 2, 0,
-						         printable_str.substr(manualcol).c_str());
-					}
-				}
-			}
-			if (manuallinks[i].col>manualcol)
-				mvaddstr(1 + manuallinks[i].line - manualpos,
-						manuallinks[i].col - manualcol, manuallinks[i].name.c_str());
-			else if (manuallinks[i].col+manuallinks[i].name.length()>manualcol)
-				mvaddstr(1 + manuallinks[i].line - manualpos, 0,
-						manuallinks[i].name.substr(manualcol-manuallinks[i].col).c_str());
-			attrset(normal);
-		}
-	}
-}
-
-/* Cleanse a line of backspaces; overwrites argument. */
-/* Should probably be rewritten to not overwrite argument. */
-void
-strip_manual(string& buf)
-{
-	/* in general, tmp buffer will hold a line with highlight marks stripped */
-	/* Overwrite as we go.  Length will change as we go, too. */
-	for (string::size_type i = 0; i < buf.length(); i++)
-	{
-		/* strip from the line "'_',0x8" -- underline marks */
-		if ((buf[i] == '_') && (buf[i + 1] == 8))
-			buf.erase(i, 2);
-		/* and 0x8 -- overstrike marks */
-		else if ((buf[i + 1] == 8) &&(buf[i + 2] == buf[i]))
-			buf.erase(i, 2);
-		/* else we don't do anything */
-	}
-}
-
-/*
- * checks if a construction, which looks like hyperlink, belongs to the allowed
- * manual sections.
- */
-bool
-is_in_manlinks(vector<string> manlinks, string to_find)
-{
-	/* Normalize case */
-	string to_find_uppercase = string_toupper(to_find);
-	typeof(manlinks.begin()) result_iter;
-	result_iter = std::find(manlinks.begin(), manlinks.end(), to_find_uppercase);
-	return (result_iter != manlinks.end()); /* True if found */
-}
-
-void
-printmanual(vector<string> message)
-{
-	/* printer fd */
-	FILE *prnFD;
-	int i;
-
-	prnFD = popen(printutility.c_str(), "w");
-
-	/* scan through all lines */
-	for (i = 0; i < message.size(); i++)
-	{
-		fprintf(prnFD, "\r%s", message[i].c_str());
-	}
-	pclose(prnFD);
-}
-
+/* this is something like main() function for the manual viewer code.  */
 int
-ishyphen(unsigned char ch)
+handlemanual(string name)
 {
-	if ((ch == '-') ||(ch == SOFT_HYPHEN))
-		return 1;
+	int return_value;
+	struct stat statbuf;
+	FILE *id;
+
+	string manualname_string; /* Filled by construct_manualname */
+
+	if (tmpfilename1 != "")
+	{
+		unlink(tmpfilename1.c_str());
+	}
+
+	init_curses();
+	getmaxyx(stdscr, maxy, maxx);
+	myendwin();
+
+	check_manwidth();
+
+	if (!plain_apropos) {
+		string cmd_string = "man ";
+		cmd_string += ManOptions;
+		cmd_string += " ";
+		cmd_string += name;
+		cmd_string += " ";
+		cmd_string += StderrRedirection;
+		cmd_string += " > ";
+		cmd_string += tmpfilename1;
+
+		int cmd_result;
+		cmd_result = system(cmd_string.c_str());
+		if (cmd_result != 0) {
+			unlink(tmpfilename1.c_str());
+			printf(_("Error: No manual page found\n"));
+			plain_apropos = 1; /* Fallback */
+		} else {
+			id = fopen(tmpfilename1.c_str(), "r");
+		}
+	}
+	if (plain_apropos) {
+		plain_apropos = 0;
+		if (!use_apropos) {
+			return 1;
+		}
+		printf(_("Calling apropos \n"));
+		apropos_tmpfilename = tmpdirname;
+		apropos_tmpfilename += "/apropos_result";
+		string cmd_string = "apropos ";
+		cmd_string += name;
+		cmd_string += " > ";
+		cmd_string += apropos_tmpfilename;
+		if (system(cmd_string.c_str()) != 0) {
+			printf(_("Nothing appropriate\n"));
+			unlink(apropos_tmpfilename.c_str());
+			return 1;
+		} else {
+			id = fopen(apropos_tmpfilename.c_str(), "r");
+		}
+	}
+
+	init_curses();
+
+	set_initial_history(name);
+	/* load manual to memory */
+	loadmanual(id);
+	fclose(id);
+	do {
+		/* manualwork handles all actions when viewing man page */
+		return_value = manualwork();
+		/* Return value may specify link to follow */
+
+		getmaxyx(stdscr, maxy, maxx);
+		check_manwidth();
+
+		/* Changing page, so clear regexp */
+		regex_is_current = false;
+
+		/* -1 is quit key */
+		if (return_value != -1)
+		{
+			if (tmpfilename2 != "")
+			{
+				unlink(tmpfilename2.c_str());
+			}
+
+			bool historical = false;
+			string cmd_string = "man ";
+			cmd_string += ManOptions;
+			cmd_string += " ";
+			if (return_value == -2) {
+				/* key_back was pressed */
+				if ( (manualhistory.size() - 2) == 0 && apropos_tmpfilename != "")
+				{
+					id = fopen(apropos_tmpfilename.c_str(), "r");
+					loadmanual(id);
+					fclose(id);
+					continue;
+				}
+				if (manualhistory[manualhistory.size() - 2].sect == "") {
+					cmd_string += manualhistory[manualhistory.size() - 2].name;
+				} else {
+					cmd_string += manualhistory[manualhistory.size() - 2].sect;
+					cmd_string += " ";
+					cmd_string += manualhistory[manualhistory.size() - 2].name;
+				}
+				manualhistory.pop_back();
+				historical = true;
+			} else {
+				/*
+				 * key_back was not pressed; and return_value is an offset to
+				 * manuallinks
+				 */
+				construct_manualname(manualname_string, return_value);
+				cmd_string += manuallinks[return_value].section;
+				cmd_string += " ";
+				cmd_string += manualname_string;
+			}
+			cmd_string += " ";
+			cmd_string += StderrRedirection;
+			cmd_string += " > ";
+			cmd_string += tmpfilename2;
+			system(cmd_string.c_str());
+			stat(tmpfilename2.c_str(), &statbuf);
+			if (statbuf.st_size > 0) {
+				string cmd_string2 = "mv ";
+				cmd_string2 += tmpfilename2;
+				cmd_string2 += " ";
+				cmd_string2 += tmpfilename1;
+				/* create tmp file containing man page */
+				system(cmd_string2.c_str());
+				/* open man page */
+				id = fopen(tmpfilename1.c_str(), "r");
+				if (id != NULL) {
+					manhistory my_hist;
+					/* now we create history entry for new page */
+					if (!historical)
+					{
+						/*
+						 * we can write so since this code applies
+						 * only when it's not a history call
+						 */
+						my_hist.name = manualname_string;
+						my_hist.sect = manuallinks[return_value].section;
+						my_hist.pos = 0;
+						my_hist.selected = -1;
+						manualhistory.push_back(my_hist);
+					}
+					/* loading manual page and its defaults... */
+					loadmanual(id);
+					fclose(id);
+				} else {
+					return_value = -1;
+				}
+			}
+		}
+	} while (return_value != -1);
+	if (apropos_tmpfilename != "")
+		unlink(apropos_tmpfilename.c_str());
+	/* raw-manpage for scanning */
 	return 0;
 }
+
+
