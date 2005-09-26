@@ -26,7 +26,7 @@ using std::string;
 #include <vector>
 using std::vector;
 #include <algorithm> // for std::sort and std::find
-#include <cctype>
+#include <cctype> // for tolower, isspace, isalpha, isdigit
 
 #include <sys/stat.h>
 
@@ -193,15 +193,15 @@ set_initial_history(string name)
 {
 	/* filter trailing spaces */
 	string::size_type len;
-	for (len = name.length(); (len > 0) && isspace(name[len - 1]); len--);
+	for (len = name.length(); (len > 0) && std::isspace(name[len - 1]); len--);
 	name.resize(len);
 
 	/* find the beginning of the last token */
 	string::size_type i;
-	for (i = len - 1; (i > 0) && !isspace(name[i]); i--);
+	for (i = len - 1; (i > 0) && !std::isspace(name[i]); i--);
 
 	/* if we've found space, then we move to the first nonspace character */
-	if ( (i > 0) || (i == 0 && isspace(name[i])) ) {
+	if ( (i > 0) || (i == 0 && std::isspace(name[i])) ) {
 		i++;
 	}
 
@@ -236,7 +236,7 @@ construct_manualname(string& buf, int which)
 		buf.resize(buf.length() - 2);
 		/* Find tail with decent characters */
 		idx = buf.length() - 1;
-		while (    (    (isalpha(buf[idx]))
+		while (    (    (std::isalpha(buf[idx]))
 		             || (buf[idx] == '.')
 		             || (buf[idx] == '_')
 		           )
@@ -265,7 +265,7 @@ construct_manualname(string& buf, int which)
 
 		/* skip whitespace */
 		string::size_type idx = 0;
-		while (isspace(tmpstr[idx]))
+		while (std::isspace(tmpstr[idx]))
 			idx++;
 		tmpstr.erase(0, idx);
 
@@ -385,7 +385,7 @@ man_initializelinks(const string& line, int line_num, int carry)
 				if (i < 0)
 					i++;
 				for (; i > 0; i--) {
-					if (!isspace(line[i]))
+					if (!std::isspace(line[i]))
 						/* ignore spaces between linkname and '(x)' */
 						break;
 				}
@@ -398,12 +398,12 @@ man_initializelinks(const string& line, int line_num, int carry)
 				 * the beginning of the scanned token
 				 */
 				for (i = prebreak.size() - 1; i > 0; i--) {
-					if (isspace(prebreak[i])) {
+					if (std::isspace(prebreak[i])) {
 						i++;
 						break;
 					}
 				}
-				if ((i == 0) && isspace(prebreak[i])) {
+				if ((i == 0) && std::isspace(prebreak[i])) {
 					i++;
 				}
 
@@ -440,7 +440,7 @@ man_initializelinks(const string& line, int line_num, int carry)
 					my_link.section = "";
 					for (string::size_type b = left_bracket_index + 1;
 							 line[b] != ')'; b++) {
-						my_link.section += tolower(line[b]);
+						my_link.section += std::tolower(line[b]);
 					}
 				} else {
 					/* Short manual links */
@@ -454,7 +454,7 @@ man_initializelinks(const string& line, int line_num, int carry)
 				int b;
 				for (b = i - 1; b >= 0; b--) {
 					if (b > 0)
-						if (!isspace(line[b]))
+						if (!std::isspace(line[b]))
 							break;
 				}
 				if (b >= 0)
@@ -600,7 +600,7 @@ add_highlights()
 						 * positon link_begin to the beginning of the link to be
 						 * highlighted
 						 */
-						while (    isalpha(tmp_string[link_begin])
+						while (    std::isalpha(tmp_string[link_begin])
 						        || (tmp_string[link_begin] == '.')
 						        || (tmp_string[link_begin] == '_')
 						      ) {
@@ -645,7 +645,7 @@ add_highlights()
 					strip_manual(tmp_string);
 					/* skip spaces */
 					string::size_type wsk_idx = 0;
-					while (isspace(tmp_string[wsk_idx]))
+					while (std::isspace(tmp_string[wsk_idx]))
 						wsk_idx++;
 
 					/* find the end of url */
@@ -971,7 +971,7 @@ manualwork()
 					bool digit_val = true;
 					for (int i = 0; i < token_string.length(); i++)
 					{
-						if (!isdigit(token_string[i]))
+						if (!std::isdigit(token_string[i]))
 							digit_val = false;
 					}
 					/* move cursor position */

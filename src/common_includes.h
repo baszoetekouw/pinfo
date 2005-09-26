@@ -54,7 +54,6 @@
 #include <sys/stat.h>
 #include <pwd.h>
 #include <grp.h>
-#include <ctype.h>
 
 /* I hear voices, that it is needed by RH5.2 ;) */
 #define _REGEX_RE_COMP

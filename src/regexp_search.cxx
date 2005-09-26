@@ -25,7 +25,7 @@
 using std::vector;
 
 #ifndef ___DONT_USE_REGEXP_SEARCH___
-#include <cctype>
+#include <cctype> // for isupper
 
 #include <regex.h>
 
@@ -112,7 +112,7 @@ __regexp_search(const char *pattern, char *string)
 		}
 		for (i = 0; pattern[i] != 0; i++)
 		{
-			if (isupper((unsigned char) pattern[i]))
+			if (std::isupper((unsigned char) pattern[i]))
 			{
 				flags = 0;
 				break;

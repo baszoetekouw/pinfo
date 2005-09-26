@@ -28,6 +28,7 @@ using std::string;
 using std::vector;
 #include <utility> // for std::pair
 #include <algorithm> // for std::equal_range
+#include <cctype> // for islower, toupper, isspace
 
 #include "datatypes.h" // for TagTable
 
@@ -51,7 +52,7 @@ checkfilename(const string filename)
 	     (filename.find('&') != string::npos) ||
 	     (filename.find(';') != string::npos)
      ) {
-		printf(_("Illegal characters in filename!\n*** %s\n"), filename.c_str());
+		printf(_("Illegal characters in filename!\n*** $s\n"), filename.c_str());
 		exit(1);
 	}
 }
@@ -66,15 +67,15 @@ compare_tag_table_string(const char *base, const char *compared)
 	int j = 0;
 	while (base[i] != '\0') {
 		if (base[i] != compared[j]) {
-			if (isspace(compared[j]) && isspace(base[i])) {
+			if (std::isspace(compared[j]) && std::isspace(base[i])) {
 				/* OK--two blanks */
 				j++;
 				i++;
-			} else if (isspace(compared[j])) {
+			} else if (std::isspace(compared[j])) {
 				/* index of `base' stands in place
 				 * and waits for compared to skip blanks */
 				j++;
-			}	else if (isspace(base[i])) {
+			}	else if (std::isspace(base[i])) {
 				/* index of `compared' stands in place
 				 * and waits for base to skip blanks */
 				i++;
@@ -89,7 +90,7 @@ compare_tag_table_string(const char *base, const char *compared)
 	}
 	/* handle trailing whitespaces of variable `compared' */
 	while (compared[j] != '\0')	{
-		if (!isspace(compared[j]))
+		if (!std::isspace(compared[j]))
 			return (int) '\0' - (int) compared[j]; /* Negative, as base is shorter */
 		j++;
 	}
@@ -151,8 +152,8 @@ string
 string_toupper(string str)
 {
 	for (string::size_type i = 0; i < str.length(); i++)
-		if (islower(str[i]))
-			str[i] = toupper(str[i]);
+		if (std::islower(str[i]))
+			str[i] = std::toupper(str[i]);
 	return str;
 }
 

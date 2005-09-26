@@ -25,7 +25,7 @@
 using std::string;
 #include <vector>
 using std::vector;
-#include <cctype>
+#include <cctype> // for tolower, isupper, isdigit
 
 #include "colors.h"
 #include "datatypes.h"
@@ -105,8 +105,8 @@ static char *
 str_toupper(char *str)
 {
 	for (unsigned int i = 0; i < strlen(str); ++i)
-		if (islower(str[i]))
-			str[i] = toupper(str[i]);
+		if (std::islower(str[i]))
+			str[i] = std::toupper(str[i]);
 
 	return str;
 }
@@ -827,7 +827,7 @@ parse_line(char *line)
 					{
 						if (temp[1] == '\'')
 							*key = KEY_CTRL(temp[2]);
-						else if (isdigit(temp[1]))
+						else if (std::isdigit(temp[1]))
 						{
 							char *tail = temp +(strlen(temp));
 							*key = KEY_CTRL((int) strtol(temp + 1, &tail, 10));
@@ -845,8 +845,8 @@ parse_line(char *line)
 					if (temp[0] == '(')
 					{
 						if (temp[1] == '\'')
-							*key = KEY_ALT(tolower(temp[2]));
-						else if (isdigit(temp[1]))
+							*key = KEY_ALT(std::tolower(temp[2]));
+						else if (std::isdigit(temp[1]))
 						{
 							char *tail = temp +(strlen(temp));
 							*key = KEY_ALT((int) strtol(temp + 1, &tail, 10));
@@ -880,7 +880,7 @@ parse_line(char *line)
 					*key = temp[1];
 				}
 			}
-			else if (isdigit(temp[0]))
+			else if (std::isdigit(temp[0]))
 			{
 				char *tail = temp +(strlen(temp));
 				*key =(int) strtol(temp, &tail, 10);
