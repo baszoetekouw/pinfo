@@ -29,6 +29,8 @@ using std::vector;
 #include <utility> // for std::pair
 #include <algorithm> // for std::equal_range
 
+#include <clocale> // for setlocale
+
 #include <ctype.h>
 
 #include "colors.h"
@@ -57,8 +59,9 @@ int shell_cursor = 1;
 void
 initlocale()
 {
-	sbrk(100000);
-	setlocale(LC_ALL, "");
+#ifdef HAVE_SETLOCALE
+	std::setlocale(LC_ALL, "");
+#endif
 	bindtextdomain(PACKAGE, LOCALEDIR);
 	textdomain(PACKAGE);
 }

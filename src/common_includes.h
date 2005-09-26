@@ -27,16 +27,7 @@
 # include "config.h"
 #endif
 
-/* Locale support. Adapted from binutils */
 /* Take care of NLS matters.  */
-
-#ifdef HAVE_LOCALE_H
-# include <locale.h>
-#endif
-#ifndef HAVE_SETLOCALE
-# define setlocale(Category, Locale)	/* empty */
-#endif
-
 #ifdef ENABLE_NLS
 # include <libintl.h>
 # define _(Text) gettext (Text)
