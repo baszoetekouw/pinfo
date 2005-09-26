@@ -139,6 +139,9 @@ rescan_cursor()
 	}
 }
 
+/*
+ * Subroutine of totalsearch.
+ */
 static int
 getnodeoffset(int tag_table_pos,
               typeof(indirect.size())& indirectstart)
@@ -165,6 +168,242 @@ getnodeoffset(int tag_table_pos,
 	return fileoffset;
 }
 
+
+static void
+do_totalsearch(const vector<string> & my_message,
+               const string & type_str,
+               FILE * id,
+               const int & tag_table_pos,
+               bool & skipsearch,
+               int & found_line,
+               int & return_value)
+{
+	skipsearch = false;
+	typeof(indirect.size()) indirectstart = -1;
+	int fileoffset;
+	move(maxy - 1, 0);
+	attrset(bottomline);
+	echo();
+	curs_set(1);
+	string token_string;
+	if (searchagain.search) {
+		/* it IS searchagain */
+		/* copy the token from searchagain buffer */
+		token_string = searchagain.lastsearch;
+		/* reset the searchagain switch (until it's set again
+		 * by the keys.searchagain key handler) */
+		searchagain.search = 0;
+	} else {
+		/* if searchagain key wasn't hit */
+		token_string = getstring(_("Enter regexp: "));
+		/* save it to searchagain buffer */
+		searchagain.lastsearch = token_string;	
+		/*
+		 * give a hint, which key to ungetch to call this procedure
+		 * by searchagain
+		 */
+		searchagain.type = keys.totalsearch_1;
+	}
+	if (token_string == "") {
+		skipsearch = true;
+		return;
+	}
+	curs_set(0);
+	noecho();
+	attrset(normal);
+
+	/* Calculate current info file offset...  */
+	fileoffset = 0;
+	for (int i = 0; i <= pos; i++)	{
+		/* count the length of current node
+		 * up to and including current line
+		 */
+		fileoffset += my_message[i].length();
+	}
+	fileoffset += type_str.length();	/* add also header length */
+
+	fileoffset += getnodeoffset(tag_table_pos, indirectstart);	/* also load the variable indirectstart */
+
+	/* Searching part...  */
+	found_line = -1;
+
+	/*- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
+	return_value = -1;
+	/* the info is of indirect type; we'll search through several files */
+	if (!indirect.empty()) {
+		FILE *fd;
+		long tokenpos;
+		long starttokenpos;
+		long filelen;
+		/* Signed/unsigned issues. */
+		for (signed int j = indirectstart; j < indirect.size(); j++) {
+			fd = openinfo(indirect[j].filename, 1);	/* get file length. */
+			fseek(fd, 0, SEEK_END);
+			filelen = ftell(fd);
+
+			/*
+			 * seek to the beginning of search area. At the first
+			 * time it is `fileoffset', then it is the first node's
+			 * offset
+			 */
+			if (j == indirectstart) {
+				fseek(fd, fileoffset, SEEK_SET);
+			} else {
+				fseek(fd, FirstNodeOffset, SEEK_SET);
+			}
+			starttokenpos = ftell(fd);
+
+			char *tmp = new char[filelen - starttokenpos + 10];
+			/* read data */
+			fread(tmp, 1, filelen - starttokenpos, fd);
+			tmp[filelen - starttokenpos + 1] = 0;
+
+			tokenpos = regexp_search(token_string.c_str(), tmp);	/* search */
+
+			if (tokenpos != -1)	{
+				/* something was found */
+				/*
+				 * add the offset of the part of file, which wasn't
+				 * read to the memory
+				 */
+				tokenpos += starttokenpos;
+				{	/* local scope for tmpvar, matched */
+					int tmpvar = -1;
+					int matched = 0;
+					for (int i = tag_table.size() - 1; i >= 0; i--) {
+						if ((tag_table[i].offset > tag_table[tmpvar].offset) &&
+								((tag_table[i].offset - indirect[j].offset + FirstNodeOffset) <= tokenpos))
+						{
+							return_value = i;
+							tmpvar = i;
+							matched = 1;
+						}
+					}
+				}
+				if (return_value != -1) {
+					/* this means, that indirect entry was found.  */
+					fseek(fd, tag_table[return_value].offset - indirect[j].offset + FirstNodeOffset, SEEK_SET);
+					/* seek to the found node offset */
+					while (fgetc(fd) != INFO_TAG);
+					fgetc(fd);	/* skip newline */
+
+					found_line = 0;
+
+					/*
+					 * count how many lines are before the token line.
+					 */
+					while (ftell(fd) < tokenpos) {
+						int chr = fgetc(fd);
+						if (chr == '\n') {
+							found_line++;
+						} else if (chr == EOF) {
+							break;
+						}
+					}
+					/*
+					 * the number of the line where the token was found, is
+					 * now in the variable `found_line'
+					 */
+					/* something was found */
+					if (tmp) {
+						delete [] tmp;
+						tmp = 0;
+					}
+					break;
+					/* end: if (indirect entry was found) */
+				}	
+				/* end: if (tokenpos) */
+			}
+			if (tmp) {
+				delete [] tmp;
+				tmp = 0;
+			}
+			/* end: indirect file loop */
+		}
+		fclose(fd);
+	  /* end: if (indirect) */
+	} else {
+		/* if not indirect */
+		/*- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
+		long filelen;
+		long filepos = ftell(id);
+		long tokenpos;
+		long starttokenpos;
+
+		fseek(id, 0, SEEK_END);	/* calculate filelength */
+		filelen = ftell(id);
+
+		/* seek at the start of search area. */
+		fseek(id, fileoffset, SEEK_SET);
+
+		/* remember the number of skipped bytes.*/
+		starttokenpos = ftell(id);
+
+		char *tmp;
+		/* read data */
+		tmp = new char[filelen - starttokenpos + 10]; /* FIXME */
+		fread(tmp, 1, filelen - starttokenpos, id);
+		tmp[filelen - starttokenpos + 1] = 0;
+
+		/* search */
+		tokenpos = regexp_search(token_string.c_str(), tmp);
+
+		if (tokenpos != -1)	{
+			/* we've found something */
+			/*
+			 * add offset of the start of search area to this token
+			 * position.
+			 */
+			tokenpos += starttokenpos;
+			{		/* local scope for tmpvar, matched */
+				int tmpvar = -1, matched = 0;
+				for (int i = tag_table.size() - 1; i >= 0; i--)
+				{
+					if ((tag_table[i].offset > tag_table[tmpvar].offset) &&
+							(tag_table[i].offset <= tokenpos))
+					{
+						return_value = i;
+						tmpvar = i;
+						matched = 1;
+					}
+				}
+			}
+			/*
+			 * this means, that we've found our entry, and we're
+			 * one position too far with the `i' counter.
+			 */
+			if (return_value != -1) {
+				fseek(id, tag_table[return_value].offset, SEEK_SET);
+				/* seek to the node, which holds found line */
+				while (fgetc(id) != INFO_TAG);
+				fgetc(id);	/* skip newline */
+
+				found_line = 0;
+				/* count lines in found node, until found line is
+				 * met. */
+				while (ftell(id) < tokenpos) {
+					int chr = fgetc(id);
+					if (chr == '\n') {
+						found_line++;
+					}	else if (chr == EOF) {
+						break;
+					}
+				}
+				/* seek to old filepos. */
+				fseek(id, filepos, SEEK_SET);	
+			}
+			/* end: if (tokenpos) <--> token found */
+		}
+		if (tmp) {
+			delete [] tmp;
+			tmp = 0;
+		}
+		/* end: if (!indirect) */
+	}
+	return;
+}
+
+
 /*
  * Main work function
  */
@@ -173,8 +412,6 @@ work(const vector<string> my_message, string type_str, FILE * id, int tag_table_
 {
 	static WorkRVal rval;
 	FILE *pipe;
-	int fileoffset;
-	typeof(indirect.size()) indirectstart = -1;
 	int cursorchanged = 0;
 	int key = 0;
 	int return_value;
@@ -213,8 +450,8 @@ work(const vector<string> my_message, string type_str, FILE * id, int tag_table_
 	/* if we're in a node found using 's'earch function. */
 	if (found_line != -1)
 	{
-		pos = found_line;
 		/* set pos to the found position */
+		pos = found_line - 1; /* FIXME: lurking off-by-one issue */
 		found_line = -1;
 	}
 
@@ -398,250 +635,29 @@ work(const vector<string> my_message, string type_str, FILE * id, int tag_table_
 			if ((key == keys.totalsearch_1) ||	/* search in all nodes later than this one */
 					(key == keys.totalsearch_2))
 			{
-				int tmpfound_line = found_line;
-				indirectstart = -1;
-				move(maxy - 1, 0);
-				attrset(bottomline);
-				echo();
-				curs_set(1);
-				string token_string;
-				if (!searchagain.search) {
-					/* if searchagain key wasn't hit */
-					token_string = getstring(_("Enter regexp: "));
-					/* save it to searchagain buffer */
-					searchagain.lastsearch = token_string;	
-					/*
-					 * give a hint, which key to ungetch to call this procedure
-					 * by searchagain
-					 */
-					searchagain.type = key;
-				} else {
-					/* it IS searchagain */
-					token_string = searchagain.lastsearch;
-					/* copy the token from searchagain buffer */
-					searchagain.search = 0;
-					/* reset the searchagain switch (until it's set again
-					 * by the keys.searchagain key handler) */
-				}
-				if (token_string == "")
-				{
-					goto skip_search;
-				}
-				curs_set(0);
-				noecho();
-				attrset(normal);
+				int tmpfound_line = found_line; /* Save and restore */
 
-				/* Calculate current info file offset...  */
-				fileoffset = 0;
-				for (int i = 0; i <= pos; i++)	{
-					/* count the length of current node
-					 * up to and including current line
-					 */
-					fileoffset += my_message[i].length();
-				}
-				fileoffset += type_str.length();	/* add also header length */
-
-				fileoffset += getnodeoffset(tag_table_pos, indirectstart);	/* also load the variable indirectstart */
-
-				/* Searching part...  */
-				found_line = -1;
-
-				/*- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
-				return_value = -1;
-				/* the info is of indirect type; we'll search through several files */
-				if (!indirect.empty())
-				{
-					FILE *fd;
-					long tokenpos;
-					long starttokenpos;
-					long filelen;
-					/* Signed/unsigned issues. */
-					for (signed int j = indirectstart;
-					     j < indirect.size(); j++)
-					{
-						fd = openinfo(indirect[j].filename, 1);	/* get file length. */
-						fseek(fd, 0, SEEK_END);
-						filelen = ftell(fd);
-
-						/*
-						 * seek to the beginning of search area. At the first
-						 * time it is `fileoffset', then it is the first node's
-						 * offset
-						 */
-						if (j == indirectstart)
-
-							fseek(fd, fileoffset, SEEK_SET);
-						else
-							fseek(fd, FirstNodeOffset, SEEK_SET);
-						starttokenpos = ftell(fd);
-
-						char *tmp = new char[filelen - starttokenpos + 10];
-						/* read data */
-						fread(tmp, 1, filelen - starttokenpos, fd);
-						tmp[filelen - starttokenpos + 1] = 0;
-
-						tokenpos = regexp_search(token_string.c_str(), tmp);	/* search */
-
-						if (tokenpos != -1)	/* if something was found */
-						{
-							/*
-							 * add the offset of the part of file, which wasn't
-							 * read to the memory
-							 */
-							tokenpos += starttokenpos;
-							{	/* local scope for tmpvar, matched */
-								int tmpvar = -1;
-								int matched = 0;
-								for (int i = tag_table.size() - 1; i >= 0; i--)
-								{
-									if ((tag_table[i].offset > tag_table[tmpvar].offset) &&
-											((tag_table[i].offset - indirect[j].offset + FirstNodeOffset) <= tokenpos))
-									{
-										return_value = i;
-										tmpvar = i;
-										matched = 1;
-									}
-								}
-							}
-							if (return_value != -1) {
-								/* this means, that indirect entry was found.  */
-								fseek(fd, tag_table[return_value].offset - indirect[j].offset + FirstNodeOffset, SEEK_SET);
-								/* seek to the found node offset */
-								while (fgetc(fd) != INFO_TAG);
-								fgetc(fd);	/* skip newline */
-
-								found_line = 0;
-
-								/*
-								 * count how many lines are before the token line.
-								 */
-								while (ftell(fd) < tokenpos)
-								{
-									int chr = fgetc(fd);
-									if (chr == '\n')
-										found_line++;
-									else if (chr == EOF)
-										break;
-								}
-								/*
-								 * the number of the line where the token was found, is
-								 * now in the variable `found_line'
-								 */
-								/* something was found */
-								if (tmp) {
-									delete [] tmp;
-									tmp = 0;
-								}
-								break;
-								/* end: if (indirect entry was found) */
-							}	
-							/* end: if (tokenpos) */
-						}
-						if (tmp) {
-							delete [] tmp;
-							tmp = 0;
-						}
-						/* end: indirect file loop */
+				bool skipsearch = false;
+				do_totalsearch(my_message, type_str, id, tag_table_pos,
+				               skipsearch, found_line, return_value);
+				if (!skipsearch) {
+					if (found_line == -1) {
+						attrset(bottomline);
+						mvaddstr(maxy - 1, 0, _("Search string not found..."));
+						statusline = LOCKED;
 					}
-					fclose(fd);
-				  /* end: if (indirect) */
-				} else {
-				  /* if not indirect */
-				  /*- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
-					long filelen;
-					long filepos = ftell(id);
-					long tokenpos;
-					long starttokenpos;
 
-					fseek(id, 0, SEEK_END);	/* calculate filelength */
-					filelen = ftell(id);
-
-					/* seek at the start of search area. */
-					fseek(id, fileoffset, SEEK_SET);
-
-					/* remember the number of skipped bytes.*/
-					starttokenpos = ftell(id);
-
-					char *tmp;
-					/* read data */
-					tmp = new char[filelen - starttokenpos + 10]; /* FIXME */
-					fread(tmp, 1, filelen - starttokenpos, id);
-					tmp[filelen - starttokenpos + 1] = 0;
-
-					/* search */
-					tokenpos = regexp_search(token_string.c_str(), tmp);
-
-					if (tokenpos != -1)	/* if we've found something */
-					{
-						/*
-						 * add offset of the start of search area to this token
-						 * position.
-						 */
-						tokenpos += starttokenpos;
-						{		/* local scope for tmpvar, matched */
-							int tmpvar = -1, matched = 0;
-							for (int i = tag_table.size() - 1; i >= 0; i--)
-							{
-								if ((tag_table[i].offset > tag_table[tmpvar].offset) &&
-										(tag_table[i].offset <= tokenpos))
-								{
-									return_value = i;
-									tmpvar = i;
-									matched = 1;
-								}
-							}
-						}
-						/*
-						 * this means, that we've found our entry, and we're
-						 * one position too far with the `i' counter.
-						 */
-						if (return_value != -1)
-						{
-							fseek(id, tag_table[return_value].offset, SEEK_SET);
-							/* seek to the node, which holds found line */
-							while (fgetc(id) != INFO_TAG);
-							fgetc(id);	/* skip newline */
-
-							found_line = 0;
-							/* count lines in found node, until found line is
-							 * met. */
-							while (ftell(id) < tokenpos)
-							{
-								int chr = fgetc(id);
-								if (chr == '\n')
-									found_line++;
-								else if (chr == EOF)
-									break;
-							}
-							fseek(id, filepos, SEEK_SET);	/* seek to old
-															 * filepos. */
-						}
-					}		/* end: if (tokenpos) <--> token found */
-					if (tmp)	/* free tmp buffer */
-					{
-						delete tmp;
-						tmp = 0;
+					if (return_value != -1) {
+						infohistory[infohistory.size() - 1].pos = pos;
+						infohistory[infohistory.size() - 1].cursor = cursor;
+						infohistory[infohistory.size() - 1].menu = infomenu;
+						rval.node = tag_table[return_value].nodename;
+						rval.file = "";
+						rval.keep_going = true;
+						regex_is_global = true;
+						regex_is_current = true;
+						return rval;
 					}
-					/* end: if (!indirect) */
-				}		
-				/*- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
-
-				if (found_line == -1) {
-					attrset(bottomline);
-					mvaddstr(maxy - 1, 0, _("Search string not found..."));
-					statusline = LOCKED;
-				}
-
-				if (return_value != -1) {
-					infohistory[infohistory.size() - 1].pos = pos;
-					infohistory[infohistory.size() - 1].cursor = cursor;
-					infohistory[infohistory.size() - 1].menu = infomenu;
-					rval.node = tag_table[return_value].nodename;
-					rval.file = "";
-					rval.keep_going = true;
-					regex_is_global = true;
-					regex_is_current = true;
-					return rval;
 				}
 				found_line = tmpfound_line;
 				/* end: if key_totalsearch */
