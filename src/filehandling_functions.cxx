@@ -1001,10 +1001,9 @@ create_tag_table(FILE * id)
 }
 
 void
-seeknode(int tag_table_pos, FILE ** Id)
+seeknode(int tag_table_pos, FILE * & id)
 {
 	int i;
-#define id	(*Id)
 	/*
 	 * Indirect nodes are seeked using a formula:
 	 * file-offset = tagtable_offset - indirect_offset +
@@ -1041,6 +1040,5 @@ seeknode(int tag_table_pos, FILE ** Id)
 		else
 			fseek(id, off, SEEK_SET);
 	}
-#undef id
 }
 

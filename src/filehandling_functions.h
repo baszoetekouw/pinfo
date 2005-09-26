@@ -38,7 +38,7 @@ void initpaths ();
 void addrawpath (const std::string filename);
 
 /*  seek to a node in certain info file */
-void seeknode (int tag_table_pos, FILE ** Id);
+void seeknode (int tag_table_pos, FILE * & id);
 
 /*
  * Reads a node from 'id' to 'buf', and the header of node to 'type'.

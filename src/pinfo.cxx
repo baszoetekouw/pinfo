@@ -393,7 +393,7 @@ main(int argc, char *argv[]) {
 	do
 	{
 		/* set seek offset for given node */
-		seeknode(tag_table_pos, &id);
+		seeknode(tag_table_pos, id);
 		/* read the node */
 		read_item(id, type, message);
 

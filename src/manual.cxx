@@ -89,7 +89,7 @@ manuallink;
 vector<manuallink> manuallinks;
 
 /* Debugging routine */
-void
+static void
 dumplink(manuallink a) {
 	printf("LINK x%sx (x%sx %d) at %d %d (%d)\n\r", (a.name).c_str(),
 		(a.section).c_str(), a.section_mark,
@@ -853,13 +853,10 @@ showmanualscreen()
 static int
 manualwork()
 {
-	/* for user's shell commands */
-	FILE *pipe;
 	/* key, which contains the value entered by user */
 	int key = 0;
-	/* tmp values */
-	int selectedchanged;
-	int statusline = FREE;
+
+	bool statusline_locked = false;
 
 	getmaxyx(stdscr, maxy, maxx);
 	check_manwidth();
@@ -886,14 +883,15 @@ manualwork()
 		if (key == ERR)
 		{
 			/* then show screen */
-			if (statusline == FREE)
+			if (!statusline_locked) {
 				showmanualscreen();
+			}
 			wrefresh(stdscr);
 			waitforgetch();
 			key = pinfo_getch();
 		}
 		nodelay(stdscr, FALSE);
-		statusline = FREE;
+		statusline_locked = false;
 		if (winchanged)
 		{
 			handlewinch();
@@ -992,6 +990,9 @@ manualwork()
 			if ((key == keys.shellfeed_1) ||
 					(key == keys.shellfeed_2))
 			{
+				/* for user's shell commands */
+				FILE *pipe;
+
 				/* get command name */
 				curs_set(1);
 				attrset(bottomline);
@@ -1122,7 +1123,7 @@ manualwork()
 				{
 					attrset(bottomline);
 					mvaddstr(maxy - 1, 0, _("Search string not found..."));
-					statusline = LOCKED;
+					statusline_locked = true;
 				}
 				regex_is_current = true;
 			}
@@ -1150,7 +1151,7 @@ skip_search:
 			if ((key == keys.up_1) ||
 					(key == keys.up_2))
 			{
-				selectedchanged = 0;
+				bool selectedchanged = false;
 				/* if there are links at all */
 				if (selected != -1)
 				{
@@ -1166,7 +1167,7 @@ skip_search:
 									(manuallinks[i].line < manualpos +(maxy - 1)))
 							{
 								selected = i;
-								selectedchanged = 1;
+								selectedchanged = true;
 								break;
 							}
 						}
@@ -1275,7 +1276,7 @@ skip_search:
 			/* see keys.up for comments */
 			if ((key == keys.down_1) || (key == keys.down_2))
 			{
-				selectedchanged = 0;
+				bool selectedchanged = false;
 				/* signed/unsigned issues with selected FIXME */
 				if (selected < manuallinks.size()) {
 					for (typeof(manuallinks.size()) i = selected + 1;
@@ -1283,7 +1284,7 @@ skip_search:
 						if ((manuallinks[i].line >= manualpos) &&
 								(manuallinks[i].line < manualpos +(lines_visible))) {
 							selected = i;
-							selectedchanged = 1;
+							selectedchanged = true;
 							break;
 						}
 					}
@@ -1298,7 +1299,7 @@ skip_search:
 							if ((manuallinks[i].line >= manualpos) &&
 									(manuallinks[i].line < manualpos +(lines_visible))) {
 								selected = i;
-								selectedchanged = 1;
+								selectedchanged = true;
 								break;
 							}
 						}

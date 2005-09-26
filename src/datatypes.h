@@ -26,9 +26,6 @@
 #include <string>
 #include <vector>
 
-#define FREE 0
-#define LOCKED 1
-
 #define KEEP_HISTORY 1
 #define KILL_HISTORY 2
 
@@ -37,27 +34,24 @@
 
 #define HIGHLIGHT 1000
 
-typedef struct
+typedef struct SearchAgain
 {
 	std::string lastsearch;	/* last searched regexp */
 	char type;				/* type of the last search (global/local) */
 	int search;				/* if true -- search again */
-}
-SearchAgain;
+} SearchAgain;
 
 typedef struct Indirect
 {
 	long offset;			/* offset of the node */
 	std::string filename;		/* name of file, wherein the given offset is */
-}
-Indirect;
+} Indirect;
 
 typedef struct TagTable
 {
 	long offset;			/* offset of the node */
 	std::string nodename;		/* name of the node */
-}
-TagTable;
+} TagTable;
 
 typedef struct InfoHistory
 {
@@ -66,8 +60,7 @@ typedef struct InfoHistory
 	int pos;		/* pos offset in viewed nodes */
 	int cursor;	/* cursor offsets in viewed nodes */
 	int menu;		/* menu position (in sequential reading) in viewed node */
-}
-InfoHistory;
+} InfoHistory;
 
 typedef struct HyperObject
 {
@@ -84,8 +77,7 @@ typedef struct HyperObject
 	std::string node;		/* name of the referenced node */
 	std::string file;		/* name of the referenced file -- empty=this file */
 	int tagtableoffset;	/* offset in tag table */
-}
-HyperObject;
+} HyperObject;
 
 extern int verbose;
 

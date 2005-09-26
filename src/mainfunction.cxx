@@ -411,12 +411,11 @@ WorkRVal
 work(const vector<string>& my_message, string type_str, FILE * id, int tag_table_pos)
 {
 	static WorkRVal rval;
-	FILE *pipe;
-	int cursorchanged = 0;
 	int key = 0;
 	int return_value;
-	int statusline = FREE;
-	/* if the static variable was allocated, free it */
+	bool statusline_locked = false;
+
+	/* reset the static return value variable */
 	rval.file = "";
 	rval.node = "";
 	rval.keep_going = false; /* Important */
@@ -479,14 +478,14 @@ work(const vector<string>& my_message, string type_str, FILE * id, int tag_table
 		key = pinfo_getch();
 		if (key == ERR)
 		{
-			if (statusline == FREE) {
+			if (!statusline_locked) {
 				showscreen(my_message, pos, cursor, infocolumn);
 			}
 			waitforgetch();
 			key = pinfo_getch();
 		}
 		nodelay(stdscr, FALSE);
-		statusline = FREE;
+		statusline_locked = false;
 		if (winchanged)		/* SIGWINCH */
 		{
 			handlewinch();
@@ -587,6 +586,7 @@ work(const vector<string>& my_message, string type_str, FILE * id, int tag_table
 			if ((key == keys.shellfeed_1) ||
 					(key == keys.shellfeed_2))
 			{
+				FILE * pipe;
 				/* get command name */
 				attrset(bottomline);
 				move(maxy - 1, 0);
@@ -644,7 +644,7 @@ work(const vector<string>& my_message, string type_str, FILE * id, int tag_table
 					if (found_line == -1) {
 						attrset(bottomline);
 						mvaddstr(maxy - 1, 0, _("Search string not found..."));
-						statusline = LOCKED;
+						statusline_locked = true;
 					}
 
 					if (return_value != -1) {
@@ -720,7 +720,7 @@ work(const vector<string>& my_message, string type_str, FILE * id, int tag_table
 				{
 					attrset(bottomline);
 					mvaddstr(maxy - 1, 0, _("Search string not found..."));
-					statusline = LOCKED;
+					statusline_locked = true;
 				}
 				rescan_cursor();	/* rescan cursor position in the new place */
 			}
@@ -807,7 +807,7 @@ skip_search:
 						move(0, 0);
 					}
 				}
-				statusline = LOCKED;
+				statusline_locked = true;
 			}
 			/*==========================================================================*/
 			if ((key == keys.prevnode_1) ||	/* goto previous node */
@@ -878,7 +878,7 @@ skip_search:
 			if ((key == keys.up_1) ||
 					(key == keys.up_2))
 			{
-				cursorchanged = 0;
+				bool cursorchanged = false;
 				if (cursor != (typeof(hyperobjects.size()))-1)	{
 					/* if we must handle cursor... */
 					if ((cursor > 0) && (hyperobjects.size()))
@@ -896,7 +896,7 @@ skip_search:
 								if (hyperobjects[i].type < HIGHLIGHT)
 								{
 									cursor = i;
-									cursorchanged = 1;
+									cursorchanged = true;
 									break;
 								}
 							}
@@ -983,7 +983,7 @@ skip_search:
 			if ((key == keys.down_1) ||
 					(key == keys.down_2))	/* top+bottom line \|/ */
 			{
-				cursorchanged = 0;	/* works similar to keys.up */
+				bool cursorchanged = false;	/* works similar to keys.up */
 				if (cursor < hyperobjects.size())
 					for (typeof(hyperobjects.size()) i = cursor + 1;
 					     i < hyperobjects.size(); i++) {
@@ -993,7 +993,7 @@ skip_search:
 							if (hyperobjects[i].type < HIGHLIGHT)
 							{
 								cursor = i;
-								cursorchanged = 1;
+								cursorchanged = true;
 								break;
 							}
 						}
@@ -1012,7 +1012,7 @@ skip_search:
 							if (hyperobjects[i].type < HIGHLIGHT)
 							{
 								cursor = i;
-								cursorchanged = 1;
+								cursorchanged = true;
 								break;
 							}
 						}
