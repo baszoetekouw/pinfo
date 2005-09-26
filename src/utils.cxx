@@ -337,7 +337,7 @@ handlewinch()
  * with separator in between them, the original string will be recovered.
  */
 vector<string>
-string_explode(string to_explode, string::value_type separator) {
+string_explode(const string& to_explode, string::value_type separator) {
 	vector<string> result;
 	
 	string::size_type old_idx = 0;

@@ -158,7 +158,7 @@ strip_manual(string& buf)
  * manual sections.
  */
 static bool
-is_in_manlinks(const vector<string>& manlinks, string to_find)
+is_in_manlinks(const vector<string>& manlinks, const string& to_find)
 {
 	/* Normalize case */
 	string to_find_uppercase = string_toupper(to_find);
@@ -290,7 +290,7 @@ sort_manuallinks_from_current_line(
 
 /* initializes hyperlinks in manual */
 static void
-man_initializelinks(string line, int line_num, int carry)
+man_initializelinks(const string& line, int line_num, int carry)
 {
 	typeof(manuallinks.size()) initialManualLinks = manuallinks.size();
 	/******************************************************************************
@@ -685,7 +685,7 @@ getmancolumn(const char* man, int mancol)
 
 /* print a manual line */
 static void
-mvaddstr_manual(int y, int x, string my_str)
+mvaddstr_manual(int y, int x, const string & my_str)
 {
 	static string strippedline_string;
 	if ((h_regexp.size() > 0) || regex_is_current) {
@@ -1484,7 +1484,7 @@ skip_search:
 
 /* this is something like main() function for the manual viewer code.  */
 int
-handlemanual(string name)
+handlemanual(const string& name)
 {
 	int return_value;
 	struct stat statbuf;

@@ -25,6 +25,6 @@
 #include <string>
 
 /* passes control to the manual code */
-int handlemanual (std::string);
+int handlemanual (const std::string &);
 
 #endif

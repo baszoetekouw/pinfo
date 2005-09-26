@@ -73,7 +73,8 @@ extern int curses_open;
 
 /* Explode a string into a vector */
 std::vector<std::string>
-string_explode(std::string to_explode, std::string::value_type separator);
+string_explode(const std::string & to_explode,
+               std::string::value_type separator);
 
 /* Return a string converted to uppercase */
 std::string string_toupper (std::string s);

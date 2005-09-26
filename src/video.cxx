@@ -35,7 +35,7 @@ using std::vector;
  * Used for internationalization of info headers.
  */
 static void
-substitutestring(string& strbuf, string find, string replace) {
+substitutestring(string& strbuf, const string& find, const string& replace) {
  	string::size_type loc = strbuf.find(find);
 	if (loc != string::npos) {
 		strbuf.replace(loc, find.length(), replace);
@@ -46,7 +46,7 @@ substitutestring(string& strbuf, string find, string replace) {
  * Print the header line.
  */
 void
-addtopline(const string type, string::size_type column)
+addtopline(const string& type, string::size_type column)
 {
 	string strbuf = type;
 	if (strbuf[strbuf.length() - 1] == '\n') {
@@ -82,7 +82,8 @@ addtopline(const string type, string::size_type column)
  *  Does not alter the string passed to it.
  */
 static void
-info_addstring(int y, string::size_type x, string txt, string::size_type column)
+info_addstring(int y, string::size_type x, const string& txt,
+               string::size_type column)
 {
   /* Use maxx and mvaddnstr to force clipping.
    * Fairly blunt instrument, but the best I could come up with.
