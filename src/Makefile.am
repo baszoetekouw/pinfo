@@ -63,8 +63,12 @@ pinfo_SOURCES =	$(pinfo_COMMON_SRC)
 
 INCLUDES = @READLINE_INCLUDES@
 
-pinfo_LDADD = $(pinfo_READLINE_OBJ) $(pinfo_SNPRINTF_OBJ)\
-              $(pinfo_SIGBLOCK_OBJ) @READLINE_LIBS@ $(INTLLIBS)
+pinfo_LDADD = \
+	$(pinfo_READLINE_OBJ) $(pinfo_SNPRINTF_OBJ) \
+	$(pinfo_SIGBLOCK_OBJ) @READLINE_LIBS@ $(INTLLIBS) \
+	@CURSES_LIBS@ 
+
+pinfo_CPPFLAGS = @CURSES_FLAGS@ @CURSES_INCLUDES@ @WCHAR_FLAGS@
 
 pinfo_DEPENDENCIES = $(pinfo_READLINE_OBJ)\
                      $(pinfo_SNPRINTF_OBJ)\

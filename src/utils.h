@@ -90,4 +90,10 @@ int
 check_node_name( const char * const node_name, const char * const node_header);
 
 
+/* calculate width of string, handling multibyte encodings 
+ * correctly */
+int
+width_of_string( const char * const mbs, const int len);
+
+
 #endif

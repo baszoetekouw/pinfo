@@ -53,7 +53,7 @@ dnl	CFLAGS=${CFLAGS--O}
 	AC_SUBST(READLINE_INCLUDES)
 
 	AC_ARG_WITH(readline,
-	  [  --with-readline[=dir]  Compile with readline/locate base dir [no compile]],
+	  [  --with-readline[=dir]     Compile with readline/locate base dir [no compile]],
 	  if test "x$withval" = "xno" ; then
 		search_readline=false
 	  elif test "x$withval" != "xyes" ; then
@@ -114,7 +114,7 @@ AC_DEFUN([AC_SEARCH_READLINE], [
 ] ) 
 
 AC_DEFUN([AC_READLINE_VERSION], [
-	AC_CHECKING(for readline version)
+	AC_MSG_CHECKING(for readline version)
 	readline_version=unknown
 cat > conftest.$ac_ext <<EOF
 [#]line __oline__ "configure"

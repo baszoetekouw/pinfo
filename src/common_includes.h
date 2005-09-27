@@ -22,16 +22,9 @@
 #ifndef __COMMON_INCLUDES_H
 #define __COMMON_INCLUDES_H
 
-#include "localestuff.h"
-
-#if defined(USE_NCURSES) && !defined(RENAMED_NCURSES)
-#include <ncurses.h>
-#else
-#include <curses.h>
-#endif
-
 #include <stdio.h>
 #include <string.h>
+#include <strings.h>
 #include <stdlib.h>
 #include <signal.h>
 #include <unistd.h>
@@ -42,8 +35,25 @@
 #include <grp.h>
 
 #ifdef HAVE_CONFIG_H
-#include "config.h"
+ #include "config.h"
 #endif
+
+#include CURSES_H_NAME
+
+/* fall back to using 'E' is curses doesn't support the end key */ 
+#ifndef CURSES_KEY_END
+ #define KEY_END	'E'
+#endif
+/* quick hack;
+ * really should replace all the NO_COLOR_CURSES checks 
+ * by CURSES_COLORS
+ */
+#ifndef CURSES_COLORS
+ #define NO_COLOR_CURSES
+#endif
+
+
+#include "localestuff.h"
 
 #include "rcsid.h"
 #include "datatypes.h"

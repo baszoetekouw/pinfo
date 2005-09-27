@@ -24,6 +24,7 @@ RCSID("$Id$")
 
 #include <ctype.h>
 #include <sys/stat.h>
+#include <stdlib.h>
 
 #define HTTPSECTION 100
 #define FTPSECTION 101
@@ -720,7 +721,7 @@ man_initializelinks(char *tmp, int carry)
 		urlend = findurlend(urlstart);
 		manuallinks = xrealloc(manuallinks, sizeof(manuallink) *(ManualLinks + 3));
 		manuallinks[ManualLinks].line = ManualLines;
-		manuallinks[ManualLinks].col = urlstart - tmp;
+		manuallinks[ManualLinks].col = width_of_string(tmp, urlstart - tmp);
 		strcpy(manuallinks[ManualLinks].section, "HTTPSECTION");
 		manuallinks[ManualLinks].section_mark = HTTPSECTION;
 		manuallinks[ManualLinks].name = xmalloc(urlend - urlstart + 10);
@@ -739,7 +740,7 @@ man_initializelinks(char *tmp, int carry)
 		urlend = findurlend(urlstart);
 		manuallinks = xrealloc(manuallinks, sizeof(manuallink) *(ManualLinks + 3));
 		manuallinks[ManualLinks].line = ManualLines;
-		manuallinks[ManualLinks].col = urlstart - tmp;
+		manuallinks[ManualLinks].col = width_of_string(tmp, urlstart - tmp);
 		strcpy(manuallinks[ManualLinks].section, "FTPSECTION");
 		manuallinks[ManualLinks].section_mark = FTPSECTION;
 		manuallinks[ManualLinks].name = xmalloc(urlend - urlstart + 10);
@@ -758,7 +759,7 @@ man_initializelinks(char *tmp, int carry)
 		urlend = findurlend(urlstart);
 		manuallinks = xrealloc(manuallinks, sizeof(manuallink) *(ManualLinks + 3));
 		manuallinks[ManualLinks].line = ManualLines;
-		manuallinks[ManualLinks].col = urlstart - tmp;
+		manuallinks[ManualLinks].col = width_of_string(tmp, urlstart - tmp);
 		strcpy(manuallinks[ManualLinks].section, "MAILSECTION");
 		manuallinks[ManualLinks].section_mark = MAILSECTION;
 		manuallinks[ManualLinks].name = xmalloc(urlend - urlstart + 10);
@@ -828,6 +829,9 @@ man_initializelinks(char *tmp, int carry)
 					 * manuallinks table to make free space for new entry
 					 */
 
+					/* calculate the number of columns in front of the link */
+					int cols_before_link = width_of_string(tmp, i-1);
+
 					/* a small check */
 					if (!((use_apropos) &&(manualhistorylength == 0)))
 					{
@@ -846,7 +850,7 @@ man_initializelinks(char *tmp, int carry)
 					}
 					manuallinks = xrealloc(manuallinks, sizeof(manuallink) *(ManualLinks + 3));
 					manuallinks[ManualLinks].line = ManualLines;
-					manuallinks[ManualLinks].col = i;
+					manuallinks[ManualLinks].col = cols_before_link + 1;
 					if (LongManualLinks)
 					{
 						for (b = 1; mylink[b] != ')'; b++)
@@ -1439,7 +1443,7 @@ skip_search:
 			/*=====================================================*/
 			/********* end of keyboard handling *********************/
 			/********* mouse handler ********************************/
-#ifdef NCURSES_MOUSE_VERSION
+#ifdef CURSES_MOUSE
 			if (key == KEY_MOUSE)
 			{
 				MEVENT mouse;
@@ -1530,7 +1534,7 @@ skip_search:
 						ungetch(keys.pgdn_1);
 				}		/* end: button doubleclicked */
 			}
-#endif
+#endif /* CURSES_MOUSE */
 			/*****************************************************************************/
 		}
 		if ((key == keys.quit_2) ||(key == keys.quit_1))

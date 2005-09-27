@@ -179,10 +179,8 @@ parse_line(char *line)
 	char *temp;
 	int *fore = NULL;
 	int *key = NULL;
-#ifdef HAS_CURSES
 	int *back = NULL, *bold = NULL, *blink = NULL, *p = NULL;
 	int i;
-#endif /* HAS_CURSES */
 
 	if (line[0] == '#')
 		return 0;
@@ -877,10 +875,8 @@ parse_line(char *line)
 					*key = KEY_F(11);
 				else if (!(strncmp(temp + 4, "F(12)", 5)))
 					*key = KEY_F(12);
-#ifdef USE_NCURSES
 				else if (!(strncmp(temp + 4, "END", 3)))
 					*key = KEY_END;
-#endif
 				else if (!(strncmp(temp + 4, "CTRL", 4)))
 				{
 					if (!(temp = skip_whitespace(temp + 8)))
