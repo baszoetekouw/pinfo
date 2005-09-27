@@ -1063,7 +1063,7 @@ skip_search:
 			/*==========================================================================*/
 			/**************************** end of keyboard handling **********************/
 			/******************************** mouse handler *****************************/
-#ifdef NCURSES_MOUSE_VERSION
+#ifdef CURSES_MOUSE
 			if (key == KEY_MOUSE)
 			{
 				MEVENT mouse;
@@ -1166,7 +1166,7 @@ skip_search:
 						ungetch(keys.pgdn_1);
 				}		/* end: button doubleclicked */
 			}
-#endif
+#endif /* NCURSES_MOUSE */
 			/*****************************************************************************/
 		}
 		if ((key == keys.quit_2) ||(key == keys.quit_1))

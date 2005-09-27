@@ -104,44 +104,36 @@ AM_CONDITIONAL(HAS_READLINE, test "$has_readline" = true)
 
 # curses
 AC_CHECK_CURSES
-if  test "$has_curses" = false; then
+if ! test "x$USE_CURSES" = "xtrue"; then
 	AC_MSG_ERROR([Curses not found. You need curses to compile pinfo])
 fi
 LIBS="$LIBS $CURSES_LIBS"
-CPPFLAGS="$CPPFLAGS $CURSES_INCLUDES"
+CPPFLAGS="$CPPFLAGS $CURSES_INCLUDES $CURSES_FLAGS"
 
 # check for some functions in curses
 AC_CHECK_FUNCS(curs_set use_default_colors bkgdset)
 
-# check if our curses lib knows about KEY_END
-AC_MSG_CHECKING(for KEY_END in curses)
-KEY_END=""
-AC_EGREP_CPP(HAVE_KEY_END,	
-[
-	#if defined(RENAMED_NCURSES) or !defined(USE_NCURSES)
-	#include <curses.h>
-	#else
-	#include <ncurses.h>
-	#endif
-
-	#ifdef KEY_END
-		HAVE_KEY_END
-	#endif
-],
-[
-	AC_DEFINE(HAVE_KEY_END,1,[defined if curses has KEY_END definition]) 
-	KEY_END="KEY_END" 
+# define the MAN_KEY_END var based on the curses support of KEY_END
+if test "x$CURSES_KEY_END" = "xtrue"
+then
 	MAN_KEY_END="End Key"
-	AC_MSG_RESULT(yes)
-],
-[
-	AC_MSG_RESULT(no) 
-	KEY_END="\'E\'"
+else
 	MAN_KEY_END="E"
-])
+fi
+AC_SUBST(MAN_KEY_END)
 
 ####################################################
-## i18n, t10n stuff
+## wchar stuff
+####################################################
+AC_CHECK_WCHAR
+if test "x$USE_WCHAR" = "xtrue"
+then
+	CPPFLAGS="$CPPFLAGS $WCHAR_FLAGS"
+fi
+
+
+####################################################
+## locales
 ####################################################
 # the languages for which we have .po files
 ALL_LINGUAS="pl cs sv de ru ja nl"

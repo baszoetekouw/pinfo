@@ -25,6 +25,11 @@ RCSID("$Id$")
 
 #include <regex.h>
 #include <ctype.h>
+#include <sys/select.h>
+
+#ifdef USE_WCHAR
+  #include <wchar.h>
+#endif
 
 char *safe_user = "nobody";
 char *safe_group = "nogroup";
@@ -284,9 +289,8 @@ init_curses()
 	/*  meta(stdscr, TRUE); */
 	initcolors();
 	shell_cursor = curs_set(0);
-#ifdef NCURSES_MOUSE_VERSION
+#ifdef CURSES_MOUSE
 	mousemask(BUTTON1_CLICKED | BUTTON1_DOUBLE_CLICKED, NULL);
-/* NCURSES_MOUSE_VERSION */
 #endif
 	curses_open = 1;
 }
@@ -583,3 +587,70 @@ check_node_name( const char * const node_name, const char * const node_header)
 	}
 }
 
+
+/* 
+ * The wcswidth function returns the number of columns needed to represent
+ * the  wide-character  string pointed to by s, but at most n wide charac‐
+ * ters. If a non-printable wide character occurs among these  characters,
+ * -1 is returned.
+ */
+#if defined(USE_WCHAR) && !defined(HAVE_WCSWIDTH)
+int
+wcswidth(const wchar_t *wstr, size_t max_len)
+{
+	int width = 0;
+	size_t i;
+	size_t len = wcslen(wstr);
+
+	/* never count more than max_len chars */
+	if (len>max_len) len=max_len;
+			
+	for (i=0; i<len; i++)
+	{
+		if (!iswprint(wstr[i])) return -1;
+		width += wcwidth(wstr[i]);
+	}
+
+	return width;
+}
+#endif /* USE_WCHAR && !HAVE_WCSWIDTH */
+
+
+/* calculcate length of string, handling multibyte strings correctly 
+ * returns value <= len
+ */
+int
+width_of_string( const char * const mbs, const int len)
+{
+	if (len<0) return -1;
+	if (len==0) return 0;
+
+	int width;
+
+	/* copy the string to a local buffer, because we only want to 
+	 * compare the first len bytes */
+	char *str = xmalloc(len+1);
+	memcpy(str, mbs, len);
+	
+#ifdef USE_WCHAR
+
+	/* allocate a widestring */
+	wchar_t *wstr = xmalloc( (len+1)*sizeof(wchar_t) );
+	
+	mbstowcs(wstr, str, len);
+	width = wcswidth(wstr, len);
+
+	/* clean up */
+	xfree(wstr);
+	
+#else /* USE_WCHAR */
+
+	width = strlen(str);
+		
+#endif /* USE_WCHAR */
+		
+	/* clean up */
+	xfree(str);
+
+	return width;
+}

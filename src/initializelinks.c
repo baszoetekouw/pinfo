@@ -93,16 +93,22 @@ int
 calculate_len(char *start, char *end)
 {
 	int len = 0;
-	while (start < end)
+	char *c = start;
+	while (c < end)
 	{
-		len++;
-		if (*start == '\t')
+		if (*c == '\t')
 		{
-			len--;
-			len +=(8 -((len) -(((len) >> 3) << 3)));
+			/* now, first count everything leading up to this position */
+			len += width_of_string(start, c - start);
+			start = c+1;
+			/* then add the extra width of the tab */
+			len = ( len & ~0x07 ) + 0x08;
 		}
-		start++;
+		c++;
 	}
+	/* then count everything after the last tab */
+	len += width_of_string(start, c - start);
+	
 	return len;
 }
 

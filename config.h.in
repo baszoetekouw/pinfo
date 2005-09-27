@@ -5,15 +5,27 @@
    */
 #undef CRAY_STACKSEG_END
 
+/* Defined if curses has support for colors */
+#undef CURSES_COLORS
+
+/* Name of the ncurses.h file that should be included */
+#undef CURSES_H_NAME
+
+/* Defined if curses has KEY_END definition */
+#undef CURSES_KEY_END
+
+/* Defined if curses has support for mouse events */
+#undef CURSES_MOUSE
+
+/* Does curses have support for non-iso8859 charsets? */
+#undef CURSES_WCHAR
+
 /* Define to 1 if using `alloca.c'. */
 #undef C_ALLOCA
 
 /* Define to 1 if translation of program messages to the user's native
    language is requested. */
 #undef ENABLE_NLS
-
-/* Found some version of curses that we're going to use */
-#undef HAS_CURSES
 
 /* Defined if found readline */
 #undef HAS_READLINE
@@ -111,9 +123,6 @@
 /* Define if <inttypes.h> exists, doesn't clash with <sys/types.h>, and
    declares uintmax_t. */
 #undef HAVE_INTTYPES_H_WITH_UINTMAX
-
-/* defined if curses has KEY_END definition */
-#undef HAVE_KEY_END
 
 /* Define if you have <langinfo.h> and nl_langinfo(CODESET). */
 #undef HAVE_LANGINFO_CODESET
@@ -239,6 +248,9 @@
 /* Define to 1 if you have the `wcslen' function. */
 #undef HAVE_WCSLEN
 
+/* Defined if wcswidth() is available in <wchar.h> */
+#undef HAVE_WCSWIDTH
+
 /* Define if you have the 'wint_t' type. */
 #undef HAVE_WINT_T
 
@@ -263,13 +275,6 @@
 /* Define if integer division by zero raises signal SIGFPE. */
 #undef INTDIV0_RAISES_SIGFPE
 
-/* Set to reflect version of ncurses 0 = version 1. 1 = version 1.9.9g 2 =
-   version 4.0/4.1 */
-#undef NCURSES_970530
-
-/* If you Curses does not have color define this one */
-#undef NO_COLOR_CURSES
-
 /* Package name */
 #undef PACKAGE
 
@@ -291,9 +296,6 @@
 /* Define if <inttypes.h> exists and defines unusable PRI* macros. */
 #undef PRI_MACROS_BROKEN
 
-/* Define if you want to turn on SCO-specific code */
-#undef SCO_FLAVOR
-
 /* Define as the maximum value of type 'size_t', if the system doesn't define
    it. */
 #undef SIZE_MAX
@@ -309,17 +311,12 @@
 /* Define to 1 if you have the ANSI C header files. */
 #undef STDC_HEADERS
 
-/* Use old BSD curses - not used right now */
-#undef USE_BSD_CURSES
-
 /* Use Ncurses? */
-#undef USE_NCURSES
+#undef USE_CURSES
 
-/* Use SunOS SysV curses? */
-#undef USE_SUNOS_CURSES
-
-/* Use SystemV curses? */
-#undef USE_SYSV_CURSES
+/* Defined if support for wide chars is wanted and supported. wchar.h,
+   wchar_t, mbstowcs(), and friends will be available. */
+#undef USE_WCHAR
 
 /* Package version */
 #undef VERSION

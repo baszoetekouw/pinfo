@@ -911,7 +911,7 @@ initpaths()
 	char emptystr[1] = "";
 	char **paths = NULL;
 	char *infopath = NULL, *langpath = NULL;
-	char *c, *dir, *env;
+	char *c, *dir, *env, *next;
 	char *rawlang = NULL, *lang = NULL, *langshort = NULL;
 	int ret;
 	unsigned int i, j, maxpaths, numpaths = 0, infolen, langlen;
@@ -925,25 +925,33 @@ initpaths()
 	{
 		env = emptystr;
 	}
-	infolen = strlen(env) + strlen(configuredinfopath) + 2;
+	infolen = strlen(env) + strlen(configuredinfopath) + 3;
 	infopath = (char *) xmalloc( infolen );
 	strcat(infopath, env);
 	strcat(infopath, ":");
 	strcat(infopath, configuredinfopath);
+	/* end with a :, otherwise the strchr below will fail for the last entry */
+	strcat(infopath, ":");
 
 	/* alloc the paths[] array */
 	maxpaths = 3 * (charcount( infopath, ':' ) + 1); // *3 for $LANG
 	paths = (char **) xmalloc( maxpaths * sizeof(char *) );
 
 	/* split at ':' and put the path components into paths[] */
-	c = infopath;
-	while ( (dir = strsep(&c, ":")) != NULL )
+	dir = infopath;
+	/* if this actually is a non-empty string, add it to paths[] */
+	while ( (next = strchr(dir, ':')) != NULL )
 	{
-		/* if this actually is a non-empty string, add it to paths[] */
+		*next = '\0';  /* terminate the string */
+		
+		/* if the dir actually is a non-empty string, add it to paths[] */
 		if ( dir && strlen(dir)>0 )
 		{
 			paths[numpaths++] = dir;
 		}
+
+		/* and advance the pointer to the next entry */
+		dir = next+1;
 	}
 
 	/* get the current $LANG, if any (to use for localized info pages) */
