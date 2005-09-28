@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: pinfo-devel@lists.alioth.debian.org\n"
-"POT-Creation-Date: 2005-09-09 21:37+0200\n"
+"POT-Creation-Date: 2005-09-28 19:42+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -31,20 +31,20 @@ msgstr ""
 msgid "Searching for tag table done\n"
 msgstr ""
 
-#: src/filehandling_functions.c:1203
+#: src/filehandling_functions.c:1211
 #, c-format
 msgid "Error: could not open info file\n"
 msgstr ""
 
-#: src/mainfunction.c:143 src/manual.c:971
+#: src/mainfunction.c:143 src/manual.c:975
 msgid "Are you sure you want to print?"
 msgstr ""
 
-#: src/mainfunction.c:195 src/manual.c:1016
+#: src/mainfunction.c:195 src/manual.c:1020
 msgid "Enter line: "
 msgstr ""
 
-#: src/mainfunction.c:236 src/manual.c:1063
+#: src/mainfunction.c:236 src/manual.c:1067
 msgid "Enter command: "
 msgstr ""
 
@@ -52,19 +52,19 @@ msgstr ""
 msgid "Operation failed..."
 msgstr ""
 
-#: src/mainfunction.c:291 src/mainfunction.c:551 src/manual.c:1116
+#: src/mainfunction.c:291 src/mainfunction.c:551 src/manual.c:1120
 msgid "Enter regular expression: "
 msgstr ""
 
-#: src/mainfunction.c:521 src/mainfunction.c:615 src/manual.c:1192
+#: src/mainfunction.c:521 src/mainfunction.c:615 src/manual.c:1196
 msgid "Search string not found..."
 msgstr ""
 
-#: src/mainfunction.c:576 src/manual.c:1149
+#: src/mainfunction.c:576 src/manual.c:1153
 msgid "Invalid regular expression;"
 msgstr ""
 
-#: src/mainfunction.c:578 src/manual.c:1151
+#: src/mainfunction.c:578 src/manual.c:1155
 msgid "Press any key to continue..."
 msgstr ""
 
@@ -77,63 +77,63 @@ msgstr ""
 msgid "Node %s not found"
 msgstr ""
 
-#: src/mainfunction.c:1178 src/manual.c:1542
+#: src/mainfunction.c:1178 src/manual.c:1546
 msgid "Are you sure you want to quit?"
 msgstr ""
 
-#: src/manual.c:314
+#: src/manual.c:315
 #, c-format
 msgid "Error: Cannot call man command.\n"
 msgstr ""
 
-#: src/manual.c:323
+#: src/manual.c:324
 #, c-format
 msgid "Error: No manual page found either.\n"
 msgstr ""
 
-#: src/manual.c:326
+#: src/manual.c:327
 #, c-format
 msgid "Apropos pages:\n"
 msgstr ""
 
-#: src/manual.c:369
+#: src/manual.c:370
 msgid "Calling gunzip for"
 msgstr ""
 
-#: src/manual.c:375
+#: src/manual.c:376
 #, c-format
 msgid "Couldn't call gunzip.\n"
 msgstr ""
 
-#: src/manual.c:412
+#: src/manual.c:413
 msgid "IGNORING"
 msgstr ""
 
-#: src/manual.c:455
+#: src/manual.c:456
 #, c-format
 msgid "Error: No manual page found\n"
 msgstr ""
 
-#: src/manual.c:460
+#: src/manual.c:461
 #, c-format
 msgid "Calling apropos \n"
 msgstr ""
 
-#: src/manual.c:465
+#: src/manual.c:466
 #, c-format
 msgid "Nothing appropiate\n"
 msgstr ""
 
-#: src/manual.c:985
+#: src/manual.c:989
 msgid "Enter manual name: "
 msgstr ""
 
-#: src/manual.c:1625 src/video.c:114
+#: src/manual.c:1629 src/video.c:114
 #, c-format
 msgid "Viewing line %d/%d, %d%%"
 msgstr ""
 
-#: src/manual.c:1627 src/video.c:116
+#: src/manual.c:1631 src/video.c:116
 #, c-format
 msgid "Viewing line %d/%d, 100%%"
 msgstr ""
@@ -148,23 +148,23 @@ msgstr ""
 msgid "Parse error in config file on line %d\n"
 msgstr ""
 
-#: src/utils.c:117 src/utils.c:173
+#: src/utils.c:122 src/utils.c:178
 #, c-format
 msgid "Virtual memory exhausted\n"
 msgstr ""
 
-#: src/utils.c:227
+#: src/utils.c:232
 #, c-format
 msgid ""
 "Illegal characters in filename!\n"
 "*** %s\n"
 msgstr ""
 
-#: src/utils.c:432
+#: src/utils.c:436
 msgid "yes"
 msgstr ""
 
-#: src/utils.c:433
+#: src/utils.c:437
 msgid "no"
 msgstr ""
 
@@ -188,22 +188,22 @@ msgstr ""
 msgid "Up:"
 msgstr ""
 
-#: src/pinfo.c:112 src/pinfo.c:197
+#: src/pinfo.c:113 src/pinfo.c:198
 #, c-format
 msgid "Looking for man page...\n"
 msgstr ""
 
-#: src/pinfo.c:150
+#: src/pinfo.c:151
 #, c-format
 msgid "--node option used without argument\n"
 msgstr ""
 
-#: src/pinfo.c:160
+#: src/pinfo.c:161
 #, c-format
 msgid "--rcfile option used without argument\n"
 msgstr ""
 
-#: src/pinfo.c:171
+#: src/pinfo.c:172
 #, c-format
 msgid ""
 "Usage:\n"
@@ -228,50 +228,58 @@ msgid ""
 "    --rcfile=file, --rcfile file      use alternate rcfile\n"
 msgstr ""
 
-#: src/pinfo.c:311
+#: src/pinfo.c:312
 #, c-format
 msgid "Error: could not open info file, trying manual\n"
 msgstr ""
 
-#: src/pinfo.c:344
+#: src/pinfo.c:345
 #, c-format
 msgid "Warning: tag table not found...\n"
 msgstr ""
 
-#: src/pinfo.c:348
+#: src/pinfo.c:349
 #, c-format
 msgid "Trying to create alternate tag table...\n"
 msgstr ""
 
-#: src/pinfo.c:353 src/pinfo.c:502
+#: src/pinfo.c:354 src/pinfo.c:564
 #, c-format
 msgid "This doesn't look like info file...\n"
 msgstr ""
 
-#: src/pinfo.c:366
+#: src/pinfo.c:367
 #, c-format
 msgid "Specified node does not exist...\n"
 msgstr ""
 
-#: src/pinfo.c:424
+#: src/pinfo.c:419
+msgid "Tag table is corrupt, trying to fix..."
+msgstr ""
+
+#: src/pinfo.c:420
+msgid "press a key to continue"
+msgstr ""
+
+#: src/pinfo.c:486
 msgid "File not found. Press any key..."
 msgstr ""
 
-#: src/pinfo.c:444
+#: src/pinfo.c:506
 #, c-format
 msgid "Unexpected error.\n"
 msgstr ""
 
-#: src/pinfo.c:497
+#: src/pinfo.c:559
 msgid "Tag table not found. Trying to create alternate..."
 msgstr ""
 
-#: src/pinfo.c:583
+#: src/pinfo.c:645
 #, c-format
 msgid "Security warning: Unable to get GID of group called: %s\n"
 msgstr ""
 
-#: src/pinfo.c:603
+#: src/pinfo.c:665
 #, c-format
 msgid "Security warning: Unable to get UID of user called: %s\n"
 msgstr ""
