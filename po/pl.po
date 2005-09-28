@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: pinfo-0.6.8\n"
 "Report-Msgid-Bugs-To: pinfo-devel@lists.alioth.debian.org\n"
-"POT-Creation-Date: 2005-09-09 21:37+0200\n"
+"POT-Creation-Date: 2005-09-28 19:42+0200\n"
 "PO-Revision-Date: 2003-08-21 11:22+0200\n"
 "Last-Translator: Przemek Borys <pborys@dione.ids.pl>\n"
 "Language-Team:\n"
@@ -29,26 +29,26 @@ msgstr "Ostrze¿enie: Nie znalaz³em tablicy mapowañ (tag table)..."
 msgid "Searching for tag table done\n"
 msgstr "Zakoñczono poszukiwanie tablicy mapowañ\n"
 
-#: src/filehandling_functions.c:1203
+#: src/filehandling_functions.c:1211
 #, c-format
 msgid "Error: could not open info file\n"
 msgstr "B³ad: nie mog³em otworzyæ pliku info\n"
 
-#: src/mainfunction.c:143 src/manual.c:971
+#: src/mainfunction.c:143 src/manual.c:975
 msgid "Are you sure you want to print?"
 msgstr "Czy na pewno chcesz drukowaæ?"
 
 #
 # Go line messages
 #
-#: src/mainfunction.c:195 src/manual.c:1016
+#: src/mainfunction.c:195 src/manual.c:1020
 msgid "Enter line: "
 msgstr "Podaj liniê: "
 
 #
 # Shellfeed messages
 #
-#: src/mainfunction.c:236 src/manual.c:1063
+#: src/mainfunction.c:236 src/manual.c:1067
 msgid "Enter command: "
 msgstr "Podaj komendê: "
 
@@ -59,20 +59,20 @@ msgstr "Operacja siê nie powiod³a..."
 #
 # Regexp search messages
 #
-#: src/mainfunction.c:291 src/mainfunction.c:551 src/manual.c:1116
+#: src/mainfunction.c:291 src/mainfunction.c:551 src/manual.c:1120
 #, fuzzy
 msgid "Enter regular expression: "
 msgstr "Podaj regexp: "
 
-#: src/mainfunction.c:521 src/mainfunction.c:615 src/manual.c:1192
+#: src/mainfunction.c:521 src/mainfunction.c:615 src/manual.c:1196
 msgid "Search string not found..."
 msgstr "Szukany ³añcuch nie zosta³ znaleziony..."
 
-#: src/mainfunction.c:576 src/manual.c:1149
+#: src/mainfunction.c:576 src/manual.c:1153
 msgid "Invalid regular expression;"
 msgstr ""
 
-#: src/mainfunction.c:578 src/manual.c:1151
+#: src/mainfunction.c:578 src/manual.c:1155
 msgid "Press any key to continue..."
 msgstr ""
 
@@ -90,11 +90,11 @@ msgid "Node %s not found"
 msgstr "Wêze³ %s nie istnieje"
 
 # Dialogs
-#: src/mainfunction.c:1178 src/manual.c:1542
+#: src/mainfunction.c:1178 src/manual.c:1546
 msgid "Are you sure you want to quit?"
 msgstr "Czy na pewno chcesz zakoñczyæ pracê?"
 
-#: src/manual.c:314
+#: src/manual.c:315
 #, c-format
 msgid "Error: Cannot call man command.\n"
 msgstr "B³±d: Nie mogê wywo³aæ komendy man.\n"
@@ -103,27 +103,27 @@ msgstr "B³±d: Nie mogê wywo³aæ komendy man.\n"
 # Manual messages
 #
 # loading:
-#: src/manual.c:323
+#: src/manual.c:324
 #, c-format
 msgid "Error: No manual page found either.\n"
 msgstr "B³ad: Nie ma równie¿ pasuj±cej strony podrêcznika man.\n"
 
 # apropos:
-#: src/manual.c:326
+#: src/manual.c:327
 #, fuzzy, c-format
 msgid "Apropos pages:\n"
 msgstr "Odpowiadaj±ce zapytaniu strony:\n"
 
-#: src/manual.c:369
+#: src/manual.c:370
 msgid "Calling gunzip for"
 msgstr "Wo³am gunzip dla"
 
-#: src/manual.c:375
+#: src/manual.c:376
 #, c-format
 msgid "Couldn't call gunzip.\n"
 msgstr "Nie mog³em wywo³aæ gunzip.\n"
 
-#: src/manual.c:412
+#: src/manual.c:413
 msgid "IGNORING"
 msgstr "IGNORUJÊ"
 
@@ -131,17 +131,17 @@ msgstr "IGNORUJÊ"
 # Manual messages
 #
 # loading:
-#: src/manual.c:455
+#: src/manual.c:456
 #, fuzzy, c-format
 msgid "Error: No manual page found\n"
 msgstr "B³ad: Nie ma równie¿ pasuj±cej strony podrêcznika man.\n"
 
-#: src/manual.c:460
+#: src/manual.c:461
 #, c-format
 msgid "Calling apropos \n"
 msgstr ""
 
-#: src/manual.c:465
+#: src/manual.c:466
 #, c-format
 msgid "Nothing appropiate\n"
 msgstr ""
@@ -149,12 +149,12 @@ msgstr ""
 #
 # Goto messages
 #
-#: src/manual.c:985
+#: src/manual.c:989
 #, fuzzy
 msgid "Enter manual name: "
 msgstr "Podaj nazwê wêz³a: "
 
-#: src/manual.c:1625 src/video.c:114
+#: src/manual.c:1629 src/video.c:114
 #, c-format
 msgid "Viewing line %d/%d, %d%%"
 msgstr "Przegl±danie linii %d/%d, %d%%"
@@ -162,7 +162,7 @@ msgstr "Przegl±danie linii %d/%d, %d%%"
 #
 # Viewer messages
 #
-#: src/manual.c:1627 src/video.c:116
+#: src/manual.c:1631 src/video.c:116
 #, c-format
 msgid "Viewing line %d/%d, 100%%"
 msgstr "Przegl±danie linii %d/%d, 100%%"
@@ -183,7 +183,7 @@ msgstr "B³±d sk³adni w linii %d pliku konfiguracyjnego\n"
 #
 # Out of memory message
 #
-#: src/utils.c:117 src/utils.c:173
+#: src/utils.c:122 src/utils.c:178
 #, c-format
 msgid "Virtual memory exhausted\n"
 msgstr "Brak pamiêci\n"
@@ -192,7 +192,7 @@ msgstr "Brak pamiêci\n"
 # Message for procedure, which checks the command line filename
 #
 # , c-format
-#: src/utils.c:227
+#: src/utils.c:232
 #, c-format
 msgid ""
 "Illegal characters in filename!\n"
@@ -201,11 +201,11 @@ msgstr ""
 "W nazwie pliku znajduj± siê niedozwolone znaki!\n"
 "*** %s\n"
 
-#: src/utils.c:432
+#: src/utils.c:436
 msgid "yes"
 msgstr "tak"
 
-#: src/utils.c:433
+#: src/utils.c:437
 msgid "no"
 msgstr "nie"
 
@@ -229,7 +229,7 @@ msgstr "Poprzedni:"
 msgid "Up:"
 msgstr "Góra:"
 
-#: src/pinfo.c:112 src/pinfo.c:197
+#: src/pinfo.c:113 src/pinfo.c:198
 #, c-format
 msgid "Looking for man page...\n"
 msgstr "Szukam strony podrêcznika man...\n"
@@ -237,12 +237,12 @@ msgstr "Szukam strony podrêcznika man...\n"
 #
 # error messages when loading
 #
-#: src/pinfo.c:150
+#: src/pinfo.c:151
 #, c-format
 msgid "--node option used without argument\n"
 msgstr "opcja --node bez argumentu\n"
 
-#: src/pinfo.c:160
+#: src/pinfo.c:161
 #, c-format
 msgid "--rcfile option used without argument\n"
 msgstr "opcja --rcfile bez argumentu\n"
@@ -251,7 +251,7 @@ msgstr "opcja --rcfile bez argumentu\n"
 # help message
 #
 # , c-format
-#: src/pinfo.c:171
+#: src/pinfo.c:172
 #, c-format
 msgid ""
 "Usage:\n"
@@ -300,50 +300,58 @@ msgstr ""
 "    --node=Wêze³, --node Wêze³        Przejd¼ do wêz³a Wêze³ strony info\n"
 "    --rcfile=plik, --rcfile plik      U¿yj alternatywnego pliku rc\n"
 
-#: src/pinfo.c:311
+#: src/pinfo.c:312
 #, c-format
 msgid "Error: could not open info file, trying manual\n"
 msgstr "B³±d: nie ma takiego pliku info, próbujê podrêcznika man\n"
 
-#: src/pinfo.c:344
+#: src/pinfo.c:345
 #, c-format
 msgid "Warning: tag table not found...\n"
 msgstr "Ostrze¿enie: nie znalaz³em tablicy mapowañ (tag table)...\n"
 
-#: src/pinfo.c:348
+#: src/pinfo.c:349
 #, c-format
 msgid "Trying to create alternate tag table...\n"
 msgstr "Próbujê utworzyæ alternatywn± tablicê mapowañ...\n"
 
-#: src/pinfo.c:353 src/pinfo.c:502
+#: src/pinfo.c:354 src/pinfo.c:564
 #, c-format
 msgid "This doesn't look like info file...\n"
 msgstr "Nie wygl±da mi to na plik info...\n"
 
-#: src/pinfo.c:366
+#: src/pinfo.c:367
 #, c-format
 msgid "Specified node does not exist...\n"
 msgstr "Podany wêze³ nie istnieje...\n"
 
-#: src/pinfo.c:424
+#: src/pinfo.c:419
+msgid "Tag table is corrupt, trying to fix..."
+msgstr ""
+
+#: src/pinfo.c:420
+msgid "press a key to continue"
+msgstr ""
+
+#: src/pinfo.c:486
 msgid "File not found. Press any key..."
 msgstr "Nie znalaz³em pliku. Naci¶nij dowolny klawisz..."
 
-#: src/pinfo.c:444
+#: src/pinfo.c:506
 #, c-format
 msgid "Unexpected error.\n"
 msgstr "Nieoczekiwany b³±d.\n"
 
-#: src/pinfo.c:497
+#: src/pinfo.c:559
 msgid "Tag table not found. Trying to create alternate..."
 msgstr "Nie znalaz³em tablicy mapowañ. Próbujê j± odgadn±æ..."
 
-#: src/pinfo.c:583
+#: src/pinfo.c:645
 #, c-format
 msgid "Security warning: Unable to get GID of group called: %s\n"
 msgstr "Ostrze¿enie bezpieczeñstwa: Nie mogê pobraæ GID grupy: %s\n"
 
-#: src/pinfo.c:603
+#: src/pinfo.c:665
 #, c-format
 msgid "Security warning: Unable to get UID of user called: %s\n"
 msgstr "Ostrze¿enie bezpieczeñstwa: Nie mogê pobraæ UID u¿ytkownika: %s\n"
