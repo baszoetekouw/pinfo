@@ -74,13 +74,8 @@ dnl	CFLAGS=${CFLAGS--O}
 
 	if $has_readline
 	then
+		AC_DEFINE(HAS_READLINE)
 		AC_READLINE_VERSION()
-		if test $readline_version -ge 5
-		then
-			AC_DEFINE(HAS_READLINE)
-		else
-			AC_MSG_RESULT(Readline version $readline_version is too old; needs at least version 5)
-		fi
 	fi
 
 

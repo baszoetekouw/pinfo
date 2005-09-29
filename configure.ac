@@ -100,7 +100,20 @@ AC_PROG_LIBTOOL
 ####################################################
 # readline
 AC_CHECK_READLINE
-AM_CONDITIONAL(HAS_READLINE, test "$has_readline" = true)
+
+# if we have readline, it needs to be version 5
+if test "x$has_readline" = "xtrue"
+then 
+	if test "x$readline_version" = "x5"
+	then 
+		AM_CONDITIONAL(HAS_READLINE, test "$has_readline" = true)
+	else
+		AC_MSG_WARN([Version 5 of readline is required to compile pinfo.  
+			Yours is only version $readline_version.
+			Readline support will be disabled.])
+	fi
+fi
+					
 
 # curses
 AC_CHECK_CURSES
