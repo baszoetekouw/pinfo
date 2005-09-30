@@ -1,0 +1,310 @@
+# translation of eu.po to librezale.org
+# translation of pinfo.po to librezale.org
+# This file is distributed under the same license as the PACKAGE package.
+# Copyright (C) YEAR Przemek Borys <pborys@dione.ids.pl>, Bas Zoetekouw <bas@debian.org>, Nathanael Nerode <neroden@gcc.gnu.org>.
+# Piarres Beobide <pi@beobide.net>, 2005.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: eu\n"
+"Report-Msgid-Bugs-To: pinfo-devel@lists.alioth.debian.org\n"
+"POT-Creation-Date: 2005-09-28 19:42+0200\n"
+"PO-Revision-Date: 2005-09-28 23:14+0200\n"
+"Last-Translator: Piarres Beobide <pi@beobide.net>\n"
+"Language-Team: librezale.org <librezale@librezale.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: KBabel 1.10.2\n"
+
+#: src/filehandling_functions.c:469 src/filehandling_functions.c:476
+#, c-format
+#, fuzzy
+msgid "Searching for indirect done"
+msgstr "Bilaketa eginda"
+
+#: src/filehandling_functions.c:508 src/filehandling_functions.c:515
+#, c-format
+msgid "Warning: could not find tag table"
+msgstr "Abisua: ezin da etiketa taula aurkitu"
+
+#: src/filehandling_functions.c:542
+#, c-format
+msgid "Searching for tag table done\n"
+msgstr "Etiketa taula bilaketa eginda\n"
+
+#: src/filehandling_functions.c:1211
+#, c-format
+msgid "Error: could not open info file\n"
+msgstr "Errorea: ezin da info fitxategia ireki\n"
+
+#: src/mainfunction.c:143 src/manual.c:975
+msgid "Are you sure you want to print?"
+msgstr "Inprimatu nahi duzula ziur al zaude?"
+
+#: src/mainfunction.c:195 src/manual.c:1020
+msgid "Enter line: "
+msgstr "Lerroa sartu: "
+
+#: src/mainfunction.c:236 src/manual.c:1067
+msgid "Enter command: "
+msgstr "Komandoa sartu: "
+
+#: src/mainfunction.c:255
+msgid "Operation failed..."
+msgstr "Eragiketa huts egin du..."
+
+#: src/mainfunction.c:291 src/mainfunction.c:551 src/manual.c:1120
+msgid "Enter regular expression: "
+msgstr "Sar espresio erregularra: "
+
+#: src/mainfunction.c:521 src/mainfunction.c:615 src/manual.c:1196
+msgid "Search string not found..."
+msgstr "Bilaketa katea ez da aurkitu..."
+
+#: src/mainfunction.c:576 src/manual.c:1153
+msgid "Invalid regular expression;"
+msgstr "Espresio erregula baliogabea;"
+
+#: src/mainfunction.c:578 src/manual.c:1155
+msgid "Press any key to continue..."
+msgstr "Zapaldu edozein tekla jarraitzeko..."
+
+#: src/mainfunction.c:644
+msgid "Enter node name: "
+msgstr "Sartu nodo izena: "
+
+#: src/mainfunction.c:720
+#, c-format
+msgid "Node %s not found"
+msgstr "%s nodoa ez da aurkitu"
+
+#: src/mainfunction.c:1178 src/manual.c:1546
+msgid "Are you sure you want to quit?"
+msgstr "Itxi nahi duzula ziur al zaude?"
+
+#: src/manual.c:315
+#, c-format
+msgid "Error: Cannot call man command.\n"
+msgstr "Errorea: Ezin da man komandoa deitu.\n"
+
+#: src/manual.c:324
+#, c-format
+msgid "Error: No manual page found either.\n"
+msgstr "Errorea: Manual orria ere ezin da aurkitu.\n"
+
+#: src/manual.c:327
+#, c-format
+msgid "Apropos pages:\n"
+msgstr "Apropos orriak:\n"
+
+#: src/manual.c:370
+msgid "Calling gunzip for"
+msgstr "gunzip deitzen"
+
+#: src/manual.c:376
+#, c-format
+msgid "Couldn't call gunzip.\n"
+msgstr "Ezin da gunzip abiarazi.\n"
+
+#: src/manual.c:413
+msgid "IGNORING"
+msgstr "ALDA BATETARA UZTEN"
+
+#: src/manual.c:456
+#, c-format
+msgid "Error: No manual page found\n"
+msgstr "Errorea: Ez da manual orria aurkitu\n"
+
+#: src/manual.c:461
+#, c-format
+msgid "Calling apropos \n"
+msgstr "apropos abiarazten \n"
+
+#: src/manual.c:466
+#, c-format
+msgid "Nothing appropiate\n"
+msgstr "Baliozko ezer ez\n"
+
+#: src/manual.c:989
+msgid "Enter manual name: "
+msgstr "Sar manual izena: "
+
+#: src/manual.c:1629 src/video.c:114
+#, c-format
+msgid "Viewing line %d/%d, %d%%"
+msgstr "%d/%d, %d%% lerroa bistarazten"
+
+#: src/manual.c:1631 src/video.c:116
+#, c-format
+msgid "Viewing line %d/%d, 100%%"
+msgstr "%d/%d, 100%% lerroa bistarazten"
+
+#: src/parse_config.c:113
+#, c-format
+msgid "Can't open config file!\n"
+msgstr "Ezin da konfigurazio fitxatgia ireki!\n"
+
+#: src/parse_config.c:163
+#, c-format
+msgid "Parse error in config file on line %d\n"
+msgstr "Analisi errorea konfigruazio fotxategiko %d lerroan\n"
+
+#: src/utils.c:122 src/utils.c:178
+#, c-format
+msgid "Virtual memory exhausted\n"
+msgstr "Memoria birtuala agorturik\n"
+
+#: src/utils.c:232
+#, c-format
+msgid ""
+"Illegal characters in filename!\n"
+"*** %s\n"
+msgstr ""
+"karakterera baliogabeak Fitxategi-izenean!\n"
+"*** %s\n"
+
+#: src/utils.c:436
+msgid "yes"
+msgstr "bai"
+
+#: src/utils.c:437
+msgid "no"
+msgstr "ez"
+
+#: src/video.c:61
+msgid "File:"
+msgstr "Fitxategia:"
+
+#: src/video.c:62
+msgid "Node:"
+msgstr "Nodoa:"
+
+#: src/video.c:63
+msgid "Next:"
+msgstr "Hurrengoa:"
+
+#: src/video.c:64
+msgid "Prev:"
+msgstr "Aurrekoa:"
+
+#: src/video.c:65
+msgid "Up:"
+msgstr "Gora:"
+
+#: src/pinfo.c:113 src/pinfo.c:198
+#, c-format
+msgid "Looking for man page...\n"
+msgstr "Man orrialdea bilatzen...\n"
+
+#: src/pinfo.c:151
+#, c-format
+msgid "--node option used without argument\n"
+msgstr "--node aukera argumenturik gabe erabilia\n"
+
+#: src/pinfo.c:161
+#, c-format
+msgid "--rcfile option used without argument\n"
+msgstr "--rcfile aukera argumenturik gabe erabilia\n"
+
+#: src/pinfo.c:172
+#, c-format
+msgid ""
+"Usage:\n"
+"%s [options] [info|manual]\n"
+"Options:\n"
+"-h, --help                            help\n"
+"-v, --version                         version\n"
+"-m, --manual                          use man page\n"
+"-r, --raw-filename                    use raw filename\n"
+"-f, --file                            synonym for -r\n"
+"-a, --apropos                         call apropos if nothing found\n"
+"-p, --plain-apropos                   call only apropos\n"
+"-c, --cut-man-headers                 cut out repeated man headers\n"
+"-l, --long-manual-links               use long link names in manuals\n"
+"-s, --squeeze-manlines                cut empty lines from manual pages\n"
+"-d, --dont-handle-without-tag-table   don't display texinfo pages without "
+"tag\n"
+"                                      tables\n"
+"-t, --force-manual-tag-table          force manual detection of tag table\n"
+"-x, --clear-at-exit                   clear screen at exit\n"
+"    --node=nodename, --node nodename  jump directly to the node nodename\n"
+"    --rcfile=file, --rcfile file      use alternate rcfile\n"
+msgstr ""
+"Erabilera:\n"
+"%s [aukerak] [info|manual]\n"
+"Aukerak:\n"
+"-h, --help                            laguntza\n"
+"-v, --version                         bertsioa\n"
+"-m, --manual                          man orria erabili\n"
+"-r, --raw-filename                    fitxatgi gordina erabili\n"
+"-f, --file                            -r-ren sinonimoa\n"
+"-a, --apropos                         apropos abiarazi ezer aurkitu ezkero\n"
+"-p, --plain-apropos                   apropos abiarazi bakarrik\n"
+"-c, --cut-man-headers                 moztu errepikatutako manual buruak\n"
+"-l, --long-manual-links               lotura izen luzeak erabili manualetan\n"
+"-s, --squeeze-manlines                moztu lerro hutsak manual orrietatik\n"
+"-d, --dont-handle-without-tag-table   ez bistarazi etiketa taula gabeko "
+"texinfo\n"
+"                                      orriak\n"
+"-t, --force-manual-tag-table          indartu eskuzko etiketa taula atzematea\n"
+"-x, --clear-at-exit                   ixterakoan pantaila garbitu\n"
+"    --node=nodename, --node nodename  zuzenean node nodo-izenera salto egin\n"
+"    --rcfile=file, --rcfile file      beste rcfile bat erabili\n"
+
+#: src/pinfo.c:312
+#, c-format
+msgid "Error: could not open info file, trying manual\n"
+msgstr "Errorea: ezin da info fitxategia ireki, manualarekin saiatzen\n"
+
+#: src/pinfo.c:345
+#, c-format
+msgid "Warning: tag table not found...\n"
+msgstr "Abisua: etiketa taula ez da aurkitu...\n"
+
+#: src/pinfo.c:349
+#, c-format
+msgid "Trying to create alternate tag table...\n"
+msgstr "Beste etiketa taula bat sortzen saiatzen...\n"
+
+#: src/pinfo.c:354 src/pinfo.c:564
+#, c-format
+msgid "This doesn't look like info file...\n"
+msgstr "Honek ez dirudi info fitxategi bat...\n"
+
+#: src/pinfo.c:367
+#, c-format
+msgid "Specified node does not exist...\n"
+msgstr "Ezarritako nodoa ez dago...\n"
+
+#: src/pinfo.c:419
+msgid "Tag table is corrupt, trying to fix..."
+msgstr "Etiketa taula hondaturik dago, konpontzen saiatzen..."
+
+#: src/pinfo.c:420
+msgid "press a key to continue"
+msgstr "sakatu tekla bat jarraitzeko"
+
+#: src/pinfo.c:486
+msgid "File not found. Press any key..."
+msgstr "Fitxategia ez da aurkitu. Zapaldu edozein tekla..."
+
+#: src/pinfo.c:506
+#, c-format
+msgid "Unexpected error.\n"
+msgstr "Errores esperogabea.\n"
+
+#: src/pinfo.c:559
+msgid "Tag table not found. Trying to create alternate..."
+msgstr "Etiketa taula ez da aurkitu. Beste bat sortzen saiatzen..."
+
+#: src/pinfo.c:645
+#, c-format
+msgid "Security warning: Unable to get GID of group called: %s\n"
+msgstr "Segurtasun abisua: Ezin da talde honen GID-a aurkitu: %s\n"
+
+#: src/pinfo.c:665
+#, c-format
+msgid "Security warning: Unable to get UID of user called: %s\n"
+msgstr "Segurtasun abisua: Ezin da erabiltzaile honen UID-a aurkitu: %s\n"
+
