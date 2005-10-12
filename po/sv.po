@@ -1,161 +1,156 @@
+# Svenska translation of pinfo.
+# Copyright (C) 2005 Free Software Foundation, Inc.
+# Daniel Nylander <po@danielnylander.se>, 2005.
+# 
+# 
+msgid ""
+msgstr ""
+"Project-Id-Version: pinfo 0.6.8-6\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2005-10-06 11:57+0200\n"
+"PO-Revision-Date: 2005-10-06 12:00+0200\n"
+"Last-Translator: Daniel Nylander <po@danielnylander.se>\n"
+"Language-Team: Swedish <sv@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=iso-8859-1\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: "
+
 # pinfo Swedish language module
 #
 # strings for the header-filter of info messages
 # , fuzzy
-msgid ""
-msgstr ""
-"Project-Id-Version: pinfo-0.6.8\n"
-"Report-Msgid-Bugs-To: pinfo-devel@lists.alioth.debian.org\n"
-"POT-Creation-Date: 2005-09-28 19:42+0200\n"
-"PO-Revision-Date: 2003-08-21 11:22+0200\n"
-"Last-Translator:\n"
-"Language-Team: \n"
-"MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=ISO-8859-1\n"
-"Content-Transfer-Encoding: 8bit\n"
 
-#: src/filehandling_functions.c:469 src/filehandling_functions.c:476
-#, c-format
+#
+# Load messages for info pages (version for printf)
+#
+#: src/filehandling_functions.c:393
+msgid "Searching for indirect done\n"
+msgstr "Sökning efter indirekt klar\n"
+
+#: src/filehandling_functions.c:398
 msgid "Searching for indirect done"
 msgstr "Sökning efter indirekt klar"
 
-#: src/filehandling_functions.c:508 src/filehandling_functions.c:515
-#, c-format
+#: src/filehandling_functions.c:425
+msgid "Warning: could not find tag table\n"
+msgstr "Varning: kunde inte finna tag table\n"
+
+#: src/filehandling_functions.c:430
 msgid "Warning: could not find tag table"
 msgstr "Varning: kunde inte finna tag table"
 
-#: src/filehandling_functions.c:542
-#, c-format
+#: src/filehandling_functions.c:457
 msgid "Searching for tag table done\n"
 msgstr "Sökning efter tag table klar\n"
 
-#: src/filehandling_functions.c:1211
-#, c-format
+#: src/filehandling_functions.c:1024
 msgid "Error: could not open info file\n"
 msgstr "Fel: kunde inte öppna info-fil\n"
 
-#: src/mainfunction.c:143 src/manual.c:975
-msgid "Are you sure you want to print?"
-msgstr ""
+#: src/mainfunction.c:125 src/manual.c:865
+msgid "Are you sure to print?"
+msgstr "Är du säker att du vill skriva ut?"
 
 #
 # Regexp search messages
 #
-#: src/mainfunction.c:195 src/manual.c:1020
-#, fuzzy
+#: src/mainfunction.c:177 src/manual.c:908
 msgid "Enter line: "
-msgstr "Skriv regexp: "
+msgstr "Ange linje "
 
 #
 # Shellfeed messages
 #
-#: src/mainfunction.c:236 src/manual.c:1067
+#: src/mainfunction.c:218 src/manual.c:955
 msgid "Enter command: "
 msgstr "Skriv kommando: "
 
-#: src/mainfunction.c:255
+#: src/mainfunction.c:237
 msgid "Operation failed..."
 msgstr "Operationen misslyckades..."
 
 #
 # Regexp search messages
 #
-#: src/mainfunction.c:291 src/mainfunction.c:551 src/manual.c:1120
-#, fuzzy
-msgid "Enter regular expression: "
+#: src/mainfunction.c:273 src/mainfunction.c:543 src/manual.c:1004
+msgid "Enter regexp: "
 msgstr "Skriv regexp: "
 
-#: src/mainfunction.c:521 src/mainfunction.c:615 src/manual.c:1196
-#, fuzzy
+#: src/mainfunction.c:513 src/mainfunction.c:605 src/manual.c:1066
 msgid "Search string not found..."
-msgstr "Varning: tag-table inte funnen...\n"
-
-#: src/mainfunction.c:576 src/manual.c:1153
-msgid "Invalid regular expression;"
-msgstr ""
-
-#: src/mainfunction.c:578 src/manual.c:1155
-msgid "Press any key to continue..."
-msgstr ""
+msgstr "Söksträng inte hittad..."
 
 #
 # Goto messages
 #
-#: src/mainfunction.c:644
+#: src/mainfunction.c:634
 msgid "Enter node name: "
 msgstr "Skriv nod-namn: "
 
 # , c-format
-#: src/mainfunction.c:720
+#: src/mainfunction.c:719
 #, c-format
 msgid "Node %s not found"
 msgstr "Kunde inte hitta nod %s"
 
-#: src/mainfunction.c:1178 src/manual.c:1546
-msgid "Are you sure you want to quit?"
-msgstr ""
+#: src/mainfunction.c:1177 src/manual.c:1412
+msgid "Are you sure to quit?"
+msgstr "Är du säker att du vill avsluta?"
 
-#: src/manual.c:315
-#, c-format
+#: src/manual.c:258
 msgid "Error: Cannot call man command.\n"
-msgstr ""
+msgstr "Fel: Kunde inte kalla upp kommandot 'man'.\n"
 
 #
 # Manual messages
 #
 # loading:
-#: src/manual.c:324
-#, c-format
+#: src/manual.c:267
 msgid "Error: No manual page found either.\n"
 msgstr "Fel: Hittade ingen manual-sida heller.\n"
 
 # apropos:
-#: src/manual.c:327
-#, fuzzy, c-format
-msgid "Apropos pages:\n"
+#: src/manual.c:270
+msgid "Appropriate pages:\n"
 msgstr "Lämpliga sidor:\n"
 
-#: src/manual.c:370
+#: src/manual.c:309
 msgid "Calling gunzip for"
-msgstr ""
+msgstr "Kallar upp gunzip för"
 
-#: src/manual.c:376
-#, c-format
+#: src/manual.c:315
 msgid "Couldn't call gunzip.\n"
-msgstr ""
+msgstr "Kunde inte kalla upp gunzip.\n"
 
-#: src/manual.c:413
+#: src/manual.c:350
 msgid "IGNORING"
-msgstr ""
+msgstr "IGNORERAR"
 
 #
 # Manual messages
 #
 # loading:
-#: src/manual.c:456
-#, fuzzy, c-format
+#: src/manual.c:393
 msgid "Error: No manual page found\n"
-msgstr "Fel: Hittade ingen manual-sida heller.\n"
+msgstr "Fel: Ingen manualsida hittad.\n"
 
-#: src/manual.c:461
-#, c-format
+#: src/manual.c:398
 msgid "Calling apropos \n"
-msgstr ""
+msgstr "Kallar upp apropos \n"
 
-#: src/manual.c:466
-#, c-format
-msgid "Nothing appropiate\n"
-msgstr ""
+#: src/manual.c:403
+msgid "Nothing apropiate\n"
+msgstr "Inget lämpligt\n"
 
 #
 # Goto messages
 #
-#: src/manual.c:989
-#, fuzzy
+#: src/manual.c:878
 msgid "Enter manual name: "
-msgstr "Skriv nod-namn: "
+msgstr "Ange manualnamn:"
 
-#: src/manual.c:1629 src/video.c:114
+#: src/manual.c:1488 src/video.c:90
 #, c-format
 msgid "Viewing line %d/%d, %d%%"
 msgstr "Aktuell rad %d/%d, %d%%"
@@ -163,20 +158,19 @@ msgstr "Aktuell rad %d/%d, %d%%"
 #
 # Viewer messages
 #
-#: src/manual.c:1631 src/video.c:116
+#: src/manual.c:1490 src/video.c:92
 #, c-format
 msgid "Viewing line %d/%d, 100%%"
 msgstr "Aktuell rad %d/%d, 100%%"
 
-#: src/parse_config.c:113
-#, c-format
+#: src/parse_config.c:90
 msgid "Can't open config file!\n"
-msgstr ""
+msgstr "Kunde inte öppna konfigurationsfilen!\n"
 
 #
 # Messages from the config file parsing procedures:
 #
-#: src/parse_config.c:163
+#: src/parse_config.c:138
 #, c-format
 msgid "Parse error in config file on line %d\n"
 msgstr "Syntax-fel i konfigureringsfil på rad %d\n"
@@ -184,179 +178,7 @@ msgstr "Syntax-fel i konfigureringsfil på rad %d\n"
 #
 # Out of memory message
 #
-#: src/utils.c:122 src/utils.c:178
-#, c-format
+#: src/utils.c:99 src/utils.c:153
 msgid "Virtual memory exhausted\n"
 msgstr "Slut på virtuellt minne\n"
 
-#
-# Message for procedure, which checks the command line filename
-#
-# , c-format
-#: src/utils.c:232
-#, c-format
-msgid ""
-"Illegal characters in filename!\n"
-"*** %s\n"
-msgstr ""
-"Otillåtna tecken i filnamnet!\n"
-"*** %s\n"
-
-#: src/utils.c:436
-msgid "yes"
-msgstr "ja"
-
-#: src/utils.c:437
-msgid "no"
-msgstr "nej"
-
-#: src/video.c:61
-msgid "File:"
-msgstr "Fil:"
-
-#: src/video.c:62
-msgid "Node:"
-msgstr "Nod:"
-
-#: src/video.c:63
-msgid "Next:"
-msgstr "Nästa:"
-
-#: src/video.c:64
-msgid "Prev:"
-msgstr "Föregående:"
-
-#: src/video.c:65
-msgid "Up:"
-msgstr "Upp:"
-
-#
-# error messages when loading
-#
-#: src/pinfo.c:113 src/pinfo.c:198
-#, c-format
-msgid "Looking for man page...\n"
-msgstr "Letar efter man-sida...\n"
-
-#: src/pinfo.c:151
-#, c-format
-msgid "--node option used without argument\n"
-msgstr "Alternativ --node använt utan argument\n"
-
-#: src/pinfo.c:161
-#, fuzzy, c-format
-msgid "--rcfile option used without argument\n"
-msgstr "Alternativ --node använt utan argument\n"
-
-#: src/pinfo.c:172
-#, c-format
-msgid ""
-"Usage:\n"
-"%s [options] [info|manual]\n"
-"Options:\n"
-"-h, --help                            help\n"
-"-v, --version                         version\n"
-"-m, --manual                          use man page\n"
-"-r, --raw-filename                    use raw filename\n"
-"-f, --file                            synonym for -r\n"
-"-a, --apropos                         call apropos if nothing found\n"
-"-p, --plain-apropos                   call only apropos\n"
-"-c, --cut-man-headers                 cut out repeated man headers\n"
-"-l, --long-manual-links               use long link names in manuals\n"
-"-s, --squeeze-manlines                cut empty lines from manual pages\n"
-"-d, --dont-handle-without-tag-table   don't display texinfo pages without "
-"tag\n"
-"                                      tables\n"
-"-t, --force-manual-tag-table          force manual detection of tag table\n"
-"-x, --clear-at-exit                   clear screen at exit\n"
-"    --node=nodename, --node nodename  jump directly to the node nodename\n"
-"    --rcfile=file, --rcfile file      use alternate rcfile\n"
-msgstr ""
-
-#: src/pinfo.c:312
-#, c-format
-msgid "Error: could not open info file, trying manual\n"
-msgstr "Fel: kunde inte öppna info-fil, försöker med manual\n"
-
-#: src/pinfo.c:345
-#, c-format
-msgid "Warning: tag table not found...\n"
-msgstr "Varning: tag-table inte funnen...\n"
-
-#: src/pinfo.c:349
-#, c-format
-msgid "Trying to create alternate tag table...\n"
-msgstr "Försöker skapa alternativ tag-table...\n"
-
-#: src/pinfo.c:354 src/pinfo.c:564
-#, c-format
-msgid "This doesn't look like info file...\n"
-msgstr "Det här ser inte ut som en info-fil...\n"
-
-#: src/pinfo.c:367
-#, c-format
-msgid "Specified node does not exist...\n"
-msgstr "Angiven nod existerar inte...\n"
-
-#: src/pinfo.c:419
-msgid "Tag table is corrupt, trying to fix..."
-msgstr ""
-
-#: src/pinfo.c:420
-msgid "press a key to continue"
-msgstr ""
-
-#: src/pinfo.c:486
-msgid "File not found. Press any key..."
-msgstr "Filen finns inte.  Tryck en tangent..."
-
-#: src/pinfo.c:506
-#, c-format
-msgid "Unexpected error.\n"
-msgstr "Oväntat fel.\n"
-
-#: src/pinfo.c:559
-msgid "Tag table not found. Trying to create alternate..."
-msgstr "Tag-table inte funnen.  Försöker skapa alternativ..."
-
-#: src/pinfo.c:645
-#, c-format
-msgid "Security warning: Unable to get GID of group called: %s\n"
-msgstr ""
-
-#: src/pinfo.c:665
-#, c-format
-msgid "Security warning: Unable to get UID of user called: %s\n"
-msgstr ""
-
-#~ msgid "Warning: could not find tag table\n"
-#~ msgstr "Varning: kunde inte finna tag table\n"
-
-#
-# Load messages for info pages (version for printf)
-#
-#~ msgid "Searching for indirect done\n"
-#~ msgstr "Sökning efter indirekt klar\n"
-
-#
-# help message
-#
-# , c-format
-#~ msgid ""
-#~ "Usage:\n"
-#~ "%s [options] [info|manual]\n"
-#~ "Options:\n"
-#~ "--help, -h: help\n"
-#~ "--version, -v: version\n"
-#~ "--manual, -m: use man page\n"
-#~ "--raw-filename, -r: use raw filename\n"
-#~ "--apropos, -a: call apropos if nothing found\n"
-#~ msgstr ""
-#~ "Användning:\n"
-#~ "%s [alternativ] [info|manual]\n"
-#~ "Alternativ:\n"
-#~ "--help, -h: hjälp\n"
-#~ "--version, -v: versionsnummer\n"
-#~ "--manual, -m: använd man-sida\n"
-#~ "--raw-filename, -r: använd rått filnamn\n"
-#~ "--apropos, -a: anropa apropos om inget lämpligt dokument finns\n"
