@@ -146,10 +146,9 @@ msgstr "Nu se poate deschide fişierul de configurare!\n"
 
 #: src/parse_config.c:163
 #, c-format
-#, fuzzy
 # nu sunt sigur că parse se traduce cu „parcurgere”
 msgid "Parse error in config file on line %d\n"
-msgstr "Eroare de examinare în fişierul de configurare la linia %d\n"
+msgstr "Eroare la parcurgerea fişierului de configurare la linia %d\n"
 
 #: src/utils.c:122 src/utils.c:178
 #, c-format
