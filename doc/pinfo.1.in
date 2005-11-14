@@ -17,8 +17,8 @@ The program will then (by default) search for it in
 .IR "/usr/share/info",
 and
 .IR "/usr/local/info".
-The searchpath can be adjusted by INFOPATH environment variable or in config
-file. Pinfo will also automaticaly add the suffix '-info', '-info.Z', '-info.gz', or '-info.bz2'.
+The search path can be adjusted by INFOPATH environment variable or in the configuration
+file. Pinfo will also automatically add the suffix '-info', '-info.Z', '-info.gz', or '-info.bz2'.
 At present other suffixes are not recognized, but you can easily add them to
 the function 
 .I openinfo() 
@@ -48,7 +48,7 @@ Supported options are
 manual pager). \fBWarning\fR: Everything what follows this option is passed
 to the `\fIman\fR' program. Don't be confused if pinfo options, which
 followed `\fB-m\fR' don't work. When using this option, pinfo does not parse
-the info options as ussual! It invokes the man part of program.
+the info options as usual! It invokes the man part of program.
 .P
 You can also call the man function of pinfo in another way. When pinfo is
 called with an argv[0] (the program file name), which contains the word 'man'
@@ -78,25 +78,25 @@ headers. Use with care. ;)
 .P
 .BR "-s",
 .BR "--squeeze-lines" \-
-cut empty lines from manual pages. This option enables autocutting of every
+cut empty lines from manual pages. This option enables auto cutting of every
 repeated newline in a manual page.
 .P
 .BR "-t",
 .BR "--force-manual-tag-table" \-
 forces manual detection of tag table. This allows you to view info pages,
 which may be corrupted. (as i.e. version of jed's pages, shipped with
-RH5.0). The tag table corruption ussualy appears in that the info links,
+RH5.0). The tag table corruption usually appears in that the info links,
 which you follow, move you to quite unexpected nodes.
 .P
 .BR "--node=\fInodename\fB",
 .BR "--node \fInodename\fB" \-
 Go to the node `\fInodename\fR' of info file. Since 0.6.7 it is also
-possible to specify nodes as in standalone info via filenames, like
+possible to specify nodes as in standalone info via file names, like
 `(gcc)Introduction'.
 .P
 .BR "--rcfile=\fIfilename\fB",
 .BR "--rcfile \fIfilename\fB" \-
-Use alternate rcfile.
+Use alternate configuration file.
 .P
 .BR "--long-manual-links",
 .BR "-l" \-
@@ -117,7 +117,7 @@ Warning! If you do not have getopt, these options will not work!
 .P
 .SH DEFAULT KEYS WHEN BROWSING INFO FILE
 .P
-Just take a look at the example config file (below), and at the key 
+Just take a look at the example configuration file (below), and at the key 
 descriptions. Keys available in manual viewer differ a bit from the keys 
 available in info viewer.
 .P
@@ -139,7 +139,7 @@ Here's an example of such a file; we'll discuss the contents below:
 .P
 .nf
 .sp
-# Here are some colour setting.
+# Here are some color setting.
 # Whitespace between the entries is optional.
 COL_NORMAL = COLOR_WHITE, COLOR_BLACK, NO_BOLD, NO_BLINK
 COL_MENUSELECTED = COLOR_RED, COLOR_BLACK, BOLD, NO_BLINK
@@ -232,7 +232,7 @@ names are present in the example, and they're self explanatory, I
 think. There is also a special color COLOR_DEFAULT, which stands for
 transparency). Then you enter the foreground color, and the background
 color. The BOLD attribute means that we want the foreground color to
-be highlighted. (i.e.  lightblue, lightgreen). BLINK attribute is the
+be highlighted. (i.e.  light blue, light green). BLINK attribute is the
 blinking attribute, or highlighted background in some other configurations.
 .P
 Now let's move to the key definitions. Here we first put a key name (again
@@ -243,7 +243,7 @@ code name if it's a special key (like i.e. in KEY_FOLLOWLINK_1).
 .P
 If you wish to specify key by code value, use the supplied program 'testkey'
 to obtain the needed value. It mainly is a feature, when you want to add
-some ctrl+letter keybindings, and similar.
+some CTRL+letter keybindings, and similar.
 .P
 For each function you can bind two keys, i.e. you could bind both
 Enter and Cursor Right to the FollowLink-function.  As you can see in
@@ -273,25 +273,25 @@ Key for repeating the last search.
 Alternate key for repeating the last search.
 .TP
 .B KEY_GOTO_1
-Key for explicitly going to a node (by specifing it's name).
+Key for explicitly going to a node (by specifying it's name).
 .TP 
 .B KEY_GOTO_2
-Alternate key for explicitly going to a node (by specifing it's name).
+Alternate key for explicitly going to a node (by specifying it's name).
 .TP 
 .B KEY_PREVNODE_1
-Key for going to a node marked as 'Prev' in the header. In manpage viewer
+Key for going to a node marked as 'Prev' in the header. In man page viewer
 this goes to the previous man section.
 .TP 
 .B KEY_PREVNODE_2
-Alternate key for going to a node marked as 'Prev' in the header. In manpage
-viewer this goest to the previous man section.
+Alternate key for going to a node marked as 'Prev' in the header. In man page
+viewer this goes to the previous man section.
 .TP 
 .B KEY_NEXTNODE_1
-Key for going to a node marked as 'Next' in the header. In manpage viewer
+Key for going to a node marked as 'Next' in the header. In man page viewer
 this goes to the next man section.
 .TP 
 .B KEY_NEXTNODE_2
-Alternate key for going to a node marked as 'Next' in the header. In manpage
+Alternate key for going to a node marked as 'Next' in the header. In man page
 viewer this goes to the next man section.
 .TP 
 .B KEY_UP_1
@@ -365,7 +365,7 @@ Key for following a hypertext link.
 Alternate key for following a hypertext link.
 .TP 
 .B KEY_REFRESH_1
-Key for refreshing the screen (hardcoded is the ^L value).
+Key for refreshing the screen (hard coded is the ^L value).
 .TP 
 .B KEY_REFRESH_2
 Alternate key for refreshing the screen.
@@ -422,7 +422,7 @@ The special mnemonics for keys (which are defined at present) are:
 .TP 
 .B KEY_PPAGE
 .TP 
-.BR KEY_END " [Note: this works probably \fBONLY\fR with linux ncurses]"
+.BR KEY_END " [Note: this works probably \fBONLY\fR with Linux ncurses]"
 .TP
 .B KEY_F(x)
 .TP
@@ -441,17 +441,17 @@ C/C++ ;).
 .TP
 .B [number]
 \- you can also specify key as it's code number. It is useful e.g. when
-specifing control keys, and some nonstandard keys.
-A numerical value of zero turns given keybinding off.
+specifying control keys, and some nonstandard keys.
+A numerical value of zero turns given key binding off.
 .sp
 .RE
 See manual page for curs_getch (3x) for description of their meaning.
 .P
-Warning! Try not to create some serious keybinding conflicts!
+Warning! Try not to create some serious key binding conflicts!
 .P
 The options in the last part of the example configuration file should
 be fairly self-explanatory.  The variables that can be set to true or
-false do the same things as the commandline arguments with the same
+false do the same things as the command line arguments with the same
 names. 
 .RS
 .sp
@@ -497,7 +497,7 @@ Set this to the program you want to use to follow ftp links in
 documents.
 .TP
 .B MAILEDITOR
-Set this to your favourite email program, and it will be started if
+Set this to your favorite email program, and it will be started if
 you follow an email link in a document.
 .TP
 .B PRINTUTILITY
@@ -512,7 +512,7 @@ manpage), Xlib function pages match section 3X11, etc. Such extensions may
 not be recognized by default, so it is a good idea to add them).
 .TP
 .B INFOPATH
-This allows you to override the default searchpath for info pages. The paths
+This allows you to override the default search path for info pages. The paths
 should be separated by colons.
 .TP
 .B MAN-OPTIONS
@@ -520,7 +520,7 @@ This specifies the options, which should be passed to the `man' program.
 (see man(1) for description of what they're like).
 .TP
 .B STDERR-REDIRECTION
-Pinfo allows you to redirect the stderr output of called programms. For
+Pinfo allows you to redirect the stderr output of called programs. For
 example if you don't want to see man's error messages about manual page
 formatting, you can use \fISTDER-REDIRECTION="2> /dev/null". This is the
 default.
