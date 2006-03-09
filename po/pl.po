@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: pinfo-0.6.8\n"
 "Report-Msgid-Bugs-To: pinfo-devel@lists.alioth.debian.org\n"
-"POT-Creation-Date: 2005-10-16 20:39+0200\n"
+"POT-Creation-Date: 2006-03-09 21:06+0100\n"
 "PO-Revision-Date: 2005-09-29 21:59+0200\n"
 "Last-Translator: Krzysztof Krzy¿aniak (eloy) <eloy@debian.org>\n"
 "Language-Team:\n"
@@ -29,13 +29,10 @@ msgstr "Ostrze¿enie: nie mo¿na znale¼æ tablicy tagów"
 msgid "Searching for tag table done\n"
 msgstr "Zakoñczono poszukiwanie tablicy tagów\n"
 
-#: src/filehandling_functions.c:1214
+#: src/filehandling_functions.c:1211
+#, fuzzy, c-format
 msgid "Error: could not open info file"
 msgstr "B³ad: nie nie mo¿na otworzyæ pliku info"
-
-#: src/filehandling_functions.c:1216 src/mainfunction.c:578 src/manual.c:1155
-msgid "Press any key to continue..."
-msgstr "Naci¶nij dowolny klawisz..."
 
 #: src/mainfunction.c:143 src/manual.c:975
 msgid "Are you sure you want to print?"
@@ -74,6 +71,10 @@ msgstr "Szukany ³añcuch nie zosta³ znaleziony..."
 #: src/mainfunction.c:576 src/manual.c:1153
 msgid "Invalid regular expression;"
 msgstr "B³êdne wyra¿enie regularne;"
+
+#: src/mainfunction.c:578 src/manual.c:1155
+msgid "Press any key to continue..."
+msgstr "Naci¶nij dowolny klawisz..."
 
 #
 # Goto messages

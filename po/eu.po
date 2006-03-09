@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: eu\n"
 "Report-Msgid-Bugs-To: pinfo-devel@lists.alioth.debian.org\n"
-"POT-Creation-Date: 2005-10-16 20:39+0200\n"
+"POT-Creation-Date: 2006-03-09 21:06+0100\n"
 "PO-Revision-Date: 2005-09-28 23:14+0200\n"
 "Last-Translator: Piarres Beobide <pi@beobide.net>\n"
 "Language-Team: librezale.org <librezale@librezale.org>\n"
@@ -32,13 +32,10 @@ msgstr "Abisua: ezin da etiketa taula aurkitu"
 msgid "Searching for tag table done\n"
 msgstr "Etiketa taula bilaketa eginda\n"
 
-#: src/filehandling_functions.c:1214
+#: src/filehandling_functions.c:1211
+#, fuzzy, c-format
 msgid "Error: could not open info file"
 msgstr "Errorea: ezin da info fitxategia ireki"
-
-#: src/filehandling_functions.c:1216 src/mainfunction.c:578 src/manual.c:1155
-msgid "Press any key to continue..."
-msgstr "Zapaldu edozein tekla jarraitzeko..."
 
 #: src/mainfunction.c:143 src/manual.c:975
 msgid "Are you sure you want to print?"
@@ -67,6 +64,10 @@ msgstr "Bilaketa katea ez da aurkitu..."
 #: src/mainfunction.c:576 src/manual.c:1153
 msgid "Invalid regular expression;"
 msgstr "Espresio erregula baliogabea;"
+
+#: src/mainfunction.c:578 src/manual.c:1155
+msgid "Press any key to continue..."
+msgstr "Zapaldu edozein tekla jarraitzeko..."
 
 #: src/mainfunction.c:644
 msgid "Enter node name: "

@@ -1208,7 +1208,8 @@ seeknode(int tag_table_pos, FILE ** Id)
 				if (id == NULL)
 				{
 					closeprogram();
-					printf(_("Error: could not open info file\n"));
+					printf(_("Error: could not open info file"));
+					printf("\n");
 					exit(1);
 				}
 				if (off > 0)
