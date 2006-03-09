@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: pinfo 0.6.3\n"
 "Report-Msgid-Bugs-To: pinfo-devel@lists.alioth.debian.org\n"
-"POT-Creation-Date: 2005-09-28 19:42+0200\n"
+"POT-Creation-Date: 2005-10-16 20:39+0200\n"
 "PO-Revision-Date: 2001-11-21 17:42+0900\n"
 "Last-Translator: Masayuki Hatta <mhatta@gnu.org>\n"
 "Language-Team: Japanese <ja@li.org>\n"
@@ -29,10 +29,14 @@ msgstr "警告: タグテーブルが見つかりませんでした"
 msgid "Searching for tag table done\n"
 msgstr "タグテーブルの検索完了\n"
 
-#: src/filehandling_functions.c:1211
-#, c-format
-msgid "Error: could not open info file\n"
-msgstr "エラー: infoファイルが開けませんでした\n"
+#: src/filehandling_functions.c:1214
+#, fuzzy
+msgid "Error: could not open info file"
+msgstr "エラー: infoファイルが開けませんでした"
+
+#: src/filehandling_functions.c:1216 src/mainfunction.c:578 src/manual.c:1155
+msgid "Press any key to continue..."
+msgstr ""
 
 #: src/mainfunction.c:143 src/manual.c:975
 msgid "Are you sure you want to print?"
@@ -62,10 +66,6 @@ msgstr "警告: タグテーブルが見つかりませんでした...\n"
 
 #: src/mainfunction.c:576 src/manual.c:1153
 msgid "Invalid regular expression;"
-msgstr ""
-
-#: src/mainfunction.c:578 src/manual.c:1155
-msgid "Press any key to continue..."
 msgstr ""
 
 #: src/mainfunction.c:644

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ru\n"
 "Report-Msgid-Bugs-To: pinfo-devel@lists.alioth.debian.org\n"
-"POT-Creation-Date: 2005-09-28 19:42+0200\n"
+"POT-Creation-Date: 2005-10-16 20:39+0200\n"
 "PO-Revision-Date: 2005-10-01 10:47+0400\n"
 "Last-Translator: Yuri Kozlov <kozlov.y@gmail.com>\n"
 "Language-Team: Russian <debian-l10n-russian@lists.debian.org>\n"
@@ -31,10 +31,13 @@ msgstr "Предупреждение: не могу найти табличны�
 msgid "Searching for tag table done\n"
 msgstr "Поиск табличного тега завершён\n"
 
-#: src/filehandling_functions.c:1211
-#, c-format
-msgid "Error: could not open info file\n"
-msgstr "Ошибка: не удалось открыть info файл\n"
+#: src/filehandling_functions.c:1214
+msgid "Error: could not open info file"
+msgstr "Ошибка: не удалось открыть info файл"
+
+#: src/filehandling_functions.c:1216 src/mainfunction.c:578 src/manual.c:1155
+msgid "Press any key to continue..."
+msgstr "Нажмите любую клавишу..."
 
 #: src/mainfunction.c:143 src/manual.c:975
 msgid "Are you sure you want to print?"
@@ -63,10 +66,6 @@ msgstr "Строка не найдена..."
 #: src/mainfunction.c:576 src/manual.c:1153
 msgid "Invalid regular expression;"
 msgstr "Недопустимое регулярное выражение;"
-
-#: src/mainfunction.c:578 src/manual.c:1155
-msgid "Press any key to continue..."
-msgstr "Нажмите любую клавишу..."
 
 #: src/mainfunction.c:644
 msgid "Enter node name: "
@@ -240,15 +239,18 @@ msgstr ""
 "-a, --apropos                         запустить apropos, если\n"
 "                                      ничего не найдено\n"
 "-p, --plain-apropos                   запустить только apropos\n"
-"-c, --cut-man-headers                 вырезать повторяющиеся заголовки страниц\n"
+"-c, --cut-man-headers                 вырезать повторяющиеся заголовки "
+"страниц\n"
 "                                      руководства\n"
 "-l, --long-manual-links               использовать длинные ссылки\n"
 "                                      в руководствах\n"
 "-s, --squeeze-manlines                вырезать пустые строки из страниц\n"
 "                                      руководства\n"
-"-d, --dont-handle-without-tag-table   не показывать texinfo страницы без тегов\n"
+"-d, --dont-handle-without-tag-table   не показывать texinfo страницы без "
+"тегов\n"
 "                                      таблиц\n"
-"-t, --force-manual-tag-table          принудительное ручное определение тегов\n"
+"-t, --force-manual-tag-table          принудительное ручное определение "
+"тегов\n"
 "                                      таблицы\n"
 "-x, --clear-at-exit                   очищать экран при выходе\n"
 "    --node=узел, --node узел          сразу перейти к указанному узлу\n"
@@ -309,4 +311,3 @@ msgstr "Предупреждение безопасности: Не удалос
 #, c-format
 msgid "Security warning: Unable to get UID of user called: %s\n"
 msgstr "Предупреждение безопасности: Не удалось получить UID пользователя %s\n"
-

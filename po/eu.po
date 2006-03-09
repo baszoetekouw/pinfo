@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: eu\n"
 "Report-Msgid-Bugs-To: pinfo-devel@lists.alioth.debian.org\n"
-"POT-Creation-Date: 2005-09-28 19:42+0200\n"
+"POT-Creation-Date: 2005-10-16 20:39+0200\n"
 "PO-Revision-Date: 2005-09-28 23:14+0200\n"
 "Last-Translator: Piarres Beobide <pi@beobide.net>\n"
 "Language-Team: librezale.org <librezale@librezale.org>\n"
@@ -18,8 +18,7 @@ msgstr ""
 "X-Generator: KBabel 1.10.2\n"
 
 #: src/filehandling_functions.c:469 src/filehandling_functions.c:476
-#, c-format
-#, fuzzy
+#, fuzzy, c-format
 msgid "Searching for indirect done"
 msgstr "Bilaketa eginda"
 
@@ -33,10 +32,13 @@ msgstr "Abisua: ezin da etiketa taula aurkitu"
 msgid "Searching for tag table done\n"
 msgstr "Etiketa taula bilaketa eginda\n"
 
-#: src/filehandling_functions.c:1211
-#, c-format
-msgid "Error: could not open info file\n"
-msgstr "Errorea: ezin da info fitxategia ireki\n"
+#: src/filehandling_functions.c:1214
+msgid "Error: could not open info file"
+msgstr "Errorea: ezin da info fitxategia ireki"
+
+#: src/filehandling_functions.c:1216 src/mainfunction.c:578 src/manual.c:1155
+msgid "Press any key to continue..."
+msgstr "Zapaldu edozein tekla jarraitzeko..."
 
 #: src/mainfunction.c:143 src/manual.c:975
 msgid "Are you sure you want to print?"
@@ -65,10 +67,6 @@ msgstr "Bilaketa katea ez da aurkitu..."
 #: src/mainfunction.c:576 src/manual.c:1153
 msgid "Invalid regular expression;"
 msgstr "Espresio erregula baliogabea;"
-
-#: src/mainfunction.c:578 src/manual.c:1155
-msgid "Press any key to continue..."
-msgstr "Zapaldu edozein tekla jarraitzeko..."
 
 #: src/mainfunction.c:644
 msgid "Enter node name: "
@@ -247,7 +245,8 @@ msgstr ""
 "-d, --dont-handle-without-tag-table   ez bistarazi etiketa taula gabeko "
 "texinfo\n"
 "                                      orriak\n"
-"-t, --force-manual-tag-table          indartu eskuzko etiketa taula atzematea\n"
+"-t, --force-manual-tag-table          indartu eskuzko etiketa taula "
+"atzematea\n"
 "-x, --clear-at-exit                   ixterakoan pantaila garbitu\n"
 "    --node=nodename, --node nodename  zuzenean node nodo-izenera salto egin\n"
 "    --rcfile=file, --rcfile file      beste rcfile bat erabili\n"
@@ -307,4 +306,3 @@ msgstr "Segurtasun abisua: Ezin da talde honen GID-a aurkitu: %s\n"
 #, c-format
 msgid "Security warning: Unable to get UID of user called: %s\n"
 msgstr "Segurtasun abisua: Ezin da erabiltzaile honen UID-a aurkitu: %s\n"
-

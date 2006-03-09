@@ -1,12 +1,11 @@
 # Czech translation of pinfo
 # Jiøí Pavlovský <pavlovsk@ff.cuni.cz>, 1999.
 # revised and updated by Katarína Machálková <bubli@bubli.org>, 2005
-
 msgid ""
 msgstr ""
 "Project-Id-Version: pinfo-0.5.6\n"
 "Report-Msgid-Bugs-To: pinfo-devel@lists.alioth.debian.org\n"
-"POT-Creation-Date: 2005-09-28 19:42+0200\n"
+"POT-Creation-Date: 2005-10-16 20:39+0200\n"
 "PO-Revision-Date: 2005-10-11 16:59+0200\n"
 "Last-Translator: Katarina Machalkova <bubli@bubli.org>\n"
 "Language-Team: Czech <debian-l10n-czech@lists.debian.org>\n"
@@ -29,10 +28,13 @@ msgstr "Varování: tabulku znaèek nelze nalézt"
 msgid "Searching for tag table done\n"
 msgstr "Hledání tabulky znaèek dokonèeno\n"
 
-#: src/filehandling_functions.c:1211
-#, c-format
-msgid "Error: could not open info file\n"
-msgstr "Chyba: Info dokument nelze otevøít.\n"
+#: src/filehandling_functions.c:1214
+msgid "Error: could not open info file"
+msgstr "Chyba: Info dokument nelze otevøít."
+
+#: src/filehandling_functions.c:1216 src/mainfunction.c:578 src/manual.c:1155
+msgid "Press any key to continue..."
+msgstr "Pro pokraèování stisknìte libovolnou klávesu..."
 
 #: src/mainfunction.c:143 src/manual.c:975
 msgid "Are you sure you want to print?"
@@ -61,10 +63,6 @@ msgstr "Hledaný øetìzec nebyl nalezen..."
 #: src/mainfunction.c:576 src/manual.c:1153
 msgid "Invalid regular expression;"
 msgstr "Neplatný regulární výraz;"
-
-#: src/mainfunction.c:578 src/manual.c:1155
-msgid "Press any key to continue..."
-msgstr "Pro pokraèování stisknìte libovolnou klávesu..."
 
 #: src/mainfunction.c:644
 msgid "Enter node name: "
@@ -320,4 +318,3 @@ msgstr "Bezpeènostní varování: UID u¾ivatele %s nelze zjistit\n"
 
 #~ msgid "Searching for indirect done\n"
 #~ msgstr "Hledání nepøímého odkazu ukonèeno\n"
-
