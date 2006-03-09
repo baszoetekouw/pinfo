@@ -2,9 +2,10 @@
   - New maintainer: Bas Zoetekouw <bas@debian.org>
   - License is now GPL version 2 only
   - Updated German, Dutch, English, Polish, Russian, Czech translations and
-	added Basque, Swedish and Brazilian translations.  Thanks to Jens Seidel,
-	Rene van Bevern, Piarres Beobide, Krzysztof Krzyzaniak, Yuri Kozlov,  Eddy
-	Petrişor, Katarína Machálková and Felipe Augusto van de Wiel.
+	added Basque, Swedish, Viernamese and Brazilian translations.  Thanks to
+	Jens Seidel, Rene van Bevern, Piarres Beobide, Krzysztof Krzyzaniak, Yuri
+	Kozlov,  Eddy Petrişor, Katarína Machálková, Clytie Siddall and Felipe
+	Augusto van de Wiel.
   - Nodes containing a "." are now correctly found
   - Non-ASCII man pages are displayed correctly
   - Improved the history behavior of the search input line

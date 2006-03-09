@@ -1,0 +1,305 @@
+# Vietnamese translation for PInfo.
+# Copyright © 2005 Przemek Borys <pborys@dione.ids.pl>, Bas Zoetekouw <bas@debian.org>, Nathanael Nerode <neroden@gcc.gnu.org>
+# This file is distributed under the same license as the PInfo package.
+# Clytie Siddall <clytie@riverland.net.au>, 2005.
+# 
+msgid ""
+""
+msgstr "Project-Id-Version: pinfo\n"
+"Report-Msgid-Bugs-To: pinfo-devel@lists.alioth.debian.org\n"
+"POT-Creation-Date: 2005-09-28 19:42+0200\n"
+"PO-Revision-Date: 2005-12-21 15:11+1030\n"
+"Last-Translator: Clytie Siddall <clytie@riverland.net.au>\n"
+"Language-Team: Vietnamese <gnomevi-list@lists.sourceforge.net>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0\n"
+"X-Generator: LocFactoryEditor 1.5.1b\n"
+
+#:src/filehandling_functions.c:469 src/filehandling_functions.c:476
+#,c-format
+msgid "Searching for indirect done"
+msgstr "Đang tìm kiếm xong gián tiếp"
+
+#:src/filehandling_functions.c:508 src/filehandling_functions.c:515
+#,c-format
+msgid "Warning: could not find tag table"
+msgstr "Cảnh báo: không tìm thấy bảng thẻ"
+
+#:src/filehandling_functions.c:542
+#,c-format
+msgid "Searching for tag table done\n"
+msgstr "Đang tìm kiếm xong bảng thẻ\n"
+
+#:src/filehandling_functions.c:1211
+#,c-format
+msgid "Error: could not open info file\n"
+msgstr "Lỗi: không thể mở tập tin thông tin\n"
+
+#:src/mainfunction.c:143 src/manual.c:975
+msgid "Are you sure you want to print?"
+msgstr "Bạn có chắc muốn in không?"
+
+#:src/mainfunction.c:195 src/manual.c:1020
+msgid "Enter line: "
+msgstr "Gõ dòng: "
+
+#:src/mainfunction.c:236 src/manual.c:1067
+msgid "Enter command: "
+msgstr "Gõ lệnh: "
+
+#:src/mainfunction.c:255
+msgid "Operation failed..."
+msgstr "Thao tác thất bại..."
+
+#:src/mainfunction.c:291 src/mainfunction.c:551 src/manual.c:1120
+msgid "Enter regular expression: "
+msgstr "Gõ biểu thức chính quy: "
+
+#:src/mainfunction.c:521 src/mainfunction.c:615 src/manual.c:1196
+msgid "Search string not found..."
+msgstr "Không tìm thấy chuỗi tìm kiếm..."
+
+#:src/mainfunction.c:576 src/manual.c:1153
+msgid "Invalid regular expression;"
+msgstr "Biểu thức chính quy không hợp lệ;"
+
+#:src/mainfunction.c:578 src/manual.c:1155
+msgid "Press any key to continue..."
+msgstr "Bấm phím nào để tiếp tục..."
+
+#:src/mainfunction.c:644
+msgid "Enter node name: "
+msgstr "Gõ tên nút: "
+
+#:src/mainfunction.c:720
+#,c-format
+msgid "Node %s not found"
+msgstr "Không tìm thấy nút %s"
+
+#:src/mainfunction.c:1178 src/manual.c:1546
+msgid "Are you sure you want to quit?"
+msgstr "Bạn có chắc muốn thoát không?"
+
+#:src/manual.c:315
+#,c-format
+msgid "Error: Cannot call man command.\n"
+msgstr "Lỗi: không thể gọi lệnh man (hướng dẫn).\n"
+
+#:src/manual.c:324
+#,c-format
+msgid "Error: No manual page found either.\n"
+msgstr "Lỗi: cũng không tìm thấy trang hướng dẫn.\n"
+
+#:src/manual.c:327
+#,c-format
+msgid "Apropos pages:\n"
+msgstr "Trang Apropos:\n"
+
+#:src/manual.c:370
+msgid "Calling gunzip for"
+msgstr "Đang gọi gunzip cho"
+
+#:src/manual.c:376
+#,c-format
+msgid "Couldn't call gunzip.\n"
+msgstr "Không thể gọi gunzip.\n"
+
+#:src/manual.c:413
+msgid "IGNORING"
+msgstr "ĐANG BỎ QUA"
+
+#:src/manual.c:456
+#,c-format
+msgid "Error: No manual page found\n"
+msgstr "Lỗi: không tìm thấy trang hướng dẫn\n"
+
+#:src/manual.c:461
+#,c-format
+msgid "Calling apropos \n"
+msgstr "Đang gọi apropos \n"
+
+#:src/manual.c:466
+#,c-format
+msgid "Nothing appropiate\n"
+msgstr "Không có gì thích hợp\n"
+
+#:src/manual.c:989
+msgid "Enter manual name: "
+msgstr "Gõ tên sổ hướng dẫn: "
+
+#:src/manual.c:1629 src/video.c:114
+#,c-format
+msgid "Viewing line %d/%d, %d%%"
+msgstr "Đang xem dòng %d/%d, %d%%"
+
+#:src/manual.c:1631 src/video.c:116
+#,c-format
+msgid "Viewing line %d/%d, 100%%"
+msgstr "Đang xem dòng %d/%d, 100%%"
+
+#:src/parse_config.c:113
+#,c-format
+msgid "Can't open config file!\n"
+msgstr "• Không thể mở tập tin cấu hình. •\n"
+
+#:src/parse_config.c:163
+#,c-format
+msgid "Parse error in config file on line %d\n"
+msgstr "Gặp lỗi phân tách trong tập tin cấu hình trên dòng %d\n"
+
+#:src/utils.c:122 src/utils.c:178
+#,c-format
+msgid "Virtual memory exhausted\n"
+msgstr "Hết bộ nhớ ảo\n"
+
+#:src/utils.c:232
+#,c-format
+msgid ""
+"Illegal characters in filename!\n"
+"*** %s\n"
+msgstr "• Gặp ký tự sai trong tên tập tin. •\n"
+"*** %s\n"
+
+#:src/utils.c:436
+msgid "yes"
+msgstr "có"
+
+#:src/utils.c:437
+msgid "no"
+msgstr "không"
+
+#:src/video.c:61
+msgid "File:"
+msgstr "Tập tin:"
+
+#:src/video.c:62
+msgid "Node:"
+msgstr "Nút:"
+
+#:src/video.c:63
+msgid "Next:"
+msgstr "Kế:"
+
+#:src/video.c:64
+msgid "Prev:"
+msgstr "Trước:"
+
+#:src/video.c:65
+msgid "Up:"
+msgstr "Lên:"
+
+#:src/pinfo.c:113 src/pinfo.c:198
+#,c-format
+msgid "Looking for man page...\n"
+msgstr "Đang tìm trang hướng dẫn...\n"
+
+#:src/pinfo.c:151
+#,c-format
+msgid "--node option used without argument\n"
+msgstr "Tùy chọn « --node » (nút) được dùng không có đối số\n"
+
+#:src/pinfo.c:161
+#,c-format
+msgid "--rcfile option used without argument\n"
+msgstr "Tùy chọn « --rcfile » (tập tin rc) được dùng không có đối số\n"
+
+#:src/pinfo.c:172
+#,c-format
+msgid ""
+"Usage:\n"
+"%s [options] [info|manual]\n"
+"Options:\n"
+"-h, --help                            help\n"
+"-v, --version                         version\n"
+"-m, --manual                          use man page\n"
+"-r, --raw-filename                    use raw filename\n"
+"-f, --file                            synonym for -r\n"
+"-a, --apropos                         call apropos if nothing found\n"
+"-p, --plain-apropos                   call only apropos\n"
+"-c, --cut-man-headers                 cut out repeated man headers\n"
+"-l, --long-manual-links               use long link names in manuals\n"
+"-s, --squeeze-manlines                cut empty lines from manual pages\n"
+"-d, --dont-handle-without-tag-table   don't display texinfo pages without "
+"tag\n"
+"                                      tables\n"
+"-t, --force-manual-tag-table          force manual detection of tag table\n"
+"-x, --clear-at-exit                   clear screen at exit\n"
+"    --node=nodename, --node nodename  jump directly to the node nodename\n"
+"    --rcfile=file, --rcfile file      use alternate rcfile\n"
+msgstr "Cách sử dụng:\n"
+"%s [tùy_chọn ...] [thông_tin|sổ_hướng_dẫn]\n"
+"Options:\n"
+"-h, --help                            _trợ giúp_\n"
+"-v, --version                         _phiên bản_\n"
+"-m, --manual                          sử dụng _trang hướng dẫn_\n"
+"-r, --raw-filename                    sử dụng _tên tập tin thô_\n"
+"-f, --file                            bằng tùy chọn « -r »  (_tập tin_)\n"
+"-a, --apropos                         gọi apropos nếu không tìm gì\n"
+"-p, --plain-apropos                   gọi chỉ apropos thôi (_chuẩn_)\n"
+"-c, --cut-man-headers                 _cắt ra các dòng đầu hướng dẫn_ trùng\n"
+"-l, --long-manual-links               sử dụng tên _liên kết dài_ trong _sổ hướng dẫn_\n"
+"-s, --squeeze-manlines                cắt các _dòng_ trắng ra trang _hướng dẫn_ (_vắt_)\n"
+"-d, --dont-handle-without-tag-table   _đừng_ hiển thị trang kiểu texinfo\n"
+"								_không có bảng thẻ_ (_quản lý_)                                    "
+"-t, --force-manual-tag-table          _buộc_ tự phát hiện _bảng thẻ_\n"
+"-x, --clear-at-exit                   _xóa_ màn hình _khi thoát_\n"
+"    --node=nodename, --node nodename      nhảy thẳng đến _nút tên_ này\n"
+"    --rcfile=tập_tin, --rcfile tập_tin      sử dụng tập tin rc thay thế\n"
+
+#:src/pinfo.c:312
+#,c-format
+msgid "Error: could not open info file, trying manual\n"
+msgstr "Lỗi: không thể mở tập tin thông tin nên thử sổ hướng dẫn\n"
+
+#:src/pinfo.c:345
+#,c-format
+msgid "Warning: tag table not found...\n"
+msgstr "Cảnh báo: không tìm thấy bảng thẻ...\n"
+
+#:src/pinfo.c:349
+#,c-format
+msgid "Trying to create alternate tag table...\n"
+msgstr "Đang cố tạo bảng thẻ thay thế...\n"
+
+#:src/pinfo.c:354 src/pinfo.c:564
+#,c-format
+msgid "This doesn't look like info file...\n"
+msgstr "Điều này không hình như tập tin thông tin...\n"
+
+#:src/pinfo.c:367
+#,c-format
+msgid "Specified node does not exist...\n"
+msgstr "Không có nút đã gõ...\n"
+
+#:src/pinfo.c:419
+msgid "Tag table is corrupt, trying to fix..."
+msgstr "Bảng thẻ bị hỏng nên cố sửa..."
+
+#:src/pinfo.c:420
+msgid "press a key to continue"
+msgstr "bấm phím nào để tiếp tục"
+
+#:src/pinfo.c:486
+msgid "File not found. Press any key..."
+msgstr "Không tìm thấy tập tin. Bấm phím nào..."
+
+#:src/pinfo.c:506
+#,c-format
+msgid "Unexpected error.\n"
+msgstr "Gặp lỗi bất ngờ.\n"
+
+#:src/pinfo.c:559
+msgid "Tag table not found. Trying to create alternate..."
+msgstr "Không tìm thấy bảng thẻ. Đang cố tạo điều thay thế..."
+
+#:src/pinfo.c:645
+#,c-format
+msgid "Security warning: Unable to get GID of group called: %s\n"
+msgstr "Cảnh báo bảo mật: không thể lấy GID của nhóm tên: %s\n"
+
+#:src/pinfo.c:665
+#,c-format
+msgid "Security warning: Unable to get UID of user called: %s\n"
+msgstr "Cảnh báo bảo mật: không thể lấy UID của người dùng tên: %s\n"
