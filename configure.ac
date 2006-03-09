@@ -104,9 +104,9 @@ AC_CHECK_READLINE
 # if we have readline, it needs to be version 5
 if test "x$has_readline" = "xtrue"
 then 
-	if test "x$readline_version" != "x5"
+	if test "x$readline_version" != "x4"
 	then 
-		AC_MSG_WARN([Version 5 of readline is required to compile pinfo.  
+		AC_MSG_WARN([Version 4 of readline is required to compile pinfo.  
 			Yours is only version $readline_version.
 			Readline support will be disabled.])
 		has_readline=false
