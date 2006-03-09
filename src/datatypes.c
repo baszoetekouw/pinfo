@@ -31,7 +31,7 @@ char *ftpviewer = "lynx";
 char *maileditor = "mail";
 char *printutility = "lpr";
 char *manlinks = "1:8:2:3:4:5:6:7:9:n:l:p:o:3X11:3Xt:3X:3x";
-char *configuredinfopath = "/usr/share/info:/usr/info:/usr/local/share/info:/usr/local/info:/opt/info";
+char *configuredinfopath = ".:/usr/share/info:/usr/info:/usr/local/share/info:/usr/local/info:/opt/info";
 char *ignoredmacros = 0;
 char *rcfile = NULL;
 
