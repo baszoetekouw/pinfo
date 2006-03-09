@@ -103,8 +103,9 @@ Keys
 page you want to read by passing it an @var{info_page} argument. This argumen
 t
 contains the name of an info page (i.e. @samp{bash}). The program
-will then (by default) search for it in @file{./}, @file{/usr/info},
-@file{/usr/share/info} and @file{/usr/local/info}. Other searchpath may be
+will then (by default) search for it in @file{./}, @file{/usr/share/info},
+@file{/usr/info}, @file{/usr/local/share/info}, @file{/usr/local/info},
+and @file{/opt/info}. Other searchpath may be
 specified in configfile or via INFOPATH environmental variable.
 Pinfo will also automaticaly add the suffix
 @samp{-info}, @samp{-info.Z}, @samp{-info.gz}, or @samp{-info.bz2}. At
