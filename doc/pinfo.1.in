@@ -11,8 +11,7 @@ This is a program for viewing info files. You specify which page you want to
 read by passing it an
 .I infopage
 argument. This argument contains the name of an info page (i.e. 'bash').
-The program will then (by default) search for it in 
-.IR "./", 
+The program will then (by default) search for it in the current directory,
 .IR "/usr/share/info",
 .IR "/usr/info",
 .IR "/usr/local/share/info",
