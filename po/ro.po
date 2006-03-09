@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ro\n"
 "Report-Msgid-Bugs-To: pinfo-devel@lists.alioth.debian.org\n"
-"POT-Creation-Date: 2005-10-16 20:39+0200\n"
+"POT-Creation-Date: 2006-03-09 21:06+0100\n"
 "PO-Revision-Date: 2005-09-30 03:42+0300\n"
 "Last-Translator: Eddy Petrisor <eddy.petrisor@gmail.com>\n"
 "Language-Team: Romanian <debian-l10n-romanian@lists.debian.org>\n"
@@ -33,13 +33,10 @@ msgstr "Avertisment: tabela de etichete nu a putut fi găsită"
 msgid "Searching for tag table done\n"
 msgstr "S-a finalizat căutarea tabelei de etichete\n"
 
-#: src/filehandling_functions.c:1214
+#: src/filehandling_functions.c:1211
+#, fuzzy, c-format
 msgid "Error: could not open info file"
 msgstr "Eroare: fişierul info nu a putut fi deschis"
-
-#: src/filehandling_functions.c:1216 src/mainfunction.c:578 src/manual.c:1155
-msgid "Press any key to continue..."
-msgstr "Apăsaţi o tastă pentru a continua..."
 
 #: src/mainfunction.c:143 src/manual.c:975
 msgid "Are you sure you want to print?"
@@ -68,6 +65,10 @@ msgstr "Şirul căutat nu a fost găsit..."
 #: src/mainfunction.c:576 src/manual.c:1153
 msgid "Invalid regular expression;"
 msgstr "Expresie regulată nevalidă;"
+
+#: src/mainfunction.c:578 src/manual.c:1155
+msgid "Press any key to continue..."
+msgstr "Apăsaţi o tastă pentru a continua..."
 
 #: src/mainfunction.c:644
 msgid "Enter node name: "

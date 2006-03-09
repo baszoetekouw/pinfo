@@ -5,16 +5,18 @@
 # Felipe Augusto van de Wiel (faw) <felipe@cathedrallabs.org>, 2006.
 #
 msgid ""
-msgstr "pt_BR utf-8\n"
+msgstr ""
 "Project-Id-Version: pinfo\n"
 "Report-Msgid-Bugs-To: pinfo-devel@lists.alioth.debian.org\n"
-"POT-Creation-Date: 2005-09-28 19:42+0200\n"
+"POT-Creation-Date: 2006-03-09 21:06+0100\n"
 "PO-Revision-Date: 2006-01-06 02:05-0200\n"
-"Last-Translator: Felipe Augusto van de Wiel (faw) <felipe@cathedrallabs.org>\n"
+"Last-Translator: Felipe Augusto van de Wiel (faw) <felipe@cathedrallabs."
+"org>\n"
 "Language-Team: l10n portuguese <debian-l10n-portuguese@lists.debian.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"pt_BR utf-8\n"
 
 #: src/filehandling_functions.c:469 src/filehandling_functions.c:476
 #, c-format
@@ -32,8 +34,8 @@ msgid "Searching for tag table done\n"
 msgstr "Procura pela tabela de etiquetas concluída\n"
 
 #: src/filehandling_functions.c:1211
-#, c-format
-msgid "Error: could not open info file\n"
+#, fuzzy, c-format
+msgid "Error: could not open info file"
 msgstr "Erro: não foi possível abrir o arquivo info\n"
 
 #: src/mainfunction.c:143 src/manual.c:975
@@ -237,10 +239,12 @@ msgstr ""
 "-m, --manual                            use páginas de manual (man page)\n"
 "-r, --raw-filename                      use nomes de arquivos crus (raw)\n"
 "-f, --file                              sinônimo para -r\n"
-"-a, --apropos                           chama apropos se nada for encontrado\n"
+"-a, --apropos                           chama apropos se nada for "
+"encontrado\n"
 "-p, --plain-apropos                     chama apenas apropos\n"
 "-c, --cut-man-headers                   remove cabeçalhos man repetidos\n"
-"-l, --long-manual-links                 use nomes de link longos nos manuais\n"
+"-l, --long-manual-links                 use nomes de link longos nos "
+"manuais\n"
 "-s, --squeeze-manlines                  remove linhas vazias das páginas de\n"
 "                                        manual\n"
 "-d, --dont-handle-without-tag-table     não exibe páginas texinfo sem as\n"
@@ -301,7 +305,8 @@ msgstr ""
 #: src/pinfo.c:645
 #, c-format
 msgid "Security warning: Unable to get GID of group called: %s\n"
-msgstr "Aviso de segurança: Não foi possível obter o GID do grupo chamado: %s\n"
+msgstr ""
+"Aviso de segurança: Não foi possível obter o GID do grupo chamado: %s\n"
 
 #: src/pinfo.c:665
 #, c-format

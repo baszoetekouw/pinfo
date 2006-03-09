@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: pinfo-0.5.0\n"
 "Report-Msgid-Bugs-To: pinfo-devel@lists.alioth.debian.org\n"
-"POT-Creation-Date: 2005-10-16 20:39+0200\n"
+"POT-Creation-Date: 2006-03-09 21:06+0100\n"
 "PO-Revision-Date: 1999-04-21 01:50+0200\n"
 "Last-Translator: René van Bevern <rvb@pro-linux.de>\n"
 "Language-Team: German <de@li.org>\n"
@@ -29,13 +29,10 @@ msgstr "Warnung: Konnte die Tag-Tabelle nicht finden."
 msgid "Searching for tag table done\n"
 msgstr "Suche nach der Tag-Tabelle abgeschlossen.\n"
 
-#: src/filehandling_functions.c:1214
+#: src/filehandling_functions.c:1211
+#, fuzzy, c-format
 msgid "Error: could not open info file"
 msgstr "Fehler: Konnte die Info-Datei nicht öffnen."
-
-#: src/filehandling_functions.c:1216 src/mainfunction.c:578 src/manual.c:1155
-msgid "Press any key to continue..."
-msgstr "Beliebige Taste drücken, um fortzufahren..."
 
 #: src/mainfunction.c:143 src/manual.c:975
 msgid "Are you sure you want to print?"
@@ -65,6 +62,10 @@ msgstr "Warnung: Konnte keine Tag-Tabelle finden...\n"
 #: src/mainfunction.c:576 src/manual.c:1153
 msgid "Invalid regular expression;"
 msgstr "Ungültiger regulärer Ausdruck;"
+
+#: src/mainfunction.c:578 src/manual.c:1155
+msgid "Press any key to continue..."
+msgstr "Beliebige Taste drücken, um fortzufahren..."
 
 #: src/mainfunction.c:644
 msgid "Enter node name: "

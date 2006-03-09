@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ru\n"
 "Report-Msgid-Bugs-To: pinfo-devel@lists.alioth.debian.org\n"
-"POT-Creation-Date: 2005-10-16 20:39+0200\n"
+"POT-Creation-Date: 2006-03-09 21:06+0100\n"
 "PO-Revision-Date: 2005-10-01 10:47+0400\n"
 "Last-Translator: Yuri Kozlov <kozlov.y@gmail.com>\n"
 "Language-Team: Russian <debian-l10n-russian@lists.debian.org>\n"
@@ -31,13 +31,10 @@ msgstr "Предупреждение: не могу найти табличны�
 msgid "Searching for tag table done\n"
 msgstr "Поиск табличного тега завершён\n"
 
-#: src/filehandling_functions.c:1214
+#: src/filehandling_functions.c:1211
+#, fuzzy, c-format
 msgid "Error: could not open info file"
 msgstr "Ошибка: не удалось открыть info файл"
-
-#: src/filehandling_functions.c:1216 src/mainfunction.c:578 src/manual.c:1155
-msgid "Press any key to continue..."
-msgstr "Нажмите любую клавишу..."
 
 #: src/mainfunction.c:143 src/manual.c:975
 msgid "Are you sure you want to print?"
@@ -66,6 +63,10 @@ msgstr "Строка не найдена..."
 #: src/mainfunction.c:576 src/manual.c:1153
 msgid "Invalid regular expression;"
 msgstr "Недопустимое регулярное выражение;"
+
+#: src/mainfunction.c:578 src/manual.c:1155
+msgid "Press any key to continue..."
+msgstr "Нажмите любую клавишу..."
 
 #: src/mainfunction.c:644
 msgid "Enter node name: "
