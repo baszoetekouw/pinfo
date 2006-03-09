@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: pinfo 0.6.8-svn\n"
 "Report-Msgid-Bugs-To: pinfo-devel@lists.alioth.debian.org\n"
-"POT-Creation-Date: 2005-09-28 19:42+0200\n"
+"POT-Creation-Date: 2005-10-16 20:39+0200\n"
 "PO-Revision-Date: 2005-09-01 21:21+0200\n"
 "Last-Translator: Bas Zoetekouw <bas@debian.org>\n"
 "Language-Team: Dutch <nl@li.org>\n"
@@ -30,10 +30,13 @@ msgstr "Waarschuwing: tag-tabel niet gevonden"
 msgid "Searching for tag table done\n"
 msgstr "Zoeken naar tag-tabel afgerond\n"
 
-#: src/filehandling_functions.c:1211
-#, c-format
-msgid "Error: could not open info file\n"
-msgstr "Fout: kon de info file niet openen\n"
+#: src/filehandling_functions.c:1214
+msgid "Error: could not open info file"
+msgstr "Fout: kon de info file niet openen"
+
+#: src/filehandling_functions.c:1216 src/mainfunction.c:578 src/manual.c:1155
+msgid "Press any key to continue..."
+msgstr "Druk een toets om door te gaan..."
 
 #: src/mainfunction.c:143 src/manual.c:975
 msgid "Are you sure you want to print?"
@@ -62,10 +65,6 @@ msgstr "Zoekstring niet gevonden..."
 #: src/mainfunction.c:576 src/manual.c:1153
 msgid "Invalid regular expression;"
 msgstr "Ongeldige reguliere expressie;"
-
-#: src/mainfunction.c:578 src/manual.c:1155
-msgid "Press any key to continue..."
-msgstr "Druk een toets om door te gaan..."
 
 #: src/mainfunction.c:644
 msgid "Enter node name: "

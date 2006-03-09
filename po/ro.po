@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ro\n"
 "Report-Msgid-Bugs-To: pinfo-devel@lists.alioth.debian.org\n"
-"POT-Creation-Date: 2005-09-28 19:42+0200\n"
+"POT-Creation-Date: 2005-10-16 20:39+0200\n"
 "PO-Revision-Date: 2005-09-30 03:42+0300\n"
 "Last-Translator: Eddy Petrisor <eddy.petrisor@gmail.com>\n"
 "Language-Team: Romanian <debian-l10n-romanian@lists.debian.org>\n"
@@ -15,7 +15,8 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: KBabel 1.10.2\n"
-"Plural-Forms: nplurals=3;plural=(n==1?0:(((n%100>19)||((n%100==0)&&(n!=0)))?2:1))\n"
+"Plural-Forms: nplurals=3;plural=(n==1?0:(((n%100>19)||((n%100==0)&&(n!=0)))?"
+"2:1))\n"
 
 #: src/filehandling_functions.c:469 src/filehandling_functions.c:476
 #, c-format
@@ -32,10 +33,13 @@ msgstr "Avertisment: tabela de etichete nu a putut fi găsită"
 msgid "Searching for tag table done\n"
 msgstr "S-a finalizat căutarea tabelei de etichete\n"
 
-#: src/filehandling_functions.c:1211
-#, c-format
-msgid "Error: could not open info file\n"
-msgstr "Eroare: fişierul info nu a putut fi deschis\n"
+#: src/filehandling_functions.c:1214
+msgid "Error: could not open info file"
+msgstr "Eroare: fişierul info nu a putut fi deschis"
+
+#: src/filehandling_functions.c:1216 src/mainfunction.c:578 src/manual.c:1155
+msgid "Press any key to continue..."
+msgstr "Apăsaţi o tastă pentru a continua..."
 
 #: src/mainfunction.c:143 src/manual.c:975
 msgid "Are you sure you want to print?"
@@ -64,10 +68,6 @@ msgstr "Şirul căutat nu a fost găsit..."
 #: src/mainfunction.c:576 src/manual.c:1153
 msgid "Invalid regular expression;"
 msgstr "Expresie regulată nevalidă;"
-
-#: src/mainfunction.c:578 src/manual.c:1155
-msgid "Press any key to continue..."
-msgstr "Apăsaţi o tastă pentru a continua..."
 
 #: src/mainfunction.c:644
 msgid "Enter node name: "
@@ -144,9 +144,9 @@ msgstr "Se vizualizează linia %d/%d, 100%%"
 msgid "Can't open config file!\n"
 msgstr "Nu se poate deschide fişierul de configurare!\n"
 
+# nu sunt sigur că parse se traduce cu „parcurgere”
 #: src/parse_config.c:163
 #, c-format
-# nu sunt sigur că parse se traduce cu „parcurgere”
 msgid "Parse error in config file on line %d\n"
 msgstr "Eroare la parcurgerea fişierului de configurare la linia %d\n"
 
@@ -236,8 +236,8 @@ msgstr ""
 "Opţiuni:\n"
 "-h, --help                            ajutor\n"
 "-v, --version                         versiune\n"
-"-m, --manual                          foloseşte pagina man"
-"-r, --raw-filename                    foloseşte nume brut\n"
+"-m, --manual                          foloseşte pagina man-r, --raw-"
+"filename                    foloseşte nume brut\n"
 "-f, --file                            sinonim cu -r\n"
 "-a, --apropos                         apelează apropos dacă\n"
 "                                      nu se găseşte nimic\n"
@@ -304,10 +304,13 @@ msgstr "Tabelă de etichete negăsită. Se încercă crearea uneia alternative..
 #: src/pinfo.c:645
 #, c-format
 msgid "Security warning: Unable to get GID of group called: %s\n"
-msgstr "Avertisment de securitate: Nu s-a putut prelua identificatorul grupului numit: %s\n"
+msgstr ""
+"Avertisment de securitate: Nu s-a putut prelua identificatorul grupului "
+"numit: %s\n"
 
 #: src/pinfo.c:665
 #, c-format
 msgid "Security warning: Unable to get UID of user called: %s\n"
-msgstr "Avertisment de securitate: Nu s-a putut prelua identificatorul utilizatorului numit: %s\n"
-
+msgstr ""
+"Avertisment de securitate: Nu s-a putut prelua identificatorul "
+"utilizatorului numit: %s\n"
