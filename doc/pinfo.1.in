@@ -13,10 +13,12 @@ read by passing it an
 argument. This argument contains the name of an info page (i.e. 'bash').
 The program will then (by default) search for it in 
 .IR "./", 
-.IR "/usr/info",
 .IR "/usr/share/info",
-and
+.IR "/usr/info",
+.IR "/usr/local/share/info",
 .IR "/usr/local/info".
+and
+.IR "/opt/info".
 The search path can be adjusted by INFOPATH environment variable or in the configuration
 file. Pinfo will also automatically add the suffix '-info', '-info.Z', '-info.gz', or '-info.bz2'.
 At present other suffixes are not recognized, but you can easily add them to
