@@ -2,12 +2,13 @@ Pinfo is a ncurses based lynx style info documentation browser.
 Hope you like it :)
 See man page (pinfo.1) for details. 
 
-    Copyright (C) 1999  Przemek Borys <pborys@dione.ids.pl>
-	Copyright (C) 2005  Bas Zoetekouw <bas@debian.org>
+    Copyright (C) 1999       Przemek Borys <pborys@dione.ids.pl>
+    Copyright (C) 2005-2006  Bas Zoetekouw <bas@debian.org> 
+	                         Nathanael Nerode <neroden@fastmail.fm>
 
-	This program is free software; you can redistribute it and/or modify it
-	under the terms of version 2 of the GNU General Public License as
-	published by the Free Software Foundation.
+    This program is free software; you can redistribute it and/or modify it
+    under the terms of version 2 of the GNU General Public License as
+    published by the Free Software Foundation.
 
     This program is distributed in the hope that it will be useful,
     but WITHOUT ANY WARRANTY; without even the implied warranty of

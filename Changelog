@@ -1,0 +1,972 @@
+------------------------------------------------------------------------
+r276 | bas | 2006-03-09 19:41:33 +0100 (Thu, 09 Mar 2006) | 4 lines
+Changed paths:
+   M /pinfo/trunk/src/pinforc.in
+
+Changed the default pinforc to use the terminal's default foreground and
+background colors.  Thansk to Rob Funk for bringing this issue to my attention
+and sending a patch.
+
+------------------------------------------------------------------------
+r275 | bas | 2006-03-09 19:33:36 +0100 (Thu, 09 Mar 2006) | 2 lines
+Changed paths:
+   M /pinfo/trunk/AUTHORS
+   M /pinfo/trunk/configure.ac
+   A /pinfo/trunk/po/pt_BR.po
+
+Added Brazilian translation by Felipe Augusto van de Wiel
+
+------------------------------------------------------------------------
+r274 | bas | 2006-03-09 19:28:45 +0100 (Thu, 09 Mar 2006) | 3 lines
+Changed paths:
+   M /pinfo/trunk/configure.ac
+
+Fixed the readline check in autoconf.ac, which caused ./configure to fail if
+readline was not found.
+
+------------------------------------------------------------------------
+r273 | bas | 2006-03-09 19:27:59 +0100 (Thu, 09 Mar 2006) | 2 lines
+Changed paths:
+   A /pinfo/trunk/autogen.sh (from /pinfo/trunk/tools/autogen.sh:272)
+   D /pinfo/trunk/tools
+
+Moved autogen.sh to the main dir
+
+------------------------------------------------------------------------
+r272 | bas | 2006-03-09 19:10:31 +0100 (Thu, 09 Mar 2006) | 2 lines
+Changed paths:
+   M /pinfo/trunk/po/cs.po
+   M /pinfo/trunk/po/de.po
+   M /pinfo/trunk/po/eu.po
+   M /pinfo/trunk/po/ja.po
+   M /pinfo/trunk/po/nl.po
+   M /pinfo/trunk/po/pinfo.pot
+   M /pinfo/trunk/po/pl.po
+   M /pinfo/trunk/po/ro.po
+   M /pinfo/trunk/po/ru.po
+   M /pinfo/trunk/po/sv.po
+
+Updated po files
+
+------------------------------------------------------------------------
+r270 | bas | 2005-11-14 15:47:38 +0100 (Mon, 14 Nov 2005) | 2 lines
+Changed paths:
+   M /pinfo/trunk/doc/pinfo.1.in
+
+Spelling fixes to man page
+
+------------------------------------------------------------------------
+r269 | bas | 2005-11-05 13:51:49 +0100 (Sat, 05 Nov 2005) | 2 lines
+Changed paths:
+   M /pinfo/trunk/po/ro.po
+
+Unfuzzied Romanian translation, thanks to Eddy Petri?\197?\159or
+
+------------------------------------------------------------------------
+r268 | bas | 2005-10-12 19:33:26 +0200 (Wed, 12 Oct 2005) | 2 lines
+Changed paths:
+   M /pinfo/trunk/AUTHORS
+   M /pinfo/trunk/po/cs.po
+
+Updated Czech translation by Katarína Machálková
+
+------------------------------------------------------------------------
+r267 | bas | 2005-10-12 19:18:00 +0200 (Wed, 12 Oct 2005) | 2 lines
+Changed paths:
+   M /pinfo/trunk/AUTHORS
+   M /pinfo/trunk/po/ru.po
+
+Updated Russian translation by Yuri Kozlov 
+
+------------------------------------------------------------------------
+r266 | bas | 2005-10-12 19:14:11 +0200 (Wed, 12 Oct 2005) | 2 lines
+Changed paths:
+   M /pinfo/trunk/AUTHORS
+   M /pinfo/trunk/configure.ac
+   A /pinfo/trunk/po/ro.po
+
+Added Romanian translation by Eddy Petri?\197?\159or
+
+------------------------------------------------------------------------
+r265 | bas | 2005-10-12 19:08:50 +0200 (Wed, 12 Oct 2005) | 2 lines
+Changed paths:
+   M /pinfo/trunk/AUTHORS
+   M /pinfo/trunk/po/sv.po
+
+Added Swedish translation by Daniel Nylander
+
+------------------------------------------------------------------------
+r264 | bas | 2005-10-01 00:48:53 +0200 (Sat, 01 Oct 2005) | 3 lines
+Changed paths:
+   M /pinfo/trunk/AUTHORS
+   M /pinfo/trunk/configure.ac
+   A /pinfo/trunk/po/eu.po
+
+- Added Basque translation by Piarres Beobide
+- Added annotation in AUTHORS file for Polish translator
+
+------------------------------------------------------------------------
+r263 | bas | 2005-10-01 00:41:49 +0200 (Sat, 01 Oct 2005) | 2 lines
+Changed paths:
+   M /pinfo/trunk/AUTHORS
+   M /pinfo/trunk/po/pl.po
+
+Added updated polish translation by Krzysztof Krzyzaniak
+
+------------------------------------------------------------------------
+r262 | bas | 2005-09-29 21:55:55 +0200 (Thu, 29 Sep 2005) | 2 lines
+Changed paths:
+   M /pinfo/trunk/configure.ac
+   M /pinfo/trunk/macros/readline.m4
+
+Fixed readline detection: we requite either version 5, of no readline at all
+
+------------------------------------------------------------------------
+r261 | bas | 2005-09-28 22:22:47 +0200 (Wed, 28 Sep 2005) | 2 lines
+Changed paths:
+   M /pinfo/trunk/po/cs.po
+   M /pinfo/trunk/po/de.po
+   M /pinfo/trunk/po/ja.po
+   M /pinfo/trunk/po/nl.po
+   M /pinfo/trunk/po/pinfo.pot
+   M /pinfo/trunk/po/pl.po
+   M /pinfo/trunk/po/ru.po
+   M /pinfo/trunk/po/sv.po
+
+po sync
+
+------------------------------------------------------------------------
+r260 | bas | 2005-09-27 17:23:27 +0200 (Tue, 27 Sep 2005) | 10 lines
+Changed paths:
+   M /pinfo/trunk/config.h.in
+   M /pinfo/trunk/configure.ac
+   M /pinfo/trunk/macros/Makefile.in
+   M /pinfo/trunk/macros/curses.m4
+   M /pinfo/trunk/macros/readline.m4
+   A /pinfo/trunk/macros/wchar.m4
+   M /pinfo/trunk/src/Makefile.am
+   M /pinfo/trunk/src/common_includes.h
+   M /pinfo/trunk/src/filehandling_functions.c
+   M /pinfo/trunk/src/initializelinks.c
+   M /pinfo/trunk/src/mainfunction.c
+   M /pinfo/trunk/src/manual.c
+   M /pinfo/trunk/src/parse_config.c
+   M /pinfo/trunk/src/utils.c
+   M /pinfo/trunk/src/utils.h
+
+Fixed displaying of multibyte (like UTF8) and wide (like kanji) characters.
+This basically consists of 3 parts:
+ - detect (n)curses's wchar capabilities and only use them if supported
+   (and rewrite the entire curses.m4 while we're at it)
+ - detect the flags we need for the C library to make wcwidth() available
+ - replace all the position-dependent stuff (link positions, mostly) to
+   use the width of the string rather than the length of the string
+ - remove some obsolete string functions (like strsep()) that aren't supported
+   with _XOPEN_SOURCE=600 (which we need for wcwidth())
+
+------------------------------------------------------------------------
+r222 | bas | 2005-09-10 19:37:17 +0200 (Sat, 10 Sep 2005) | 2 lines
+Changed paths:
+   M /pinfo/trunk/src/utils.c
+
+Oops 2, don't forget to declare variables...
+
+------------------------------------------------------------------------
+r221 | bas | 2005-09-10 17:23:50 +0200 (Sat, 10 Sep 2005) | 2 lines
+Changed paths:
+   M /pinfo/trunk/src/utils.c
+
+Oops, forgot to free() a local variable in check_node_name()
+
+------------------------------------------------------------------------
+r220 | bas | 2005-09-10 17:06:55 +0200 (Sat, 10 Sep 2005) | 5 lines
+Changed paths:
+   M /pinfo/trunk/src/pinfo.c
+   M /pinfo/trunk/src/utils.c
+   M /pinfo/trunk/src/utils.h
+
+Added a check to automatically fix broken tag tables.
+If the node we find isn't the same node we were looking
+for, we set ForceManualTagTable to 1 (simulating a -t 
+command line option) and reload the current file.
+
+------------------------------------------------------------------------
+r219 | bas | 2005-09-10 12:46:18 +0200 (Sat, 10 Sep 2005) | 3 lines
+Changed paths:
+   M /pinfo/trunk/AUTHORS
+   M /pinfo/trunk/po/cs.po
+   M /pinfo/trunk/po/de.po
+   M /pinfo/trunk/po/ja.po
+   M /pinfo/trunk/po/nl.po
+   M /pinfo/trunk/po/pinfo.pot
+   M /pinfo/trunk/po/pl.po
+   M /pinfo/trunk/po/ru.po
+   M /pinfo/trunk/po/sv.po
+   M /pinfo/trunk/src/mainfunction.c
+   M /pinfo/trunk/src/manual.c
+
+- Corrected some english text and updated po files
+- Updated german translation by Rene van Bevern
+
+------------------------------------------------------------------------
+r217 | bas | 2005-09-08 23:01:50 +0200 (Thu, 08 Sep 2005) | 8 lines
+Changed paths:
+   M /pinfo/trunk/src/initializelinks.c
+
+Fixed scanning for node links of the form:
+ * Rules: Rpcalc Rules.  Grammar Rules for rpcalc, with explanation.
+(example taken from bison info page).  These weren't detected because
+finddot() looked for the last occurrence of a '.' (or ',' or '\t', or '\n'),
+instead of the first one.  
+This fixes Debian bug #235134.
+
+
+------------------------------------------------------------------------
+r216 | bas | 2005-09-08 22:34:56 +0200 (Thu, 08 Sep 2005) | 2 lines
+Changed paths:
+   M /pinfo/trunk/src/initializelinks.c
+
+Oops, removed one goto too many...  reverted that
+
+------------------------------------------------------------------------
+r215 | bas | 2005-09-08 22:33:44 +0200 (Thu, 08 Sep 2005) | 5 lines
+Changed paths:
+   M /pinfo/trunk/src/initializelinks.c
+   M /pinfo/trunk/src/pinfo.c
+
+*ARGRG*
+- rewrap code to make it fit in my terminal window
+- introduced some if's in this code to the concept of && and ||
+- removed some evil goto's
+
+------------------------------------------------------------------------
+r214 | bas | 2005-09-08 16:04:14 +0200 (Thu, 08 Sep 2005) | 6 lines
+Changed paths:
+   M /pinfo/trunk/po/Makevars
+   M /pinfo/trunk/po/cs.po
+   M /pinfo/trunk/po/de.po
+   M /pinfo/trunk/po/ja.po
+   M /pinfo/trunk/po/nl.po
+   M /pinfo/trunk/po/pinfo.pot
+   M /pinfo/trunk/po/pl.po
+   M /pinfo/trunk/po/ru.po
+   M /pinfo/trunk/po/sv.po
+   M /pinfo/trunk/src/mainfunction.c
+   M /pinfo/trunk/src/manual.c
+
+Backport of r205 of braches/cxx to trunk:
+ - fix English text in 2 messages
+ - update pot/po files
+ - unfuzzy translations
+ - fix copyright holders in po/Makevars
+
+------------------------------------------------------------------------
+r189 | neroden-guest | 2005-09-07 04:29:35 +0200 (Wed, 07 Sep 2005) | 2 lines
+Changed paths:
+   M /pinfo/trunk/src/mainfunction.c
+
+Fix an off-by-one bug which affects display when moving up.  Whee.
+
+------------------------------------------------------------------------
+r186 | neroden-guest | 2005-09-07 03:58:42 +0200 (Wed, 07 Sep 2005) | 2 lines
+Changed paths:
+   M /pinfo/trunk/src/filehandling_functions.c
+
+Fix reversed return value in matchfile.
+
+------------------------------------------------------------------------
+r179 | bas | 2005-09-06 17:37:53 +0200 (Tue, 06 Sep 2005) | 12 lines
+Changed paths:
+   M /pinfo/trunk/src/filehandling_functions.c
+   M /pinfo/trunk/src/filehandling_functions.h
+
+Fixed the search sequence for info pages: 
+  - first look for a perfect match on filename
+  - then look for a perfect (case-insensitive) match on links in 
+    the "dir" files
+  - then look for a partial (c-i) match on links in "dir" files
+  - finally fall back on man
+This makes out bahaviour consistent with GNU info, and leads to a saner 
+sequence ("pinfo python", for example, now directly gives the python 
+api reference).
+This fixes Debian bug #299891.
+Also reindented and cleaned up the code a tiny bit.
+
+------------------------------------------------------------------------
+r164 | bas | 2005-09-04 02:54:10 +0200 (Sun, 04 Sep 2005) | 2 lines
+Changed paths:
+   M /pinfo/trunk/src/datatypes.c
+   M /pinfo/trunk/src/filehandling_functions.c
+   M /pinfo/trunk/src/initializelinks.c
+   M /pinfo/trunk/src/mainfunction.c
+   M /pinfo/trunk/src/manual.c
+   M /pinfo/trunk/src/pinfo.c
+   M /pinfo/trunk/src/video.c
+
+Fixed -Wshadow warnings
+
+------------------------------------------------------------------------
+r163 | bas | 2005-09-04 02:39:51 +0200 (Sun, 04 Sep 2005) | 2 lines
+Changed paths:
+   M /pinfo/trunk/src/common_includes.h
+   M /pinfo/trunk/src/filehandling_functions.c
+   M /pinfo/trunk/src/mainfunction.c
+   M /pinfo/trunk/src/manual.c
+   M /pinfo/trunk/src/parse_config.c
+   M /pinfo/trunk/src/signal_handler.c
+   M /pinfo/trunk/src/utils.h
+
+Fixed -Wall warnings
+
+------------------------------------------------------------------------
+r162 | bas | 2005-09-04 02:18:13 +0200 (Sun, 04 Sep 2005) | 2 lines
+Changed paths:
+   M /pinfo/trunk/src/filehandling_functions.c
+
+Fix compile error introduced in r112
+
+------------------------------------------------------------------------
+r161 | bas | 2005-09-04 02:16:53 +0200 (Sun, 04 Sep 2005) | 4 lines
+Changed paths:
+   M /pinfo/trunk/src/initializelinks.c
+   M /pinfo/trunk/src/manual.c
+   M /pinfo/trunk/src/parse_config.c
+   M /pinfo/trunk/src/video.c
+
+Backport of r155->r156 from the cxx branch:
+ - Fix an apparent off-by-one error in mouse handling
+ - Fix return type of tmpfiles routines
+
+------------------------------------------------------------------------
+r160 | bas | 2005-09-04 01:55:39 +0200 (Sun, 04 Sep 2005) | 4 lines
+Changed paths:
+   M /pinfo/trunk/src/pinforc.in
+   M /pinfo/trunk/src/utils.c
+
+Change default "no group" group to "nogroup", which it is in Linux
+and *BSD.  This corresponds to the second part of r153->r154 in the cxx branch.
+
+
+------------------------------------------------------------------------
+r113 | bas | 2005-09-01 21:58:45 +0200 (Thu, 01 Sep 2005) | 2 lines
+Changed paths:
+   M /pinfo/trunk/configure.ac
+   A /pinfo/trunk/po/nl.po
+
+Added a dutch translation
+
+------------------------------------------------------------------------
+r112 | bas | 2005-09-01 21:58:23 +0200 (Thu, 01 Sep 2005) | 2 lines
+Changed paths:
+   M /pinfo/trunk/po/cs.po
+   M /pinfo/trunk/po/de.po
+   M /pinfo/trunk/po/ja.po
+   M /pinfo/trunk/po/pinfo.pot
+   M /pinfo/trunk/po/pl.po
+   M /pinfo/trunk/po/ru.po
+   M /pinfo/trunk/po/sv.po
+   M /pinfo/trunk/src/filehandling_functions.c
+   M /pinfo/trunk/src/manual.c
+
+Updated and merged some strings in the code, and rebuilt the *.po files.
+
+------------------------------------------------------------------------
+r111 | bas | 2005-09-01 21:15:33 +0200 (Thu, 01 Sep 2005) | 2 lines
+Changed paths:
+   M /pinfo/trunk/po/cs.po
+   M /pinfo/trunk/po/de.po
+   M /pinfo/trunk/po/ja.po
+   M /pinfo/trunk/po/pinfo.pot
+   M /pinfo/trunk/po/pl.po
+   M /pinfo/trunk/po/ru.po
+   M /pinfo/trunk/po/sv.po
+
+ran po update
+
+------------------------------------------------------------------------
+r110 | bas | 2005-09-01 21:13:47 +0200 (Thu, 01 Sep 2005) | 2 lines
+Changed paths:
+   M /pinfo/trunk/src/video.c
+
+Added an extra safety check on message[i] in showscreen()
+
+------------------------------------------------------------------------
+r109 | bas | 2005-09-01 21:11:35 +0200 (Thu, 01 Sep 2005) | 2 lines
+Changed paths:
+   M /pinfo/trunk/src/filehandling_functions.c
+
+Fixed a small memory leak.
+
+------------------------------------------------------------------------
+r108 | bas | 2005-08-31 23:30:42 +0200 (Wed, 31 Aug 2005) | 6 lines
+Changed paths:
+   M /pinfo/trunk/src/filehandling_functions.c
+
+Fixed a heap corruption: index headers of info files contain \0 characters,
+which totally fucks up any strlen() commands, and thereby all kinds of
+reallocs.  The read_item() function now checks for \0 (and \b) chars and
+changes them to spaces.
+This also fixes displaying indices in general, which now works.
+
+------------------------------------------------------------------------
+r107 | bas | 2005-08-31 20:09:31 +0200 (Wed, 31 Aug 2005) | 2 lines
+Changed paths:
+   M /pinfo/trunk/po/POTFILES.in
+
+Removed reference to keyboard.c, which was removed.
+
+------------------------------------------------------------------------
+r46 | neroden-guest | 2005-08-26 12:21:26 +0200 (Fri, 26 Aug 2005) | 3 lines
+Changed paths:
+   M /pinfo/trunk/src/filehandling_functions.c
+
+Fix transposed for loop.
+
+
+------------------------------------------------------------------------
+r35 | neroden-guest | 2005-08-23 03:20:17 +0200 (Tue, 23 Aug 2005) | 3 lines
+Changed paths:
+   M /pinfo/trunk/INSTALL
+   M /pinfo/trunk/macros/Makefile.in
+   M /pinfo/trunk/src/Makefile.am
+   D /pinfo/trunk/src/keyboard.c
+
+Remove keyboard.c because it does nothing and contains nothing.
+It's a complete waste of space.
+
+------------------------------------------------------------------------
+r33 | neroden-guest | 2005-08-23 02:20:15 +0200 (Tue, 23 Aug 2005) | 3 lines
+Changed paths:
+   M /pinfo/trunk/src/filehandling_functions.c
+   M /pinfo/trunk/src/initializelinks.c
+   M /pinfo/trunk/src/manual.c
+   M /pinfo/trunk/src/menu_and_note_utils.c
+   M /pinfo/trunk/src/video.c
+
+Eliminate unused variables in several functions in several files.
+
+
+------------------------------------------------------------------------
+r28 | neroden-guest | 2005-08-11 16:26:21 +0200 (Thu, 11 Aug 2005) | 6 lines
+Changed paths:
+   M /pinfo/trunk/src/video.c
+
+Put a hack in video.c (info_addstr) to solve Debian bug 288877 (mostly).
+Couldn't get the whole thing because tabs are embedded in some 
+hyperlinks (which is a bug elsewhere in pinfo).
+
+Also, fix a typo.
+
+------------------------------------------------------------------------
+r27 | neroden-guest | 2005-08-11 14:39:19 +0200 (Thu, 11 Aug 2005) | 3 lines
+Changed paths:
+   M /pinfo/trunk/src/filehandling_functions.c
+
+Remember to initialize to NULL.  Avoid another segfault.
+
+
+------------------------------------------------------------------------
+r26 | neroden-guest | 2005-08-11 13:53:17 +0200 (Thu, 11 Aug 2005) | 6 lines
+Changed paths:
+   M /pinfo/trunk/src/filehandling_functions.c
+
+Fix segfault in src/filehandling_functions.c.  We were strdup()ing the 
+result of getenv() without checking whether it was NULL.  Further, we
+were using the result as an array without checking whether *it* was 
+NULL.  Both wrapped in a null pointer check.
+
+
+------------------------------------------------------------------------
+r25 | bas | 2005-07-25 22:51:44 +0200 (Mon, 25 Jul 2005) | 2 lines
+Changed paths:
+   M /pinfo/trunk/AUTHORS
+   M /pinfo/trunk/README
+
+Updated AUTORS AND README (added myself as maintainer)
+
+------------------------------------------------------------------------
+r24 | bas | 2005-07-25 22:47:44 +0200 (Mon, 25 Jul 2005) | 2 lines
+Changed paths:
+   M /pinfo/trunk/configure.ac
+   M /pinfo/trunk/src/colors.c
+   M /pinfo/trunk/src/colors.h
+   M /pinfo/trunk/src/common_includes.h
+   M /pinfo/trunk/src/datatypes.c
+   M /pinfo/trunk/src/datatypes.h
+   M /pinfo/trunk/src/filehandling_functions.c
+   M /pinfo/trunk/src/filehandling_functions.h
+   M /pinfo/trunk/src/initializelinks.c
+   M /pinfo/trunk/src/initializelinks.h
+   M /pinfo/trunk/src/keyboard.c
+   M /pinfo/trunk/src/keyboard.h
+   M /pinfo/trunk/src/localestuff.h
+   M /pinfo/trunk/src/mainfunction.c
+   M /pinfo/trunk/src/mainfunction.h
+   M /pinfo/trunk/src/manual.c
+   M /pinfo/trunk/src/manual.h
+   M /pinfo/trunk/src/menu_and_note_utils.c
+   M /pinfo/trunk/src/menu_and_note_utils.h
+   M /pinfo/trunk/src/parse_config.c
+   M /pinfo/trunk/src/parse_config.h
+   M /pinfo/trunk/src/pinfo.c
+   M /pinfo/trunk/src/printinfo.c
+   M /pinfo/trunk/src/printinfo.h
+   M /pinfo/trunk/src/rcsid.h
+   M /pinfo/trunk/src/readlinewrapper.c
+   M /pinfo/trunk/src/readlinewrapper.h
+   M /pinfo/trunk/src/regexp_search.c
+   M /pinfo/trunk/src/regexp_search.h
+   M /pinfo/trunk/src/sigblock.h
+   M /pinfo/trunk/src/signal_handler.c
+   M /pinfo/trunk/src/signal_handler.h
+   M /pinfo/trunk/src/utils.c
+   M /pinfo/trunk/src/utils.h
+   M /pinfo/trunk/src/video.c
+   M /pinfo/trunk/src/video.h
+
+Added copyright messages to all source files.
+
+------------------------------------------------------------------------
+r23 | bas | 2005-07-25 22:15:15 +0200 (Mon, 25 Jul 2005) | 2 lines
+Changed paths:
+   M /pinfo/trunk/config.h.in
+   M /pinfo/trunk/configure.ac
+
+Added an autoconf check for strsep
+
+------------------------------------------------------------------------
+r22 | bas | 2005-07-25 22:14:49 +0200 (Mon, 25 Jul 2005) | 9 lines
+Changed paths:
+   M /pinfo/trunk/macros/readline.m4
+   M /pinfo/trunk/src/readlinewrapper.c
+   M /pinfo/trunk/src/utils.c
+
+Fixed the readline code 
+ - search and check for libreadline version 5
+ - enabled use of libreadline by default
+ - fixed cooperation between ncurses and libreadline by specifying a custom
+   output routine
+ - fixed the history behaviour of the non-libreadline input code:
+   the last history entry is shown by default, but it is deleted automatically
+   on input of a non-edit key (this fixes Debian bug #222651)
+
+------------------------------------------------------------------------
+r21 | bas | 2005-07-25 18:52:10 +0200 (Mon, 25 Jul 2005) | 4 lines
+Changed paths:
+   M /pinfo/trunk/src/mainfunction.c
+   M /pinfo/trunk/src/manual.c
+   M /pinfo/trunk/src/utils.c
+   M /pinfo/trunk/src/utils.h
+
+The return value of regcom() is now checked for errors.  If a regexp can't be
+compiled, show an error message instead of segfaulting.
+(fixes Debian bug #222650)
+
+------------------------------------------------------------------------
+r20 | bas | 2005-07-25 01:13:04 +0200 (Mon, 25 Jul 2005) | 3 lines
+Changed paths:
+   M /pinfo/trunk/src/filehandling_functions.c
+
+Small fix to the language code in initpaths(): make sure we only allocate
+langshort once.
+
+------------------------------------------------------------------------
+r19 | bas | 2005-07-25 01:04:09 +0200 (Mon, 25 Jul 2005) | 8 lines
+Changed paths:
+   M /pinfo/trunk/src/datatypes.c
+   M /pinfo/trunk/src/filehandling_functions.c
+   M /pinfo/trunk/src/filehandling_functions.h
+
+Fixed the path search for info dirs:
+ - use correct default info dirs as defined by FHS in datatypes.c
+ - rewrote initpaths() in filehandling_functions.c;  
+   - added better support for languages (a locale of en_GB.UTF8 now causes
+	 pinfo to also search for .../info/en_GB and .../info/en dirs) 
+   - added a check to make sure we don't use anu duplicate paths (caused by
+	 symlinks or so) (fixes Debian bug #181907)
+
+------------------------------------------------------------------------
+r18 | bas | 2005-07-23 22:08:22 +0200 (Sat, 23 Jul 2005) | 2 lines
+Changed paths:
+   M /pinfo/trunk/config.h.in
+   M /pinfo/trunk/configure.ac
+   M /pinfo/trunk/doc/Makefile.am
+   M /pinfo/trunk/doc/pinfo.1.in
+   M /pinfo/trunk/doc/pinfo.texi
+   M /pinfo/trunk/po/cs.po
+   M /pinfo/trunk/po/de.po
+   M /pinfo/trunk/po/ja.po
+   M /pinfo/trunk/po/pl.po
+   M /pinfo/trunk/po/ru.po
+   M /pinfo/trunk/po/sv.po
+   M /pinfo/trunk/src/Makefile.am
+
+Added svn:keywords properties on build tools, docs and po files
+
+------------------------------------------------------------------------
+r17 | bas | 2005-07-23 22:05:31 +0200 (Sat, 23 Jul 2005) | 2 lines
+Changed paths:
+   D /pinfo/trunk/doc/Makefile.in
+   D /pinfo/trunk/doc/pinfo.info
+
+Removed automatically generated doc files
+
+------------------------------------------------------------------------
+r16 | bas | 2005-07-23 22:02:29 +0200 (Sat, 23 Jul 2005) | 2 lines
+Changed paths:
+   D /pinfo/trunk/Makefile.in
+
+Removed another generated file
+
+------------------------------------------------------------------------
+r15 | bas | 2005-07-23 21:58:05 +0200 (Sat, 23 Jul 2005) | 3 lines
+Changed paths:
+   M /pinfo/trunk/COPYING
+   M /pinfo/trunk/INSTALL
+   M /pinfo/trunk/Makefile.in
+   M /pinfo/trunk/config.h.in
+   M /pinfo/trunk/po/Makefile.in.in
+   D /pinfo/trunk/tools/config.guess
+   D /pinfo/trunk/tools/config.rpath
+   D /pinfo/trunk/tools/config.sub
+   D /pinfo/trunk/tools/depcomp
+   D /pinfo/trunk/tools/install-sh
+   D /pinfo/trunk/tools/ltmain.sh
+   D /pinfo/trunk/tools/missing
+   D /pinfo/trunk/tools/mkinstalldirs
+   D /pinfo/trunk/tools/texinfo.tex
+
+Ran autoreconf and removed the files that are generated and/or automatically
+copied into the source tree
+
+------------------------------------------------------------------------
+r14 | bas | 2005-07-23 21:34:57 +0200 (Sat, 23 Jul 2005) | 2 lines
+Changed paths:
+   D /pinfo/trunk/macros/autogen.sh
+   A /pinfo/trunk/tools/autogen.sh (from /pinfo/trunk/macros/autogen.sh:11)
+
+Replaced autogen.sh by a newer version
+
+------------------------------------------------------------------------
+r13 | bas | 2005-07-23 21:31:41 +0200 (Sat, 23 Jul 2005) | 2 lines
+Changed paths:
+   D /pinfo/trunk/configure
+
+Removed configure (generated file)
+
+------------------------------------------------------------------------
+r12 | bas | 2005-07-23 21:30:53 +0200 (Sat, 23 Jul 2005) | 2 lines
+Changed paths:
+   M /pinfo/trunk/Makefile.in
+   D /pinfo/trunk/aclocal.m4
+   D /pinfo/trunk/config.guess
+   D /pinfo/trunk/config.rpath
+   D /pinfo/trunk/config.sub
+   M /pinfo/trunk/configure
+   M /pinfo/trunk/configure.ac
+   D /pinfo/trunk/depcomp
+   M /pinfo/trunk/doc/Makefile.in
+   D /pinfo/trunk/doc/pinfo.1
+   D /pinfo/trunk/doc/texinfo.tex
+   D /pinfo/trunk/install-sh
+   D /pinfo/trunk/ltmain.sh
+   M /pinfo/trunk/macros/Makefile.in
+   D /pinfo/trunk/missing
+   D /pinfo/trunk/mkinstalldirs
+   D /pinfo/trunk/pinfo.spec
+   M /pinfo/trunk/po/Makefile.in.in
+   D /pinfo/trunk/src/Makefile.in
+   A /pinfo/trunk/tools
+   A /pinfo/trunk/tools/config.guess (from /pinfo/trunk/config.guess:11)
+   A /pinfo/trunk/tools/config.rpath (from /pinfo/trunk/config.rpath:11)
+   A /pinfo/trunk/tools/config.sub (from /pinfo/trunk/config.sub:11)
+   A /pinfo/trunk/tools/depcomp (from /pinfo/trunk/depcomp:11)
+   A /pinfo/trunk/tools/install-sh (from /pinfo/trunk/install-sh:11)
+   A /pinfo/trunk/tools/ltmain.sh (from /pinfo/trunk/ltmain.sh:11)
+   A /pinfo/trunk/tools/missing (from /pinfo/trunk/missing:11)
+   A /pinfo/trunk/tools/mkinstalldirs (from /pinfo/trunk/mkinstalldirs:11)
+   A /pinfo/trunk/tools/texinfo.tex (from /pinfo/trunk/doc/texinfo.tex:11)
+
+Revised autoconf and friends yet again
+
+------------------------------------------------------------------------
+r11 | bas | 2005-07-23 18:45:32 +0200 (Sat, 23 Jul 2005) | 3 lines
+Changed paths:
+   M /pinfo/trunk/po/de.po
+
+- German translation fixes by Jens Seidel
+  (Debian bug #313928)
+
+------------------------------------------------------------------------
+r10 | bas | 2005-06-01 19:54:03 +0200 (Wed, 01 Jun 2005) | 2 lines
+Changed paths:
+   M /pinfo/trunk/src/filehandling_functions.c
+   M /pinfo/trunk/src/mainfunction.c
+   M /pinfo/trunk/src/manual.c
+   M /pinfo/trunk/src/printinfo.c
+
+Fixed some typos
+
+------------------------------------------------------------------------
+r9 | bas | 2005-06-01 19:49:24 +0200 (Wed, 01 Jun 2005) | 2 lines
+Changed paths:
+   M /pinfo/trunk/src/colors.c
+   M /pinfo/trunk/src/colors.h
+   M /pinfo/trunk/src/common_includes.h
+   M /pinfo/trunk/src/datatypes.c
+   M /pinfo/trunk/src/datatypes.h
+   M /pinfo/trunk/src/filehandling_functions.c
+   M /pinfo/trunk/src/filehandling_functions.h
+   M /pinfo/trunk/src/initializelinks.c
+   M /pinfo/trunk/src/initializelinks.h
+   M /pinfo/trunk/src/keyboard.c
+   M /pinfo/trunk/src/keyboard.h
+   M /pinfo/trunk/src/localestuff.h
+   M /pinfo/trunk/src/mainfunction.c
+   M /pinfo/trunk/src/mainfunction.h
+   M /pinfo/trunk/src/manual.c
+   M /pinfo/trunk/src/manual.h
+   M /pinfo/trunk/src/menu_and_note_utils.c
+   M /pinfo/trunk/src/menu_and_note_utils.h
+   M /pinfo/trunk/src/parse_config.c
+   M /pinfo/trunk/src/parse_config.h
+   M /pinfo/trunk/src/pinfo.c
+   M /pinfo/trunk/src/printinfo.c
+   M /pinfo/trunk/src/printinfo.h
+   M /pinfo/trunk/src/rcsid.h
+   M /pinfo/trunk/src/readlinewrapper.c
+   M /pinfo/trunk/src/regexp_search.c
+   M /pinfo/trunk/src/sigblock.c
+   M /pinfo/trunk/src/signal_handler.c
+   M /pinfo/trunk/src/signal_handler.h
+   M /pinfo/trunk/src/snprintf.c
+   M /pinfo/trunk/src/utils.c
+   M /pinfo/trunk/src/utils.h
+   M /pinfo/trunk/src/video.c
+   M /pinfo/trunk/src/video.h
+
+Fixed indentation and comments
+
+------------------------------------------------------------------------
+r8 | bas | 2005-05-17 19:38:20 +0200 (Tue, 17 May 2005) | 2 lines
+Changed paths:
+   M /pinfo/trunk/po/cs.po
+   M /pinfo/trunk/po/de.po
+   A /pinfo/trunk/po/insert-header.sin
+   M /pinfo/trunk/po/ja.po
+   M /pinfo/trunk/po/pinfo.pot
+   M /pinfo/trunk/po/pl.po
+   A /pinfo/trunk/po/remove-potcdate.sin
+   M /pinfo/trunk/po/ru.po
+   M /pinfo/trunk/po/sv.po
+
+Updated po-shit
+
+------------------------------------------------------------------------
+r7 | bas | 2005-05-17 19:27:32 +0200 (Tue, 17 May 2005) | 2 lines
+Changed paths:
+   M /pinfo/trunk/AUTHORS
+   M /pinfo/trunk/ChangeLog
+
+Fixed Linus Åkerlund's name
+
+------------------------------------------------------------------------
+r6 | bas | 2005-05-17 19:23:52 +0200 (Tue, 17 May 2005) | 2 lines
+Changed paths:
+   M /pinfo/trunk/AUTHORS
+   M /pinfo/trunk/ChangeLog
+
+translated AUTHORS en Changelog from iso8859-2 to utf8
+
+------------------------------------------------------------------------
+r5 | bas | 2005-05-17 19:16:35 +0200 (Tue, 17 May 2005) | 2 lines
+Changed paths:
+   M /pinfo/trunk/ABOUT-NLS
+   D /pinfo/trunk/INSTALL.in
+   M /pinfo/trunk/Makefile.am
+   M /pinfo/trunk/Makefile.in
+   D /pinfo/trunk/acconfig.h
+   M /pinfo/trunk/aclocal.m4
+   M /pinfo/trunk/config.guess
+   M /pinfo/trunk/config.h.in
+   A /pinfo/trunk/config.rpath
+   M /pinfo/trunk/config.sub
+   M /pinfo/trunk/configure
+   A /pinfo/trunk/configure.ac (from /pinfo/trunk/configure.in:4)
+   D /pinfo/trunk/configure.in
+   A /pinfo/trunk/depcomp
+   M /pinfo/trunk/doc/Makefile.in
+   M /pinfo/trunk/doc/texinfo.tex
+   M /pinfo/trunk/install-sh
+   D /pinfo/trunk/intl
+   A /pinfo/trunk/ltmain.sh
+   M /pinfo/trunk/macros/Makefile.in
+   M /pinfo/trunk/macros/curses.m4
+   M /pinfo/trunk/macros/readline.m4
+   M /pinfo/trunk/missing
+   M /pinfo/trunk/mkinstalldirs
+   M /pinfo/trunk/po/Makefile.in.in
+   A /pinfo/trunk/po/Makevars
+   D /pinfo/trunk/po/cs.gmo
+   D /pinfo/trunk/po/de.gmo
+   D /pinfo/trunk/po/ja.gmo
+   D /pinfo/trunk/po/pl.gmo
+   M /pinfo/trunk/po/pl.po
+   D /pinfo/trunk/po/ru.gmo
+   M /pinfo/trunk/po/ru.po
+   D /pinfo/trunk/po/sv.gmo
+   M /pinfo/trunk/po/sv.po
+   M /pinfo/trunk/src/Makefile.in
+
+Updated autoconf/automake/etc
+
+------------------------------------------------------------------------
+r2 | bas | 2005-05-17 15:42:42 +0200 (Tue, 17 May 2005) | 2 lines
+Changed paths:
+   A /pinfo/trunk/ABOUT-NLS
+   A /pinfo/trunk/AUTHORS
+   A /pinfo/trunk/COPYING
+   A /pinfo/trunk/ChangeLog
+   A /pinfo/trunk/INSTALL
+   A /pinfo/trunk/INSTALL.in
+   A /pinfo/trunk/Makefile.am
+   A /pinfo/trunk/Makefile.in
+   A /pinfo/trunk/NEWS
+   A /pinfo/trunk/README
+   A /pinfo/trunk/TECHSTUFF
+   A /pinfo/trunk/TODO
+   A /pinfo/trunk/acconfig.h
+   A /pinfo/trunk/aclocal.m4
+   A /pinfo/trunk/config.guess
+   A /pinfo/trunk/config.h.in
+   A /pinfo/trunk/config.sub
+   A /pinfo/trunk/configure
+   A /pinfo/trunk/configure.in
+   A /pinfo/trunk/doc
+   A /pinfo/trunk/doc/Makefile.am
+   A /pinfo/trunk/doc/Makefile.in
+   A /pinfo/trunk/doc/pinfo.1
+   A /pinfo/trunk/doc/pinfo.1.in
+   A /pinfo/trunk/doc/pinfo.info
+   A /pinfo/trunk/doc/pinfo.texi
+   A /pinfo/trunk/doc/texinfo.tex
+   A /pinfo/trunk/install-sh
+   A /pinfo/trunk/intl
+   A /pinfo/trunk/intl/ChangeLog
+   A /pinfo/trunk/intl/Makefile.in
+   A /pinfo/trunk/intl/VERSION
+   A /pinfo/trunk/intl/bindtextdom.c
+   A /pinfo/trunk/intl/config.charset
+   A /pinfo/trunk/intl/dcgettext.c
+   A /pinfo/trunk/intl/dcigettext.c
+   A /pinfo/trunk/intl/dcngettext.c
+   A /pinfo/trunk/intl/dgettext.c
+   A /pinfo/trunk/intl/dngettext.c
+   A /pinfo/trunk/intl/explodename.c
+   A /pinfo/trunk/intl/finddomain.c
+   A /pinfo/trunk/intl/gettext.c
+   A /pinfo/trunk/intl/gettext.h
+   A /pinfo/trunk/intl/gettextP.h
+   A /pinfo/trunk/intl/hash-string.h
+   A /pinfo/trunk/intl/intl-compat.c
+   A /pinfo/trunk/intl/l10nflist.c
+   A /pinfo/trunk/intl/libgettext.h
+   A /pinfo/trunk/intl/libgnuintl.h
+   A /pinfo/trunk/intl/loadinfo.h
+   A /pinfo/trunk/intl/loadmsgcat.c
+   A /pinfo/trunk/intl/localcharset.c
+   A /pinfo/trunk/intl/locale.alias
+   A /pinfo/trunk/intl/localealias.c
+   A /pinfo/trunk/intl/ngettext.c
+   A /pinfo/trunk/intl/plural.c
+   A /pinfo/trunk/intl/plural.y
+   A /pinfo/trunk/intl/ref-add.sin
+   A /pinfo/trunk/intl/ref-del.sin
+   A /pinfo/trunk/intl/textdomain.c
+   A /pinfo/trunk/macros
+   A /pinfo/trunk/macros/Makefile.am
+   A /pinfo/trunk/macros/Makefile.in
+   A /pinfo/trunk/macros/aclocal-include.m4
+   A /pinfo/trunk/macros/autogen.sh
+   A /pinfo/trunk/macros/compiler-flags.m4
+   A /pinfo/trunk/macros/curses.m4
+   A /pinfo/trunk/macros/readline.m4
+   A /pinfo/trunk/missing
+   A /pinfo/trunk/mkinstalldirs
+   A /pinfo/trunk/pinfo.spec
+   A /pinfo/trunk/pinfo.spec.in
+   A /pinfo/trunk/po
+   A /pinfo/trunk/po/ChangeLog
+   A /pinfo/trunk/po/Makefile.in.in
+   A /pinfo/trunk/po/POTFILES.in
+   A /pinfo/trunk/po/cs.gmo
+   A /pinfo/trunk/po/cs.po
+   A /pinfo/trunk/po/de.gmo
+   A /pinfo/trunk/po/de.po
+   A /pinfo/trunk/po/ja.gmo
+   A /pinfo/trunk/po/ja.po
+   A /pinfo/trunk/po/pinfo.pot
+   A /pinfo/trunk/po/pl.gmo
+   A /pinfo/trunk/po/pl.po
+   A /pinfo/trunk/po/ru.gmo
+   A /pinfo/trunk/po/ru.po
+   A /pinfo/trunk/po/sv.gmo
+   A /pinfo/trunk/po/sv.po
+   A /pinfo/trunk/src
+   A /pinfo/trunk/src/Makefile.am
+   A /pinfo/trunk/src/Makefile.in
+   A /pinfo/trunk/src/colors.c
+   A /pinfo/trunk/src/colors.h
+   A /pinfo/trunk/src/common_includes.h
+   A /pinfo/trunk/src/datatypes.c
+   A /pinfo/trunk/src/datatypes.h
+   A /pinfo/trunk/src/filehandling_functions.c
+   A /pinfo/trunk/src/filehandling_functions.h
+   A /pinfo/trunk/src/initializelinks.c
+   A /pinfo/trunk/src/initializelinks.h
+   A /pinfo/trunk/src/keyboard.c
+   A /pinfo/trunk/src/keyboard.h
+   A /pinfo/trunk/src/localestuff.h
+   A /pinfo/trunk/src/mainfunction.c
+   A /pinfo/trunk/src/mainfunction.h
+   A /pinfo/trunk/src/manual.c
+   A /pinfo/trunk/src/manual.h
+   A /pinfo/trunk/src/menu_and_note_utils.c
+   A /pinfo/trunk/src/menu_and_note_utils.h
+   A /pinfo/trunk/src/parse_config.c
+   A /pinfo/trunk/src/parse_config.h
+   A /pinfo/trunk/src/pinfo.c
+   A /pinfo/trunk/src/pinforc.in
+   A /pinfo/trunk/src/printinfo.c
+   A /pinfo/trunk/src/printinfo.h
+   A /pinfo/trunk/src/rcsid.h
+   A /pinfo/trunk/src/readlinewrapper.c
+   A /pinfo/trunk/src/readlinewrapper.h
+   A /pinfo/trunk/src/regexp_search.c
+   A /pinfo/trunk/src/regexp_search.h
+   A /pinfo/trunk/src/sigblock.c
+   A /pinfo/trunk/src/sigblock.h
+   A /pinfo/trunk/src/signal_handler.c
+   A /pinfo/trunk/src/signal_handler.h
+   A /pinfo/trunk/src/snprintf.c
+   A /pinfo/trunk/src/utils.c
+   A /pinfo/trunk/src/utils.h
+   A /pinfo/trunk/src/video.c
+   A /pinfo/trunk/src/video.h
+   A /pinfo/trunk/stamp-h.in
+
+Import of pinfo 0.6.8
+
+------------------------------------------------------------------------
+r1 | bas | 2005-05-17 15:37:39 +0200 (Tue, 17 May 2005) | 2 lines
+Changed paths:
+   A /pinfo
+   A /pinfo/branches
+   A /pinfo/tags
+   A /pinfo/trunk
+   A /website
+   A /website/trunk
+
+Initial repository layout
+
+------------------------------------------------------------------------
