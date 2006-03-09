@@ -1,5 +1,7 @@
-Pinfo is currently maintained by Bas Zoetekouw <bas@debian.org>.
-Its original author is Przemek Borys <pborys@dione.ids.pl>.
+Pinfo is currently maintained by Bas Zoetekouw <bas@debian.org> and Nathanael
+Nerode <neroden@fastmail.fm>.  Its original author is Przemek Borys
+<pborys@dione.ids.pl>.  Please send any comments/questions/bug reports to
+<pinfo-devel@lists.alioth.debian.org>
 
 Below are the names of the people who helped by sending good ideas, bugs
 reports, or helped out in some other way:
@@ -30,7 +32,7 @@ Pawel Kot (+)
 Jerzy Klejnowski (+)
 Adam Lazur (+)
 Daniel Bauke
-Andre' Karwath
+André Karwath
 Pawel Kolodziej
 Egil Kvaleberg
 Andrzej Solecki
