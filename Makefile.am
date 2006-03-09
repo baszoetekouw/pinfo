@@ -1,3 +1,5 @@
+# no FSF/GNU fascism
+AUTOMAKE_OPTIONS=foreign
 
 ALL_LINGUAS =
 always_built_SUBDIRS = src
@@ -6,7 +8,7 @@ sometimes_built_SUBDIRS =
 
 SUBDIRS = doc macros po $(always_built_SUBDIRS)
 
-EXTRA_DIST = config.rpath  TECHSTUFF TODO pinfo.spec INSTALL
+EXTRA_DIST =  TECHSTUFF pinfo.spec INSTALL
 
 
 ## to automatically rebuild aclocal.m4 if any of the macros in `macros/' change
