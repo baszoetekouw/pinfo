@@ -8,8 +8,8 @@ Group:		Utilities/System
 Group(pl):	NarzÍdzia/System
 Group(ru):	ı‘…Ã…‘Ÿ/Û…”‘≈Õ¡
 Copyright:	GPL
-Vendor:		Przemek Borys <pborys@dione.ids.pl>
-Source:		http://zeus.polsl.gliwice.pl/~pborys/%{name}-%{version}.tar.gz
+Vendor:		Bas Zoetekouw <bas@debian.org>
+Source:		http://alioth.debian.org/project/showfiles.php?group_id=30592
 BuildRoot:   	/tmp/%{name}-%{version}-root
 
 %define		_prefix		/usr
