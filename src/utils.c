@@ -669,3 +669,31 @@ width_of_string( const char * const mbs, const int len)
 
 	return width;
 }
+
+/*
+ * calculates the length of string between start and end, counting `\t' as
+ * filling up to 8 chars. (i.e. at line 22 tab will increment the counter by 2
+ * [8-(22-int(22/8)*8)] spaces)
+ */
+int
+calculate_len(char *start, char *end)
+{
+	int len = 0;
+	char *c = start;
+	while (c < end)
+	{
+		if (*c == '\t')
+		{
+			/* now, first count everything leading up to this position */
+			len += width_of_string(start, c - start);
+			start = c+1;
+			/* then add the extra width of the tab */
+			len = ( len & ~0x07 ) + 0x08;
+		}
+		c++;
+	}
+	/* then count everything after the last tab */
+	len += width_of_string(start, c - start);
+	
+	return len;
+}

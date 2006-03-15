@@ -95,5 +95,12 @@ check_node_name( const char * const node_name, const char * const node_header);
 int
 width_of_string( const char * const mbs, const int len);
 
+/*
+ * calculates the length of string between start and end, counting `\t' as
+ * filling up to 8 chars. (i.e. at line 22 tab will increment the counter by 2
+ * [8-(22-int(22/8)*8)] spaces)
+ */
+int
+calculate_len(char *start, char *end);
 
 #endif
