@@ -1146,6 +1146,8 @@ manualwork()
 				/* compile regexp expression */
 				if (pinfo_re_comp(token) != 0)
 				{
+					/* We're not in a search! */
+					aftersearch = 0;
 					/* print error message */
 					attrset(bottomline);
 					mymvhline(maxy - 1, 0, ' ', maxx);
