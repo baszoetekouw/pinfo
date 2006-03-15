@@ -571,6 +571,8 @@ work(char ***message, char **type, long *lines, FILE * id, int tag_table_pos)
 				/* compile the read token */
 				if (pinfo_re_comp(token) != 0)
 				{
+					/* we're not in a search! */
+					aftersearch = 0;
 					/* print error message */
 					attrset(bottomline);
 					mymvhline(maxy - 1, 0, ' ', maxx);

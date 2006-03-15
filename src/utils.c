@@ -395,6 +395,16 @@ pinfo_re_comp(char *name)
 	pinfo_re_pattern = strdup(name);
 	return 0;
 #else
+	/* first see if we can compile the regexp */
+	regex_t preg;
+	if (regcomp(&preg, name, REG_ICASE) != 0)
+	{
+		/* compilation failed, so return */
+		return -1;
+	}
+	
+	/* compilation succeeded */
+	/* first make some space in h_regexp[] to store the compiled regexp */
 	if (pinfo_re_offset == -1)
 	{
 		pinfo_re_offset = h_regexp_num;
@@ -407,7 +417,12 @@ pinfo_re_comp(char *name)
 	{
 		regfree(&h_regexp[pinfo_re_offset]);
 	}
-	return regcomp(&h_regexp[pinfo_re_offset], name, REG_ICASE);
+
+	/* then copy the compiled expression into the newly allocated space */
+	memcpy(&h_regexp[pinfo_re_offset], &preg, sizeof(preg));
+
+	/* and finally return 0 for success */
+	return 0;
 #endif
 }
 
