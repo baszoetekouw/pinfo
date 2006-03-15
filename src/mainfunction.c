@@ -518,6 +518,8 @@ work(char ***message, char **type, long *lines, FILE * id, int tag_table_pos)
 				if (!aftersearch)
 				{
 					attrset(bottomline);
+					mymvhline(maxy - 1, 0, ' ', maxx);
+					move(maxy - 1, 0);
 					mvaddstr(maxy - 1, 0, _("Search string not found..."));
 					statusline = LOCKED;
 				}
@@ -612,6 +614,8 @@ work(char ***message, char **type, long *lines, FILE * id, int tag_table_pos)
 				if (!success)
 				{
 					attrset(bottomline);
+					mymvhline(maxy - 1, 0, ' ', maxx);
+					move(maxy - 1, 0);
 					mvaddstr(maxy - 1, 0, _("Search string not found..."));
 					statusline = LOCKED;
 				}
