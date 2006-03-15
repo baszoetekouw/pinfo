@@ -264,33 +264,56 @@ info_add_highlights(int pos, int cursor, long lines, int column, char **message)
 		regmatch_t pmatch[1];
 		long maxpos = pos +(maxy - 2);
 		if (maxpos > lines)
-			maxpos = lines;
 		{
-			int maxregexp = aftersearch ? h_regexp_num + 1 : h_regexp_num;
-			/*
-			 * if it is after search, then we have user defined regexps+
-			 * a searched regexp to highlight
-			 */
+			maxpos = lines;
+		}
+
+		int maxregexp = aftersearch ? h_regexp_num + 1 : h_regexp_num;
+		/*
+		 * if it is after search, then we have user defined regexps+
+		 * a searched regexp to highlight
+		 */
+		/* loop over all the lines currently in the window */
+		for (i = pos; (i < lines) && (i < pos + maxy - 2); i++)
+		{
+			char *str = message[i];
+
+			/* loop over all regexps we might want to show */
 			int j;
 			for (j = 0; j < maxregexp; j++)
 			{
-				char *str = message[i];
+				/* check if this regexp is present on this line */
 				while (!regexec(&h_regexp[j], str, 1, pmatch, 0))
 				{
+					/* yes, found something, so highlight it */
 					int n = pmatch[0].rm_eo - pmatch[0].rm_so;
-					int y = i - pos + 1, x = calculate_len(message[i], pmatch[0].rm_so + str);
-					int txtoffset = pmatch[0].rm_so + str - message[i];
-					char tmp;
-					tmp = message[i][x + n];
-					message[i][x + n] = 0;
+
+					/* point str at start of match */
+					str += pmatch[0].rm_so;
+
+					/* calculate position on screen */
+					int x = calculate_len(message[i], str);
+					int y = i - pos + 1;
+
+					/* save the char after the end of the match, 
+					 * and replace it by \0 */
+					char tmp = str[n];
+					str[n] = 0;
+					
+					/* write out the highlighted match to screen */
 					attrset(searchhighlight);
-					mvaddstr(y, x, message[i] + txtoffset);
+					mvaddstr(y, x, str);
 					attrset(normal);
-					message[i][x + n] = tmp;
-					str = str + pmatch[0].rm_eo;
+
+					/* restore the original char at the end of the match */
+					str[n] = tmp;
+
+					/* skip past this match */
+					str += n;
 				}
 			}
 		}
 	}
+
 #endif
 }
