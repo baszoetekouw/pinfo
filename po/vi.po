@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: pinfo\n"
 "Report-Msgid-Bugs-To: pinfo-devel@lists.alioth.debian.org\n"
-"POT-Creation-Date: 2006-03-09 21:06+0100\n"
+"POT-Creation-Date: 2006-03-15 23:04+0100\n"
 "PO-Revision-Date: 2005-12-21 15:11+1030\n"
 "Last-Translator: Clytie Siddall <clytie@riverland.net.au>\n"
 "Language-Team: Vietnamese <gnomevi-list@lists.sourceforge.net>\n"
@@ -53,32 +53,32 @@ msgstr "Gõ lệnh: "
 msgid "Operation failed..."
 msgstr "Thao tác thất bại..."
 
-#: src/mainfunction.c:291 src/mainfunction.c:551 src/manual.c:1120
+#: src/mainfunction.c:291 src/mainfunction.c:553 src/manual.c:1120
 msgid "Enter regular expression: "
 msgstr "Gõ biểu thức chính quy: "
 
-#: src/mainfunction.c:521 src/mainfunction.c:615 src/manual.c:1196
+#: src/mainfunction.c:523 src/mainfunction.c:621 src/manual.c:1198
 msgid "Search string not found..."
 msgstr "Không tìm thấy chuỗi tìm kiếm..."
 
-#: src/mainfunction.c:576 src/manual.c:1153
+#: src/mainfunction.c:580 src/manual.c:1155
 msgid "Invalid regular expression;"
 msgstr "Biểu thức chính quy không hợp lệ;"
 
-#: src/mainfunction.c:578 src/manual.c:1155
+#: src/mainfunction.c:582 src/manual.c:1157
 msgid "Press any key to continue..."
 msgstr "Bấm phím nào để tiếp tục..."
 
-#: src/mainfunction.c:644
+#: src/mainfunction.c:650
 msgid "Enter node name: "
 msgstr "Gõ tên nút: "
 
-#: src/mainfunction.c:720
+#: src/mainfunction.c:726
 #, c-format
 msgid "Node %s not found"
 msgstr "Không tìm thấy nút %s"
 
-#: src/mainfunction.c:1178 src/manual.c:1546
+#: src/mainfunction.c:1184 src/manual.c:1548
 msgid "Are you sure you want to quit?"
 msgstr "Bạn có chắc muốn thoát không?"
 
@@ -129,12 +129,12 @@ msgstr "Không có gì thích hợp\n"
 msgid "Enter manual name: "
 msgstr "Gõ tên sổ hướng dẫn: "
 
-#: src/manual.c:1629 src/video.c:114
+#: src/manual.c:1631 src/video.c:114
 #, c-format
 msgid "Viewing line %d/%d, %d%%"
 msgstr "Đang xem dòng %d/%d, %d%%"
 
-#: src/manual.c:1631 src/video.c:116
+#: src/manual.c:1633 src/video.c:116
 #, c-format
 msgid "Viewing line %d/%d, 100%%"
 msgstr "Đang xem dòng %d/%d, 100%%"
@@ -163,11 +163,11 @@ msgstr ""
 "• Gặp ký tự sai trong tên tập tin. •\n"
 "*** %s\n"
 
-#: src/utils.c:436
+#: src/utils.c:451
 msgid "yes"
 msgstr "có"
 
-#: src/utils.c:437
+#: src/utils.c:452
 msgid "no"
 msgstr "không"
 

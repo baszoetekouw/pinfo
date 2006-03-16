@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: pinfo-0.5.0\n"
 "Report-Msgid-Bugs-To: pinfo-devel@lists.alioth.debian.org\n"
-"POT-Creation-Date: 2006-03-09 21:06+0100\n"
+"POT-Creation-Date: 2006-03-15 23:04+0100\n"
 "PO-Revision-Date: 1999-04-21 01:50+0200\n"
 "Last-Translator: René van Bevern <rvb@pro-linux.de>\n"
 "Language-Team: German <de@li.org>\n"
@@ -50,33 +50,33 @@ msgstr "Bitte Befehl eingeben: "
 msgid "Operation failed..."
 msgstr "Funktion fehlgeschlagen..."
 
-#: src/mainfunction.c:291 src/mainfunction.c:551 src/manual.c:1120
+#: src/mainfunction.c:291 src/mainfunction.c:553 src/manual.c:1120
 msgid "Enter regular expression: "
 msgstr "Bitte regulären Ausdruck eingeben: "
 
-#: src/mainfunction.c:521 src/mainfunction.c:615 src/manual.c:1196
+#: src/mainfunction.c:523 src/mainfunction.c:621 src/manual.c:1198
 #, fuzzy
 msgid "Search string not found..."
 msgstr "Warnung: Konnte keine Tag-Tabelle finden...\n"
 
-#: src/mainfunction.c:576 src/manual.c:1153
+#: src/mainfunction.c:580 src/manual.c:1155
 msgid "Invalid regular expression;"
 msgstr "Ungültiger regulärer Ausdruck;"
 
-#: src/mainfunction.c:578 src/manual.c:1155
+#: src/mainfunction.c:582 src/manual.c:1157
 msgid "Press any key to continue..."
 msgstr "Beliebige Taste drücken, um fortzufahren..."
 
-#: src/mainfunction.c:644
+#: src/mainfunction.c:650
 msgid "Enter node name: "
 msgstr "Bitte Knotennamen eingeben: "
 
-#: src/mainfunction.c:720
+#: src/mainfunction.c:726
 #, c-format
 msgid "Node %s not found"
 msgstr "Knoten %s wurde nicht gefunden."
 
-#: src/mainfunction.c:1178 src/manual.c:1546
+#: src/mainfunction.c:1184 src/manual.c:1548
 msgid "Are you sure you want to quit?"
 msgstr "Sind Sie sicher, dass Sie pinfo beenden wollen?"
 
@@ -127,12 +127,12 @@ msgstr "Nichts entsprechendes gefunden.\n"
 msgid "Enter manual name: "
 msgstr "Bitte Manpage-Namen eingeben: "
 
-#: src/manual.c:1629 src/video.c:114
+#: src/manual.c:1631 src/video.c:114
 #, c-format
 msgid "Viewing line %d/%d, %d%%"
 msgstr "Zeile %d/%d, %d%%"
 
-#: src/manual.c:1631 src/video.c:116
+#: src/manual.c:1633 src/video.c:116
 #, c-format
 msgid "Viewing line %d/%d, 100%%"
 msgstr "Zeile %d/%d, 100%%"
@@ -161,11 +161,11 @@ msgstr ""
 "Ungültiges Zeichen im Dateinamen.\n"
 "*** %s\n"
 
-#: src/utils.c:436
+#: src/utils.c:451
 msgid "yes"
 msgstr "ja"
 
-#: src/utils.c:437
+#: src/utils.c:452
 msgid "no"
 msgstr "nein"
 

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ru\n"
 "Report-Msgid-Bugs-To: pinfo-devel@lists.alioth.debian.org\n"
-"POT-Creation-Date: 2006-03-09 21:06+0100\n"
+"POT-Creation-Date: 2006-03-15 23:04+0100\n"
 "PO-Revision-Date: 2005-10-01 10:47+0400\n"
 "Last-Translator: Yuri Kozlov <kozlov.y@gmail.com>\n"
 "Language-Team: Russian <debian-l10n-russian@lists.debian.org>\n"
@@ -52,32 +52,32 @@ msgstr "Введите команду: "
 msgid "Operation failed..."
 msgstr "Действие не удалось..."
 
-#: src/mainfunction.c:291 src/mainfunction.c:551 src/manual.c:1120
+#: src/mainfunction.c:291 src/mainfunction.c:553 src/manual.c:1120
 msgid "Enter regular expression: "
 msgstr "Введите регулярное выражение: "
 
-#: src/mainfunction.c:521 src/mainfunction.c:615 src/manual.c:1196
+#: src/mainfunction.c:523 src/mainfunction.c:621 src/manual.c:1198
 msgid "Search string not found..."
 msgstr "Строка не найдена..."
 
-#: src/mainfunction.c:576 src/manual.c:1153
+#: src/mainfunction.c:580 src/manual.c:1155
 msgid "Invalid regular expression;"
 msgstr "Недопустимое регулярное выражение;"
 
-#: src/mainfunction.c:578 src/manual.c:1155
+#: src/mainfunction.c:582 src/manual.c:1157
 msgid "Press any key to continue..."
 msgstr "Нажмите любую клавишу..."
 
-#: src/mainfunction.c:644
+#: src/mainfunction.c:650
 msgid "Enter node name: "
 msgstr "Введите имя узла: "
 
-#: src/mainfunction.c:720
+#: src/mainfunction.c:726
 #, c-format
 msgid "Node %s not found"
 msgstr "Узел %s не найден"
 
-#: src/mainfunction.c:1178 src/manual.c:1546
+#: src/mainfunction.c:1184 src/manual.c:1548
 msgid "Are you sure you want to quit?"
 msgstr "Завершить работу?"
 
@@ -128,12 +128,12 @@ msgstr "Ничего подходящего\n"
 msgid "Enter manual name: "
 msgstr "Введите название руководства: "
 
-#: src/manual.c:1629 src/video.c:114
+#: src/manual.c:1631 src/video.c:114
 #, c-format
 msgid "Viewing line %d/%d, %d%%"
 msgstr "Просмотр строки %d/%d, %d%%"
 
-#: src/manual.c:1631 src/video.c:116
+#: src/manual.c:1633 src/video.c:116
 #, c-format
 msgid "Viewing line %d/%d, 100%%"
 msgstr "Просмотр строки %d/%d, 100%%"
@@ -162,11 +162,11 @@ msgstr ""
 "Недопустимые символы в имени файла!\n"
 "*** %s\n"
 
-#: src/utils.c:436
+#: src/utils.c:451
 msgid "yes"
 msgstr "да"
 
-#: src/utils.c:437
+#: src/utils.c:452
 msgid "no"
 msgstr "нет"
 

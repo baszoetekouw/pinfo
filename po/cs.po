@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: pinfo-0.5.6\n"
 "Report-Msgid-Bugs-To: pinfo-devel@lists.alioth.debian.org\n"
-"POT-Creation-Date: 2006-03-09 21:06+0100\n"
+"POT-Creation-Date: 2006-03-15 23:04+0100\n"
 "PO-Revision-Date: 2005-10-11 16:59+0200\n"
 "Last-Translator: Katarina Machalkova <bubli@bubli.org>\n"
 "Language-Team: Czech <debian-l10n-czech@lists.debian.org>\n"
@@ -49,32 +49,32 @@ msgstr "Zadejte pøíkaz: "
 msgid "Operation failed..."
 msgstr "Operace se nezdaøila..."
 
-#: src/mainfunction.c:291 src/mainfunction.c:551 src/manual.c:1120
+#: src/mainfunction.c:291 src/mainfunction.c:553 src/manual.c:1120
 msgid "Enter regular expression: "
 msgstr "Zadejte regulární výraz: "
 
-#: src/mainfunction.c:521 src/mainfunction.c:615 src/manual.c:1196
+#: src/mainfunction.c:523 src/mainfunction.c:621 src/manual.c:1198
 msgid "Search string not found..."
 msgstr "Hledaný øetìzec nebyl nalezen..."
 
-#: src/mainfunction.c:576 src/manual.c:1153
+#: src/mainfunction.c:580 src/manual.c:1155
 msgid "Invalid regular expression;"
 msgstr "Neplatný regulární výraz;"
 
-#: src/mainfunction.c:578 src/manual.c:1155
+#: src/mainfunction.c:582 src/manual.c:1157
 msgid "Press any key to continue..."
 msgstr "Pro pokraèování stisknìte libovolnou klávesu..."
 
-#: src/mainfunction.c:644
+#: src/mainfunction.c:650
 msgid "Enter node name: "
 msgstr "Zadejte jméno uzlu: "
 
-#: src/mainfunction.c:720
+#: src/mainfunction.c:726
 #, c-format
 msgid "Node %s not found"
 msgstr "Uzel %s nenalezen"
 
-#: src/mainfunction.c:1178 src/manual.c:1546
+#: src/mainfunction.c:1184 src/manual.c:1548
 msgid "Are you sure you want to quit?"
 msgstr "Opravdu chcete ukonèit program?"
 
@@ -125,12 +125,12 @@ msgstr "®ádné související stránky\n"
 msgid "Enter manual name: "
 msgstr "Zadejte název manuálové stránky: "
 
-#: src/manual.c:1629 src/video.c:114
+#: src/manual.c:1631 src/video.c:114
 #, c-format
 msgid "Viewing line %d/%d, %d%%"
 msgstr "Zobrazen øádek %d/%d, %d%%"
 
-#: src/manual.c:1631 src/video.c:116
+#: src/manual.c:1633 src/video.c:116
 #, c-format
 msgid "Viewing line %d/%d, 100%%"
 msgstr "Zobrazen øádek %d/%d, 100%%"
@@ -159,11 +159,11 @@ msgstr ""
 "Název souboru obsahuje nepovolené znaky!\n"
 "*** %s\n"
 
-#: src/utils.c:436
+#: src/utils.c:451
 msgid "yes"
 msgstr "ano"
 
-#: src/utils.c:437
+#: src/utils.c:452
 msgid "no"
 msgstr "ne"
 
