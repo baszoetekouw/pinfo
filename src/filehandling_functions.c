@@ -579,7 +579,7 @@ opendirfile(int number)
 	char *bufend;			/* points at the trailing 0 of initial name */
 	char command[1128];		/* holds command to evaluate for decompression of file */
 	int i, j;
-	char *tmpfilename;
+	char *tmpfilename = NULL;
 	int *fileendentries = xmalloc(infopathcount * sizeof(int));
 	int dir_found = 0;
 	int dircount = 0;
@@ -845,7 +845,7 @@ addrawpath(char *filename)
 {
 	int len = strlen(filename);
 	int i, pos;
-	char tmp;
+	char tmp = '\0';
 	for (i = len; i >= 0; i--)
 	{
 		if (filename[i] == '/')
