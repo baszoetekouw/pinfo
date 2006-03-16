@@ -1,8 +1,8 @@
 #***************************************************************************
 #*  Pinfo is a ncurses based lynx style info documentation browser
 #*
-#*  Copyright (C) 1999  Przemek Borys <pborys@dione.ids.pl>
-#*  Copyright (C) 2005  Bas Zoetekouw <bas@debian.org>
+#*  Copyright (C) 1999-2005  Przemek Borys <pborys@dione.ids.pl>
+#*  Copyright (C) 2005,2006  Bas Zoetekouw <bas@debian.org>
 #*
 #*  This program is free software; you can redistribute it and/or modify
 #*  it under the terms of version 2 of the GNU General Public License as
@@ -25,7 +25,7 @@
 #
 
 # init
-AC_INIT([pinfo],[0.6.9-rc1],[pinfo-devel@lists.alioth.debian.org])
+AC_INIT([pinfo],[0.6.9],[pinfo-devel@lists.alioth.debian.org])
 # require a recent autoconf
 AC_PREREQ([2.57])
 # for identification of derived ./configure scripts
@@ -104,7 +104,7 @@ AC_CHECK_READLINE
 # if we have readline, it needs to be version 5
 if test "x$has_readline" = "xtrue"
 then 
-	if test "x$readline_version" != "x4"
+	if test $readline_version -lt 4
 	then 
 		AC_MSG_WARN([Version 4 of readline is required to compile pinfo.  
 			Yours is only version $readline_version.
