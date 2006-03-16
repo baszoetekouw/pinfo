@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: pinfo 0.6.8-6\n"
 "Report-Msgid-Bugs-To: pinfo-devel@lists.alioth.debian.org\n"
-"POT-Creation-Date: 2006-03-09 21:06+0100\n"
+"POT-Creation-Date: 2006-03-15 23:04+0100\n"
 "PO-Revision-Date: 2005-10-06 12:00+0200\n"
 "Last-Translator: Daniel Nylander <po@danielnylander.se>\n"
 "Language-Team: Swedish <sv@li.org>\n"
@@ -62,37 +62,37 @@ msgstr "Operationen misslyckades..."
 #
 # Regexp search messages
 #
-#: src/mainfunction.c:291 src/mainfunction.c:551 src/manual.c:1120
+#: src/mainfunction.c:291 src/mainfunction.c:553 src/manual.c:1120
 #, fuzzy
 msgid "Enter regular expression: "
 msgstr "Skriv regexp: "
 
-#: src/mainfunction.c:521 src/mainfunction.c:615 src/manual.c:1196
+#: src/mainfunction.c:523 src/mainfunction.c:621 src/manual.c:1198
 msgid "Search string not found..."
 msgstr "Söksträng inte hittad..."
 
-#: src/mainfunction.c:576 src/manual.c:1153
+#: src/mainfunction.c:580 src/manual.c:1155
 msgid "Invalid regular expression;"
 msgstr ""
 
-#: src/mainfunction.c:578 src/manual.c:1155
+#: src/mainfunction.c:582 src/manual.c:1157
 msgid "Press any key to continue..."
 msgstr ""
 
 #
 # Goto messages
 #
-#: src/mainfunction.c:644
+#: src/mainfunction.c:650
 msgid "Enter node name: "
 msgstr "Skriv nod-namn: "
 
 # , c-format
-#: src/mainfunction.c:720
+#: src/mainfunction.c:726
 #, c-format
 msgid "Node %s not found"
 msgstr "Kunde inte hitta nod %s"
 
-#: src/mainfunction.c:1178 src/manual.c:1546
+#: src/mainfunction.c:1184 src/manual.c:1548
 #, fuzzy
 msgid "Are you sure you want to quit?"
 msgstr "Är du säker att du vill avsluta?"
@@ -156,7 +156,7 @@ msgstr "Inget lämpligt\n"
 msgid "Enter manual name: "
 msgstr "Ange manualnamn:"
 
-#: src/manual.c:1629 src/video.c:114
+#: src/manual.c:1631 src/video.c:114
 #, c-format
 msgid "Viewing line %d/%d, %d%%"
 msgstr "Aktuell rad %d/%d, %d%%"
@@ -164,7 +164,7 @@ msgstr "Aktuell rad %d/%d, %d%%"
 #
 # Viewer messages
 #
-#: src/manual.c:1631 src/video.c:116
+#: src/manual.c:1633 src/video.c:116
 #, c-format
 msgid "Viewing line %d/%d, 100%%"
 msgstr "Aktuell rad %d/%d, 100%%"
@@ -197,11 +197,11 @@ msgid ""
 "*** %s\n"
 msgstr ""
 
-#: src/utils.c:436
+#: src/utils.c:451
 msgid "yes"
 msgstr ""
 
-#: src/utils.c:437
+#: src/utils.c:452
 msgid "no"
 msgstr ""
 

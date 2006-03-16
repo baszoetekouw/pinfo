@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: pinfo\n"
 "Report-Msgid-Bugs-To: pinfo-devel@lists.alioth.debian.org\n"
-"POT-Creation-Date: 2006-03-09 21:06+0100\n"
+"POT-Creation-Date: 2006-03-15 23:04+0100\n"
 "PO-Revision-Date: 2006-01-06 02:05-0200\n"
 "Last-Translator: Felipe Augusto van de Wiel (faw) <felipe@cathedrallabs."
 "org>\n"
@@ -54,32 +54,32 @@ msgstr "Informe comando: "
 msgid "Operation failed..."
 msgstr "Operação falhou..."
 
-#: src/mainfunction.c:291 src/mainfunction.c:551 src/manual.c:1120
+#: src/mainfunction.c:291 src/mainfunction.c:553 src/manual.c:1120
 msgid "Enter regular expression: "
 msgstr "Informe expressão regular: "
 
-#: src/mainfunction.c:521 src/mainfunction.c:615 src/manual.c:1196
+#: src/mainfunction.c:523 src/mainfunction.c:621 src/manual.c:1198
 msgid "Search string not found..."
 msgstr "Texto pesquisado não encontrado..."
 
-#: src/mainfunction.c:576 src/manual.c:1153
+#: src/mainfunction.c:580 src/manual.c:1155
 msgid "Invalid regular expression;"
 msgstr "Expressão regular inválida;"
 
-#: src/mainfunction.c:578 src/manual.c:1155
+#: src/mainfunction.c:582 src/manual.c:1157
 msgid "Press any key to continue..."
 msgstr "Pressione qualquer tecla para continuar..."
 
-#: src/mainfunction.c:644
+#: src/mainfunction.c:650
 msgid "Enter node name: "
 msgstr "Informe nome do nó (node): "
 
-#: src/mainfunction.c:720
+#: src/mainfunction.c:726
 #, c-format
 msgid "Node %s not found"
 msgstr "Nó (node) %s não encontrado"
 
-#: src/mainfunction.c:1178 src/manual.c:1546
+#: src/mainfunction.c:1184 src/manual.c:1548
 msgid "Are you sure you want to quit?"
 msgstr "Você tem certeza que deseja sair?"
 
@@ -130,12 +130,12 @@ msgstr "Nada apropriado\n"
 msgid "Enter manual name: "
 msgstr "Informe nome do manual: "
 
-#: src/manual.c:1629 src/video.c:114
+#: src/manual.c:1631 src/video.c:114
 #, c-format
 msgid "Viewing line %d/%d, %d%%"
 msgstr "Visualizando linha %d/%d, %d%%"
 
-#: src/manual.c:1631 src/video.c:116
+#: src/manual.c:1633 src/video.c:116
 #, c-format
 msgid "Viewing line %d/%d, 100%%"
 msgstr "Visualizando linha %d/%d, 100%%"
@@ -164,11 +164,11 @@ msgstr ""
 "Caracteres ilegais no nome do arquivo!\n"
 "*** %s\n"
 
-#: src/utils.c:436
+#: src/utils.c:451
 msgid "yes"
 msgstr "sim"
 
-#: src/utils.c:437
+#: src/utils.c:452
 msgid "no"
 msgstr "não"
 
