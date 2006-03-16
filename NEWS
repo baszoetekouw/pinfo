@@ -16,13 +16,15 @@
   - Fixed heap corruption caused by non-ascii chars in info pages
   - Fixed a lot of patch searching issues
   - Fixed text display on narrow terminals 
+  - Fixed highlighting of searches
   - The default pinforc now uses the terminal's default foreground and
     background colors.  Thanks to Rob Funk for a patch.
-  - Use libreadline by default;  readline version 5 is now required.
+  - Use libreadline by default;  readline version 4 is now required.
   - Better cooperation between ncurses and readline
   - Fixed some memory leaks
+  - Got rid of tempnam() calls
   - Fixed -Wall and -Wshadow compiler warnings
-  - Use utf8 in documentation files
+  - Use utf8 in documentation files and fixed typoes
     
 0.6.8
   Patches from Witold Filipczyk for node detection algorithms in man

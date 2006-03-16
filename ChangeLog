@@ -1,4 +1,243 @@
 ------------------------------------------------------------------------
+r299 | bas | 2006-03-16 16:40:38 +0100 (Thu, 16 Mar 2006) | 2 lines
+Changed paths:
+   M /pinfo/trunk/doc/pinfo.texi
+
+Fixed section of info file
+
+------------------------------------------------------------------------
+r298 | bas | 2006-03-16 16:07:38 +0100 (Thu, 16 Mar 2006) | 2 lines
+Changed paths:
+   M /pinfo/trunk/src/filehandling_functions.c
+   M /pinfo/trunk/src/mainfunction.c
+
+Fixed compiler warnings
+
+------------------------------------------------------------------------
+r297 | bas | 2006-03-16 16:00:53 +0100 (Thu, 16 Mar 2006) | 2 lines
+Changed paths:
+   M /pinfo/trunk/doc/Makefile.am
+
+Make sure generated doc files are removed on make clean
+
+------------------------------------------------------------------------
+r296 | bas | 2006-03-16 15:07:22 +0100 (Thu, 16 Mar 2006) | 2 lines
+Changed paths:
+   M /pinfo/trunk/src/filehandling_functions.c
+   M /pinfo/trunk/src/manual.c
+   M /pinfo/trunk/src/utils.c
+   M /pinfo/trunk/src/utils.h
+
+Replace calls to tempnam() by a custom function based on tmpfile().
+
+------------------------------------------------------------------------
+r295 | bas | 2006-03-15 22:52:38 +0100 (Wed, 15 Mar 2006) | 2 lines
+Changed paths:
+   M /pinfo/trunk/src/initializelinks.c
+   M /pinfo/trunk/src/utils.c
+   M /pinfo/trunk/src/utils.h
+   M /pinfo/trunk/src/video.c
+
+Fix highlighting of search terms, and moved calculate_len() to utils.c
+
+------------------------------------------------------------------------
+r294 | bas | 2006-03-15 13:49:21 +0100 (Wed, 15 Mar 2006) | 2 lines
+Changed paths:
+   D /pinfo/trunk/Changelog
+
+Removed dpublicated changelog
+
+------------------------------------------------------------------------
+r293 | bas | 2006-03-15 13:32:09 +0100 (Wed, 15 Mar 2006) | 4 lines
+Changed paths:
+   M /pinfo/trunk/src/mainfunction.c
+   M /pinfo/trunk/src/manual.c
+   M /pinfo/trunk/src/utils.c
+
+Fixed a segfault caused by highlighting of a regular expression that failed to
+compile.  Regexps that turn out to be faulty are now no longer stored in the
+history.  Thanks to Jelmer Vernooij for noticing this.
+
+------------------------------------------------------------------------
+r292 | bas | 2006-03-15 13:10:52 +0100 (Wed, 15 Mar 2006) | 3 lines
+Changed paths:
+   M /pinfo/trunk/src/mainfunction.c
+
+Clear the status line before displaying an error message when a search fails
+(thanks Jelmer, for noticing this)
+
+------------------------------------------------------------------------
+r291 | bas | 2006-03-10 14:25:23 +0100 (Fri, 10 Mar 2006) | 2 lines
+Changed paths:
+   M /pinfo/trunk/pinfo.spec.in
+
+Fixed upstream addresses in spec file
+
+------------------------------------------------------------------------
+r290 | bas | 2006-03-09 22:01:57 +0100 (Thu, 09 Mar 2006) | 2 lines
+Changed paths:
+   M /pinfo/trunk/configure.ac
+
+Readline 4 is sufficient, no need to demand version 5
+
+------------------------------------------------------------------------
+r289 | bas | 2006-03-09 21:54:43 +0100 (Thu, 09 Mar 2006) | 2 lines
+Changed paths:
+   M /pinfo/trunk/doc/pinfo.1.in
+   M /pinfo/trunk/doc/pinfo.texi
+   M /pinfo/trunk/src/datatypes.c
+
+Also search the current directory
+
+------------------------------------------------------------------------
+r288 | bas | 2006-03-09 21:52:08 +0100 (Thu, 09 Mar 2006) | 2 lines
+Changed paths:
+   M /pinfo/trunk/NEWS
+   M /pinfo/trunk/po/vi.po
+
+Spacing/comments
+
+------------------------------------------------------------------------
+r287 | bas | 2006-03-09 21:50:09 +0100 (Thu, 09 Mar 2006) | 2 lines
+Changed paths:
+   M /pinfo/trunk/doc/pinfo.1.in
+   M /pinfo/trunk/doc/pinfo.texi
+   M /pinfo/trunk/src/datatypes.c
+
+Also search in /usr/info and /usr/local/info
+
+------------------------------------------------------------------------
+r286 | bas | 2006-03-09 21:26:53 +0100 (Thu, 09 Mar 2006) | 2 lines
+Changed paths:
+   M /pinfo/trunk/AUTHORS
+   M /pinfo/trunk/NEWS
+   M /pinfo/trunk/configure.ac
+   A /pinfo/trunk/po/vi.po
+
+Added Vietnamese translation by Clytie Siddall
+
+------------------------------------------------------------------------
+r285 | bas | 2006-03-09 21:11:14 +0100 (Thu, 09 Mar 2006) | 2 lines
+Changed paths:
+   M /pinfo/trunk/configure.ac
+
+Changed version to 0.6.9-rc1
+
+------------------------------------------------------------------------
+r284 | bas | 2006-03-09 21:10:23 +0100 (Thu, 09 Mar 2006) | 2 lines
+Changed paths:
+   M /pinfo/trunk/po/cs.po
+   M /pinfo/trunk/po/de.po
+   M /pinfo/trunk/po/eu.po
+   M /pinfo/trunk/po/ja.po
+   M /pinfo/trunk/po/nl.po
+   M /pinfo/trunk/po/pinfo.pot
+   M /pinfo/trunk/po/pl.po
+   M /pinfo/trunk/po/pt_BR.po
+   M /pinfo/trunk/po/ro.po
+   M /pinfo/trunk/po/ru.po
+   M /pinfo/trunk/po/sv.po
+   M /pinfo/trunk/src/filehandling_functions.c
+
+Updated po files
+
+------------------------------------------------------------------------
+r283 | bas | 2006-03-09 21:09:59 +0100 (Thu, 09 Mar 2006) | 2 lines
+Changed paths:
+   A /pinfo/trunk/Changelog (from /pinfo/trunk/ChangeLog:281)
+   M /pinfo/trunk/Makefile.am
+   M /pinfo/trunk/macros/Makefile.am
+
+Fixed "make dist" errors
+
+------------------------------------------------------------------------
+r282 | bas | 2006-03-09 21:09:20 +0100 (Thu, 09 Mar 2006) | 2 lines
+Changed paths:
+   D /pinfo/trunk/macros/Makefile.in
+
+Removed generated file
+
+------------------------------------------------------------------------
+r281 | bas | 2006-03-09 20:49:12 +0100 (Thu, 09 Mar 2006) | 3 lines
+Changed paths:
+   A /pinfo/trunk/ChangeLog (from /pinfo/trunk/Changelog:279)
+   D /pinfo/trunk/Changelog
+
+Stupid fscking GNU utilities are forcing me to write ChangeLog instead of
+Changelog
+
+------------------------------------------------------------------------
+r280 | bas | 2006-03-09 20:44:48 +0100 (Thu, 09 Mar 2006) | 2 lines
+Changed paths:
+   M /pinfo/trunk/COPYING
+   M /pinfo/trunk/README
+   M /pinfo/trunk/configure.ac
+   M /pinfo/trunk/macros/curses.m4
+   M /pinfo/trunk/macros/wchar.m4
+   M /pinfo/trunk/src/colors.c
+   M /pinfo/trunk/src/colors.h
+   M /pinfo/trunk/src/common_includes.h
+   M /pinfo/trunk/src/datatypes.c
+   M /pinfo/trunk/src/datatypes.h
+   M /pinfo/trunk/src/filehandling_functions.c
+   M /pinfo/trunk/src/filehandling_functions.h
+   M /pinfo/trunk/src/initializelinks.c
+   M /pinfo/trunk/src/initializelinks.h
+   M /pinfo/trunk/src/keyboard.h
+   M /pinfo/trunk/src/localestuff.h
+   M /pinfo/trunk/src/mainfunction.c
+   M /pinfo/trunk/src/mainfunction.h
+   M /pinfo/trunk/src/manual.c
+   M /pinfo/trunk/src/manual.h
+   M /pinfo/trunk/src/menu_and_note_utils.c
+   M /pinfo/trunk/src/menu_and_note_utils.h
+   M /pinfo/trunk/src/parse_config.c
+   M /pinfo/trunk/src/parse_config.h
+   M /pinfo/trunk/src/pinfo.c
+   M /pinfo/trunk/src/printinfo.c
+   M /pinfo/trunk/src/printinfo.h
+   M /pinfo/trunk/src/rcsid.h
+   M /pinfo/trunk/src/readlinewrapper.c
+   M /pinfo/trunk/src/readlinewrapper.h
+   M /pinfo/trunk/src/regexp_search.c
+   M /pinfo/trunk/src/regexp_search.h
+   M /pinfo/trunk/src/sigblock.h
+   M /pinfo/trunk/src/signal_handler.c
+   M /pinfo/trunk/src/signal_handler.h
+   M /pinfo/trunk/src/utils.c
+   M /pinfo/trunk/src/utils.h
+   M /pinfo/trunk/src/video.c
+   M /pinfo/trunk/src/video.h
+
+Fixed FSF address
+
+------------------------------------------------------------------------
+r279 | bas | 2006-03-09 20:30:44 +0100 (Thu, 09 Mar 2006) | 2 lines
+Changed paths:
+   M /pinfo/trunk/README
+
+Fixed spacing
+
+------------------------------------------------------------------------
+r278 | bas | 2006-03-09 20:30:34 +0100 (Thu, 09 Mar 2006) | 2 lines
+Changed paths:
+   M /pinfo/trunk/AUTHORS
+
+Added Nathanael to the Authors file
+
+------------------------------------------------------------------------
+r277 | bas | 2006-03-09 20:27:22 +0100 (Thu, 09 Mar 2006) | 2 lines
+Changed paths:
+   D /pinfo/trunk/ChangeLog
+   A /pinfo/trunk/ChangeLog.old (from /pinfo/trunk/ChangeLog:276)
+   A /pinfo/trunk/Changelog
+   M /pinfo/trunk/NEWS
+   M /pinfo/trunk/README
+   D /pinfo/trunk/TODO
+
+Prepare for release: fix Changelog, README, etc
+
+------------------------------------------------------------------------
 r276 | bas | 2006-03-09 19:41:33 +0100 (Thu, 09 Mar 2006) | 4 lines
 Changed paths:
    M /pinfo/trunk/src/pinforc.in
@@ -60,7 +299,7 @@ r269 | bas | 2005-11-05 13:51:49 +0100 (Sat, 05 Nov 2005) | 2 lines
 Changed paths:
    M /pinfo/trunk/po/ro.po
 
-Unfuzzied Romanian translation, thanks to Eddy Petri?\197?\159or
+Unfuzzied Romanian translation, thanks to Eddy Petri≈üor
 
 ------------------------------------------------------------------------
 r268 | bas | 2005-10-12 19:33:26 +0200 (Wed, 12 Oct 2005) | 2 lines
@@ -68,7 +307,7 @@ Changed paths:
    M /pinfo/trunk/AUTHORS
    M /pinfo/trunk/po/cs.po
 
-Updated Czech translation by KatarÌna Mach·lkov·
+Updated Czech translation by Katar√≠na Mach√°lkov√°
 
 ------------------------------------------------------------------------
 r267 | bas | 2005-10-12 19:18:00 +0200 (Wed, 12 Oct 2005) | 2 lines
@@ -85,7 +324,7 @@ Changed paths:
    M /pinfo/trunk/configure.ac
    A /pinfo/trunk/po/ro.po
 
-Added Romanian translation by Eddy Petri?\197?\159or
+Added Romanian translation by Eddy Petri≈üor
 
 ------------------------------------------------------------------------
 r265 | bas | 2005-10-12 19:08:50 +0200 (Wed, 12 Oct 2005) | 2 lines
@@ -768,7 +1007,7 @@ Changed paths:
    M /pinfo/trunk/AUTHORS
    M /pinfo/trunk/ChangeLog
 
-Fixed Linus ≈kerlund's name
+Fixed Linus √Ökerlund's name
 
 ------------------------------------------------------------------------
 r6 | bas | 2005-05-17 19:23:52 +0200 (Tue, 17 May 2005) | 2 lines
