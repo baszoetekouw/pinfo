@@ -588,12 +588,13 @@ opendirfile(int number)
 
 	if (number == 0)		/* initialize tmp filename for file 1 */
 	{
+		/* close and delete old tmp file */
 		if (tmpfilename1)
 		{
 			unlink(tmpfilename1);	/* erase old tmpfile */
 			free(tmpfilename1);
 		}
-		tmpfilename1 = tempnam("/tmp", NULL);
+		tmpfilename1 = make_tempfile();
 		tmpfilename = tmpfilename1;	/* later we will refere only to tmp1 */
 	}
 	for (i = 0; i < infopathcount; i++)	/* go through all paths */
@@ -754,7 +755,7 @@ openinfo(char *filename, int number)
 			unlink(tmpfilename1);	/* erase old tmpfile */
 			free(tmpfilename1);
 		}
-		tmpfilename1 = tempnam("/tmp", NULL);
+		tmpfilename1 = make_tempfile();
 		tmpfilename = tmpfilename1;	/* later we will refere only to tmp1 */
 	}
 	else /* initialize tmp filename for file 2 */
@@ -764,7 +765,7 @@ openinfo(char *filename, int number)
 			unlink(tmpfilename2);	/* erase old tmpfile */
 			free(tmpfilename2);
 		}
-		tmpfilename2 = tempnam("/tmp", NULL);
+		tmpfilename2 = make_tempfile();
 		tmpfilename = tmpfilename2;	/* later we will refere only to tmp2 */
 	}
 
