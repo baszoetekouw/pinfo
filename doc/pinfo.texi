@@ -43,7 +43,7 @@ Copyright 2000 @copyright{} @value{AUTHOR}@*
 
 @end titlepage
 
-@dircategory Texinfo
+@dircategory Texinfo documentation system
 @direntry
 * Pinfo: (pinfo).           curses based lynx-style info browser.
 @end direntry
