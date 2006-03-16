@@ -260,7 +260,7 @@ handlemanual(char *name)
 		unlink(tmpfilename1);
 		xfree(tmpfilename1);
 	}
-	tmpfilename1 = tempnam("/tmp", NULL);
+	tmpfilename1 = make_tempfile();
 
 #ifdef getmaxyx
 	init_curses();
@@ -379,7 +379,7 @@ handlemanual(char *name)
 			}
 			else /* from cmd output  */
 				source = fopen(location, "r");
-			name = tempnam("/tmp", NULL);
+			name = make_tempfile();
 			raw_tempfilename = name;
 			id = fopen(name, "w");
 
@@ -459,7 +459,7 @@ handlemanual(char *name)
 		if (use_apropos)
 		{
 			printf(_("Calling apropos \n"));
-			apropos_tempfilename = tempnam("/tmp", NULL);
+			apropos_tempfilename = make_tempfile();
 			snprintf(cmd, 255, "apropos %s > %s", name, apropos_tempfilename);
 			if (system(cmd) != 0)
 			{
@@ -506,7 +506,7 @@ handlemanual(char *name)
 				unlink(tmpfilename2);
 				xfree(tmpfilename2);
 			}
-			tmpfilename2 = tempnam("/tmp", NULL);
+			tmpfilename2 = make_tempfile();
 			/*
 			 * key_back is not pressed; and return_value is an offset to
 			 * manuallinks

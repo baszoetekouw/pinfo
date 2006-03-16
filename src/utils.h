@@ -103,4 +103,12 @@ width_of_string( const char * const mbs, const int len);
 int
 calculate_len(char *start, char *end);
 
+/*
+ *  * create a temporary file in a safe way, and return its name in a newly
+ *   * allocated string
+ *    */
+char *
+make_tempfile();
+
+
 #endif

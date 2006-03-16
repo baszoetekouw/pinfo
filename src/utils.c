@@ -697,3 +697,37 @@ calculate_len(char *start, char *end)
 	
 	return len;
 }
+
+/* 
+ * create a temporary file in a safe way, and return its name in a newly
+ * allocated string 
+ */
+char *
+make_tempfile()
+{
+	char *filename;
+	size_t len;
+	
+	/* TODO: fix hardcoded /tmp */
+	char tmpfile_template[] = "/tmp/pinfo.XXXXXX";
+
+	/* create a tmpfile */
+	int fd = mkstemp(tmpfile_template);
+	/* bug out if it failed */
+	if (fd == -1) 
+	{
+		closeprogram();
+		printf(_("Couldn't open temporary file\n"));
+		exit(1);
+	}
+
+	/* allocate a new string and copy the filename there */
+	len = strlen(tmpfile_template)+1;
+	filename = xmalloc(len+1); /* guarenteerd to be set to \0's */
+	strncpy(filename, tmpfile_template, len);
+	
+	/* close the file */
+	close(fd);
+
+	return filename;
+}
