@@ -55,7 +55,8 @@ work(char ***message, char **type, long *lines, FILE * id, int tag_table_pos)
 	int key = 0;
 	int return_value;
 	int statusline = FREE;
-	char *token, *tmp;
+	char *token;
+	char *tmp = NULL;
 	if (rval.file)		/* if the static variable was allocated, free it */
 	{
 		xfree(rval.file);
@@ -330,7 +331,7 @@ work(char ***message, char **type, long *lines, FILE * id, int tag_table_pos)
 				return_value = -1;
 				if (indirect)	/* the info is of indirect type; we'll search through several files */
 				{
-					FILE *fd;
+					FILE *fd = NULL;
 					long tokenpos;
 					long starttokenpos;
 					long filelen;
