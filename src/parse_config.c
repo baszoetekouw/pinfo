@@ -601,7 +601,7 @@ parse_line(char *line)
 		else
 			return 1;
 	}
-	else if (!strncmp(temp, "FTPVIEWER", 10))
+	else if (!strncmp(temp, "FTPVIEWER", 9))
 	{
 		temp = strtok(NULL, "\n");
 		if (temp)
