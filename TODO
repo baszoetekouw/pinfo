@@ -26,7 +26,8 @@ it *more*.
 (long term)
 Fix temp file usage better.  Ideally, we would open a file, keep a handle to
 it, and refer only to the handle.  But how do we pass a filehandle to a
-system() call?
+system() call?  Also, I don't have the tmpfile fixes from the non-CXX trunk,
+because I changed too much in the tempfile area to port them.
 
 Unify manual and info code.
 
