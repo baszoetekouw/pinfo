@@ -16,7 +16,7 @@
  *
  *  You should have received a copy of the GNU General Public License
  *  along with this program; if not, write to the Free Software
- *  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307
+ *  Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
  *  USA
  ***************************************************************************/
 
@@ -55,13 +55,22 @@ pinfo_re_comp(const char *name)
 	pinfo_re_pattern = strdup(name);
 	return 0;
 #else
+  /* first see if we can compile the regexp */
+  regex_t preg;
+  if (regcomp(&preg, name, REG_ICASE) != 0)
+  {
+    /* compilation failed, so return */
+    return -1;
+  }
+
 	if (prior_regex) {
 		regfree(&current_regex);
 	}
-	int result;
-	result = regcomp(&current_regex, name, REG_ICASE);
+
+  /* then copy the compiled expression into the newly allocated space */
+  memcpy(&current_regex, &preg, sizeof(preg));
 	prior_regex = true;
-	return result;
+	return 0;
 #endif
 }
 

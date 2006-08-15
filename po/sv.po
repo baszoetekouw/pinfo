@@ -1,18 +1,20 @@
-# pinfo Swedish language module
-#
-# strings for the header-filter of info messages
-# , fuzzy
+# Svenska translation of pinfo.
+# Copyright (C) 2005 Free Software Foundation, Inc.
+# Daniel Nylander <po@danielnylander.se>, 2005.
+# 
+# 
 msgid ""
 msgstr ""
-"Project-Id-Version: pinfo-0.6.8\n"
+"Project-Id-Version: pinfo 0.6.8-6\n"
 "Report-Msgid-Bugs-To: pinfo-devel@lists.alioth.debian.org\n"
 "POT-Creation-Date: 2005-09-08 08:22-0400\n"
-"PO-Revision-Date: 2003-08-21 11:22+0200\n"
-"Last-Translator:\n"
-"Language-Team: \n"
+"PO-Revision-Date: 2005-10-06 12:00+0200\n"
+"Last-Translator: Daniel Nylander <po@danielnylander.se>\n"
+"Language-Team: Swedish <sv@li.org>\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=ISO-8859-1\n"
+"Content-Type: text/plain; charset=iso-8859-1\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: \n"
 
 #: src/filehandling_functions.cxx:466 src/filehandling_functions.cxx:471
 #, c-format
@@ -31,20 +33,20 @@ msgstr "Sökning efter tag table klar\n"
 
 #: src/filehandling_functions.cxx:1051
 #, c-format
-msgid "Error: could not open info file\n"
-msgstr "Fel: kunde inte öppna info-fil\n"
+msgid "Error: could not open info file"
+msgstr "Fel: kunde inte öppna info-fil"
 
 #: src/mainfunction.cxx:205 src/manual.cxx:744
+#, fuzzy
 msgid "Are you sure you want to print?"
-msgstr ""
+msgstr "Är du säker att du vill skriva ut?"
 
 #
 # Regexp search messages
 #
 #: src/mainfunction.cxx:254 src/manual.cxx:789
-#, fuzzy
 msgid "Enter line: "
-msgstr "Skriv regexp: "
+msgstr "Ange linje "
 
 #
 # Shellfeed messages
@@ -61,13 +63,13 @@ msgstr "Operationen misslyckades..."
 # Regexp search messages
 #
 #: src/mainfunction.cxx:348 src/mainfunction.cxx:607 src/manual.cxx:890
-msgid "Enter regexp: "
+#, fuzzy
+msgid "Enter regular expression: "
 msgstr "Skriv regexp: "
 
 #: src/mainfunction.cxx:576 src/mainfunction.cxx:664 src/manual.cxx:959
-#, fuzzy
 msgid "Search string not found..."
-msgstr "Varning: tag-table inte funnen...\n"
+msgstr "Söksträng inte hittad..."
 
 #: src/mainfunction.cxx:630 src/manual.cxx:920
 msgid "Invalid regular expression;"
@@ -91,35 +93,35 @@ msgid "Node %s not found"
 msgstr "Kunde inte hitta nod %s"
 
 #: src/mainfunction.cxx:1221 src/manual.cxx:1311
+#, fuzzy
 msgid "Are you sure you want to quit?"
-msgstr ""
+msgstr "Är du säker att du vill avsluta?"
 
 #
 # Manual messages
 #
 # loading:
 #: src/manual.cxx:289
-#, fuzzy, c-format
+#, c-format
 msgid "Error: No manual page found\n"
-msgstr "Fel: Hittade ingen manual-sida heller.\n"
+msgstr "Fel: Ingen manualsida hittad.\n"
 
 #: src/manual.cxx:300
 #, c-format
 msgid "Calling apropos \n"
-msgstr ""
+msgstr "Kallar upp apropos \n"
 
 #: src/manual.cxx:308
-#, c-format
+#, fuzzy, c-format
 msgid "Nothing appropriate\n"
-msgstr ""
+msgstr "Inget lämpligt\n"
 
 #
 # Goto messages
 #
 #: src/manual.cxx:758
-#, fuzzy
 msgid "Enter manual name: "
-msgstr "Skriv nod-namn: "
+msgstr "Ange manualnamn:"
 
 #: src/manual.cxx:1395 src/video.cxx:105
 #, c-format
@@ -137,7 +139,7 @@ msgstr "Aktuell rad %d/%d, 100%%"
 #: src/parse_config.cxx:86
 #, c-format
 msgid "Can't open config file!\n"
-msgstr ""
+msgstr "Kunde inte öppna konfigurationsfilen!\n"
 
 #
 # Messages from the config file parsing procedures:
@@ -150,12 +152,12 @@ msgstr "Syntax-fel i konfigureringsfil på rad %d\n"
 #: src/pinfo.cxx:93
 #, c-format
 msgid "--node option used without argument\n"
-msgstr "Alternativ --node använt utan argument\n"
+msgstr ""
 
 #: src/pinfo.cxx:101
-#, fuzzy, c-format
+#, c-format
 msgid "--rcfile option used without argument\n"
-msgstr "Alternativ --node använt utan argument\n"
+msgstr ""
 
 #: src/pinfo.cxx:112
 #, c-format
@@ -182,56 +184,53 @@ msgid ""
 "    --rcfile=file, --rcfile file      use alternate rcfile\n"
 msgstr ""
 
-#
-# error messages when loading
-#
 #: src/pinfo.cxx:138 src/pinfo.cxx:242
 #, c-format
 msgid "Looking for man page...\n"
-msgstr "Letar efter man-sida...\n"
+msgstr ""
 
 #: src/pinfo.cxx:326
-#, c-format
+#, fuzzy, c-format
 msgid "Error: could not open info file, trying manual\n"
-msgstr "Fel: kunde inte öppna info-fil, försöker med manual\n"
+msgstr "Fel: kunde inte öppna info-fil\n"
 
 #: src/pinfo.cxx:356
-#, c-format
+#, fuzzy, c-format
 msgid "Warning: tag table not found...\n"
-msgstr "Varning: tag-table inte funnen...\n"
+msgstr "Sökning efter tag table klar\n"
 
 #: src/pinfo.cxx:360
 #, c-format
 msgid "Trying to create alternate tag table...\n"
-msgstr "Försöker skapa alternativ tag-table...\n"
+msgstr ""
 
 #: src/pinfo.cxx:365
-#, fuzzy, c-format
+#, c-format
 msgid "This doesn't look like an info file...\n"
-msgstr "Det här ser inte ut som en info-fil...\n"
+msgstr ""
 
 #: src/pinfo.cxx:378
 #, c-format
 msgid "Specified node does not exist...\n"
-msgstr "Angiven nod existerar inte...\n"
+msgstr ""
 
 #: src/pinfo.cxx:435
 msgid "File not found. Press any key..."
-msgstr "Filen finns inte.  Tryck en tangent..."
+msgstr ""
 
 #: src/pinfo.cxx:453
 #, c-format
 msgid "Unexpected error.\n"
-msgstr "Oväntat fel.\n"
+msgstr ""
 
 #: src/pinfo.cxx:500
 msgid "Tag table not found. Trying to create alternate..."
-msgstr "Tag-table inte funnen.  Försöker skapa alternativ..."
+msgstr ""
 
 #: src/pinfo.cxx:505
 #, c-format
 msgid "This doesn't look like info file...\n"
-msgstr "Det här ser inte ut som en info-fil...\n"
+msgstr ""
 
 #: src/pinfo.cxx:564
 #, c-format
@@ -243,52 +242,43 @@ msgstr ""
 msgid "Security warning: Unable to get UID of user called: %s\n"
 msgstr ""
 
-#
-# Message for procedure, which checks the command line filename
-#
-# , c-format
 #: src/utils.cxx:85
 #, c-format
 msgid ""
 "Illegal characters in filename!\n"
 "*** %s\n"
 msgstr ""
-"Otillåtna tecken i filnamnet!\n"
-"*** %s\n"
 
 #: src/utils.cxx:256
 msgid "yes"
-msgstr "ja"
+msgstr ""
 
 #: src/utils.cxx:257
 msgid "no"
-msgstr "nej"
+msgstr ""
 
 #: src/video.cxx:53
 msgid "File:"
-msgstr "Fil:"
+msgstr ""
 
 #: src/video.cxx:54
 msgid "Node:"
-msgstr "Nod:"
+msgstr ""
 
 #: src/video.cxx:55
 msgid "Next:"
-msgstr "Nästa:"
+msgstr ""
 
 #: src/video.cxx:56
 msgid "Prev:"
-msgstr "Föregående:"
+msgstr ""
 
 #: src/video.cxx:57
 msgid "Up:"
-msgstr "Upp:"
+msgstr ""
 
-#
-# Out of memory message
-#
-#~ msgid "Virtual memory exhausted\n"
-#~ msgstr "Slut på virtuellt minne\n"
+#~ msgid "Error: Cannot call man command.\n"
+#~ msgstr "Fel: Kunde inte kalla upp kommandot 'man'.\n"
 
 #
 # Manual messages
@@ -302,34 +292,30 @@ msgstr "Upp:"
 #~ msgid "Apropos pages:\n"
 #~ msgstr "Lämpliga sidor:\n"
 
-#~ msgid "Warning: could not find tag table\n"
-#~ msgstr "Varning: kunde inte finna tag table\n"
+#~ msgid "Calling gunzip for"
+#~ msgstr "Kallar upp gunzip för"
 
+#~ msgid "Couldn't call gunzip.\n"
+#~ msgstr "Kunde inte kalla upp gunzip.\n"
+
+#~ msgid "IGNORING"
+#~ msgstr "IGNORERAR"
+
+#
+# Out of memory message
+#
+#~ msgid "Virtual memory exhausted\n"
+#~ msgstr "Slut på virtuellt minne\n"
+
+# pinfo Swedish language module
+#
+# strings for the header-filter of info messages
+# , fuzzy
 #
 # Load messages for info pages (version for printf)
 #
 #~ msgid "Searching for indirect done\n"
 #~ msgstr "Sökning efter indirekt klar\n"
 
-#
-# help message
-#
-# , c-format
-#~ msgid ""
-#~ "Usage:\n"
-#~ "%s [options] [info|manual]\n"
-#~ "Options:\n"
-#~ "--help, -h: help\n"
-#~ "--version, -v: version\n"
-#~ "--manual, -m: use man page\n"
-#~ "--raw-filename, -r: use raw filename\n"
-#~ "--apropos, -a: call apropos if nothing found\n"
-#~ msgstr ""
-#~ "Användning:\n"
-#~ "%s [alternativ] [info|manual]\n"
-#~ "Alternativ:\n"
-#~ "--help, -h: hjälp\n"
-#~ "--version, -v: versionsnummer\n"
-#~ "--manual, -m: använd man-sida\n"
-#~ "--raw-filename, -r: använd rått filnamn\n"
-#~ "--apropos, -a: anropa apropos om inget lämpligt dokument finns\n"
+#~ msgid "Warning: could not find tag table\n"
+#~ msgstr "Varning: kunde inte finna tag table\n"

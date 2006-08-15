@@ -16,7 +16,7 @@
  *
  *  You should have received a copy of the GNU General Public License
  *  along with this program; if not, write to the Free Software
- *  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307
+ *  Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
  *  USA
  ***************************************************************************/
 #include "common_includes.h"
@@ -199,7 +199,7 @@ do_totalsearch(const vector<string> & my_message,
 		searchagain.search = 0;
 	} else {
 		/* if searchagain key wasn't hit */
-		token_string = getstring(_("Enter regexp: "));
+		token_string = getstring(_("Enter regular expression: "));
 		/* save it to searchagain buffer */
 		searchagain.lastsearch = token_string;	
 		/*
@@ -235,7 +235,7 @@ do_totalsearch(const vector<string> & my_message,
 	return_value = -1;
 	/* the info is of indirect type; we'll search through several files */
 	if (!indirect.empty()) {
-		FILE *fd;
+		FILE *fd = NULL;
 		long tokenpos;
 		long starttokenpos;
 		long filelen;
@@ -593,7 +593,7 @@ work(const vector<string>& my_message,
 			if ((key == keys.shellfeed_1) ||
 					(key == keys.shellfeed_2))
 			{
-				FILE * pipe;
+				FILE * pipe = NULL;
 				/* get command name */
 				attrset(bottomline);
 				move(maxy - 1, 0);
@@ -650,6 +650,8 @@ work(const vector<string>& my_message,
 				if (!skipsearch) {
 					if (found_line == -1) {
 						attrset(bottomline);
+            mymvhline(maxy - 1, 0, ' ', maxx);
+            move(maxy - 1, 0);
 						mvaddstr(maxy - 1, 0, _("Search string not found..."));
 						statusline_locked = true;
 					}
@@ -683,7 +685,7 @@ work(const vector<string>& my_message,
 					token_string = searchagain.lastsearch;
 					searchagain.search = 0;
 				} else {
-					token_string = getstring(_("Enter regexp: "));
+					token_string = getstring(_("Enter regular expression: "));
 					searchagain.lastsearch = token_string;
 					searchagain.type = key;
 				}
@@ -726,6 +728,8 @@ work(const vector<string>& my_message,
 				if (!success)
 				{
 					attrset(bottomline);
+          mymvhline(maxy - 1, 0, ' ', maxx);
+          move(maxy - 1, 0);
 					mvaddstr(maxy - 1, 0, _("Search string not found..."));
 					statusline_locked = true;
 				}

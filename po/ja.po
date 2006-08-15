@@ -31,8 +31,8 @@ msgstr "タグテーブルの検索完了\n"
 
 #: src/filehandling_functions.cxx:1051
 #, c-format
-msgid "Error: could not open info file\n"
-msgstr "エラー: infoファイルが開けませんでした\n"
+msgid "Error: could not open info file"
+msgstr "エラー: infoファイルが開けませんでした"
 
 #: src/mainfunction.cxx:205 src/manual.cxx:744
 msgid "Are you sure you want to print?"
@@ -51,7 +51,8 @@ msgid "Operation failed..."
 msgstr "操作に失敗しました..."
 
 #: src/mainfunction.cxx:348 src/mainfunction.cxx:607 src/manual.cxx:890
-msgid "Enter regexp: "
+#, fuzzy
+msgid "Enter regular expression: "
 msgstr "正規表現を入力: "
 
 #: src/mainfunction.cxx:576 src/mainfunction.cxx:664 src/manual.cxx:959
@@ -193,7 +194,7 @@ msgid "Trying to create alternate tag table...\n"
 msgstr "別のタグテーブルを作成しようとしています...\n"
 
 #: src/pinfo.cxx:365
-#, fuzzy, c-format
+#, c-format
 msgid "This doesn't look like an info file...\n"
 msgstr "これはinfoファイルではないようです...\n"
 
@@ -267,9 +268,6 @@ msgstr "前: "
 msgid "Up:"
 msgstr "上: "
 
-#~ msgid "Virtual memory exhausted\n"
-#~ msgstr "仮想メモリを使い切ってしまいました\n"
-
 #~ msgid "Error: Cannot call man command.\n"
 #~ msgstr "エラー: manコマンドが呼び出せません。\n"
 
@@ -288,6 +286,12 @@ msgstr "上: "
 
 #~ msgid "IGNORING"
 #~ msgstr "無視"
+
+#~ msgid "Virtual memory exhausted\n"
+#~ msgstr "仮想メモリを使い切ってしまいました\n"
+
+#~ msgid "Are you sure to print?"
+#~ msgstr "本当に印刷してよろしいですか?"
 
 #~ msgid "Warning: could not find tag table\n"
 #~ msgstr "警告: タグテーブルが見つかりませんでした\n"

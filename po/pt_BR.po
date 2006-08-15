@@ -1,168 +1,137 @@
-# pinfo polish language module
+# translation of pinfo
+# Copyright (C) 2006 Przemek Borys <pborys@dione.ids.pl>, 
+# Bas Zoetekouw <bas@debian.org>, Nathanael Nerode <neroden@gcc.gnu.org>
+# This file is distributed under the same license as the pinfo package.
+# Felipe Augusto van de Wiel (faw) <felipe@cathedrallabs.org>, 2006.
 #
-# strings for the header-filter of info messages
-# , fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: pinfo-0.6.8\n"
+"Project-Id-Version: pinfo\n"
 "Report-Msgid-Bugs-To: pinfo-devel@lists.alioth.debian.org\n"
 "POT-Creation-Date: 2005-09-08 08:22-0400\n"
-"PO-Revision-Date: 2005-09-29 21:59+0200\n"
-"Last-Translator: Krzysztof Krzyøaniak (eloy) <eloy@debian.org>\n"
-"Language-Team:\n"
+"PO-Revision-Date: 2006-01-06 02:05-0200\n"
+"Last-Translator: Felipe Augusto van de Wiel (faw) <felipe@cathedrallabs."
+"org>\n"
+"Language-Team: l10n portuguese <debian-l10n-portuguese@lists.debian.org>\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=ISO-8859-2\n"
+"Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"pt_BR utf-8\n"
 
 #: src/filehandling_functions.cxx:466 src/filehandling_functions.cxx:471
 #, c-format
 msgid "Searching for indirect done"
-msgstr "ZakoÒczono poszukiwanie mapowaÒ niebezpo∂rednich"
+msgstr "Procura por indireta conclu√≠da"
 
 #: src/filehandling_functions.cxx:502 src/filehandling_functions.cxx:507
 #, c-format
 msgid "Warning: could not find tag table"
-msgstr "Ostrzeøenie: nie moøna znaleºÊ tablicy tagÛw"
+msgstr "Aviso: n√£o foi poss√≠vel encontrar a tabela de etiquetas"
 
 #: src/filehandling_functions.cxx:528
 #, c-format
 msgid "Searching for tag table done\n"
-msgstr "ZakoÒczono poszukiwanie tablicy tagÛw\n"
+msgstr "Procura pela tabela de etiquetas conclu√≠da\n"
 
 #: src/filehandling_functions.cxx:1051
 #, c-format
 msgid "Error: could not open info file"
-msgstr "B≥ad: nie nie moøna otworzyÊ pliku info"
+msgstr "Erro: n√£o foi poss√≠vel abrir o arquivo info"
 
 #: src/mainfunction.cxx:205 src/manual.cxx:744
 msgid "Are you sure you want to print?"
-msgstr "Czy na pewno drukowaÊ?"
+msgstr "Voc√™ tem certeza que deseja imprimir?"
 
-#
-# Go line messages
-#
 #: src/mainfunction.cxx:254 src/manual.cxx:789
 msgid "Enter line: "
-msgstr "Podaj liniÍ: "
+msgstr "Informe linha: "
 
-#
-# Shellfeed messages
-#
 #: src/mainfunction.cxx:292 src/manual.cxx:836
 msgid "Enter command: "
-msgstr "Podaj komendÍ: "
+msgstr "Informe comando: "
 
 #: src/mainfunction.cxx:311
 msgid "Operation failed..."
-msgstr "Operacja siÍ nie powiod≥a..."
+msgstr "Opera√ß√£o falhou..."
 
-#
-# Regexp search messages
-#
 #: src/mainfunction.cxx:348 src/mainfunction.cxx:607 src/manual.cxx:890
-#, fuzzy
 msgid "Enter regular expression: "
-msgstr "Wprowadº wyraøenie regularne: "
+msgstr "Informe express√£o regular: "
 
 #: src/mainfunction.cxx:576 src/mainfunction.cxx:664 src/manual.cxx:959
 msgid "Search string not found..."
-msgstr "Szukany ≥aÒcuch nie zosta≥ znaleziony..."
+msgstr "Texto pesquisado n√£o encontrado..."
 
 #: src/mainfunction.cxx:630 src/manual.cxx:920
 msgid "Invalid regular expression;"
-msgstr "B≥Ídne wyraøenie regularne;"
+msgstr "Express√£o regular inv√°lida;"
 
 #: src/mainfunction.cxx:632 src/manual.cxx:922
 msgid "Press any key to continue..."
-msgstr "Naci∂nij dowolny klawisz..."
+msgstr "Pressione qualquer tecla para continuar..."
 
-#
-# Goto messages
-#
 #: src/mainfunction.cxx:691
 msgid "Enter node name: "
-msgstr "Podaj nazwÍ wÍz≥a: "
+msgstr "Informe nome do n√≥ (node): "
 
-# , c-format
 #: src/mainfunction.cxx:759
 #, c-format
 msgid "Node %s not found"
-msgstr "WÍze≥ %s nie istnieje"
+msgstr "N√≥ (node) %s n√£o encontrado"
 
-# Dialogs
 #: src/mainfunction.cxx:1221 src/manual.cxx:1311
 msgid "Are you sure you want to quit?"
-msgstr "Czy na pewno chcesz zakoÒczyÊ pracÍ?"
+msgstr "Voc√™ tem certeza que deseja sair?"
 
-#
-# Manual messages
-#
-# loading:
 #: src/manual.cxx:289
-#, fuzzy, c-format
+#, c-format
 msgid "Error: No manual page found\n"
-msgstr "B≥ad: Nie znaleziono strony podrÍcznika.\n"
+msgstr "Erro: Nenhuma p√°gina de manual encontrada\n"
 
 #: src/manual.cxx:300
 #, c-format
 msgid "Calling apropos \n"
-msgstr "Uruchamianie polecenia apropos \n"
+msgstr "Chamando apropos \n"
 
 #: src/manual.cxx:308
 #, c-format
 msgid "Nothing appropriate\n"
-msgstr "Brak odpowiadaj±cych stron\n"
+msgstr "Nada apropriado\n"
 
-#
-# Goto messages
-#
 #: src/manual.cxx:758
 msgid "Enter manual name: "
-msgstr "Podaj tytu≥ podrÍcznika: "
+msgstr "Informe nome do manual: "
 
 #: src/manual.cxx:1395 src/video.cxx:105
 #, c-format
 msgid "Viewing line %d/%d, %d%%"
-msgstr "Przegl±danie linii %d/%d, %d%%"
+msgstr "Visualizando linha %d/%d, %d%%"
 
-#
-# Viewer messages
-#
 #: src/manual.cxx:1397 src/video.cxx:108
 #, c-format
 msgid "Viewing line %d/%d, 100%%"
-msgstr "Przegl±danie linii %d/%d, 100%%"
+msgstr "Visualizando linha %d/%d, 100%%"
 
 #: src/parse_config.cxx:86
 #, c-format
 msgid "Can't open config file!\n"
-msgstr "Nie moøna otworzyÊ pliku konfiguracyjnego!\n"
+msgstr "N√£o foi poss√≠vel abrir o arquivo de configura√ß√£o!\n"
 
-#
-# Messages from the config file parsing procedures:
-#
 #: src/parse_config.cxx:124
 #, c-format
 msgid "Parse error in config file on line %d\n"
-msgstr "B≥±d sk≥adni w linii %d pliku konfiguracyjnego\n"
+msgstr "Erro de interpreta√ß√£o do arquivo de configura√ß√£o na linha %d\n"
 
-#
-# error messages when loading
-#
 #: src/pinfo.cxx:93
 #, c-format
 msgid "--node option used without argument\n"
-msgstr "opcja --node uøyta bez argumentu\n"
+msgstr "op√ß√£o --node usada sem argumento\n"
 
 #: src/pinfo.cxx:101
 #, c-format
 msgid "--rcfile option used without argument\n"
-msgstr "opcja --rcfile uøyta bez argumentu\n"
+msgstr "op√ß√£o --rcfile usada sem argumento\n"
 
-#
-# help message
-#
-# , c-format
 #: src/pinfo.cxx:112
 #, c-format
 msgid ""
@@ -187,162 +156,151 @@ msgid ""
 "    --node=nodename, --node nodename  jump directly to the node nodename\n"
 "    --rcfile=file, --rcfile file      use alternate rcfile\n"
 msgstr ""
-"Uøycie:\n"
-"%s [opcje] [info|manual]\n"
-"Opcje:\n"
-"-h, --help                            Wypisz pomoc\n"
-"-v, --version                         Wypisz numer wersji\n"
-"-m, --manual                          Uøyj strony podrÍcznika man\n"
-"-r, --raw-filename                    Uøyj czystej, podanej nazwy pliku\n"
-"-a, --apropos                         W wypadku nieznalezienia pasuj±cego\n"
-"                                      dokumentu, uøyj apropos(1)\n"
-"-p, --plain-apropos                   Wywo≥aj apropos bez szukania\n"
-"                                      pasuj±cych stron man\n"
-"-c, --cut-man-headers                 Wycinaj ze stron podrÍcznika man\n"
-"                                      powtarzajace siÍ nag≥Ûwki\n"
-"-l, --long-manual-links               Uøywaj d≥ugich nazw sekcji w stronach\n"
-"                                      podrÍcznika man\n"
-"-s, --squeeze-manlines                Wycinaj ze stron podrÍcznika man\n"
-"                                      powtarzaj±ce siÍ puste linie\n"
-"-d, --don't-handle-without-tag-table  OdmÛw dzia≥ania, gdy strona info\n"
-"                                      nie ma wpisu tag table\n"
-"-t, --force-manual-tag-table          Wymu∂ rÍczn± konstrukcjÍ tag table\n"
-"-x, --clear-at-exit                   Wyczy∂Ê ekran po zakoÒczeniu "
-"dzia≥ania\n"
-"    --node=WÍze≥, --node WÍze≥        Przejdº do wÍz≥a WÍze≥ strony info\n"
-"    --rcfile=plik, --rcfile plik      Uøyj alternatywnego pliku rc\n"
+"Uso:\n"
+"%s [op√ß√µes] [info|manual]\n"
+"Op√ß√µes:\n"
+"-h, --help                              ajuda\n"
+"-v, --version                           vers√£o\n"
+"-m, --manual                            use p√°ginas de manual (man page)\n"
+"-r, --raw-filename                      use nomes de arquivos crus (raw)\n"
+"-f, --file                              sin√¥nimo para -r\n"
+"-a, --apropos                           chama apropos se nada for "
+"encontrado\n"
+"-p, --plain-apropos                     chama apenas apropos\n"
+"-c, --cut-man-headers                   remove cabe√ßalhos man repetidos\n"
+"-l, --long-manual-links                 use nomes de link longos nos "
+"manuais\n"
+"-s, --squeeze-manlines                  remove linhas vazias das p√°ginas de\n"
+"                                        manual\n"
+"-d, --dont-handle-without-tag-table     n√£o exibe p√°ginas texinfo sem as\n"
+"                                        tabelas de etiquetas\n"
+"-t, --force-manual-tag-table            for√ßar a detec√ß√£o manual da tabela\n"
+"                                        de etiquetas\n"
+"-x, --clear-at-exit                     limpa a tela quando sair\n"
+"    --node=nomedon√≥, --node nomedon√≥    pula direto para o n√≥ \"nomedon√≥\"\n"
+"    --rcfile=arquivo, --rcfile arquivo  usa um arquivo rcfile alternativo\n"
 
 #: src/pinfo.cxx:138 src/pinfo.cxx:242
 #, c-format
 msgid "Looking for man page...\n"
-msgstr "Szukam strony podrÍcznika...\n"
+msgstr "Procurando pela p√°gina de manual...\n"
 
 #: src/pinfo.cxx:326
 #, c-format
 msgid "Error: could not open info file, trying manual\n"
-msgstr "B≥±d: nie ma takiego pliku info, szukanie strony podrÍcznika\n"
+msgstr "Erro: n√£o foi poss√≠vel abrir o arquivo info, tentando manual\n"
 
 #: src/pinfo.cxx:356
 #, c-format
 msgid "Warning: tag table not found...\n"
-msgstr "Ostrzeøenie: nie znalaziono tablicy tagÛw...\n"
+msgstr "Aviso: tabela etiquetas n√£o encontrada...\n"
 
 #: src/pinfo.cxx:360
 #, c-format
 msgid "Trying to create alternate tag table...\n"
-msgstr "PrÛba utworzenia alternatywnej tablicy tagÛw...\n"
+msgstr "Tentando criar tabela de etiquetas alternativa...\n"
 
 #: src/pinfo.cxx:365
 #, c-format
 msgid "This doesn't look like an info file...\n"
-msgstr "Nie jest plikiem typu info...\n"
+msgstr "Isso n√£o parece ser um arquivo info...\n"
 
 #: src/pinfo.cxx:378
 #, c-format
 msgid "Specified node does not exist...\n"
-msgstr "Podany wÍze≥ nie istnieje...\n"
+msgstr "O n√≥ especificado n√£o existe...\n"
 
 #: src/pinfo.cxx:435
 msgid "File not found. Press any key..."
-msgstr "Nie znaleziono pliku. Naci∂nij dowolny klawisz..."
+msgstr "Arquivo n√£o encontrado. Pressione uma tecla..."
 
 #: src/pinfo.cxx:453
 #, c-format
 msgid "Unexpected error.\n"
-msgstr "Nieoczekiwany b≥±d.\n"
+msgstr "Erro inesperado.\n"
 
 #: src/pinfo.cxx:500
 msgid "Tag table not found. Trying to create alternate..."
 msgstr ""
-"Nie znaleziono tablicy tagÛw. PrÛba utworzenia alternatywnej tablicy..."
+"Tabela de etiquetas n√£o encontrada. Tentando criar tabela alternativa..."
 
 #: src/pinfo.cxx:505
 #, c-format
 msgid "This doesn't look like info file...\n"
-msgstr "Nie jest plikiem typu info...\n"
+msgstr "Isso n√£o parece ser um arquivo info...\n"
 
 #: src/pinfo.cxx:564
 #, c-format
 msgid "Security warning: Unable to get GID of group called: %s\n"
-msgstr "NiebezpieczeÒstwo: Nie moøna pobraÊ GID grupy: %s\n"
+msgstr ""
+"Aviso de seguran√ßa: N√£o foi poss√≠vel obter o GID do grupo chamado: %s\n"
 
 #: src/pinfo.cxx:584
 #, c-format
 msgid "Security warning: Unable to get UID of user called: %s\n"
-msgstr "NiebezpieczeÒstwo: Nie moøna pobraÊ UID uøytkownika: %s\n"
+msgstr ""
+"Aviso de seguran√ßa: N√£o foi poss√≠vel obter o UID do usu√°rio chamado: %s\n"
 
-#
-# Message for procedure, which checks the command line filename
-#
-# , c-format
 #: src/utils.cxx:85
 #, c-format
 msgid ""
 "Illegal characters in filename!\n"
 "*** %s\n"
 msgstr ""
-"W nazwie pliku znajduj± siÍ niedozwolone znaki!\n"
+"Caracteres ilegais no nome do arquivo!\n"
 "*** %s\n"
 
 #: src/utils.cxx:256
 msgid "yes"
-msgstr "tak"
+msgstr "sim"
 
 #: src/utils.cxx:257
 msgid "no"
-msgstr "nie"
+msgstr "n√£o"
 
 #: src/video.cxx:53
 msgid "File:"
-msgstr "Plik:"
+msgstr "Arquivo:"
 
 #: src/video.cxx:54
 msgid "Node:"
-msgstr "WÍze≥:"
+msgstr "N√≥:"
 
 #: src/video.cxx:55
 msgid "Next:"
-msgstr "NastÍpny:"
+msgstr "Pr√≥ximo:"
 
 #: src/video.cxx:56
 msgid "Prev:"
-msgstr "Poprzedni:"
+msgstr "Anterior:"
 
 #: src/video.cxx:57
 msgid "Up:"
-msgstr "GÛra:"
+msgstr "Acima:"
 
 #~ msgid "Error: Cannot call man command.\n"
-#~ msgstr "B≥±d: Nie moøna uruchomiÊ polecenia man.\n"
+#~ msgstr "Erro: N√£o foi poss√≠vel chamar o comando man.\n"
 
-#
-# Manual messages
-#
-# loading:
 #~ msgid "Error: No manual page found either.\n"
-#~ msgstr "B≥ad: Nie ma rÛwnieø pasuj±cej strony podrÍcznika man.\n"
+#~ msgstr "Erro: Nenhuma p√°gina de manual foi encontrada.\n"
 
-# apropos:
 #~ msgid "Apropos pages:\n"
-#~ msgstr "Podobne strony:\n"
+#~ msgstr "P√°ginas apropos:\n"
 
 #~ msgid "Calling gunzip for"
-#~ msgstr "Uruchamianie gunzip dla"
+#~ msgstr "Chamando gunzip para"
 
 #~ msgid "Couldn't call gunzip.\n"
-#~ msgstr "Nie moøna uruchomiÊ programu gunzip.\n"
+#~ msgstr "N√£o foi poss√≠vel chamar gunzip.\n"
 
 #~ msgid "IGNORING"
-#~ msgstr "IGNOROWANIE"
+#~ msgstr "IGNORANDO"
 
-#
-# Out of memory message
-#
 #~ msgid "Virtual memory exhausted\n"
-#~ msgstr "Brak pamiÍci\n"
+#~ msgstr "Mem√≥ria virtual exaurida\n"
 
 #~ msgid "Tag table is corrupt, trying to fix..."
-#~ msgstr "Tablica tagÛw jest uszkodzona, prÛba naprawy..."
+#~ msgstr "Tabela de etiquetas est√° corrompida, tentando consertar..."
 
 #~ msgid "press a key to continue"
-#~ msgstr "naci∂nij dowolny klawisz"
+#~ msgstr "pressione uma tecla para continuar"

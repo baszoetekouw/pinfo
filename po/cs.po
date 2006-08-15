@@ -1,14 +1,14 @@
 # Czech translation of pinfo
 # Jiøí Pavlovský <pavlovsk@ff.cuni.cz>, 1999.
-#
+# revised and updated by Katarína Machálková <bubli@bubli.org>, 2005
 msgid ""
 msgstr ""
 "Project-Id-Version: pinfo-0.5.6\n"
 "Report-Msgid-Bugs-To: pinfo-devel@lists.alioth.debian.org\n"
 "POT-Creation-Date: 2005-09-08 08:22-0400\n"
-"PO-Revision-Date: 1999-08-28 00:05+0200\n"
-"Last-Translator: Jiøí Pavlovský <pavlovsk@ff.cuni.cz>\n"
-"Language-Team: Czech <cs@li.org>\n"
+"PO-Revision-Date: 2005-10-11 16:59+0200\n"
+"Last-Translator: Katarina Machalkova <bubli@bubli.org>\n"
+"Language-Team: Czech <debian-l10n-czech@lists.debian.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=ISO-8859-2\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -16,7 +16,7 @@ msgstr ""
 #: src/filehandling_functions.cxx:466 src/filehandling_functions.cxx:471
 #, c-format
 msgid "Searching for indirect done"
-msgstr "Hledání nepøímého odkazu ukonèeno"
+msgstr "Hledání nepøímého odkazu dokonèeno"
 
 #: src/filehandling_functions.cxx:502 src/filehandling_functions.cxx:507
 #, c-format
@@ -26,12 +26,12 @@ msgstr "Varování: tabulku znaèek nelze nalézt"
 #: src/filehandling_functions.cxx:528
 #, c-format
 msgid "Searching for tag table done\n"
-msgstr "Hledání tabulky znaèek ukonèeno\n"
+msgstr "Hledání tabulky znaèek dokonèeno\n"
 
 #: src/filehandling_functions.cxx:1051
 #, c-format
-msgid "Error: could not open info file\n"
-msgstr "Chyba: Info dokument nelze otevøít.\n"
+msgid "Error: could not open info file"
+msgstr "Chyba: Info dokument nelze otevøít."
 
 #: src/mainfunction.cxx:205 src/manual.cxx:744
 msgid "Are you sure you want to print?"
@@ -50,21 +50,20 @@ msgid "Operation failed..."
 msgstr "Operace se nezdaøila..."
 
 #: src/mainfunction.cxx:348 src/mainfunction.cxx:607 src/manual.cxx:890
-msgid "Enter regexp: "
+msgid "Enter regular expression: "
 msgstr "Zadejte regulární výraz: "
 
 #: src/mainfunction.cxx:576 src/mainfunction.cxx:664 src/manual.cxx:959
-#, fuzzy
 msgid "Search string not found..."
-msgstr "Varování: tabulka znaèek nenalezena...\n"
+msgstr "Hledaný øetìzec nebyl nalezen..."
 
 #: src/mainfunction.cxx:630 src/manual.cxx:920
 msgid "Invalid regular expression;"
-msgstr ""
+msgstr "Neplatný regulární výraz;"
 
 #: src/mainfunction.cxx:632 src/manual.cxx:922
 msgid "Press any key to continue..."
-msgstr ""
+msgstr "Pro pokraèování stisknìte libovolnou klávesu..."
 
 #: src/mainfunction.cxx:691
 msgid "Enter node name: "
@@ -80,23 +79,23 @@ msgid "Are you sure you want to quit?"
 msgstr "Opravdu chcete ukonèit program?"
 
 #: src/manual.cxx:289
-#, fuzzy, c-format
+#, c-format
 msgid "Error: No manual page found\n"
-msgstr "Chyba: Nebyla nalezena ani manuálová stránka.\n"
+msgstr "Chyba: Nebyla nalezena manuálová stránka.\n"
 
 #: src/manual.cxx:300
 #, c-format
 msgid "Calling apropos \n"
-msgstr ""
+msgstr "Volám program apropos \n"
 
 #: src/manual.cxx:308
 #, c-format
 msgid "Nothing appropriate\n"
-msgstr ""
+msgstr "®ádné související stránky\n"
 
 #: src/manual.cxx:758
 msgid "Enter manual name: "
-msgstr "Zadejte jméno manuálové stránky: "
+msgstr "Zadejte název manuálové stránky: "
 
 #: src/manual.cxx:1395 src/video.cxx:105
 #, c-format
@@ -111,7 +110,7 @@ msgstr "Zobrazen øádek %d/%d, 100%%"
 #: src/parse_config.cxx:86
 #, c-format
 msgid "Can't open config file!\n"
-msgstr ""
+msgstr "Nelze otevøít konfiguraèní soubor!\n"
 
 #: src/parse_config.cxx:124
 #, c-format
@@ -124,12 +123,12 @@ msgid "--node option used without argument\n"
 msgstr "chybí argument pro pøepínaè --node\n"
 
 #: src/pinfo.cxx:101
-#, fuzzy, c-format
+#, c-format
 msgid "--rcfile option used without argument\n"
-msgstr "chybí argument pro pøepínaè --node\n"
+msgstr "chybí argument pro pøepínaè --rcfile\n"
 
 #: src/pinfo.cxx:112
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Usage:\n"
 "%s [options] [info|manual]\n"
@@ -159,9 +158,11 @@ msgstr ""
 "-v, --version                         vypí¹e informace o verzi\n"
 "-m, --manual                          zobrazí manuálovou stránku\n"
 "-r, --raw-filename                    zobrazí soubor daného jména\n"
+"-f, --file                            synonymum pro -r\n"
 "-a, --apropos                         pokud nenalezne odpovídající "
 "dokument,\n"
 "                                      pou¾ije apropos(1)\n"
+"-p, --plain-apropos                   pou¾ije pouze apropos(1)\n"
 "-c, --cut-man-headers                 vystøihne z manuálových stránek "
 "opakované\n"
 "                                      hlavièky\n"
@@ -176,11 +177,13 @@ msgstr ""
 "-t, --force-manual-tag-table          vynutí detekci tabulky znaèek\n"
 "-x, --clear-at-exit                   pøi ukonèení programu sma¾e obrazovku\n"
 "    --node=UZEL, --node UZEL          pøeskoèí rovnou na UZEL\n"
+"    --rcfile=soubor, --rcfile soubor  pou¾ije alternativní konfiguraèní "
+"soubor\n"
 
 #: src/pinfo.cxx:138 src/pinfo.cxx:242
 #, c-format
 msgid "Looking for man page...\n"
-msgstr "Hledá se manuálová stránka...\n"
+msgstr "Hledám manuálovou stránku...\n"
 
 #: src/pinfo.cxx:326
 #, c-format
@@ -241,7 +244,7 @@ msgid ""
 "Illegal characters in filename!\n"
 "*** %s\n"
 msgstr ""
-"Soubor obsahuje nepovolené znaky!\n"
+"Název souboru obsahuje nepovolené znaky!\n"
 "*** %s\n"
 
 #: src/utils.cxx:256
@@ -270,10 +273,7 @@ msgstr "Pøedchozí:"
 
 #: src/video.cxx:57
 msgid "Up:"
-msgstr "Horní:"
-
-#~ msgid "Virtual memory exhausted\n"
-#~ msgstr "Nedostatek virtuální pamìti\n"
+msgstr "Nahoru:"
 
 #~ msgid "Error: Cannot call man command.\n"
 #~ msgstr "Chyba: program man nelze spustit.\n"
@@ -281,18 +281,29 @@ msgstr "Horní:"
 #~ msgid "Error: No manual page found either.\n"
 #~ msgstr "Chyba: Nebyla nalezena ani manuálová stránka.\n"
 
-#, fuzzy
 #~ msgid "Apropos pages:\n"
-#~ msgstr "Pøíslu¹né stránky:\n"
+#~ msgstr "Související stránky:\n"
 
 #~ msgid "Calling gunzip for"
 #~ msgstr "Volám program gunzip pro"
 
 #~ msgid "Couldn't call gunzip.\n"
-#~ msgstr "Program gunzip nelze zpustit.\n"
+#~ msgstr "Program gunzip nelze spustit.\n"
 
 #~ msgid "IGNORING"
 #~ msgstr "IGNORUJI"
+
+#~ msgid "Virtual memory exhausted\n"
+#~ msgstr "Nedostatek virtuální pamìti\n"
+
+#~ msgid "Tag table is corrupt, trying to fix..."
+#~ msgstr "Tabulka znaèek je po¹kozena, pokou¹ím se ji opravit..."
+
+#~ msgid "press a key to continue"
+#~ msgstr "stisknìte libovolnou klávesu"
+
+#~ msgid "Are you sure to print?"
+#~ msgstr "Opravdu chcete dokument vytisknout?"
 
 #~ msgid "Warning: could not find tag table\n"
 #~ msgstr "Varování: tabulku znaèek nelze nalézt\n"

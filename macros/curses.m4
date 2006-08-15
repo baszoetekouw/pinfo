@@ -1,7 +1,50 @@
 dnl Curses detection: Munged from Midnight Commander's configure.in
 dnl
-dnl What it does:
-dnl =============
+dnl  This program is distributed in the hope that it will be useful, but
+dnl  WITHOUT ANY WARRANTY; without even the implied warranty of
+dnl  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+dnl  General Public License for more details.
+dnl 
+dnl  You should have received a copy of the GNU General Public License
+dnl  along with this program; if not, write to the Free Software
+dnl  Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301 USA
+dnl  
+dnl 
+dnl  How to use this?
+dnl  (-) put a call to AC_CHECK_CURSES in configure.ac (after the call to
+dnl      AC_PROG_CC, obviously)
+dnl  (-) AC_CHECK_CURSES will look for a curses library (or look at the
+dnl  	location the user specified on the ./configure command line) , and
+dnl  	checks if it is usable.  If it is found, and is usable, the shell
+dnl  	variable $USE_CURSES is set for use in configure.ac, and the
+dnl  	autoheader USE_CURSES will be defined.  
+dnl  (-) the includes and libraries cc options are put into the
+dnl      $CURSES_INCLUDES and $CURSES_LIBS shell variables and the automake 
+dnl      variables @CURSES_INCLUDES@ and @CURSES_LIBS@.  Additional flags 
+dnl      that are needed are put in $CURSES_FLAGS and @CURSES_FLAGS@
+
+
+
+dnl First define the headers for config.h.in:
+AH_TEMPLATE([USE_CURSES],[
+	Use Ncurses?
+])
+AH_TEMPLATE([CURSES_WCHAR],[
+	Does curses have support for non-iso8859 charsets?
+])
+AH_TEMPLATE(CURSES_H_NAME, [
+	Name of the ncurses.h file that should be included
+])
+AH_TEMPLATE([CURSES_COLORS],[
+	Defined if curses has support for colors
+])
+AH_TEMPLATE(CURSES_KEY_END,[
+	Defined if curses has KEY_END definition
+])
+AH_TEMPLATE(CURSES_MOUSE,[
+	Defined if curses has support for mouse events
+])
+
 dnl
 dnl - Determine which version of curses is installed on your system
 dnl   and set the -I/-L/-l compiler entries and add a few preprocessor

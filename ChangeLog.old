@@ -1,0 +1,1177 @@
+1999-11-02  Przemek Borys  <pborys@dione.ids.pl>
+
+	* AUTHORS, src/Makefile.am, src/manual.c:
+	bugfix, and new makefile.am, which makes backup copies of old pinforc file
+
+1999-10-31  Przemek Borys  <pborys@dione.ids.pl>
+
+	* src/parse_config.h, src/pinfo.c, src/pinforc.in, src/printinfo.c, src/regexp_search.c, src/regexp_search.h, src/utils.c, src/utils.h, src/video.c, configure.in, doc/pinfo.1.in, NEWS, src/filehandling_functions.c, src/mainfunction.c, src/mainfunction.h, src/manual.c, src/parse_config.c:
+	opis w NEWS do 0.5.9
+
+1999-10-10  Przemek Borys  <pborys@dione.ids.pl>
+
+	* src/mainfunction.c: fixed bug in totalsearch
+
+1999-10-02  Przemek Borys  <pborys@dione.ids.pl>
+
+	* src/manual.c: patch for solaris (setenv->putenv)
+
+1999-09-29  Przemek Borys  <pborys@dione.ids.pl>
+
+	* src/parse_config.c: tiny change
+
+1999-09-25  Tomasz Kłoczko  <kloczek@wun.zie.pg.gda.pl>
+
+	* pinfo.spec.in:
+	- added ru translation from KSI-Linux spec file.
+
+1999-09-19  Przemek Borys  <pborys@dione.ids.pl>
+
+	* configure.in, src/filehandling_functions.c, src/pinfo.c, src/utils.c:
+	bugfixes, v0.5.8
+
+1999-09-15  Tomasz Kłoczko  <kloczek@wun.zie.pg.gda.pl>
+
+	* po/cs.po, po/de.po, po/pl.po, po/ru.po, po/sv.po:
+	- updated. Przemek .. please before releasing each new version update .po
+	  files.
+
+1999-09-15  Przemek Borys  <pborys@dione.ids.pl>
+
+	* po/de.po: german translation--update
+
+1999-09-08  Artur Frysiak  <wiget@pld.org.pl>
+
+	* pinfo.spec.in: - added ru locale
+
+	* pinfo.spec.in: - now work on RedHat too (I hope)
+
+1999-09-07  Przemek Borys  <pborys@dione.ids.pl>
+
+	* src/pinfo.c, src/utils.c, src/utils.h, configure.in, NEWS, src/filehandling_functions.c, src/filehandling_functions.h, src/Makefile.am, src/manual.c, src/parse_config.c:
+	fixed --with-included-gettext (I hope)
+	man pages can now have width different than 80 cols
+	-r option works with compressed files
+	NEW VERSION :) (what was the command, which I should pass to CVS now? ;)
+
+1999-09-04  Artur Frysiak  <wiget@pld.org.pl>
+
+	* pinfo.spec.in: - fix building on RH 6.0
+
+1999-08-28  Przemek Borys  <pborys@dione.ids.pl>
+
+	* src/filehandling_functions.c, src/manual.c, NEWS:
+	portability changes
+
+1999-08-27  Jiri Pavlovsky  <pavlovsk@ff.cuni.cz>
+
+	* po/cs.po: *** empty log message ***
+
+1999-08-22  Przemek Borys  <pborys@dione.ids.pl>
+
+	* README: *** empty log message ***
+
+1999-08-18  Przemek Borys  <pborys@dione.ids.pl>
+
+	* src/manual.c, configure.in, NEWS:
+	manual supports now key_goto (please update .po translations)
+
+1999-08-16  Przemek Borys  <pborys@dione.ids.pl>
+
+	* src/video.c: fixed percent calculation
+
+1999-08-15  Przemek Borys  <pborys@dione.ids.pl>
+
+	* AUTHORS, NEWS: .
+
+1999-08-14  Przemek Borys  <pborys@dione.ids.pl>
+
+	* src/manual.c: correction to the split-link handler
+
+	* doc/pinfo.1.in, src/pinforc.in, NEWS:
+	Changes in docs.
+
+1999-08-14  Jiri Pavlovsky  <pavlovsk@ff.cuni.cz>
+
+	* src/manual.c, src/video.c, po/cs.po:
+	 pinfo will no longer say, you are viewing >100% of a document :)
+	 updated cs.po
+
+1999-08-13  Przemek Borys  <pborys@dione.ids.pl>
+
+	* src/colors.c, src/utils.c, src/utils.h, configure.in, doc/pinfo.1.in:
+	little changes to make autoconf work how expected
+
+	* src/manual.c, src/parse_config.c, src/pinforc.in, AUTHORS:
+	modified pinforc.in to not add filters by default
+	manual code now fully supports carried links.
+
+1999-08-12  Przemek Borys  <pborys@dione.ids.pl>
+
+	* src/datatypes.c, src/filehandling_functions.c, src/mainfunction.c:
+	modified default for ignoremacros (it can't be a constant)
+	modified search routines for indirect entries
+	modified routines for tag table creation
+
+	* src/mainfunction.c, src/manual.c, NEWS:
+	mainfunction -- updated searching routine to match new reality
+	manual.c -- a code for following links splitted across lines, ie. send-
+	            mail.8
+
+1999-08-10  Przemek Borys  <pborys@dione.ids.pl>
+
+	* src/manual.c: sigsegv fix
+
+1999-08-03  Paweł Wilk  <siewca@dione.ids.pl>
+
+	* src/manual.c: fixed zipped files greeping/viewing
+
+1999-07-30  Paweł Wilk  <siewca@dione.ids.pl>
+
+	* src/manual.c:
+	little improvement when ignore notice is shown
+
+1999-07-29  Artur Frysiak  <wiget@pld.org.pl>
+
+	* pinfo.spec.in: - switch to rpm 3.0.x
+
+	* configure.in: - check for more functions
+
+	* ChangeLog: updated
+
+1999-07-29  Paweł Wilk  <siewca@dione.ids.pl>
+
+	* src/manual.c: added configurable macro-remover
+
+	* po/pl.po: added IGNORE translation
+
+	* src/datatypes.c, src/datatypes.h:
+	added macro-remover default variables
+
+	* src/parse_config.c: customizations for macro-remover
+
+	* src/pinforc.in: macro-remover default settings
+
+	* po/de.po, po/sv.po, ChangeLog:
+	niespodzianka
+
+1999-07-24  Przemek Borys  <pborys@dione.ids.pl>
+
+	* src/pinfo.c: pinfo drops on floor root privileges
+
+1999-07-24  Paweł Wilk  <siewca@dione.ids.pl>
+
+	* src/common_includes.h, src/pinfo.c:
+	added checksu() func. used for leaving root privileges
+
+1999-07-16  Przemek Borys  <pborys@dione.ids.pl>
+
+	* src/colors.c, src/datatypes.c, src/datatypes.h, src/filehandling_functions.c, src/initializelinks.c, src/mainfunction.c, src/pinfo.c, src/signal_handler.c, src/utils.c:
+	the most time-consuming parts of pinfo should work faster.
+	Could sb test it on some weak machine? ;)
+
+1999-07-15  Przemek Borys  <pborys@dione.ids.pl>
+
+	* src/signal_handler.c:
+	modified signal handler to produce better crash messages ;)
+
+	* src/initializelinks.c:
+	extracted the greatest time hog in initializelinks:
+	exists_in_tag_table()
+	I need now to make it faster--probably by sorting tag_table, and
+	then using some more efficient algorithm.
+
+1999-07-14  Artur Frysiak  <wiget@pld.org.pl>
+
+	* ChangeLog: autoupdate
+
+1999-07-13  Artur Frysiak  <wiget@pld.org.pl>
+
+	* ChangeLog: autoupdate
+
+1999-07-13  Przemek Borys  <pborys@dione.ids.pl>
+
+	* doc/pinfo.1.in: updated example cfg file in pinfo.1
+
+	* src/colors.c:
+	accidentaly removed transparent support ;)
+
+	* src/manual.h: added configurable macro-remover
+
+	* src/manual.c, src/parse_config.c, src/pinfo.c, src/printinfo.c, src/utils.c, src/colors.c, src/filehandling_functions.c, src/initializelinks.c, src/mainfunction.c:
+	removed Wall warnings
+
+1999-07-10  Przemek Borys  <pborys@dione.ids.pl>
+
+	* src/colors.c:
+	Let's start testing transparent COLOR_DEFAULT...
+
+1999-07-09  Przemek Borys  <pborys@dione.ids.pl>
+
+	* src/parse_config.c, src/pinforc.in:
+	vi-style secondary keybindings
+
+	* src/manual.c, NEWS:
+	fixed tiny bug in manual code
+
+1999-07-08  Przemek Borys  <pborys@dione.ids.pl>
+
+	* src/filehandling_functions.c, src/utils.c:
+	bugfixes
+
+1999-07-07  Przemek Borys  <pborys@dione.ids.pl>
+
+	* src/filehandling_functions.c, src/pinfo.c:
+	fixed bugs:
+	pinfo with no filename argument, but with argc>1 runs dir page
+	dir pages aren't concatenated if in $INFOPATH there is a entry,
+	which corresponds to some default entry (to avoid duplicates)
+
+1999-07-01  Przemek Borys  <pborys@dione.ids.pl>
+
+	* src/initializelinks.c, src/mainfunction.c, src/manual.c, src/signal_handler.c, src/utils.c, src/utils.h, TODO:
+	bugfixes.
+	added new facility to turn off the cursor
+
+	* src/initializelinks.c, src/manual.c, src/printinfo.c, src/readlinewrapper.c, src/utils.c:
+	memory allocation fixes
+
+1999-06-29  Przemek Borys  <pborys@dione.ids.pl>
+
+	* po/pl.po, src/common_includes.h, src/datatypes.c, src/datatypes.h, src/initializelinks.c, src/mainfunction.c, src/Makefile.am, src/manual.c, src/menu_and_note_utils.c, src/parse_config.c, src/pinforc.in, src/printinfo.c, src/printinfo.h, src/video.c:
+	added printing facility
+	fixed indentation
+	renamed .row members to .col :) (as it should be)
+
+	* src/parse_config.h: customizations for macro-remover
+
+	* doc/pinfo.1.in, NEWS:
+	added printing facility
+	fixed indentation
+	renamed .row members to .col :) (as it should be)
+
+1999-06-28  Przemek Borys  <pborys@dione.ids.pl>
+
+	* src/colors.h, src/datatypes.h, src/filehandling_functions.h, src/initializelinks.c, src/initializelinks.h, src/keyboard.h, src/mainfunction.h, src/manual.c, src/manual.h, src/menu_and_note_utils.c, src/parse_config.c, src/parse_config.h, src/pinfo.c, src/readlinewrapper.c, src/signal_handler.h, src/utils.c, src/utils.h, src/video.c, TECHSTUFF:
+	Updated comments to the source...
+
+1999-06-27  Przemek Borys  <pborys@dione.ids.pl>
+
+	* AUTHORS, configure.in, po/pl.po, src/initializelinks.c:
+	even even faster compare_tag_table_string() ;))
+
+	* src/initializelinks.c:
+	even faster compare_tag_table_string()
+
+1999-06-25  Przemek Borys  <pborys@dione.ids.pl>
+
+	* src/filehandling_functions.c, src/filehandling_functions.h, src/mainfunction.c, src/manual.c, src/menu_and_note_utils.c, src/parse_config.c, src/parse_config.h, src/pinfo.c, src/pinforc.in, doc/pinfo.1, NEWS, TODO:
+	support for dir lookups (i.e. when there is a dir entry, which
+	has the same name with the command-line specified name, then that entry will
+	be used -- example `pinfo cat').
+
+	* doc/pinfo.1.in, src/mainfunction.c, src/manual.c, src/pinforc.in, TODO:
+	Added key_goline (like ^KL in joe)
+
+1999-06-22  Przemek Borys  <pborys@dione.ids.pl>
+
+	* AUTHORS, NEWS, src/filehandling_functions.c, src/initializelinks.c, src/manual.c, src/parse_config.c, src/readlinewrapper.c:
+	fixed some memory leaks
+	added speed improvements
+
+1999-06-20  Przemek Borys  <pborys@dione.ids.pl>
+
+	* TODO: added todo
+
+1999-06-17  Przemek Borys  <pborys@dione.ids.pl>
+
+	* src/manual.c, NEWS, TODO:
+	Fixed the sigsegv (underrun) bug in manual code.
+	Pity that 0.5.4 is already released :-/
+
+1999-06-16  Artur Frysiak  <wiget@pld.org.pl>
+
+	* ChangeLog: - updated
+
+1999-06-16  Jiri Pavlovsky  <pavlovsk@ff.cuni.cz>
+
+	* src/initializelinks.c:
+	fixed a tiny bug in multiline '*note' display
+
+1999-06-14  Jiri Pavlovsky  <pavlovsk@ff.cuni.cz>
+
+	* po/cs.po: cs.po update
+
+1999-06-13  Przemek Borys  <pborys@dione.ids.pl>
+
+	* src/mainfunction.c, src/manual.c, src/pinforc.in, src/video.c, AUTHORS, configure.in:
+	Fixed bug with highlighting
+	Fixed buf with not showing the last line of info pages.
+	Prepared for 0.5.4 release.
+
+1999-06-12  Przemek Borys  <pborys@dione.ids.pl>
+
+	* TODO: noted a bug to fix...
+
+	* TODO: added a forgotten todo
+
+1999-06-11  Przemek Borys  <pborys@dione.ids.pl>
+
+	* src/colors.c, src/colors.h, src/initializelinks.h, src/mainfunction.c, src/manual.c, src/parse_config.c, src/parse_config.h, src/utils.c, src/utils.h, NEWS:
+	simple search highlighting (finally ;)
+	Well... we're ready for the new release now ;)
+
+1999-06-10  Przemek Borys  <pborys@dione.ids.pl>
+
+	* po/ru.po: po dlia russkowo jazyka :)
+
+1999-06-08  Jiri Pavlovsky  <pavlovsk@ff.cuni.cz>
+
+	* po/cs.po, src/pinfo.c:
+	correction to my previous correction in help message :)
+
+	* src/pinfo.c, po/cs.po:
+	Continuing my mission to deliver the most up-to-date and accurate pinfo help
+	message :)
+	updated cs.po
+
+1999-06-08  Przemek Borys  <pborys@dione.ids.pl>
+
+	* src/manual.c, src/pinfo.c, AUTHORS, po/pl.po:
+	updated polish po
+	renamed -empty-lines to -squeeze-lines (like in less/cat)
+
+1999-06-07  Jiri Pavlovsky  <pavlovsk@ff.cuni.cz>
+
+	* src/datatypes.c, src/pinfo.c, po/cs.po:
+	Fixed typo in datatypes.c.
+	Updated argument parsing code and help message to reflect new options.
+	cs.po updated
+
+1999-06-05  Linus Åkerlund  <uxm165t@tninet.se>
+
+	* po/sv.po, src/parse_config.c:
+	parse_config.c: added check for NULL pointer to skip_whitespace(), and
+	checks for the return value of skip_whitespace(), to get better error
+	reporting.
+	sv.po: updated.
+
+1999-06-04  Przemek Borys  <pborys@dione.ids.pl>
+
+	* doc/pinfo.1.in, src/colors.c, src/common_includes.h, src/datatypes.c, src/datatypes.h, src/filehandling_functions.c, src/mainfunction.c, src/parse_config.c, src/parse_config.h, src/pinfo.c, src/pinforc.in, src/utils.c, src/utils.h, src/video.c, NEWS:
+	added concatenation of all available dir pages into one
+	added clear-screen at exit
+	added lightbackground
+	fixed displaying of text lines with different backgrounds (now
+	the bakgorund reaches till the end of screen, not till the end of line).
+
+	* src/initializelinks.c:
+	Updated splitted into several lines note handler.
+
+1999-05-31  Przemek Borys  <pborys@dione.ids.pl>
+
+	* src/initializelinks.h, src/utils.c, doc/pinfo.1.in:
+	whitespaced notes should work now :)
+	Updated man page.
+
+1999-05-30  Przemek Borys  <pborys@dione.ids.pl>
+
+	* po/pl.po, AUTHORS:
+	polish support for yes/no
+
+1999-05-26  Jiri Pavlovsky  <pavlovsk@ff.cuni.cz>
+
+	* src/pinforc.in, po/cs.po:
+	Put the 'QUIT-CONFIRM-DEFAULT' option to the pinforc.
+	cs.po updated
+
+1999-05-26  Przemek Borys  <pborys@dione.ids.pl>
+
+	* src/utils.h, src/datatypes.h, src/initializelinks.c, src/utils.c:
+	comments/cleanups/etc.
+
+1999-05-26  Artur Frysiak  <wiget@pld.org.pl>
+
+	* ChangeLog: updated
+
+1999-05-26  Jiri Pavlovsky  <pavlovsk@ff.cuni.cz>
+
+	* src/datatypes.h, src/keyboard.h, src/mainfunction.c, src/manual.c, src/parse_config.c, src/utils.c, src/utils.h, src/datatypes.c:
+	1999-05-26  Jiri Pavlovsky  <pavlovsk@ff.cuni.cz>
+	        * src/datatypes.c src/datatypes.h src/keyboard.h src/mainfunction.c src/manual.c src/parse_config.c src/pinforc.in src/utils.c src/utils.h:
+		Internationalize answer to the 'confirm-quit' dialog (and possibly any
+		future yes/no dialog:).
+		New config option 'QUIT-CONFIRM-DEFAULT' - determines default answer to
+		the 'confirm-quit' dialog.
+
+1999-05-20  Przemek Borys  <pborys@dione.ids.pl>
+
+	* doc/pinfo.1.in, src/datatypes.c, src/datatypes.h, src/initializelinks.c, src/mainfunction.c, src/manual.c, src/parse_config.c, src/pinforc.in, NEWS:
+	Fixed bug in *note:' detection.
+	Added option for enabling quit confirmation at exit (as in lynx).
+
+1999-05-18  Artur Frysiak  <wiget@pld.org.pl>
+
+	* ChangeLog: - updated
+
+1999-05-18  Przemek Borys  <pborys@dione.ids.pl>
+
+	* NEWS:
+	This time I'll update news file from the begining of new version work ;)
+
+1999-05-17  Przemek Borys  <pborys@dione.ids.pl>
+
+	* doc/pinfo.1.in, src/datatypes.c, src/datatypes.h, src/filehandling_functions.h, src/initializelinks.c, src/initializelinks.h, src/keyboard.h, src/mainfunction.c, src/manual.c, src/parse_config.c, src/pinfo.c, src/pinforc.in, src/regexp_search.c, src/utils.c, src/utils.h:
+	Added Filter-0xb7 option
+	Corrected pgdn/end scrolling (at end they move to the last visible link)
+	Corrected tab handling in highlights.
+
+1999-05-16  Przemek Borys  <pborys@dione.ids.pl>
+
+	* po/cs.po, AUTHORS, NEWS:
+	updated cs.po
+
+1999-05-15  Przemek Borys  <pborys@dione.ids.pl>
+
+	* doc/pinfo.1.in, NEWS, src/mainfunction.c, src/manual.c, src/pinfo.c, src/pinforc.in, src/regexp_search.c, src/utils.c, src/utils.h:
+	Added a wrapper for regexp search functions (a nonregexp wrapper).
+	Modified pinfo.c to conform gnu standards.
+	Modified pinforc.in to demonstrate the use of CTRL_KEY
+
+	* doc/pinfo.1, src/datatypes.c, src/datatypes.h, src/filehandling_functions.c, src/manual.c, src/parse_config.c, src/pinfo.c, src/pinforc.in, AUTHORS, configure.in, NEWS:
+	Added STDERR-REDIRECTION, MAN-OPTIONS, LONG-MANUAL-LINKS,
+	and fixed bug in building of suffixed filename for .bz2, and .Z
+	KEY_ALT, and KEY_CTRL work now fine. Added notes to pinfo.1, added changes
+	to pinforc.in.
+
+1999-05-15  Artur Frysiak  <wiget@pld.org.pl>
+
+	* doc/pinfo.1.in: - man page templete
+
+	* configure.in, doc/.cvsignore, doc/Makefile.am, doc/pinfo.1, Makefile.am, pinfo.spec.in, po/cs.po, po/de.po, po/pl.po, po/sv.po:
+	- generate automagicali pinfo.1
+
+1999-05-15  Przemek Borys  <pborys@dione.ids.pl>
+
+	* src/keyboard.h, src/mainfunction.c, src/manual.c, src/parse_config.c, src/utils.c, src/utils.h:
+	config file parser now accepts KEY_CTRL('x') and KEY_ALT('x') (done by
+	Linus)
+	Besides, I've fixed alt key handler -- it now works fine... at least at
+	linux console ;)
+
+1999-05-14  Przemek Borys  <pborys@dione.ids.pl>
+
+	* TODO: removed old todo ;)
+
+1999-05-13  Artur Frysiak  <wiget@pld.org.pl>
+
+	* ChangeLog: - updated
+
+	* src/Makefile.am: - CURSES_LIBS now in LIBS
+	- CURSES_INCLUDES now in CPPFLAGS
+
+	* src/parse_config.c:
+	- used HAVE_KEY_END instead USE_NCURSES
+
+	* src/.cvsignore, src/pinforc, src/pinforc.in:
+	- autogenerate pinforc (now only KEY_END_1 )
+
+	* acconfig.h, configure.in:
+	- added test have KEY_END in curses (if yes then define HAVE_KEY_END)
+
+1999-05-13  Przemek Borys  <pborys@dione.ids.pl>
+
+	* src/manual.c, src/regexp_search.c:
+	Added 2> redirection EVERYWHERE in manual.c (I hope ;)
+	modified global regexp search to not find regexps longer than two lines
+	(they are quite unusable for the reader, and shouldn't appear)
+
+	* doc/pinfo.1, po/pl.po, src/pinfo.c, AUTHORS:
+	Added --node command line option.
+	Modified `AUtHORS' structure
+
+1999-05-12  Przemek Borys  <pborys@dione.ids.pl>
+
+	* src/keyboard.h:
+	support for KEY_CTRL, KEY_ADD -- adapted from midnight commander's source
+
+1999-05-11  Przemek Borys  <pborys@dione.ids.pl>
+
+	* src/datatypes.c, src/datatypes.h, src/mainfunction.c, src/manual.c, src/parse_config.c, src/parse_config.h, src/pinfo.c, src/pinforc, doc/pinfo.1:
+	Added searchagain key
+	Noted, that KEY_END is probably available only in ncurses
+	(since it was used in sample config file, and I received a bug report about it,
+	when compiled on solaris)
+
+1999-05-09  Przemek Borys  <pborys@dione.ids.pl>
+
+	* src/manual.c, src/pinfo.c:
+	Added one _("blah") to pinfo.c
+	Updated mailto-link recognization in manual.c
+
+1999-05-06  Tomasz Kłoczko  <kloczek@wun.zie.pg.gda.pl>
+
+	* pinfo.spec.in:
+	- added %{_target} macro to ./configure parameters.
+
+1999-05-06  Przemek Borys  <pborys@dione.ids.pl>
+
+	* po/de.po: updated german translation.
+
+1999-05-03  Artur Frysiak  <wiget@pld.org.pl>
+
+	* ChangeLog: updated
+
+	* pinfo.spec.in: - added sv and de locale
+
+1999-05-03  Przemek Borys  <pborys@dione.ids.pl>
+
+	* src/filehandling_functions.c, src/pinfo.c:
+	added indentation :)
+
+	* src/datatypes.c, src/datatypes.h, src/filehandling_functions.c, src/filehandling_functions.h, src/pinfo.c, configure.in, doc/pinfo.1, NEWS, po/de.po:
+	moved to version 0.5.2 (since the 0.5.1 contained serious bug)
+	added -t option for viewing corrupted info files.
+	added german translation
+
+1999-05-02  Przemek Borys  <pborys@dione.ids.pl>
+
+	* po/sv.po, configure.in, NEWS:
+	Added Swedish language module.
+	Moved version number to 0.5.1.
+
+1999-05-01  Przemek Borys  <pborys@dione.ids.pl>
+
+	* src/pinforc, src/readlinewrapper.c:
+	renamed mutt to pine in pinforc
+	reformatted readlinewrapper.c
+
+1999-04-30  Przemek Borys  <pborys@dione.ids.pl>
+
+	* src/colors.c, src/colors.h, src/common_includes.h, src/datatypes.c, src/datatypes.h, src/filehandling_functions.c, src/filehandling_functions.h, src/initializelinks.c, src/initializelinks.h, src/localestuff.h, src/mainfunction.c, src/mainfunction.h, src/manual.c, src/manual.h, src/menu_and_note_utils.c, src/menu_and_note_utils.h, src/parse_config.c, src/parse_config.h, src/pinfo.c, src/readlinewrapper.c, src/readlinewrapper.h, src/regexp_search.c, src/regexp_search.h, src/sigblock.c, src/sigblock.h, src/signal_handler.c, src/signal_handler.h, src/snprintf.c, src/test.c, src/utils.c, src/utils.h, src/video.c, src/video.h:
+	Reindented sources to gnu style rules.
+	Added more comments to source files. Huh. I'm tired :)
+
+	* doc/pinfo.1, NEWS:
+	pinfo1 -- noted support for international info pages.
+	NEWS -- preparing for 0.5.1 release
+
+1999-04-29  Przemek Borys  <pborys@dione.ids.pl>
+
+	* doc/pinfo.1, src/datatypes.c, src/filehandling_functions.c, src/mainfunction.c, src/manual.c, src/parse_config.c, src/parse_config.h, src/pinforc:
+	Added pgdn(up)_auto, fixed allocation bug in infopath handler.
+	Added support for turning off a key binding (0 value).
+
+1999-04-27  Przemek Borys  <pborys@dione.ids.pl>
+
+	* po/cs.po, src/datatypes.c, src/datatypes.h, src/manual.c, src/parse_config.c, src/pinforc, doc/pinfo.1:
+	added support for manlinks, and empty-man-lines config-options
+	my home cvs repository is down, I'M MAD :(( But I hope I've uploaded everything, what's necessary.
+
+1999-04-27  Artur Frysiak  <wiget@pld.org.pl>
+
+	* pinfo.spec.in: - added cs locale
+
+1999-04-27  Przemek Borys  <pborys@dione.ids.pl>
+
+	* po/cs.po, configure.in:
+	Added czech language support (Jiri Pavlovsky)
+
+1999-04-26  Artur Frysiak  <wiget@pld.org.pl>
+
+	* ChangeLog: - updated
+
+1999-04-24  Przemek Borys  <pborys@dione.ids.pl>
+
+	* src/initializelinks.c:
+	modified recognization of e-mail addresses (now there is required an
+	username before '@').
+
+1999-04-23  Przemek Borys  <pborys@dione.ids.pl>
+
+	* src/initializelinks.c:
+	Added support for splitted into two lines `highlights'.
+
+1999-04-23  Linus Åkerlund  <uxm165t@tninet.se>
+
+	* src/parse_config.c, doc/pinfo.1:
+	parse_config.c: Fixed blank lines in config file.
+	pinfo.1: Added some more explanation about config file.
+
+1999-04-23  Przemek Borys  <pborys@dione.ids.pl>
+
+	* doc/pinfo.1: Mentioned the last changes in man page :)
+
+	* src/pinfo.c, src/mainfunction.c:
+	Modified key_goto behaviour. Now it can either follow the `file.info'
+	syntax, or the `info-standard' syntax -- `(file) node'.
+
+1999-04-22  Przemek Borys  <pborys@dione.ids.pl>
+
+	* src/parse_config.h, src/menu_and_note_utils.c, src/menu_and_note_utils.h, src/parse_config.c, src/mainfunction.c, po/pl.po, AUTHORS:
+	Internationalized config file parser error message.
+	Added support for key_upnode (Marius Gedminas)
+	Modified handling of blank lines in config file.
+
+1999-04-21  Linus Åkerlund  <uxm165t@tninet.se>
+
+	* src/parse_config.c:
+	Fixed the bug/feature that gave you a parse error for empty lines in
+	the config file.
+
+1999-04-21  Przemek Borys  <pborys@dione.ids.pl>
+
+	* src/initializelinks.c, src/pinforc, src/readrc.c, src/readrc.h, src/video.c, po/pl.po:
+	minor change to initializelinks -- it now ignores apostrophes in words
+	ending with n't (like wouldn't, haven't,...)
+	removed old files.
+
+1999-04-21  Artur Frysiak  <wiget@pld.org.pl>
+
+	* ChangeLog: updated
+
+1999-04-21  Przemek Borys  <pborys@dione.ids.pl>
+
+	* doc/pinfo.1: Stilistical changes to pinfo.1
+
+1999-04-21  Linus Åkerlund  <uxm165t@tninet.se>
+
+	* src/pinforc, src/parse_config.c:
+	Added user visible error messages like "parse error on line XX".
+	Added MAILEDITOR option.
+
+1999-04-20  Przemek Borys  <pborys@dione.ids.pl>
+
+	* src/initializelinks.c:
+	updated little bug, which was caused by not counting tabs as 8 chars, but
+	as 1.
+
+1999-04-20  Linus Åkerlund  <uxm165t@tninet.se>
+
+	* doc/pinfo.1:
+	Fixed some formulations and spelling errors.
+
+	* src/parse_config.c, src/parse_config.h:
+	 Modified Files:
+		pinfo/src/parse_config.c pinfo/src/parse_config.h
+
+1999-04-19  Przemek Borys  <pborys@dione.ids.pl>
+
+	* src/datatypes.c, src/datatypes.h, src/initializelinks.c, src/initializelinks.h, src/mainfunction.c, src/manual.c, src/parse_config.c, doc/pinfo.1:
+	Added support for mail@addresses.embedded in the viewed documents.
+	Now you can send mail to such an addres by just pressing key_followlink on
+	it.
+
+1999-04-18  Przemek Borys  <pborys@dione.ids.pl>
+
+	* AUTHORS, configure.in, INSTALL.in, NEWS, TODO:
+	Some modifications before next release.
+	We move to 0.5.0 now, and I put this release on the web.
+
+	* src/Makefile.am:
+	A little modification in src/makefile.am semantic. Now it generates
+	useful makefile.in's on my machine. (feel free to correct it if it's wrong,
+	but I think it's OK ;)
+
+	* src/pinforc, src/utils.c, src/video.c, src/colors.c, src/colors.h, src/datatypes.c, src/datatypes.h, src/filehandling_functions.c, src/initializelinks.c, src/mainfunction.c, src/manual.c, src/parse_config.c, src/parse_config.h:
+	Secured tmp files. Now I use tempnam() to get a tmp name. It seems to
+	work ;)
+	Besides, I've added support for highlighting `quoted' text in info files.
+
+1999-04-17  Przemek Borys  <pborys@dione.ids.pl>
+
+	* src/manual.c, src/parse_config.c, src/parse_config.h, src/video.c, src/colors.c, src/colors.h, src/datatypes.c, src/datatypes.h, src/initializelinks.c, src/initializelinks.h, src/mainfunction.c:
+	Added experimental support for URL's embedded int info pages or man
+	pages. Pinfo will now call lynx, when you press key_followlink on a
+	detected url. (in future the www browser will be configurable ;)
+
+	* src/manual.c, src/initializelinks.c:
+	manual.c -- added back the stderr redirections by system()
+	initializelinks.c -- added support for menus and notes, ending either
+	by comma, period, tab, or newline. (as stated in info page for texinfo)
+
+1999-04-16  Przemek Borys  <pborys@dione.ids.pl>
+
+	* src/initializelinks.c:
+	added support for multiple note references in a single info line
+	to the file initializelinks.c
+
+1999-04-16  Artur Frysiak  <wiget@pld.org.pl>
+
+	* macros/Makefile.am: - added missing readline.m4 macro
+
+	* po/pl.po, src/Makefile.am, src/utils.c, acconfig.h, configure.in, pinfo.spec.in:
+	- added --with-localedir=dir configure option
+	- removed --with-readline from spec
+	- pl.po updated with msgmerge
+	- using PACKAGE and LOCALEDIR macros in bindtextdomain and textdomain
+
+1999-04-16  Przemek Borys  <pborys@dione.ids.pl>
+
+	* src/parse_config.c, src/parse_config.h, src/pinforc, src/mainfunction.c:
+	added key_dirpage do info module.
+	You can now move to `dir' page by pressing 'd' (or whatever you define)
+
+	* po/pl.po:
+	Original (full) polish language module, which in some way missed the
+	cvs repository.
+
+	* doc/pinfo.1:
+	updated manual page -- noted support for whitespaces between
+	config file entries.
+
+	* src/mainfunction.c, src/manual.c:
+	mainfunction.c, manual.c - removed a bug, which caused sigsegv when
+	nothing was given to regexp search.
+	manual.c - removed bash stderr redirection. (this program is about to
+	run not only under different shells, but also under different operating
+	systems! :)
+
+1999-04-16  Artur Frysiak  <wiget@pld.org.pl>
+
+	* src/manual.c: - redirect man and appropos 2>/dev/null
+
+1999-04-15  Artur Frysiak  <wiget@pld.org.pl>
+
+	* src/localestuff.h, pinfo.spec.in:
+	- added --without-included-gettext to ./configure in spec
+	- included config.h in localestuff.h (to correct determine locale support)
+
+	* po/pl.po, src/Makefile.am, configure.in, Makefile.am, pinfo.spec.in:
+	- make rpm depends additional to pinfo.spec
+	- correct some typos in configure.in
+	- added pinforc and polish locale to %files in spec
+	- added extra sources to EXTAR_DIST to include in dist tarball
+
+	* pinfo.spec.in:
+	- changed configure option to --with-readline
+
+	* macros/autogen.sh, macros/readline.m4, src/common_includes.h, src/Makefile.am, src/readlinewrapper.c, src/readlinewrapper.h, src/utils.c, configure.in, INSTALL.in, pinfo.spec.in:
+	- in INSTALL.in: change rpm -bb to make rpm
+	- if ./configure not found curses exit with error message
+	- added AM_CONDITIONAL to HAVE_SNPRINTF and HAVE_SIGBLOCK
+		(if conditional is true not include extra source)
+	- in src/autogen.sh: s/Gnome/pinfo/
+	- in macros/readline.m4: not use GNU readline at default
+	- in src/Makefile.am: split pinfo_SOURCE to pinfo_COMMON_SRC, pinfo_SNPRINTF_SRC,
+	  pinfo_READLINE_SRC and pinfo_SIGBLOCK_SRC. This allow compile only needed sources
+	- in src/common_includes.h: include some headers files if need
+	- in src/readlinewrapper.[ch]: remove commented #ifndef (for cleanup)
+	- in src/utils.c: resurect GNU readline support
+
+1999-04-15  Przemek Borys  <pborys@dione.ids.pl>
+
+	* src/datatypes.c, src/filehandling_functions.c, src/mainfunction.c, src/parse_config.c, src/pinforc, doc/pinfo.1:
+	added new features to config file
+	added a possibility to move across different info documents
+	with key_goto
+	added support for infopages not ending with '.info'
+
+1999-04-15  Artur Frysiak  <wiget@pld.org.pl>
+
+	* po/pl.po: One typo
+
+1999-04-14  Tomasz Kłoczko  <kloczek@wun.zie.pg.gda.pl>
+
+	* ChangeLog:
+	- updated ChangeLog.
+
+	* po/pl.po:
+	- starting translation,
+	- added proper header.
+
+	* po/pl.po, configure.in:
+	- starting pl translation.
+
+1999-04-14  Przemek Borys  <pborys@dione.ids.pl>
+
+	* src/datatypes.c, src/datatypes.h, src/filehandling_functions.c, src/manual.c, src/pinfo.c, src/readlinewrapper.c, src/readlinewrapper.h, src/utils.c:
+	some updates. i.e. new command line option
+
+1999-04-14  Artur Frysiak  <wiget@pld.org.pl>
+
+	* acconfig.h, configure.in:
+	- Last (I hope) fix for check sigblock
+
+1999-04-13  Artur Frysiak  <wiget@pld.org.pl>
+
+	* configure.in: version up to 0.4.9
+
+	* src/filehandling_functions.c, src/filehandling_functions.h, src/initializelinks.c, src/mainfunction.c, src/manual.c, src/regexp_search.c, src/utils.c, NEWS:
+	- Changes from 0.4.9 (Przemek still ignore ours work)
+
+	* src/sigblock.c, src/common_includes.h:
+	- include sigblock.h in sigblock.c
+
+1999-04-13  Dobrica Pavlinusic  <dpavlin@foi.hr>
+
+	* src/sigblock.h:
+	changed back that #ifdef at begining. It created a lot of "allready defined"
+	warnings on systems which actually have it. It work like this also...
+
+	* src/sigblock.h:
+	fixed one wrong #ifdef (first one) and one semicolumn (;) at sigblock
+	proto. Now compiles on Solaris. But, it doesn't link yet.
+
+1999-04-13  Artur Frysiak  <wiget@pld.org.pl>
+
+	* macros/readline.m4, src/mainfunction.c, src/Makefile.am, src/manual.c, src/signal_handler.c, configure.in, macros/curses.m4, Makefile.am:
+	- make rpm depends to Makefile (build new tarball if Makefile changed)
+	- changed schemat of searching sigblock
+	- some cleanup in configure.in
+	- s/INCLUDEDIR/INCLUDES/
+	- in macros/curses.m4: changed CFLAGS to CPPFLAGS (-D is preprocessor flag)
+	- use #ifdef getmaxyx instead #ifdef USE_NCURSES (in some places)
+
+	* src/parse_config.c, src/parse_config.h:
+	- Added missing typedef
+	- changes for correct determine curses version (stil unfinished)
+
+1999-04-13  Dobrica Pavlinusic  <dpavlin@foi.hr>
+
+	* configure.in: 	* configure.in:
+		- check for sigblock in libbsd
+
+1999-04-13  Artur Frysiak  <wiget@pld.org.pl>
+
+	* Makefile.am: hook for make rpms
+
+1999-04-12  Artur Frysiak  <wiget@pld.org.pl>
+
+	* ChangeLog: - updated (with correct names and emails)
+
+	* po/POTFILES.in, src/colors.c:
+	- removed readrc.c from POTFILES
+	- s/#ifdef USE_NCURSES/#ifndef NO_COLOR_CURSES/ in colors.c
+
+	* ChangeLog: updated
+
+	* src/readlinewrapper.h:
+	- use HAS_READLINE (from readline.m4) instead HAVE_LIBREADLINE
+
+	* macros/readline.m4, src/Makefile.am, src/readlinewrapper.c, src/readlinewrapper.h, src/utils.c, acconfig.h, configure.in:
+	- added readline.m4 macro to search for GNU readline library
+
+	* po/.cvsignore: ignore more autogenerated files
+
+	* po/POTFILES.in:
+	- my stupid bug (spaces on end of lines)
+
+	* src/sigblock.h:
+	- added commented macro sigsegmask from glibc
+
+	Dobrica, please test both.
+
+	* src/common_includes.h, src/Makefile.am, src/sigblock.c, src/sigblock.h, configure.in:
+	- added check for sigblock to configure.in
+	- added snprintf.c, sigblock.[ch] to pinfo_SOURCES
+	- include sigblock.h in common_includes.h
+	- added replecament of sigblock (from glibc 2.1) and sigmask macro (from bash)
+
+	* src/utils.c:
+	in +164 changed #ifdef to #ifndef (sugested by Dobrica Pavlinusic <dpavlin@foi.hr>)
+
+	* src/snprintf.c:
+	- include config.h if defined HAVE_CONFIG_H
+
+1999-04-10  Artur Frysiak  <wiget@pld.org.pl>
+
+	* src/Makefile.am:
+	- remove readrc.[ch] from pinfo_SOURCES (this files not in pinfo 0.4.8 tarball)
+
+	* pinfo.spec.in: - updated %changelog
+
+	* po/Makefile.in.in: no more autogenerated files
+
+	* INSTALL.in: - changed install rpm from -i to -U
+	(save time to ansver question:
+	" I can't install pinfo. Rpm fail with messages:
+	pinfo conflicts with pinfo-OLDVERSION.
+	Whats wrong? " )
+
+	* INSTALL.in: fix typos
+
+	* Makefile.am: added INSTALL to EXTRA_DIST
+
+	* src/pinfo.c, acconfig.h, configure.in, .cvsignore, INSTALL, INSTALL.in:
+	- now VERSION is defined _only_ in configure.in
+	- update INSTALL
+	INSTALL now is autogenerated from INSTALL.in.
+	Change INSTALL.in insted INSTALL.
+
+	* configure.in: - changed version to 0.4.8
+
+	* ChangeLog: updated
+
+	* doc/pinfo.1, src/datatypes.c, src/filehandling_functions.c, src/initializelinks.c, src/localestuff.h, src/mainfunction.c, src/manual.c, src/menu_and_note_utils.c, src/parse_config.c, src/pinfo.c, src/pinforc, src/readlinewrapper.c, src/test.c, src/utils.c, src/utils.h, src/video.c, NEWS:
+	- sync with 0.4.8
+
+	Przemek please use cvs ;-)
+
+	* mainfunction.h: this file is in src dir
+
+	* po/.cvsignore: more autogenerated files
+
+	* .cvsignore: ignore more autogenerated files
+
+	* mkinstalldirs, missing:
+	removed autogenerated file
+
+	* po/.cvsignore: next autogenerated files
+
+	* po/POTFILES.in: remove all source files; please fix me
+
+	* po/ChangeLog: epmty but needed file
+
+	* configure.in: another try to i18n
+
+	* acconfig.h, configure.in, Makefile.am:
+	next try to i18n
+
+	* .cvsignore: next autogenerated files
+
+	* po/.cvsignore: ignore autogenerated files
+
+	* po/POTFILES.in: list of file with localized messages
+
+	* configure.in: firts part cleanup
+
+	* po/Makefile.in.in: stuf for i18n
+
+	* configure.in, src/pinfo.c:
+	- removed --with-getopt options from ./configure
+	check for getopt_long solved problem with getopt
+
+1999-04-09  Artur Frysiak  <wiget@pld.org.pl>
+
+	* pinfo.spec.in: - correct one typo
+
+	* macros/curses.m4:
+	- added $CURSES_INCLUDEDIR to eval version of ncurses
+
+	* acconfig.h, configure.in, Makefile.am, pinfo.spec.in:
+	- fix parsing CONFIGDIR (now CONFIGDIR is $sysconfdir/pinforc)
+
+	* src/utils.c, configure.in:
+	- next try to fix --with-readline
+
+	now path to libreadline.so maybe given ( --with-readline=/path/to/lib )
+	and path to readline.h maybe given ( --with-readline-inc=/path/to/include )
+
+	* src/utils.c, acconfig.h, configure.in:
+	- fix for --with-readline
+
+	* src/colors.c, src/mainfunction.c, src/Makefile.am, src/manual.c, src/parse_config.c, src/signal_handler.c, configure.in:
+	- changed all #ifndef ___OLD_CURSES___ to #ifdef USE_NCURSES
+
+	* src/snprintf.c:
+	Original from Patrick Powell. Hacked from mutt by Dobrica Pavlinusic <dpavlin@foi.hr>
+
+	* configure.in, src/Makefile.am:
+	- changes by Dobrica Pavlinusic <dpavlin@foi.hr>
+
+	"- added automatic check for getopt_long (no need to use options to
+	   configure)
+	 - added automatic check for GNU readline (if not found it defines
+	   appropriate symbol and continues -- before it just aborted)
+	 - added sprintf replacement
+
+	 Known problems:
+	 - GNU readline lib isn't found on Digital UNIX (it's installed!) -- I will
+	   have a look at that after this weekend"
+
+	* src/Makefile.am:
+	added pinforc (install in , default /etc)
+
+1999-04-07  Artur Frysiak  <wiget@pld.org.pl>
+
+	* configure.in:
+	- disable --with-old-curses and fixed one typo
+
+	* configure.in: version up to 0.4.6
+
+	* NEWS, doc/pinfo.1, INSTALL, README, TODO, AUTHORS:
+	sync with 0.4.6
+
+	* src/common_includes.h, src/.cvsignore, src/Makefile.am:
+	- using HAVE_CONFIG_H and USE_NCURSES common_includes.h
+
+	* src/initializelinks.c, src/initializelinks.h, src/localestuff.h, src/readlinewrapper.c, src/readlinewrapper.h:
+	new from pinfo 0.4.6
+
+	* src/colors.c, src/common_includes.h, src/datatypes.c, src/datatypes.h, src/filehandling_functions.c, src/filehandling_functions.h, src/mainfunction.c, src/mainfunction.h, src/Makefile.am, src/manual.c, src/menu_and_note_utils.c, src/menu_and_note_utils.h, src/parse_config.c, src/parse_config.h, src/pinfo.c, src/signal_handler.c, src/utils.c, src/utils.h, src/video.c, src/video.h:
+	sync with pinfo 0.4.6
+
+	* src/pinforc: initial version from pinfo 0.4.6
+
+1999-04-01  Tomasz Kłoczko  <kloczek@wun.zie.pg.gda.pl>
+
+	* configure.in:
+	- removed AM_PROG_LIBTOOL.
+
+1999-03-31  Tomasz Kłoczko  <kloczek@wun.zie.pg.gda.pl>
+
+	* ChangeLog:
+	- updated.
+
+	* pinfo.spec.in:
+	- one cleanup and fix in %doc.
+
+	Now pinfo is realy ready and can be quickly maked by:
+	$ cvs -d :pserver:anonymous@cvs.pld.org.pl:/cvsroot login
+	(Logging in to anonymous@cvs.pld.org.pl)
+	CVS password: <hit Enter>
+	$ cvs -d :pserver:anonymous@cvs.pld.org.pl:/cvsroot co pinfo
+	$ cd pinfo
+	$ ./autogen.sh ;make dist ; rpm -ta -v pinfo-*.tar.gz
+
+1999-03-31  Artur Frysiak  <wiget@pld.org.pl>
+
+	* TODO: - info about /home/users/wiget/tmp
+
+1999-03-31  Tomasz Kłoczko  <kloczek@wun.zie.pg.gda.pl>
+
+	* NEWS:
+	- moved from CHANGELOG.
+
+	* CHANGELOG:
+	- CHANGELOG moved to NEWS.
+
+1999-03-31  Artur Frysiak  <wiget@pld.org.pl>
+
+	* Makefile.am: - real using EXTRA_DIST
+
+1999-03-31  Tomasz Kłoczko  <kloczek@wun.zie.pg.gda.pl>
+
+	* doc/Makefile.am:
+	- added proper macros for man pages.
+
+1999-03-31  Artur Frysiak  <wiget@pld.org.pl>
+
+	* TODO: TODO file
+
+	* AUTHORS: changes from orginal tarball
+
+	* ChangeLog: entry from 0.4.0
+
+	* ChangeLog: - moved CHANGELOG to ChangeLog
+
+1999-03-31  Tomasz Kłoczko  <kloczek@wun.zie.pg.gda.pl>
+
+	* configure.in:
+	Added AM_MAINTAINER_MODE (without this macros/macros.dep is not
+	generated).
+
+1999-03-31  Artur Frysiak  <wiget@pld.org.pl>
+
+	* configure.in: - correct display ./configure --help
+
+	* configure.in: - one typo
+
+	* acconfig.h, configure.in, pinfo.spec.in, src/common_includes.h, src/Makefile.am:
+	- added (hacked from orginal Makefile) ./configure options:
+		--enable-cursor 	[default=no ]
+		--enable-static		[default=yes]
+		--with-old-curses	[default=no ]
+		--with-regexp-search	[default=yes]
+		--with-getopt		[default=yes]
+		--with-readline		[default=yes]
+	- changed spec file to use ./configure and make install (not tested yet)
+	- added new source files to src/Makefile.am
+	- moved *.h to pinfo_SOURCES
+	- include config.h if need
+	- version changed to 0.4.0 (like orginal tar.gz)
+
+	Now pinfo succesfull compile :-)
+
+	* .cvsignore: - added more autogenerated files
+
+	* aclocal.m4, ltconfig, pinfo.spec:
+	- autogenerated files
+
+	* .cvsignore: - ignore more autogenerated files
+
+	* src/readrc.c:
+	- correct order of functions and some typos
+
+	* src/.cvsignore:
+	 added some file: pinfo executable and .deps catalog
+
+	* src/pinfo.c, src/utils.c, src/video.c, src/datatypes.c, src/datatypes.h, src/filehandling_functions.c, src/filehandling_functions.h, src/mainfunction.c, src/manual.c, src/parse_config.c, src/parse_config.h:
+	-integrated changes from 0.4.0
+
+	* .cvsignore: - ignore backup and autogenerated files
+
+	* configure.in, Makefile.am, pinfo.spec.in:
+	- spec is now autogenerated
+
+1999-03-29  Tomasz Kłoczko  <kloczek@wun.zie.pg.gda.pl>
+
+	* src/Makefile.am:
+	* all header files moved to EXTRA_DIST,
+	* s/pinfo_SOURCE/pinfo_SOURCES/.
+
+	* doc/Makefile:
+	- removed. This file is generated.
+
+	* acconfig.h:
+	- autoheader template.
+
+	* configure.in:
+	- VERSION to 0.3.9,
+	- added ncurses detecting macros,
+	- added AM_CONFIG_HEADER for autoheader.
+
+	* autogen.sh:
+	- proper version this file with checking scr and doc subdirectories before
+	generating all neccesary files.
+
+	* doc/.cvsignore, macros/.cvsignore, src/.cvsignore:
+	- add Makefile to ignore list.
+
+	* macros/aclocal-include.m4, macros/compiler-flags.m4:
+	- autoconf macros:
+	  * aclocal-include.m4: template with including aclocal macros,
+	  * compiler-flags.m4: setting up compiler flags.
+
+	* macros/Makefile.am:
+	- added compiler-flags.m4 and aclocal-include.m4 to MACROS.
+
+	* macros/macros.dep:
+	- romeved. This file is generated.
+
+	* macros/autogen.sh:
+	- previouse verion based on GNOME template. Current is witout GNOME
+	  additions
+
+	* macros/.cvsignore:
+	- added to ignore list macros.dep.
+
+1999-03-28  Tomasz Kłoczko  <kloczek@wun.zie.pg.gda.pl>
+
+	* autogen.sh:
+	- fixed message.
+
+	* macros/.cvsignore, macros/Makefile.in, src/.cvsignore, src/Makefile.in, doc/.cvsignore, doc/Makefile.in:
+	- added proper .cvsignore in subdirectories,
+	- removed */Makefile.in files.
+
+	* CHANGELOG, doc/pinfo.1, README, src/colors.c, src/colors.h, src/common_includes.h, src/datatypes.c, src/datatypes.h, src/filehandling_functions.c, src/filehandling_functions.h, src/keyboard.c, src/keyboard.h, src/mainfunction.c, src/manual.c, src/manual.h, src/menu_and_note_utils.c, src/pinfo.c, src/signal_handler.c, src/utils.c, src/utils.h:
+	- integrated latest changes from 0.3.9 version.
+
+1999-03-27  Tomasz Kłoczko  <kloczek@wun.zie.pg.gda.pl>
+
+	* Makefile:
+	- removed.
+
+	* src/menu_and_note_utils.h, src/pinfo.c, src/readrc.c, src/readrc.h, src/regexp_search.c, src/regexp_search.h, src/signal_handler.c, src/signal_handler.h, src/utils.c, src/utils.h, src/video.c, src/video.h, doc/Makefile, doc/Makefile.am, doc/Makefile.in, doc/pinfo.1, macros/autogen.sh, macros/curses.m4, macros/macros.dep, macros/Makefile.am, macros/Makefile.in, src/colors.c, src/colors.h, src/common_includes.h, src/datatypes.c, src/datatypes.h, src/filehandling_functions.c, src/filehandling_functions.h, src/keyboard.c, src/keyboard.h, src/mainfunction.c, src/mainfunction.h, src/Makefile.am, src/Makefile.in, src/manual.c, src/manual.h, src/menu_and_note_utils.c, ACKNOWLEDGEMENTS, aclocal.m4, AUTHORS, autogen.sh, ChangeLog, colors.c, colors.h, common_includes.h, configure.in, COPYING, datatypes.c, datatypes.h, filehandling_functions.c, filehandling_functions.h, GPL, keyboard.c, keyboard.h, ltconfig, mainfunction.c, Makefile.am, manual.c, manual.h, menu_and_note_utils.c, menu_and_note_utils.h, missing, mkinstalldirs, NEWS, pinfo.1, pinfo.c, pinfo.spec, readrc.c, readrc.h, regexp_search.c, regexp_search.h, signal_handler.c, signal_handler.h, utils.c, utils.h, video.c, video.h:
+	- added autoconf/automake scheme,
+	- some files moved to doc and src subdirestories
+	- added macros subdirectory with autoconf macroc
+
+	TODO:
+	- add to configure.in detecting [n]curses using macros/curses/m4 macros.
+
+	* utils.h, video.c, video.h, ACKNOWLEDGEMENTS, CHANGELOG, colors.c, colors.h, common_includes.h, datatypes.c, datatypes.h, filehandling_functions.c, filehandling_functions.h, GPL, INSTALL, keyboard.c, keyboard.h, mainfunction.c, mainfunction.h, Makefile, manual.c, manual.h, menu_and_note_utils.c, menu_and_note_utils.h, pinfo.1, pinfo.c, README, readrc.c, readrc.h, regexp_search.c, regexp_search.h, signal_handler.c, signal_handler.h, TECHSTUFF, utils.c:
+	pinfo: curses based info browser - initial version 0.3.5.
+

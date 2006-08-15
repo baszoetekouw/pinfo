@@ -32,8 +32,8 @@ msgstr "Zoeken naar tag-tabel afgerond\n"
 
 #: src/filehandling_functions.cxx:1051
 #, c-format
-msgid "Error: could not open info file\n"
-msgstr "Fout: kon de info file niet openen\n"
+msgid "Error: could not open info file"
+msgstr "Fout: kon de info file niet openen"
 
 #: src/mainfunction.cxx:205 src/manual.cxx:744
 msgid "Are you sure you want to print?"
@@ -52,7 +52,7 @@ msgid "Operation failed..."
 msgstr "Opdracht mislukt..."
 
 #: src/mainfunction.cxx:348 src/mainfunction.cxx:607 src/manual.cxx:890
-msgid "Enter regexp: "
+msgid "Enter regular expression: "
 msgstr "Voer reguliere expressie in: "
 
 #: src/mainfunction.cxx:576 src/mainfunction.cxx:664 src/manual.cxx:959
@@ -91,7 +91,7 @@ msgid "Calling apropos \n"
 msgstr "Aanroepen van apropos \n"
 
 #: src/manual.cxx:308
-#, fuzzy, c-format
+#, c-format
 msgid "Nothing appropriate\n"
 msgstr "Niets geschikts\n"
 
@@ -201,7 +201,7 @@ msgid "Trying to create alternate tag table...\n"
 msgstr "Probeer een alternatieve tag-tabel aan te maken...\n"
 
 #: src/pinfo.cxx:365
-#, fuzzy, c-format
+#, c-format
 msgid "This doesn't look like an info file...\n"
 msgstr "Dit ziet er niet uit als een info bestande...\n"
 
@@ -212,7 +212,7 @@ msgstr "Aangegeven node bestata niet...\n"
 
 #: src/pinfo.cxx:435
 msgid "File not found. Press any key..."
-msgstr "Bestand niet gevonden.  Druk op een toest..."
+msgstr "Bestand niet gevonden.  Druk op een toets..."
 
 #: src/pinfo.cxx:453
 #, c-format
@@ -275,9 +275,6 @@ msgstr "Vorige:"
 msgid "Up:"
 msgstr "Omhoog:"
 
-#~ msgid "Virtual memory exhausted\n"
-#~ msgstr "Vertuele geheugen is uitgeput\n"
-
 #~ msgid "Error: Cannot call man command.\n"
 #~ msgstr "Fout: kan het man commando niet aanroepen.\n"
 
@@ -295,3 +292,12 @@ msgstr "Omhoog:"
 
 #~ msgid "IGNORING"
 #~ msgstr "WORDT GENEGEERD"
+
+#~ msgid "Virtual memory exhausted\n"
+#~ msgstr "Vertuele geheugen is uitgeput\n"
+
+#~ msgid "Tag table is corrupt, trying to fix..."
+#~ msgstr "Tag-tabel is kapot, bezig met reparatie..."
+
+#~ msgid "press a key to continue"
+#~ msgstr "Druk op een toets om door te gaan"

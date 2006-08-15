@@ -8,7 +8,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: pinfo-devel@lists.alioth.debian.org\n"
 "POT-Creation-Date: 2005-09-08 08:22-0400\n"
 "PO-Revision-Date: 1999-04-21 01:50+0200\n"
-"Last-Translator: Matthias Warkus <mawa@iname.com>\n"
+"Last-Translator: René van Bevern <rvb@pro-linux.de>\n"
 "Language-Team: German <de@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=ISO-8859-1\n"
@@ -17,7 +17,7 @@ msgstr ""
 #: src/filehandling_functions.cxx:466 src/filehandling_functions.cxx:471
 #, c-format
 msgid "Searching for indirect done"
-msgstr "Suche nach Node-Verzeichnis abgeschlossen."
+msgstr "Suche nach Knotenverzeichnis abgeschlossen."
 
 #: src/filehandling_functions.cxx:502 src/filehandling_functions.cxx:507
 #, c-format
@@ -31,8 +31,8 @@ msgstr "Suche nach der Tag-Tabelle abgeschlossen.\n"
 
 #: src/filehandling_functions.cxx:1051
 #, c-format
-msgid "Error: could not open info file\n"
-msgstr "Fehler: Konnte die Info-Datei nicht öffnen.\n"
+msgid "Error: could not open info file"
+msgstr "Fehler: Konnte die Info-Datei nicht öffnen."
 
 #: src/mainfunction.cxx:205 src/manual.cxx:744
 msgid "Are you sure you want to print?"
@@ -40,7 +40,7 @@ msgstr "Wollen Sie wirklich drucken?"
 
 #: src/mainfunction.cxx:254 src/manual.cxx:789
 msgid "Enter line: "
-msgstr "Zeile eingeben: "
+msgstr "Bitte Zeilennummer eingeben: "
 
 #: src/mainfunction.cxx:292 src/manual.cxx:836
 msgid "Enter command: "
@@ -51,8 +51,8 @@ msgid "Operation failed..."
 msgstr "Funktion fehlgeschlagen..."
 
 #: src/mainfunction.cxx:348 src/mainfunction.cxx:607 src/manual.cxx:890
-msgid "Enter regexp: "
-msgstr "Bitte Regexp eingeben: "
+msgid "Enter regular expression: "
+msgstr "Bitte regulären Ausdruck eingeben: "
 
 #: src/mainfunction.cxx:576 src/mainfunction.cxx:664 src/manual.cxx:959
 #, fuzzy
@@ -61,44 +61,43 @@ msgstr "Warnung: Konnte keine Tag-Tabelle finden...\n"
 
 #: src/mainfunction.cxx:630 src/manual.cxx:920
 msgid "Invalid regular expression;"
-msgstr ""
+msgstr "Ungültiger regulärer Ausdruck;"
 
 #: src/mainfunction.cxx:632 src/manual.cxx:922
 msgid "Press any key to continue..."
-msgstr ""
+msgstr "Beliebige Taste drücken, um fortzufahren..."
 
 #: src/mainfunction.cxx:691
 msgid "Enter node name: "
-msgstr "Bitte Node-Namen eingeben: "
+msgstr "Bitte Knotennamen eingeben: "
 
 #: src/mainfunction.cxx:759
 #, c-format
 msgid "Node %s not found"
-msgstr "Node %s wurde nicht gefunden."
+msgstr "Knoten %s wurde nicht gefunden."
 
 #: src/mainfunction.cxx:1221 src/manual.cxx:1311
 msgid "Are you sure you want to quit?"
-msgstr "Sind Sie sicher, daß Sie beenden wollen?"
+msgstr "Sind Sie sicher, dass Sie pinfo beenden wollen?"
 
 #: src/manual.cxx:289
-#, fuzzy, c-format
+#, c-format
 msgid "Error: No manual page found\n"
-msgstr "Fehler: Es wurde auch keine Manpage gefunden.\n"
+msgstr "Fehler: Es wurde keine Manpage gefunden.\n"
 
 #: src/manual.cxx:300
 #, c-format
 msgid "Calling apropos \n"
-msgstr ""
+msgstr "Rufe apropos auf \n"
 
 #: src/manual.cxx:308
 #, c-format
 msgid "Nothing appropriate\n"
-msgstr ""
+msgstr "Nichts entsprechendes gefunden.\n"
 
 #: src/manual.cxx:758
-#, fuzzy
 msgid "Enter manual name: "
-msgstr "Bitte Node-Namen eingeben: "
+msgstr "Bitte Manpage-Namen eingeben: "
 
 #: src/manual.cxx:1395 src/video.cxx:105
 #, c-format
@@ -113,7 +112,7 @@ msgstr "Zeile %d/%d, 100%%"
 #: src/parse_config.cxx:86
 #, c-format
 msgid "Can't open config file!\n"
-msgstr ""
+msgstr "Kann Konfigurationsdatei nicht öffnen.\n"
 
 #: src/parse_config.cxx:124
 #, c-format
@@ -126,9 +125,9 @@ msgid "--node option used without argument\n"
 msgstr "--node-Option ohne Argument benutzt\n"
 
 #: src/pinfo.cxx:101
-#, fuzzy, c-format
+#, c-format
 msgid "--rcfile option used without argument\n"
-msgstr "--node-Option ohne Argument benutzt\n"
+msgstr "--rcfile-Option ohne Argument benutzt\n"
 
 #: src/pinfo.cxx:112
 #, fuzzy, c-format
@@ -161,8 +160,10 @@ msgstr ""
 "-v, --version                         Version\n"
 "-m, --manual                          Man-Page verwenden\n"
 "-r, --raw-filename                    rohen Dateinamen verwenden\n"
+"-f, --file                            synonym für -r\n"
 "-a, --apropos                         Apropos aufrufen, wenn nichts "
 "gefunden\n"
+"-p, --plain-apropos                   nur apropos aufrufen\n"
 "-c, --cut-man-headers                 wiederholte Man-Kopfzeilen entfernen\n"
 "-l, --long-manual-links               lange Linknamen in Man-Pages benutzen\n"
 "-s, --squeeze-manlines                leere Zeilen aus Man-Pages entfernen\n"
@@ -171,7 +172,9 @@ msgstr ""
 "-t, --force-manual-tag-table          Manuelles Auffinden der Tagtabelle\n"
 "                                      erzwingen\n"
 "-x, --clear-at-exit                   Schirm beim Verlassen löschen\n"
-"    --node=knoten, --node knoten      direkt zum Knoten knoten springen\n"
+"    --node=knoten, --node knoten      direkt zum Knoten 'knoten' springen\n"
+"    --rcfile=datei, --rcfile datei    alternative Konfigurationsdatei "
+"benutzen\n"
 
 #: src/pinfo.cxx:138 src/pinfo.cxx:242
 #, c-format
@@ -181,7 +184,7 @@ msgstr "Suche nach einer Manpage...\n"
 #: src/pinfo.cxx:326
 #, c-format
 msgid "Error: could not open info file, trying manual\n"
-msgstr "Fehler: Info Datei nicht gefunden, suche nach einer Manpage... \n"
+msgstr "Fehler: Info-Datei nicht gefunden, suche nach einer Manpage... \n"
 
 #: src/pinfo.cxx:356
 #, c-format
@@ -194,7 +197,7 @@ msgid "Trying to create alternate tag table...\n"
 msgstr "Versuche eine alternative Tag-Tabelle zu erstellen...\n"
 
 #: src/pinfo.cxx:365
-#, fuzzy, c-format
+#, c-format
 msgid "This doesn't look like an info file...\n"
 msgstr "Dies scheint keine Info-Datei zu sein...\n"
 
@@ -224,12 +227,12 @@ msgstr "Dies scheint keine Info-Datei zu sein...\n"
 #: src/pinfo.cxx:564
 #, c-format
 msgid "Security warning: Unable to get GID of group called: %s\n"
-msgstr ""
+msgstr "Sicherheitswarnung: Konnte GID der Gruppe %s nicht ermitteln.\n"
 
 #: src/pinfo.cxx:584
 #, c-format
 msgid "Security warning: Unable to get UID of user called: %s\n"
-msgstr ""
+msgstr "Sicherheitswarnung: Konnte UID des Benutzers %s nicht ermitteln.\n"
 
 #: src/utils.cxx:85
 #, c-format
@@ -237,7 +240,7 @@ msgid ""
 "Illegal characters in filename!\n"
 "*** %s\n"
 msgstr ""
-"Ungültiges Zeichen im Dateinamen!\n"
+"Ungültiges Zeichen im Dateinamen.\n"
 "*** %s\n"
 
 #: src/utils.cxx:256
@@ -254,7 +257,7 @@ msgstr "Datei:"
 
 #: src/video.cxx:54
 msgid "Node:"
-msgstr "Node:"
+msgstr "Knoten:"
 
 #: src/video.cxx:55
 msgid "Next:"
@@ -268,8 +271,8 @@ msgstr "vorheriges Thema:"
 msgid "Up:"
 msgstr "Übergeordnet:"
 
-#~ msgid "Virtual memory exhausted\n"
-#~ msgstr "Virtueller Speicher aufgebraucht.\n"
+#~ msgid "Error: Cannot call man command.\n"
+#~ msgstr "Fehler: Kann 'man' nicht ausführen.\n"
 
 #~ msgid "Error: No manual page found either.\n"
 #~ msgstr "Fehler: Es wurde auch keine Manpage gefunden.\n"
@@ -277,6 +280,24 @@ msgstr "Übergeordnet:"
 #, fuzzy
 #~ msgid "Apropos pages:\n"
 #~ msgstr "Passende Seiten:\n"
+
+#~ msgid "Calling gunzip for"
+#~ msgstr "Rufe gunzip auf für"
+
+#~ msgid "Couldn't call gunzip.\n"
+#~ msgstr "Konnte gunzip nicht ausführen.\n"
+
+#~ msgid "IGNORING"
+#~ msgstr "IGNORIERE"
+
+#~ msgid "Virtual memory exhausted\n"
+#~ msgstr "Virtueller Speicher aufgebraucht.\n"
+
+#~ msgid "press a key to continue"
+#~ msgstr "Beliebige Taste drücken, um fortzufahren"
+
+#~ msgid "Are you sure to print?"
+#~ msgstr "Wollen Sie wirklich drucken?"
 
 #~ msgid "Warning: could not find tag table\n"
 #~ msgstr "Warnung: Konnte die Tag-Tabelle nicht finden.\n"

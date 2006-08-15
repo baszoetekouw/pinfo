@@ -3,7 +3,7 @@
  *
  *  Copyright (C) 1999  Przemek Borys <pborys@dione.ids.pl>
  *  Copyright (C) 2005  Bas Zoetekouw <bas@debian.org>
- *  Copyright 2005  Nathanael Nerode <neroden@gcc.gnu.org>
+ *  Copyright 2005, 2006  Nathanael Nerode <neroden@gcc.gnu.org>
  *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of version 2 of the GNU General Public License as
@@ -16,7 +16,7 @@
  *
  *  You should have received a copy of the GNU General Public License
  *  along with this program; if not, write to the Free Software
- *  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307
+ *  Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
  *  USA
  ***************************************************************************/
 
@@ -126,6 +126,31 @@ gettagtablepos(const string& node)
 		return result;
 	}
 }
+
+/*
+ * calculates the length of string between start and end, counting `\t' as
+ * filling up to 8 chars. (i.e. at line 22 tab will increment the counter by 2
+ * [8-(22-int(22/8)*8)] spaces)
+ *
+ * Bugs: this doesn't actually work.  FIXME.
+ */
+int
+calculate_len(const char *start, const char *end)
+{
+  int len = 0;
+  while (start < end)
+  {
+    len++;
+    if (*start == '\t')
+    {
+      len--;
+      len += (8 - (len & 0x07));
+    }
+    start++;
+  }
+  return len;
+}
+
 
 /*
  * Create a vector of strings.  If the strings are concatenated together

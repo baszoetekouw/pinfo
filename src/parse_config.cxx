@@ -16,7 +16,7 @@
  *
  *  You should have received a copy of the GNU General Public License
  *  along with this program; if not, write to the Free Software
- *  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307
+ *  Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
  *  USA
  ***************************************************************************/
 
@@ -541,7 +541,7 @@ parse_line(char *line)
 		else
 			return 1;
 	}
-	else if (!strncmp(temp, "FTPVIEWER", 10))
+	else if (!strncmp(temp, "FTPVIEWER", 9))
 	{
 		temp = strtok(NULL, "\n");
 		if (temp)

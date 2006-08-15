@@ -33,7 +33,7 @@ msgstr ""
 
 #: src/filehandling_functions.cxx:1051
 #, c-format
-msgid "Error: could not open info file\n"
+msgid "Error: could not open info file"
 msgstr ""
 
 #: src/mainfunction.cxx:205 src/manual.cxx:744
@@ -53,7 +53,7 @@ msgid "Operation failed..."
 msgstr ""
 
 #: src/mainfunction.cxx:348 src/mainfunction.cxx:607 src/manual.cxx:890
-msgid "Enter regexp: "
+msgid "Enter regular expression: "
 msgstr ""
 
 #: src/mainfunction.cxx:576 src/mainfunction.cxx:664 src/manual.cxx:959

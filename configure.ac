@@ -1,8 +1,8 @@
 #***************************************************************************
 #*  Pinfo is a ncurses based lynx style info documentation browser
 #*
-#*  Copyright (C) 1999  Przemek Borys <pborys@dione.ids.pl>
-#*  Copyright (C) 2005  Bas Zoetekouw <bas@debian.org>
+#*  Copyright (C) 1999-2005  Przemek Borys <pborys@dione.ids.pl>
+#*  Copyright (C) 2005,2006  Bas Zoetekouw <bas@debian.org>
 #*  Copyright 2005  Nathanael Nerode <neroden@gcc.gnu.org>
 #*
 #*  This program is free software; you can redistribute it and/or modify
@@ -16,7 +16,7 @@
 #*
 #*  You should have received a copy of the GNU General Public License
 #*  along with this program; if not, write to the Free Software
-#*  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307
+#*  Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
 #*  USA
 #***************************************************************************/
 #
@@ -26,7 +26,7 @@
 #
 
 # init
-AC_INIT([pinfo],[0.6.8+svn],[pinfo-devel@lists.alioth.debian.org])
+AC_INIT([pinfo],[0.6.9],[pinfo-devel@lists.alioth.debian.org])
 # require a recent autoconf
 AC_PREREQ([2.57])
 # for identification of derived ./configure scripts
@@ -102,8 +102,17 @@ AC_PROG_LIBTOOL
 ####################################################
 # readline
 AC_CHECK_READLINE
-if test "$has_readline" = false; then
+if test "x$has_readline" = "xfalse"; then
   AC_MSG_ERROR([Readline not found.  You need readline to compile pinfo])
+else
+  # if we have readline, it needs to be version 4 or later
+	if test $readline_version -lt 4
+	then 
+		AC_MSG_WARN([Version 4 of readline is required to compile pinfo.  
+			Yours is only version $readline_version.
+			Readline support will be disabled.])
+		has_readline=false
+	fi
 fi
 
 # curses
@@ -148,7 +157,7 @@ AC_EGREP_CPP(HAVE_KEY_END,
 ## i18n, t10n stuff
 ####################################################
 # the languages for which we have .po files
-ALL_LINGUAS="pl cs sv de ru ja nl"
+ALL_LINGUAS="cs de eu ja nl pl pt_BR ro ru sv vi"
 
 # Checks for all prerequisites of the intl subdirectory
 AM_INTL_SUBDIR

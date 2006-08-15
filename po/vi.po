@@ -1,168 +1,136 @@
-# pinfo polish language module
-#
-# strings for the header-filter of info messages
-# , fuzzy
+# Vietnamese translation for PInfo.
+# Copyright © 2005 Przemek Borys <pborys@dione.ids.pl>, Bas Zoetekouw <bas@debian.org>, Nathanael Nerode <neroden@gcc.gnu.org>
+# This file is distributed under the same license as the PInfo package.
+# Clytie Siddall <clytie@riverland.net.au>, 2005.
+# 
 msgid ""
 msgstr ""
-"Project-Id-Version: pinfo-0.6.8\n"
+"Project-Id-Version: pinfo\n"
 "Report-Msgid-Bugs-To: pinfo-devel@lists.alioth.debian.org\n"
 "POT-Creation-Date: 2005-09-08 08:22-0400\n"
-"PO-Revision-Date: 2005-09-29 21:59+0200\n"
-"Last-Translator: Krzysztof Krzy�aniak (eloy) <eloy@debian.org>\n"
-"Language-Team:\n"
+"PO-Revision-Date: 2005-12-21 15:11+1030\n"
+"Last-Translator: Clytie Siddall <clytie@riverland.net.au>\n"
+"Language-Team: Vietnamese <gnomevi-list@lists.sourceforge.net>\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=ISO-8859-2\n"
+"Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0\n"
+"X-Generator: LocFactoryEditor 1.5.1b\n"
 
 #: src/filehandling_functions.cxx:466 src/filehandling_functions.cxx:471
 #, c-format
 msgid "Searching for indirect done"
-msgstr "Zako�czono poszukiwanie mapowa� niebezpo�rednich"
+msgstr "Đang tìm kiếm xong gián tiếp"
 
 #: src/filehandling_functions.cxx:502 src/filehandling_functions.cxx:507
 #, c-format
 msgid "Warning: could not find tag table"
-msgstr "Ostrze�enie: nie mo�na znale�� tablicy tag�w"
+msgstr "Cảnh báo: không tìm thấy bảng thẻ"
 
 #: src/filehandling_functions.cxx:528
 #, c-format
 msgid "Searching for tag table done\n"
-msgstr "Zako�czono poszukiwanie tablicy tag�w\n"
+msgstr "Đang tìm kiếm xong bảng thẻ\n"
 
 #: src/filehandling_functions.cxx:1051
 #, c-format
 msgid "Error: could not open info file"
-msgstr "B�ad: nie nie mo�na otworzy� pliku info"
+msgstr "Lỗi: không thể mở tập tin thông tin"
 
 #: src/mainfunction.cxx:205 src/manual.cxx:744
 msgid "Are you sure you want to print?"
-msgstr "Czy na pewno drukowa�?"
+msgstr "Bạn có chắc muốn in không?"
 
-#
-# Go line messages
-#
 #: src/mainfunction.cxx:254 src/manual.cxx:789
 msgid "Enter line: "
-msgstr "Podaj lini�: "
+msgstr "Gõ dòng: "
 
-#
-# Shellfeed messages
-#
 #: src/mainfunction.cxx:292 src/manual.cxx:836
 msgid "Enter command: "
-msgstr "Podaj komend�: "
+msgstr "Gõ lệnh: "
 
 #: src/mainfunction.cxx:311
 msgid "Operation failed..."
-msgstr "Operacja si� nie powiod�a..."
+msgstr "Thao tác thất bại..."
 
-#
-# Regexp search messages
-#
 #: src/mainfunction.cxx:348 src/mainfunction.cxx:607 src/manual.cxx:890
-#, fuzzy
 msgid "Enter regular expression: "
-msgstr "Wprowad� wyra�enie regularne: "
+msgstr "Gõ biểu thức chính quy: "
 
 #: src/mainfunction.cxx:576 src/mainfunction.cxx:664 src/manual.cxx:959
 msgid "Search string not found..."
-msgstr "Szukany �a�cuch nie zosta� znaleziony..."
+msgstr "Không tìm thấy chuỗi tìm kiếm..."
 
 #: src/mainfunction.cxx:630 src/manual.cxx:920
 msgid "Invalid regular expression;"
-msgstr "B��dne wyra�enie regularne;"
+msgstr "Biểu thức chính quy không hợp lệ;"
 
 #: src/mainfunction.cxx:632 src/manual.cxx:922
 msgid "Press any key to continue..."
-msgstr "Naci�nij dowolny klawisz..."
+msgstr "Bấm phím nào để tiếp tục..."
 
-#
-# Goto messages
-#
 #: src/mainfunction.cxx:691
 msgid "Enter node name: "
-msgstr "Podaj nazw� w�z�a: "
+msgstr "Gõ tên nút: "
 
-# , c-format
 #: src/mainfunction.cxx:759
 #, c-format
 msgid "Node %s not found"
-msgstr "W�ze� %s nie istnieje"
+msgstr "Không tìm thấy nút %s"
 
-# Dialogs
 #: src/mainfunction.cxx:1221 src/manual.cxx:1311
 msgid "Are you sure you want to quit?"
-msgstr "Czy na pewno chcesz zako�czy� prac�?"
+msgstr "Bạn có chắc muốn thoát không?"
 
-#
-# Manual messages
-#
-# loading:
 #: src/manual.cxx:289
-#, fuzzy, c-format
+#, c-format
 msgid "Error: No manual page found\n"
-msgstr "B�ad: Nie znaleziono strony podr�cznika.\n"
+msgstr "Lỗi: không tìm thấy trang hướng dẫn\n"
 
 #: src/manual.cxx:300
 #, c-format
 msgid "Calling apropos \n"
-msgstr "Uruchamianie polecenia apropos \n"
+msgstr "Đang gọi apropos \n"
 
 #: src/manual.cxx:308
 #, c-format
 msgid "Nothing appropriate\n"
-msgstr "Brak odpowiadaj�cych stron\n"
+msgstr "Không có gì thích hợp\n"
 
-#
-# Goto messages
-#
 #: src/manual.cxx:758
 msgid "Enter manual name: "
-msgstr "Podaj tytu� podr�cznika: "
+msgstr "Gõ tên sổ hướng dẫn: "
 
 #: src/manual.cxx:1395 src/video.cxx:105
 #, c-format
 msgid "Viewing line %d/%d, %d%%"
-msgstr "Przegl�danie linii %d/%d, %d%%"
+msgstr "Đang xem dòng %d/%d, %d%%"
 
-#
-# Viewer messages
-#
 #: src/manual.cxx:1397 src/video.cxx:108
 #, c-format
 msgid "Viewing line %d/%d, 100%%"
-msgstr "Przegl�danie linii %d/%d, 100%%"
+msgstr "Đang xem dòng %d/%d, 100%%"
 
 #: src/parse_config.cxx:86
 #, c-format
 msgid "Can't open config file!\n"
-msgstr "Nie mo�na otworzy� pliku konfiguracyjnego!\n"
+msgstr "• Không thể mở tập tin cấu hình. •\n"
 
-#
-# Messages from the config file parsing procedures:
-#
 #: src/parse_config.cxx:124
 #, c-format
 msgid "Parse error in config file on line %d\n"
-msgstr "B��d sk�adni w linii %d pliku konfiguracyjnego\n"
+msgstr "Gặp lỗi phân tách trong tập tin cấu hình trên dòng %d\n"
 
-#
-# error messages when loading
-#
 #: src/pinfo.cxx:93
 #, c-format
 msgid "--node option used without argument\n"
-msgstr "opcja --node u�yta bez argumentu\n"
+msgstr "Tùy chọn « --node » (nút) được dùng không có đối số\n"
 
 #: src/pinfo.cxx:101
 #, c-format
 msgid "--rcfile option used without argument\n"
-msgstr "opcja --rcfile u�yta bez argumentu\n"
+msgstr "Tùy chọn « --rcfile » (tập tin rc) được dùng không có đối số\n"
 
-#
-# help message
-#
-# , c-format
 #: src/pinfo.cxx:112
 #, c-format
 msgid ""
@@ -187,162 +155,147 @@ msgid ""
 "    --node=nodename, --node nodename  jump directly to the node nodename\n"
 "    --rcfile=file, --rcfile file      use alternate rcfile\n"
 msgstr ""
-"U�ycie:\n"
-"%s [opcje] [info|manual]\n"
-"Opcje:\n"
-"-h, --help                            Wypisz pomoc\n"
-"-v, --version                         Wypisz numer wersji\n"
-"-m, --manual                          U�yj strony podr�cznika man\n"
-"-r, --raw-filename                    U�yj czystej, podanej nazwy pliku\n"
-"-a, --apropos                         W wypadku nieznalezienia pasuj�cego\n"
-"                                      dokumentu, u�yj apropos(1)\n"
-"-p, --plain-apropos                   Wywo�aj apropos bez szukania\n"
-"                                      pasuj�cych stron man\n"
-"-c, --cut-man-headers                 Wycinaj ze stron podr�cznika man\n"
-"                                      powtarzajace si� nag��wki\n"
-"-l, --long-manual-links               U�ywaj d�ugich nazw sekcji w stronach\n"
-"                                      podr�cznika man\n"
-"-s, --squeeze-manlines                Wycinaj ze stron podr�cznika man\n"
-"                                      powtarzaj�ce si� puste linie\n"
-"-d, --don't-handle-without-tag-table  Odm�w dzia�ania, gdy strona info\n"
-"                                      nie ma wpisu tag table\n"
-"-t, --force-manual-tag-table          Wymu� r�czn� konstrukcj� tag table\n"
-"-x, --clear-at-exit                   Wyczy�� ekran po zako�czeniu "
-"dzia�ania\n"
-"    --node=W�ze�, --node W�ze�        Przejd� do w�z�a W�ze� strony info\n"
-"    --rcfile=plik, --rcfile plik      U�yj alternatywnego pliku rc\n"
+"Cách sử dụng:\n"
+"%s [tùy_chọn ...] [thông_tin|sổ_hướng_dẫn]\n"
+"Options:\n"
+"-h, --help                            _trợ giúp_\n"
+"-v, --version                         _phiên bản_\n"
+"-m, --manual                          sử dụng _trang hướng dẫn_\n"
+"-r, --raw-filename                    sử dụng _tên tập tin thô_\n"
+"-f, --file                            bằng tùy chọn « -r »  (_tập tin_)\n"
+"-a, --apropos                         gọi apropos nếu không tìm gì\n"
+"-p, --plain-apropos                   gọi chỉ apropos thôi (_chuẩn_)\n"
+"-c, --cut-man-headers                 _cắt ra các dòng đầu hướng dẫn_ trùng\n"
+"-l, --long-manual-links               sử dụng tên _liên kết dài_ trong _sổ "
+"hướng dẫn_\n"
+"-s, --squeeze-manlines                cắt các _dòng_ trắng ra trang _hướng "
+"dẫn_ (_vắt_)\n"
+"-d, --dont-handle-without-tag-table   _đừng_ hiển thị trang kiểu texinfo\n"
+"\t\t\t\t\t\t\t\t_không có bảng thẻ_ (_quản "
+"lý_)                                    -t, --force-manual-tag-"
+"table          _buộc_ tự phát hiện _bảng thẻ_\n"
+"-x, --clear-at-exit                   _xóa_ màn hình _khi thoát_\n"
+"    --node=nodename, --node nodename      nhảy thẳng đến _nút tên_ này\n"
+"    --rcfile=tập_tin, --rcfile tập_tin      sử dụng tập tin rc thay thế\n"
 
 #: src/pinfo.cxx:138 src/pinfo.cxx:242
 #, c-format
 msgid "Looking for man page...\n"
-msgstr "Szukam strony podr�cznika...\n"
+msgstr "Đang tìm trang hướng dẫn...\n"
 
 #: src/pinfo.cxx:326
 #, c-format
 msgid "Error: could not open info file, trying manual\n"
-msgstr "B��d: nie ma takiego pliku info, szukanie strony podr�cznika\n"
+msgstr "Lỗi: không thể mở tập tin thông tin nên thử sổ hướng dẫn\n"
 
 #: src/pinfo.cxx:356
 #, c-format
 msgid "Warning: tag table not found...\n"
-msgstr "Ostrze�enie: nie znalaziono tablicy tag�w...\n"
+msgstr "Cảnh báo: không tìm thấy bảng thẻ...\n"
 
 #: src/pinfo.cxx:360
 #, c-format
 msgid "Trying to create alternate tag table...\n"
-msgstr "Pr�ba utworzenia alternatywnej tablicy tag�w...\n"
+msgstr "Đang cố tạo bảng thẻ thay thế...\n"
 
 #: src/pinfo.cxx:365
 #, c-format
 msgid "This doesn't look like an info file...\n"
-msgstr "Nie jest plikiem typu info...\n"
+msgstr "Điều này không hình như tập tin thông tin...\n"
 
 #: src/pinfo.cxx:378
 #, c-format
 msgid "Specified node does not exist...\n"
-msgstr "Podany w�ze� nie istnieje...\n"
+msgstr "Không có nút đã gõ...\n"
 
 #: src/pinfo.cxx:435
 msgid "File not found. Press any key..."
-msgstr "Nie znaleziono pliku. Naci�nij dowolny klawisz..."
+msgstr "Không tìm thấy tập tin. Bấm phím nào..."
 
 #: src/pinfo.cxx:453
 #, c-format
 msgid "Unexpected error.\n"
-msgstr "Nieoczekiwany b��d.\n"
+msgstr "Gặp lỗi bất ngờ.\n"
 
 #: src/pinfo.cxx:500
 msgid "Tag table not found. Trying to create alternate..."
-msgstr ""
-"Nie znaleziono tablicy tag�w. Pr�ba utworzenia alternatywnej tablicy..."
+msgstr "Không tìm thấy bảng thẻ. Đang cố tạo điều thay thế..."
 
 #: src/pinfo.cxx:505
 #, c-format
 msgid "This doesn't look like info file...\n"
-msgstr "Nie jest plikiem typu info...\n"
+msgstr "Điều này không hình như tập tin thông tin...\n"
 
 #: src/pinfo.cxx:564
 #, c-format
 msgid "Security warning: Unable to get GID of group called: %s\n"
-msgstr "Niebezpiecze�stwo: Nie mo�na pobra� GID grupy: %s\n"
+msgstr "Cảnh báo bảo mật: không thể lấy GID của nhóm tên: %s\n"
 
 #: src/pinfo.cxx:584
 #, c-format
 msgid "Security warning: Unable to get UID of user called: %s\n"
-msgstr "Niebezpiecze�stwo: Nie mo�na pobra� UID u�ytkownika: %s\n"
+msgstr "Cảnh báo bảo mật: không thể lấy UID của người dùng tên: %s\n"
 
-#
-# Message for procedure, which checks the command line filename
-#
-# , c-format
 #: src/utils.cxx:85
 #, c-format
 msgid ""
 "Illegal characters in filename!\n"
 "*** %s\n"
 msgstr ""
-"W nazwie pliku znajduj� si� niedozwolone znaki!\n"
+"• Gặp ký tự sai trong tên tập tin. •\n"
 "*** %s\n"
 
 #: src/utils.cxx:256
 msgid "yes"
-msgstr "tak"
+msgstr "có"
 
 #: src/utils.cxx:257
 msgid "no"
-msgstr "nie"
+msgstr "không"
 
 #: src/video.cxx:53
 msgid "File:"
-msgstr "Plik:"
+msgstr "Tập tin:"
 
 #: src/video.cxx:54
 msgid "Node:"
-msgstr "W�ze�:"
+msgstr "Nút:"
 
 #: src/video.cxx:55
 msgid "Next:"
-msgstr "Nast�pny:"
+msgstr "Kế:"
 
 #: src/video.cxx:56
 msgid "Prev:"
-msgstr "Poprzedni:"
+msgstr "Trước:"
 
 #: src/video.cxx:57
 msgid "Up:"
-msgstr "G�ra:"
+msgstr "Lên:"
 
 #~ msgid "Error: Cannot call man command.\n"
-#~ msgstr "B��d: Nie mo�na uruchomi� polecenia man.\n"
+#~ msgstr "Lỗi: không thể gọi lệnh man (hướng dẫn).\n"
 
-#
-# Manual messages
-#
-# loading:
 #~ msgid "Error: No manual page found either.\n"
-#~ msgstr "B�ad: Nie ma r�wnie� pasuj�cej strony podr�cznika man.\n"
+#~ msgstr "Lỗi: cũng không tìm thấy trang hướng dẫn.\n"
 
-# apropos:
 #~ msgid "Apropos pages:\n"
-#~ msgstr "Podobne strony:\n"
+#~ msgstr "Trang Apropos:\n"
 
 #~ msgid "Calling gunzip for"
-#~ msgstr "Uruchamianie gunzip dla"
+#~ msgstr "Đang gọi gunzip cho"
 
 #~ msgid "Couldn't call gunzip.\n"
-#~ msgstr "Nie mo�na uruchomi� programu gunzip.\n"
+#~ msgstr "Không thể gọi gunzip.\n"
 
 #~ msgid "IGNORING"
-#~ msgstr "IGNOROWANIE"
+#~ msgstr "ĐANG BỎ QUA"
 
-#
-# Out of memory message
-#
 #~ msgid "Virtual memory exhausted\n"
-#~ msgstr "Brak pami�ci\n"
+#~ msgstr "Hết bộ nhớ ảo\n"
 
 #~ msgid "Tag table is corrupt, trying to fix..."
-#~ msgstr "Tablica tag�w jest uszkodzona, pr�ba naprawy..."
+#~ msgstr "Bảng thẻ bị hỏng nên cố sửa..."
 
 #~ msgid "press a key to continue"
-#~ msgstr "naci�nij dowolny klawisz"
+#~ msgstr "bấm phím nào để tiếp tục"

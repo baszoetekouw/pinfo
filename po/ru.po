@@ -1,132 +1,134 @@
-# SOME DESCRIPTIVE TITLE.
-# Copyright (C) YEAR Free Software Foundation, Inc.
-# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+# translation of ru.po to Russian
+# Copyright (C) 2005 Free Software Foundation, Inc.
+# Volosenkov Dmitry <_bil_@mail.ru>, 2003.
+# Yuri Kozlov <kozlov.y@gmail.com>, 2005.
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: 0.5.3\n"
+"Project-Id-Version: ru\n"
 "Report-Msgid-Bugs-To: pinfo-devel@lists.alioth.debian.org\n"
 "POT-Creation-Date: 2005-09-08 08:22-0400\n"
-"PO-Revision-Date: 2003-08-21 11:22+0200\n"
-"Last-Translator: Volosenkov Dmitry <_bil_@mail.ru>\n"
-"Language-Team: russian <ru@li.org>\n"
+"PO-Revision-Date: 2005-10-01 10:47+0400\n"
+"Last-Translator: Yuri Kozlov <kozlov.y@gmail.com>\n"
+"Language-Team: Russian <debian-l10n-russian@lists.debian.org>\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=koi8-r\n"
+"Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"X-Generator: KBabel 1.9.1\n"
 
 #: src/filehandling_functions.cxx:466 src/filehandling_functions.cxx:471
 #, c-format
 msgid "Searching for indirect done"
-msgstr ""
+msgstr "п÷п╬п╦я│п╨ я│я│я▀п╩п╨п╦ п╥п╟п╡п╣я─я┬я▒п╫"
 
 #: src/filehandling_functions.cxx:502 src/filehandling_functions.cxx:507
 #, c-format
 msgid "Warning: could not find tag table"
-msgstr "Предупреждение: не могу найти табличный тэг"
+msgstr "п÷я─п╣п╢я┐п©я─п╣п╤п╢п╣п╫п╦п╣: п╫п╣ п╪п╬пЁя┐ п╫п╟п╧я┌п╦ я┌п╟п╠п╩п╦я┤п╫я▀п╧ я┌п╣пЁ"
 
 #: src/filehandling_functions.cxx:528
 #, c-format
 msgid "Searching for tag table done\n"
-msgstr "Поиск табличного тэга завершен\n"
+msgstr "п÷п╬п╦я│п╨ я┌п╟п╠п╩п╦я┤п╫п╬пЁп╬ я┌п╣пЁп╟ п╥п╟п╡п╣я─я┬я▒п╫\n"
 
 #: src/filehandling_functions.cxx:1051
 #, c-format
-msgid "Error: could not open info file\n"
-msgstr "Ошибка: не могу найти info файл\n"
+msgid "Error: could not open info file"
+msgstr "п·я┬п╦п╠п╨п╟: п╫п╣ я┐п╢п╟п╩п╬я│я▄ п╬я┌п╨я─я▀я┌я▄ info я└п╟п╧п╩"
 
 #: src/mainfunction.cxx:205 src/manual.cxx:744
 msgid "Are you sure you want to print?"
-msgstr "Вы действительно желаете напечатать"
+msgstr "п▓я▀ п╢п╣п╧я│я┌п╡п╦я┌п╣п╩я▄п╫п╬ п╤п╣п╩п╟п╣я┌п╣ п╫п╟п©п╣я┤п╟я┌п╟я┌я▄?"
 
 #: src/mainfunction.cxx:254 src/manual.cxx:789
 msgid "Enter line: "
-msgstr "Введите строку: "
+msgstr "п▓п╡п╣п╢п╦я┌п╣ я│я┌я─п╬п╨я┐: "
 
 #: src/mainfunction.cxx:292 src/manual.cxx:836
 msgid "Enter command: "
-msgstr "Введите команду: "
+msgstr "п▓п╡п╣п╢п╦я┌п╣ п╨п╬п╪п╟п╫п╢я┐: "
 
 #: src/mainfunction.cxx:311
 msgid "Operation failed..."
-msgstr "Действие не удалось..."
+msgstr "п■п╣п╧я│я┌п╡п╦п╣ п╫п╣ я┐п╢п╟п╩п╬я│я▄..."
 
 #: src/mainfunction.cxx:348 src/mainfunction.cxx:607 src/manual.cxx:890
-msgid "Enter regexp: "
-msgstr "Введите регулярное выражение: "
+msgid "Enter regular expression: "
+msgstr "п▓п╡п╣п╢п╦я┌п╣ я─п╣пЁя┐п╩я▐я─п╫п╬п╣ п╡я▀я─п╟п╤п╣п╫п╦п╣: "
 
 #: src/mainfunction.cxx:576 src/mainfunction.cxx:664 src/manual.cxx:959
 msgid "Search string not found..."
-msgstr "Строка не найдена..."
+msgstr "п║я┌я─п╬п╨п╟ п╫п╣ п╫п╟п╧п╢п╣п╫п╟..."
 
 #: src/mainfunction.cxx:630 src/manual.cxx:920
 msgid "Invalid regular expression;"
-msgstr ""
+msgstr "п²п╣п╢п╬п©я┐я│я┌п╦п╪п╬п╣ я─п╣пЁя┐п╩я▐я─п╫п╬п╣ п╡я▀я─п╟п╤п╣п╫п╦п╣;"
 
 #: src/mainfunction.cxx:632 src/manual.cxx:922
 msgid "Press any key to continue..."
-msgstr ""
+msgstr "п²п╟п╤п╪п╦я┌п╣ п╩я▌п╠я┐я▌ п╨п╩п╟п╡п╦я┬я┐..."
 
 #: src/mainfunction.cxx:691
 msgid "Enter node name: "
-msgstr "Введите имя ноды: "
+msgstr "п▓п╡п╣п╢п╦я┌п╣ п╦п╪я▐ я┐п╥п╩п╟: "
 
 #: src/mainfunction.cxx:759
 #, c-format
 msgid "Node %s not found"
-msgstr "Узел %s не найден"
+msgstr "пёп╥п╣п╩ %s п╫п╣ п╫п╟п╧п╢п╣п╫"
 
 #: src/mainfunction.cxx:1221 src/manual.cxx:1311
 msgid "Are you sure you want to quit?"
-msgstr "Вы действительно желаете выйти?"
+msgstr "п≈п╟п╡п╣я─я┬п╦я┌я▄ я─п╟п╠п╬я┌я┐?"
 
 #: src/manual.cxx:289
 #, c-format
 msgid "Error: No manual page found\n"
-msgstr "Ошибка: страница руководства не найдена.\n"
+msgstr "п·я┬п╦п╠п╨п╟: я│я┌я─п╟п╫п╦я├п╟ я─я┐п╨п╬п╡п╬п╢я│я┌п╡п╟ п╫п╣ п╫п╟п╧п╢п╣п╫п╟\n"
 
 #: src/manual.cxx:300
 #, c-format
 msgid "Calling apropos \n"
-msgstr ""
+msgstr "п≈п╟п©я┐я│п╨ п╨п╬п╪п╟п╫п╢я▀ apropos \n"
 
 #: src/manual.cxx:308
-#, fuzzy, c-format
+#, c-format
 msgid "Nothing appropriate\n"
-msgstr "Ничего подходящего\n"
+msgstr "п²п╦я┤п╣пЁп╬ п©п╬п╢я┘п╬п╢я▐я┴п╣пЁп╬\n"
 
 #: src/manual.cxx:758
 msgid "Enter manual name: "
-msgstr "Введите название руководства: "
+msgstr "п▓п╡п╣п╢п╦я┌п╣ п╫п╟п╥п╡п╟п╫п╦п╣ я─я┐п╨п╬п╡п╬п╢я│я┌п╡п╟: "
 
 #: src/manual.cxx:1395 src/video.cxx:105
 #, c-format
 msgid "Viewing line %d/%d, %d%%"
-msgstr "Просматриваю строчку %d/%d, %d%%"
+msgstr "п÷я─п╬я│п╪п╬я┌я─ я│я┌я─п╬п╨п╦ %d/%d, %d%%"
 
 #: src/manual.cxx:1397 src/video.cxx:108
 #, c-format
 msgid "Viewing line %d/%d, 100%%"
-msgstr "Просматриваю строчку %d/%d, 100%%"
+msgstr "п÷я─п╬я│п╪п╬я┌я─ я│я┌я─п╬п╨п╦ %d/%d, 100%%"
 
 #: src/parse_config.cxx:86
 #, c-format
 msgid "Can't open config file!\n"
-msgstr ""
+msgstr "п²п╣ я┐п╢п╟п╩п╬я│я▄ п╬я┌п╨я─я▀я┌я▄ я└п╟п╧п╩ п╨п╬п╫я└п╦пЁя┐я─п╟я├п╦п╦!\n"
 
 #: src/parse_config.cxx:124
 #, c-format
 msgid "Parse error in config file on line %d\n"
-msgstr "Синтаксическая ошибка конфигурационного файла в строке %d\n"
+msgstr "п║п╦п╫я┌п╟п╨я│п╦я┤п╣я│п╨п╟я▐ п╬я┬п╦п╠п╨п╟ п╨п╬п╫я└п╦пЁя┐я─п╟я├п╦п╬п╫п╫п╬пЁп╬ я└п╟п╧п╩п╟ п╡ я│я┌я─п╬п╨п╣ %d\n"
 
 #: src/pinfo.cxx:93
 #, c-format
 msgid "--node option used without argument\n"
-msgstr "параметр --node используется без аргумента\n"
+msgstr "п©п╟я─п╟п╪п╣я┌я─ --node я┐п╨п╟п╥п╟п╫ п╠п╣п╥ п╟я─пЁя┐п╪п╣п╫я┌п╟\n"
 
 #: src/pinfo.cxx:101
-#, fuzzy, c-format
+#, c-format
 msgid "--rcfile option used without argument\n"
-msgstr "опция --node используется без аргумента\n"
+msgstr "п©п╟я─п╟п╪п╣я┌я─ --rcfile я┐п╨п╟п╥п╟п╫ п╠п╣п╥ п╟я─пЁя┐п╪п╣п╫я┌п╟\n"
 
 #: src/pinfo.cxx:112
 #, c-format
@@ -152,64 +154,91 @@ msgid ""
 "    --node=nodename, --node nodename  jump directly to the node nodename\n"
 "    --rcfile=file, --rcfile file      use alternate rcfile\n"
 msgstr ""
+"п≤я│п©п╬п╩я▄п╥п╬п╡п╟п╫п╦п╣:\n"
+"%s [п©п╟я─п╟п╪п╣я┌я─я▀] [я└п╟п╧п╩ info п╦п╩п╦ я│я┌я─п╟п╫п╦я├я▀ я─я┐п╨п╬п╡п╬п╢я│я┌п╡п╟]\n"
+"п÷п╟я─п╟п╪п╣я┌я─я▀:\n"
+"-h, --help                            п©п╬п╪п╬я┴я▄\n"
+"-v, --version                         п╡п╣я─я│п╦я▐\n"
+"-m, --manual                          п©п╬п╨п╟п╥п╟я┌я▄ я│я┌я─п╟п╫п╦я├я┐ я─я┐п╨п╬п╡п╬п╢я│я┌п╡п╟\n"
+"-r, --raw-filename                    п╦я│п©п╬п╩я▄п╥п╬п╡п╟я┌я▄ я│я▀я─п╬п╧ я└п╟п╧п╩\n"
+"-f, --file                            я┌п╬п╤п╣ я┤я┌п╬ п╦ -r\n"
+"-a, --apropos                         п╥п╟п©я┐я│я┌п╦я┌я▄ apropos, п╣я│п╩п╦\n"
+"                                      п╫п╦я┤п╣пЁп╬ п╫п╣ п╫п╟п╧п╢п╣п╫п╬\n"
+"-p, --plain-apropos                   п╥п╟п©я┐я│я┌п╦я┌я▄ я┌п╬п╩я▄п╨п╬ apropos\n"
+"-c, --cut-man-headers                 п╡я▀я─п╣п╥п╟я┌я▄ п©п╬п╡я┌п╬я─я▐я▌я┴п╦п╣я│я▐ п╥п╟пЁп╬п╩п╬п╡п╨п╦ "
+"я│я┌я─п╟п╫п╦я├\n"
+"                                      я─я┐п╨п╬п╡п╬п╢я│я┌п╡п╟\n"
+"-l, --long-manual-links               п╦я│п©п╬п╩я▄п╥п╬п╡п╟я┌я▄ п╢п╩п╦п╫п╫я▀п╣ я│я│я▀п╩п╨п╦\n"
+"                                      п╡ я─я┐п╨п╬п╡п╬п╢я│я┌п╡п╟я┘\n"
+"-s, --squeeze-manlines                п╡я▀я─п╣п╥п╟я┌я▄ п©я┐я│я┌я▀п╣ я│я┌я─п╬п╨п╦ п╦п╥ я│я┌я─п╟п╫п╦я├\n"
+"                                      я─я┐п╨п╬п╡п╬п╢я│я┌п╡п╟\n"
+"-d, --dont-handle-without-tag-table   п╫п╣ п©п╬п╨п╟п╥я▀п╡п╟я┌я▄ texinfo я│я┌я─п╟п╫п╦я├я▀ п╠п╣п╥ "
+"я┌п╣пЁп╬п╡\n"
+"                                      я┌п╟п╠п╩п╦я├\n"
+"-t, --force-manual-tag-table          п©я─п╦п╫я┐п╢п╦я┌п╣п╩я▄п╫п╬п╣ я─я┐я┤п╫п╬п╣ п╬п©я─п╣п╢п╣п╩п╣п╫п╦п╣ "
+"я┌п╣пЁп╬п╡\n"
+"                                      я┌п╟п╠п╩п╦я├я▀\n"
+"-x, --clear-at-exit                   п╬я┤п╦я┴п╟я┌я▄ я█п╨я─п╟п╫ п©я─п╦ п╡я▀я┘п╬п╢п╣\n"
+"    --node=я┐п╥п╣п╩, --node я┐п╥п╣п╩          я│я─п╟п╥я┐ п©п╣я─п╣п╧я┌п╦ п╨ я┐п╨п╟п╥п╟п╫п╫п╬п╪я┐ я┐п╥п╩я┐\n"
+"    --rcfile=я└п╟п╧п╩, --rcfile я└п╟п╧п╩      п╦я│п©п╬п╩я▄п╥п╬п╡п╟я┌я▄ п╢я─я┐пЁп╬п╧ rcfile\n"
 
 #: src/pinfo.cxx:138 src/pinfo.cxx:242
 #, c-format
 msgid "Looking for man page...\n"
-msgstr "Ищу man страницу...\n"
+msgstr "п÷п╬п╦я│п╨ я│я┌я─п╟п╫п╦я├я▀ я─я┐п╨п╬п╡п╬п╢я│я┌п╡п╟...\n"
 
 #: src/pinfo.cxx:326
 #, c-format
 msgid "Error: could not open info file, trying manual\n"
-msgstr "Ошибка: не могу открыть info файл, пытаюсь открыть man\n"
+msgstr "п·я┬п╦п╠п╨п╟: п╫п╣ я┐п╢п╟п╩п╬я│я▄ п╬я┌п╨я─я▀я┌я▄ info я└п╟п╧п╩, п©п╬п©я▀я┌п╨п╟ п╬я┌п╨я─я▀я┌я▄ man\n"
 
 #: src/pinfo.cxx:356
 #, c-format
 msgid "Warning: tag table not found...\n"
-msgstr "Предупреждение: табличный тэг не найден...\n"
+msgstr "п÷я─п╣п╢я┐п©я─п╣п╤п╢п╣п╫п╦п╣: я┌п╟п╠п╩п╦я┤п╫я▀п╧ я┌п╣пЁ п╫п╣ п╫п╟п╧п╢п╣п╫...\n"
 
 #: src/pinfo.cxx:360
 #, c-format
 msgid "Trying to create alternate tag table...\n"
-msgstr "Пытаюсь создать другой табличный тэг...\n"
+msgstr "п÷п╬п©я▀я┌п╨п╟ я│п╬п╥п╢п╟я┌я▄ п╢я─я┐пЁп╬п╧ я┌п╟п╠п╩п╦я┤п╫я▀п╧ я┌п╣пЁ...\n"
 
 #: src/pinfo.cxx:365
-#, fuzzy, c-format
+#, c-format
 msgid "This doesn't look like an info file...\n"
-msgstr "Непохож на info файл...\n"
+msgstr "п▓п╣я─п╬я▐я┌п╫п╬ я█я┌п╬ п╫п╣ info я└п╟п╧п╩...\n"
 
 #: src/pinfo.cxx:378
 #, c-format
 msgid "Specified node does not exist...\n"
-msgstr "Указанный узел не существует...\n"
+msgstr "пёп╨п╟п╥п╟п╫п╫я▀п╧ я┐п╥п╣п╩ п╫п╣ я│я┐я┴п╣я│я┌п╡я┐п╣я┌...\n"
 
 #: src/pinfo.cxx:435
 msgid "File not found. Press any key..."
-msgstr "Файл не найден. Нажмите любую клавишу..."
+msgstr "п╓п╟п╧п╩ п╫п╣ п╫п╟п╧п╢п╣п╫. п²п╟п╤п╪п╦я┌п╣ п╩я▌п╠я┐я▌ п╨п╩п╟п╡п╦я┬я┐..."
 
 #: src/pinfo.cxx:453
 #, c-format
 msgid "Unexpected error.\n"
-msgstr "Неожиданная ошибка.\n"
+msgstr "п²п╣п╬п╤п╦п╢п╟п╫п╫п╟я▐ п╬я┬п╦п╠п╨п╟.\n"
 
 #: src/pinfo.cxx:500
 msgid "Tag table not found. Trying to create alternate..."
-msgstr "Табличный тэг не найден. Пытаюсь создать другой..."
+msgstr "п╒п╟п╠п╩п╦я┤п╫я▀п╧ я┌п╣пЁ п╫п╣ п╫п╟п╧п╢п╣п╫. п÷п╬п©я▀я┌п╨п╟ я│п╬п╥п╢п╟я┌я▄ п╢я─я┐пЁп╬п╧..."
 
 #: src/pinfo.cxx:505
 #, c-format
 msgid "This doesn't look like info file...\n"
-msgstr "Непохож на info файл...\n"
+msgstr "п▓п╣я─п╬я▐я┌п╫п╬ я█я┌п╬ п╫п╣ info я└п╟п╧п╩...\n"
 
 #: src/pinfo.cxx:564
 #, c-format
 msgid "Security warning: Unable to get GID of group called: %s\n"
-msgstr ""
+msgstr "п÷я─п╣п╢я┐п©я─п╣п╤п╢п╣п╫п╦п╣ п╠п╣п╥п╬п©п╟я│п╫п╬я│я┌п╦: п²п╣ я┐п╢п╟п╩п╬я│я▄ п©п╬п╩я┐я┤п╦я┌я▄ GID пЁя─я┐п©п©я▀ %s\n"
 
 #: src/pinfo.cxx:584
 #, c-format
 msgid "Security warning: Unable to get UID of user called: %s\n"
-msgstr ""
+msgstr "п÷я─п╣п╢я┐п©я─п╣п╤п╢п╣п╫п╦п╣ п╠п╣п╥п╬п©п╟я│п╫п╬я│я┌п╦: п²п╣ я┐п╢п╟п╩п╬я│я▄ п©п╬п╩я┐я┤п╦я┌я▄ UID п©п╬п╩я▄п╥п╬п╡п╟я┌п╣п╩я▐ %s\n"
 
 #: src/utils.cxx:85
 #, c-format
@@ -217,55 +246,60 @@ msgid ""
 "Illegal characters in filename!\n"
 "*** %s\n"
 msgstr ""
-"неверные символы в имени файла!\n"
+"п²п╣п╢п╬п©я┐я│я┌п╦п╪я▀п╣ я│п╦п╪п╡п╬п╩я▀ п╡ п╦п╪п╣п╫п╦ я└п╟п╧п╩п╟!\n"
 "*** %s\n"
 
 #: src/utils.cxx:256
 msgid "yes"
-msgstr ""
+msgstr "п╢п╟"
 
 #: src/utils.cxx:257
 msgid "no"
-msgstr ""
+msgstr "п╫п╣я┌"
 
 #: src/video.cxx:53
 msgid "File:"
-msgstr "Файл:"
+msgstr "п╓п╟п╧п╩:"
 
 #: src/video.cxx:54
 msgid "Node:"
-msgstr "Узел:"
+msgstr "пёп╥п╣п╩:"
 
 #: src/video.cxx:55
 msgid "Next:"
-msgstr "След.:"
+msgstr "п║п╩п╣п╢.:"
 
 #: src/video.cxx:56
 msgid "Prev:"
-msgstr "Пред.:"
+msgstr "п÷я─п╣п╢.:"
 
 #: src/video.cxx:57
 msgid "Up:"
-msgstr "Вверх:"
-
-#~ msgid "Virtual memory exhausted\n"
-#~ msgstr "Закончилась виртуальная память\n"
+msgstr "п▓п╡п╣я─я┘:"
 
 #~ msgid "Error: Cannot call man command.\n"
-#~ msgstr "Ошибка: Невозможно запустить man\n"
+#~ msgstr "п·я┬п╦п╠п╨п╟: п²п╣п╡п╬п╥п╪п╬п╤п╫п╬ п╥п╟п©я┐я│я┌п╦я┌я▄ п╨п╬п╪п╟п╫п╢я┐ man.\n"
 
 #~ msgid "Error: No manual page found either.\n"
-#~ msgstr "Ошибка: Man страница не найдена также.\n"
+#~ msgstr "п·я┬п╦п╠п╨п╟: п║я┌я─п╟п╫п╦я├п╟ я─я┐п╨п╬п╡п╬п╢я│я┌п╡п╟ я┌п╬п╤п╣ п╫п╣ п╫п╟п╧п╢п╣п╫п╟.\n"
 
-#, fuzzy
 #~ msgid "Apropos pages:\n"
-#~ msgstr "Подходящие страницы:\n"
+#~ msgstr "п÷п╬п╢я┘п╬п╢я▐я┴п╦п╣ я│я┌я─п╟п╫п╦я├я▀:\n"
 
 #~ msgid "Calling gunzip for"
-#~ msgstr "Запуск gunzip для"
+#~ msgstr "п≈п╟п©я┐я│п╨ gunzip п╢п╩я▐"
 
 #~ msgid "Couldn't call gunzip.\n"
-#~ msgstr "Невозможно запустить gunzip \n"
+#~ msgstr "п²п╣ я┐п╢п╟п╩п╬я│я▄ п╥п╟п©я┐я│я┌п╦я┌я▄ gunzip.\n"
 
-#~ msgid "Warning: could not find tag table\n"
-#~ msgstr "Предупреждение: не могу найти табличный тэг\n"
+#~ msgid "IGNORING"
+#~ msgstr "п≤п⌠п²п·п═п≤п═п·п▓п░п²п≤п∙"
+
+#~ msgid "Virtual memory exhausted\n"
+#~ msgstr "п≈п╟п╨п╬п╫я┤п╦п╩п╟я│я▄ п╡п╦я─я┌я┐п╟п╩я▄п╫п╟я▐ п©п╟п╪я▐я┌я▄\n"
+
+#~ msgid "Tag table is corrupt, trying to fix..."
+#~ msgstr "п╒п╟п╠п╩п╦я┤п╫я▀п╧ я┌п╣пЁ п©п╬п╡я─п╣п╤п╢я▒п╫, п©п╬п©я▀я┌п╨п╟ п╡п╬я│я│я┌п╟п╫п╬п╡п╩п╣п╫п╦я▐..."
+
+#~ msgid "press a key to continue"
+#~ msgstr "п╫п╟п╤п╪п╦я┌п╣ п╩я▌п╠я┐я▌ п╨п╩п╟п╡п╦я┬я┐"

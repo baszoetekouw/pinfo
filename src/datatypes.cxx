@@ -16,7 +16,7 @@
  *
  *  You should have received a copy of the GNU General Public License
  *  along with this program; if not, write to the Free Software
- *  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307
+ *  Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
  *  USA
  ***************************************************************************/
 #include "common_includes.h"
@@ -42,7 +42,7 @@ string printutility = "lpr";
 vector<string> manlinks = string_explode(
 		string_toupper(string("1:8:2:3:4:5:6:7:9:n:l:p:o:3X11:3Xt:3X:3x")),
 	':');
-string configuredinfopath = "/usr/share/info:/usr/local/share/info:/opt/info";
+string configuredinfopath = ".:/usr/share/info:/usr/info:/usr/local/share/info:/usr/local/info:/opt/info";
 string ignoredmacros = "";
 string rcfile = "";
 

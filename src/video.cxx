@@ -16,7 +16,7 @@
  *
  *  You should have received a copy of the GNU General Public License
  *  along with this program; if not, write to the Free Software
- *  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307
+ *  Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
  *  USA
  ***************************************************************************/
 
@@ -30,7 +30,7 @@ using std::vector;
 #include "colors.h"
 #include "curse_utils.h"
 #include "datatypes.h"
-#include "initializelinks.h" // for bletchulous calculate_len
+#include "utils.h" // for bletchulous calculate_len
 #include "regexp_search.h"
 
 /*
@@ -177,13 +177,17 @@ info_add_highlights(int pos, int cursor, int column,
 	}
 
 #ifndef ___DONT_USE_REGEXP_SEARCH___
+  /* loop over all the lines currently in the window */
 	for (int i = pos; 
 				(i < message.size()) && (i < pos + lines_visible); i++) {
+    /* loop over all regexps we might want to show */
 		for (int j = 0; j < h_regexp.size(); j++) {
 			regmatch_t pmatch[1];
 			const char * message_i = message[i].c_str();
 			const char * rest_of_str = message_i;
+      /* check if this regexp is present on this line */
 			while (!regexec(&h_regexp[j], rest_of_str, 1, pmatch, 0)) {
+        /* yes, found something, so highlight it */
 				int num_chars = pmatch[0].rm_eo - pmatch[0].rm_so;
 				int x = calculate_len(message_i, rest_of_str + pmatch[0].rm_so);
 				int txtoffset = (rest_of_str - message_i) + pmatch[0].rm_so;

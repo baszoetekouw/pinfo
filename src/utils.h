@@ -16,7 +16,7 @@
  *
  *  You should have received a copy of the GNU General Public License
  *  along with this program; if not, write to the Free Software
- *  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307
+ *  Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
  *  USA
  ***************************************************************************/
 
@@ -45,5 +45,21 @@ string_explode(const std::string & to_explode,
 
 /* Return a string converted to uppercase */
 std::string string_toupper (std::string s);
+
+/*
+ * calculates the length of string between start and end, counting `\t' as
+ * filling up to 8 chars. (i.e. at line 22 tab will increment the counter by 2
+ * [8-(22-int(22/8)*8)] spaces)
+ */
+int
+calculate_len(const char *start, const char *end);
+
+/*
+ *  * create a temporary file in a safe way, and return its name in a newly
+ *   * allocated string
+ *    */
+char *
+make_tempfile();
+
 
 #endif
