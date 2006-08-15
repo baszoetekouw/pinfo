@@ -1,0 +1,42 @@
+\input texinfo
+
+Copyright 2006 Nathanael Nerode.
+This testcase is free software; Nathanael Nerode
+gives unlimited permission to copy, distribute and modify it.
+
+@setfilename long-node.info
+@documentencoding us-ascii
+@direntry
+* long-node: (long-node).   long-node
+@end direntry
+
+@node Top, Optimization [C++] - Overview, , (dir)
+@top long-node top
+
+@menu
+Testcase with long node names triggers pinfo bug.
+
+* Overview: Optimization [C++] - Overview.
+* How to write optimizable code: Optimization [C++] - How to write optimizable code.
+* Options Controlling Optimization: Optimization [C++] - Options Controlling Optimization.
+
+Another Section
+
+@end menu
+
+@node Optimization [C++] - Overview, Optimization [C++] - How to write optimizable code, Top, Top
+@section Overview
+
+Nothing here.
+
+@node Optimization [C++] - How to write optimizable code, Optimization [C++] - Options Controlling Optimization, Optimization [C++] - Overview, Top
+@section How to write optimizable code
+
+Nothing here either.
+
+@node Optimization [C++] - Options Controlling Optimization, , Optimization [C++] - How to write optimizable code, Top
+@section Options Controlling Optimization
+
+Nothing here, either.  Really!
+@bye
+

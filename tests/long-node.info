@@ -1,0 +1,56 @@
+This is long-node.info, produced by makeinfo version 4.8 from
+long-node.texi.
+
+START-INFO-DIR-ENTRY
+* long-node: (long-node).   long-node
+END-INFO-DIR-ENTRY
+
+
+File: long-node.info,  Node: Top,  Next: Optimization [C++] - Overview,  Up: (dir)
+
+long-node top
+*************
+
+* Menu:
+
+Testcase with long node names triggers pinfo bug.
+
+* Overview: Optimization [C++] - Overview.
+* How to write optimizable code: Optimization [C++] - How to write optimizable code.
+* Options Controlling Optimization: Optimization [C++] - Options Controlling Optimization.
+
+Another Section
+
+
+File: long-node.info,  Node: Optimization [C++] - Overview,  Next: Optimization [C++] - How to write optimizable code,  Prev: Top,  Up: Top
+
+Overview
+========
+
+Nothing here.
+
+
+File: long-node.info,  Node: Optimization [C++] - How to write optimizable code,  Next: Optimization [C++] - Options Controlling Optimization,  Prev: Optimization [C++] - Overview,  Up: Top
+
+How to write optimizable code
+=============================
+
+Nothing here either.
+
+
+File: long-node.info,  Node: Optimization [C++] - Options Controlling Optimization,  Prev: Optimization [C++] - How to write optimizable code,  Up: Top
+
+Options Controlling Optimization
+================================
+
+Nothing here, either.  Really!
+
+
+
+Tag Table:
+Node: Top158
+Node: Optimization [C++] - Overview570
+Node: Optimization [C++] - How to write optimizable code747
+Node: Optimization [C++] - Options Controlling Optimization1023
+
+End Tag Table
