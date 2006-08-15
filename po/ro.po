@@ -1,0 +1,308 @@
+# translation of ro.po to Romanian
+# This file is distributed under the same license as the pinfo package.
+# Copyright (C) YEAR Przemek Borys <pborys@dione.ids.pl>, Bas Zoetekouw <bas@debian.org>, Nathanael Nerode <neroden@gcc.gnu.org>.
+# Eddy Petrisor <eddy.petrisor@gmail.com>, 2005.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: ro\n"
+"Report-Msgid-Bugs-To: pinfo-devel@lists.alioth.debian.org\n"
+"POT-Creation-Date: 2005-09-08 08:22-0400\n"
+"PO-Revision-Date: 2005-09-30 03:42+0300\n"
+"Last-Translator: Eddy Petrisor <eddy.petrisor@gmail.com>\n"
+"Language-Team: Romanian <debian-l10n-romanian@lists.debian.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: KBabel 1.10.2\n"
+"Plural-Forms: nplurals=3;plural=(n==1?0:(((n%100>19)||((n%100==0)&&(n!=0)))?"
+"2:1))\n"
+
+#: src/filehandling_functions.cxx:466 src/filehandling_functions.cxx:471
+#, c-format
+msgid "Searching for indirect done"
+msgstr "S-a terminat căutarea pentru indirectare"
+
+#: src/filehandling_functions.cxx:502 src/filehandling_functions.cxx:507
+#, c-format
+msgid "Warning: could not find tag table"
+msgstr "Avertisment: tabela de etichete nu a putut fi găsită"
+
+#: src/filehandling_functions.cxx:528
+#, c-format
+msgid "Searching for tag table done\n"
+msgstr "S-a finalizat căutarea tabelei de etichete\n"
+
+#: src/filehandling_functions.cxx:1051
+#, c-format
+msgid "Error: could not open info file"
+msgstr "Eroare: fişierul info nu a putut fi deschis"
+
+#: src/mainfunction.cxx:205 src/manual.cxx:744
+msgid "Are you sure you want to print?"
+msgstr "Sigur doriţi să tipăriţi?"
+
+#: src/mainfunction.cxx:254 src/manual.cxx:789
+msgid "Enter line: "
+msgstr "Introduceţi linia: "
+
+#: src/mainfunction.cxx:292 src/manual.cxx:836
+msgid "Enter command: "
+msgstr "Introduceţi comanda: "
+
+#: src/mainfunction.cxx:311
+msgid "Operation failed..."
+msgstr "Operaţia a eşuat..."
+
+#: src/mainfunction.cxx:348 src/mainfunction.cxx:607 src/manual.cxx:890
+msgid "Enter regular expression: "
+msgstr "Introduceţi expresia regulată: "
+
+#: src/mainfunction.cxx:576 src/mainfunction.cxx:664 src/manual.cxx:959
+msgid "Search string not found..."
+msgstr "Şirul căutat nu a fost găsit..."
+
+#: src/mainfunction.cxx:630 src/manual.cxx:920
+msgid "Invalid regular expression;"
+msgstr "Expresie regulată nevalidă;"
+
+#: src/mainfunction.cxx:632 src/manual.cxx:922
+msgid "Press any key to continue..."
+msgstr "Apăsaţi o tastă pentru a continua..."
+
+#: src/mainfunction.cxx:691
+msgid "Enter node name: "
+msgstr "Introduceţi numele nodului: "
+
+#: src/mainfunction.cxx:759
+#, c-format
+msgid "Node %s not found"
+msgstr "Nodul %s nu a fost găsit"
+
+#: src/mainfunction.cxx:1221 src/manual.cxx:1311
+msgid "Are you sure you want to quit?"
+msgstr "Sigur doriţi să ieşiţi?"
+
+#: src/manual.cxx:289
+#, c-format
+msgid "Error: No manual page found\n"
+msgstr "Eroare: Nu a fost găsită nici o pagină de manual\n"
+
+#: src/manual.cxx:300
+#, c-format
+msgid "Calling apropos \n"
+msgstr "Se apelează apropos \n"
+
+#: src/manual.cxx:308
+#, c-format
+msgid "Nothing appropriate\n"
+msgstr "Nu se potriveşte nimic\n"
+
+#: src/manual.cxx:758
+msgid "Enter manual name: "
+msgstr "Introduceţi numele manualului: "
+
+#: src/manual.cxx:1395 src/video.cxx:105
+#, c-format
+msgid "Viewing line %d/%d, %d%%"
+msgstr "Se vizualizează linia %d/%d, %d%%"
+
+#: src/manual.cxx:1397 src/video.cxx:108
+#, c-format
+msgid "Viewing line %d/%d, 100%%"
+msgstr "Se vizualizează linia %d/%d, 100%%"
+
+#: src/parse_config.cxx:86
+#, c-format
+msgid "Can't open config file!\n"
+msgstr "Nu se poate deschide fişierul de configurare!\n"
+
+# nu sunt sigur că parse se traduce cu „parcurgere”
+#: src/parse_config.cxx:124
+#, c-format
+msgid "Parse error in config file on line %d\n"
+msgstr "Eroare la parcurgerea fişierului de configurare la linia %d\n"
+
+#: src/pinfo.cxx:93
+#, c-format
+msgid "--node option used without argument\n"
+msgstr "opţiunea --node folosită fără argument\n"
+
+#: src/pinfo.cxx:101
+#, c-format
+msgid "--rcfile option used without argument\n"
+msgstr "opţiunea --rcfile folosită fără argument\n"
+
+#: src/pinfo.cxx:112
+#, c-format
+msgid ""
+"Usage:\n"
+"%s [options] [info|manual]\n"
+"Options:\n"
+"-h, --help                            help\n"
+"-v, --version                         version\n"
+"-m, --manual                          use man page\n"
+"-r, --raw-filename                    use raw filename\n"
+"-f, --file                            synonym for -r\n"
+"-a, --apropos                         call apropos if nothing found\n"
+"-p, --plain-apropos                   call only apropos\n"
+"-c, --cut-man-headers                 cut out repeated man headers\n"
+"-l, --long-manual-links               use long link names in manuals\n"
+"-s, --squeeze-manlines                cut empty lines from manual pages\n"
+"-d, --dont-handle-without-tag-table   don't display texinfo pages without "
+"tag\n"
+"                                      tables\n"
+"-t, --force-manual-tag-table          force manual detection of tag table\n"
+"-x, --clear-at-exit                   clear screen at exit\n"
+"    --node=nodename, --node nodename  jump directly to the node nodename\n"
+"    --rcfile=file, --rcfile file      use alternate rcfile\n"
+msgstr ""
+"Utilizare:\n"
+"%s [opţiuni] [info|manual]\n"
+"Opţiuni:\n"
+"-h, --help                            ajutor\n"
+"-v, --version                         versiune\n"
+"-m, --manual                          foloseşte pagina man-r, --raw-"
+"filename                    foloseşte nume brut\n"
+"-f, --file                            sinonim cu -r\n"
+"-a, --apropos                         apelează apropos dacă\n"
+"                                      nu se găseşte nimic\n"
+"-p, --plain-apropos                   apelează doar apropos\n"
+"-c, --cut-man-headers                 taie antetele man repetate\n"
+"-l, --long-manual-links               foloseşte nume lungi de legături\n"
+"                                      în manuale\n"
+"-s, --squeeze-manlines                taie liniile goale din paginile\n"
+"                                      de manual\n"
+"-d, --dont-handle-without-tag-table   nu afişa paginile texinfo fără \n"
+"                                      tabele de etichete\n"
+"-t, --force-manual-tag-table          forţează detecţia manuală a tabelei\n"
+"                                      de etichete\n"
+"-x, --clear-at-exit                   şterge ecranul la ieşire\n"
+"    --node=nodnume, --node nodnume    salt direct la nodul numenod\n"
+"    --rcfile=fişier, --rcfile fişier  foloseşte un fişier rcfile alternativ\n"
+
+#: src/pinfo.cxx:138 src/pinfo.cxx:242
+#, c-format
+msgid "Looking for man page...\n"
+msgstr "Se caută pagina de manual...\n"
+
+#: src/pinfo.cxx:326
+#, c-format
+msgid "Error: could not open info file, trying manual\n"
+msgstr "Eroare: fişierul info nu a putut fi deschis, încercaţi manualul\n"
+
+#: src/pinfo.cxx:356
+#, c-format
+msgid "Warning: tag table not found...\n"
+msgstr "Avertisment: tabela de etichete nu a fost găsită...\n"
+
+#: src/pinfo.cxx:360
+#, c-format
+msgid "Trying to create alternate tag table...\n"
+msgstr "Se încearcă crearea tabelei de etichete alternative...\n"
+
+#: src/pinfo.cxx:365
+#, c-format
+msgid "This doesn't look like an info file...\n"
+msgstr "Acesta nu pare a fi fişier info...\n"
+
+#: src/pinfo.cxx:378
+#, c-format
+msgid "Specified node does not exist...\n"
+msgstr "Nodul specificat nu există...\n"
+
+#: src/pinfo.cxx:435
+msgid "File not found. Press any key..."
+msgstr "Fişier negăsit. Apăsaţi o tastă..."
+
+#: src/pinfo.cxx:453
+#, c-format
+msgid "Unexpected error.\n"
+msgstr "Eroare neaşteptată.\n"
+
+#: src/pinfo.cxx:500
+msgid "Tag table not found. Trying to create alternate..."
+msgstr "Tabelă de etichete negăsită. Se încercă crearea uneia alternative..."
+
+#: src/pinfo.cxx:505
+#, c-format
+msgid "This doesn't look like info file...\n"
+msgstr "Acesta nu pare a fi fişier info...\n"
+
+#: src/pinfo.cxx:564
+#, c-format
+msgid "Security warning: Unable to get GID of group called: %s\n"
+msgstr ""
+"Avertisment de securitate: Nu s-a putut prelua identificatorul grupului "
+"numit: %s\n"
+
+#: src/pinfo.cxx:584
+#, c-format
+msgid "Security warning: Unable to get UID of user called: %s\n"
+msgstr ""
+"Avertisment de securitate: Nu s-a putut prelua identificatorul "
+"utilizatorului numit: %s\n"
+
+#: src/utils.cxx:85
+#, c-format
+msgid ""
+"Illegal characters in filename!\n"
+"*** %s\n"
+msgstr ""
+"Caractere ilegale în numele de fişier!\n"
+"*** %s\n"
+
+#: src/utils.cxx:256
+msgid "yes"
+msgstr "da"
+
+#: src/utils.cxx:257
+msgid "no"
+msgstr "nu"
+
+#: src/video.cxx:53
+msgid "File:"
+msgstr "Fişier:"
+
+#: src/video.cxx:54
+msgid "Node:"
+msgstr "Nod:"
+
+#: src/video.cxx:55
+msgid "Next:"
+msgstr "Următorul:"
+
+#: src/video.cxx:56
+msgid "Prev:"
+msgstr "Precedentul:"
+
+#: src/video.cxx:57
+msgid "Up:"
+msgstr "Sus:"
+
+#~ msgid "Error: Cannot call man command.\n"
+#~ msgstr "Eroare: Nu se poate apela comanda man.\n"
+
+#~ msgid "Error: No manual page found either.\n"
+#~ msgstr "Eroare: Nu a fost găsită nici pagina de manual.\n"
+
+#~ msgid "Apropos pages:\n"
+#~ msgstr "Pagini apropos:\n"
+
+#~ msgid "Calling gunzip for"
+#~ msgstr "Se apelează gunzip pentru"
+
+#~ msgid "Couldn't call gunzip.\n"
+#~ msgstr "gunzip nu a putut fi apelat.\n"
+
+#~ msgid "IGNORING"
+#~ msgstr "SE IGNORĂ"
+
+#~ msgid "Virtual memory exhausted\n"
+#~ msgstr "S-a consumat memoria virtuală\n"
+
+#~ msgid "Tag table is corrupt, trying to fix..."
+#~ msgstr "Tabela de etichete este coruptă, se încearcă repararea..."
+
+#~ msgid "press a key to continue"
+#~ msgstr "apăsaţi o tastă pentru a continua"
