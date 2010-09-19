@@ -44,6 +44,29 @@ handle_window_resize(int signum)
 }
 
 void
+handle_suspend(int signum)
+{
+	if (!isendwin()) {
+		curs_set(1);
+		endwin();
+	}
+	fprintf(stderr, "\n");
+	signal(SIGTSTP, handle_suspend);
+	kill(0, SIGSTOP);
+}
+
+void
+handle_resume(int signum)
+{
+	if (isendwin()) {
+		refresh();
+		curs_set(0);
+	}
+	ungetch(keys.refresh_1);
+	signal(SIGCONT, handle_resume);
+}
+
+void
 signal_handler()
 {
 	sigset_t sigs;
@@ -52,6 +75,8 @@ signal_handler()
 	signal(SIGTERM, handle_crash);	/* handle soft kill */
 	signal(SIGSEGV, handle_crash);	/* handle seg. fault */
 	signal(SIGHUP, handle_crash);	/* handle hup signal */
+	signal(SIGTSTP, handle_suspend);/* handle terminal suspend */
+	signal(SIGCONT, handle_resume);	/* handle back from suspend */
 #ifdef SIGWINCH
 	signal(SIGWINCH, handle_window_resize);
 #endif

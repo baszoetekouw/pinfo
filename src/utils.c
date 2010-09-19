@@ -376,10 +376,15 @@ pinfo_getch()
 void
 waitforgetch()
 {
+	int ret;
+
 	fd_set rdfs;
 	FD_ZERO(&rdfs);
 	FD_SET(0, &rdfs);
-	select(1, &rdfs, NULL, NULL, NULL);
+
+	/* we might get interrupted by e.g. SIGTSTP/SIGCONT */
+	do ret = select(1, &rdfs, NULL, NULL, NULL);
+	while (ret == -1 && errno == EINTR);
 }
 
 /* returns 0 on success, 1 on error */

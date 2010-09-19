@@ -967,7 +967,7 @@ manualwork()
 			key = pinfo_getch();
 		}
 		/************************ keyboard handling **********************************/
-		if (key != 0)
+		if (key > 0)
 		{
 			if ((key == keys.print_1) ||
 					(key == keys.print_2))
