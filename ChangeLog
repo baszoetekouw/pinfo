@@ -1,12 +1,46 @@
 ------------------------------------------------------------------------
-r299 | bas | 2006-03-16 16:40:38 +0100 (Thu, 16 Mar 2006) | 2 lines
+r302 | bas | 2006-06-24 17:16:14 +0200 (za, 24 jun 2006) | 1 line
+Changed paths:
+   M /pinfo/trunk/src/parse_config.c
+
+Fixed parsing of the FTPVIEWER option.  Thansk to jieryn@gmail.com for a patch.
+------------------------------------------------------------------------
+r301 | bas | 2006-03-16 17:19:22 +0100 (do, 16 mrt 2006) | 2 lines
+Changed paths:
+   M /pinfo/trunk/ChangeLog
+   M /pinfo/trunk/Makefile.am
+   M /pinfo/trunk/NEWS
+   M /pinfo/trunk/configure.ac
+
+Release 0.6.9
+
+------------------------------------------------------------------------
+r300 | bas | 2006-03-16 17:17:53 +0100 (do, 16 mrt 2006) | 2 lines
+Changed paths:
+   M /pinfo/trunk/po/cs.po
+   M /pinfo/trunk/po/de.po
+   M /pinfo/trunk/po/eu.po
+   M /pinfo/trunk/po/ja.po
+   M /pinfo/trunk/po/nl.po
+   M /pinfo/trunk/po/pinfo.pot
+   M /pinfo/trunk/po/pl.po
+   M /pinfo/trunk/po/pt_BR.po
+   M /pinfo/trunk/po/ro.po
+   M /pinfo/trunk/po/ru.po
+   M /pinfo/trunk/po/sv.po
+   M /pinfo/trunk/po/vi.po
+
+Updated po files
+
+------------------------------------------------------------------------
+r299 | bas | 2006-03-16 16:40:38 +0100 (do, 16 mrt 2006) | 2 lines
 Changed paths:
    M /pinfo/trunk/doc/pinfo.texi
 
 Fixed section of info file
 
 ------------------------------------------------------------------------
-r298 | bas | 2006-03-16 16:07:38 +0100 (Thu, 16 Mar 2006) | 2 lines
+r298 | bas | 2006-03-16 16:07:38 +0100 (do, 16 mrt 2006) | 2 lines
 Changed paths:
    M /pinfo/trunk/src/filehandling_functions.c
    M /pinfo/trunk/src/mainfunction.c
@@ -14,14 +48,14 @@ Changed paths:
 Fixed compiler warnings
 
 ------------------------------------------------------------------------
-r297 | bas | 2006-03-16 16:00:53 +0100 (Thu, 16 Mar 2006) | 2 lines
+r297 | bas | 2006-03-16 16:00:53 +0100 (do, 16 mrt 2006) | 2 lines
 Changed paths:
    M /pinfo/trunk/doc/Makefile.am
 
 Make sure generated doc files are removed on make clean
 
 ------------------------------------------------------------------------
-r296 | bas | 2006-03-16 15:07:22 +0100 (Thu, 16 Mar 2006) | 2 lines
+r296 | bas | 2006-03-16 15:07:22 +0100 (do, 16 mrt 2006) | 2 lines
 Changed paths:
    M /pinfo/trunk/src/filehandling_functions.c
    M /pinfo/trunk/src/manual.c
@@ -31,7 +65,7 @@ Changed paths:
 Replace calls to tempnam() by a custom function based on tmpfile().
 
 ------------------------------------------------------------------------
-r295 | bas | 2006-03-15 22:52:38 +0100 (Wed, 15 Mar 2006) | 2 lines
+r295 | bas | 2006-03-15 22:52:38 +0100 (wo, 15 mrt 2006) | 2 lines
 Changed paths:
    M /pinfo/trunk/src/initializelinks.c
    M /pinfo/trunk/src/utils.c
@@ -41,14 +75,14 @@ Changed paths:
 Fix highlighting of search terms, and moved calculate_len() to utils.c
 
 ------------------------------------------------------------------------
-r294 | bas | 2006-03-15 13:49:21 +0100 (Wed, 15 Mar 2006) | 2 lines
+r294 | bas | 2006-03-15 13:49:21 +0100 (wo, 15 mrt 2006) | 2 lines
 Changed paths:
    D /pinfo/trunk/Changelog
 
 Removed dpublicated changelog
 
 ------------------------------------------------------------------------
-r293 | bas | 2006-03-15 13:32:09 +0100 (Wed, 15 Mar 2006) | 4 lines
+r293 | bas | 2006-03-15 13:32:09 +0100 (wo, 15 mrt 2006) | 4 lines
 Changed paths:
    M /pinfo/trunk/src/mainfunction.c
    M /pinfo/trunk/src/manual.c
@@ -59,7 +93,7 @@ compile.  Regexps that turn out to be faulty are now no longer stored in the
 history.  Thanks to Jelmer Vernooij for noticing this.
 
 ------------------------------------------------------------------------
-r292 | bas | 2006-03-15 13:10:52 +0100 (Wed, 15 Mar 2006) | 3 lines
+r292 | bas | 2006-03-15 13:10:52 +0100 (wo, 15 mrt 2006) | 3 lines
 Changed paths:
    M /pinfo/trunk/src/mainfunction.c
 
@@ -67,21 +101,21 @@ Clear the status line before displaying an error message when a search fails
 (thanks Jelmer, for noticing this)
 
 ------------------------------------------------------------------------
-r291 | bas | 2006-03-10 14:25:23 +0100 (Fri, 10 Mar 2006) | 2 lines
+r291 | bas | 2006-03-10 14:25:23 +0100 (vr, 10 mrt 2006) | 2 lines
 Changed paths:
    M /pinfo/trunk/pinfo.spec.in
 
 Fixed upstream addresses in spec file
 
 ------------------------------------------------------------------------
-r290 | bas | 2006-03-09 22:01:57 +0100 (Thu, 09 Mar 2006) | 2 lines
+r290 | bas | 2006-03-09 22:01:57 +0100 (do, 09 mrt 2006) | 2 lines
 Changed paths:
    M /pinfo/trunk/configure.ac
 
 Readline 4 is sufficient, no need to demand version 5
 
 ------------------------------------------------------------------------
-r289 | bas | 2006-03-09 21:54:43 +0100 (Thu, 09 Mar 2006) | 2 lines
+r289 | bas | 2006-03-09 21:54:43 +0100 (do, 09 mrt 2006) | 2 lines
 Changed paths:
    M /pinfo/trunk/doc/pinfo.1.in
    M /pinfo/trunk/doc/pinfo.texi
@@ -90,7 +124,7 @@ Changed paths:
 Also search the current directory
 
 ------------------------------------------------------------------------
-r288 | bas | 2006-03-09 21:52:08 +0100 (Thu, 09 Mar 2006) | 2 lines
+r288 | bas | 2006-03-09 21:52:08 +0100 (do, 09 mrt 2006) | 2 lines
 Changed paths:
    M /pinfo/trunk/NEWS
    M /pinfo/trunk/po/vi.po
@@ -98,7 +132,7 @@ Changed paths:
 Spacing/comments
 
 ------------------------------------------------------------------------
-r287 | bas | 2006-03-09 21:50:09 +0100 (Thu, 09 Mar 2006) | 2 lines
+r287 | bas | 2006-03-09 21:50:09 +0100 (do, 09 mrt 2006) | 2 lines
 Changed paths:
    M /pinfo/trunk/doc/pinfo.1.in
    M /pinfo/trunk/doc/pinfo.texi
@@ -107,7 +141,7 @@ Changed paths:
 Also search in /usr/info and /usr/local/info
 
 ------------------------------------------------------------------------
-r286 | bas | 2006-03-09 21:26:53 +0100 (Thu, 09 Mar 2006) | 2 lines
+r286 | bas | 2006-03-09 21:26:53 +0100 (do, 09 mrt 2006) | 2 lines
 Changed paths:
    M /pinfo/trunk/AUTHORS
    M /pinfo/trunk/NEWS
@@ -117,14 +151,14 @@ Changed paths:
 Added Vietnamese translation by Clytie Siddall
 
 ------------------------------------------------------------------------
-r285 | bas | 2006-03-09 21:11:14 +0100 (Thu, 09 Mar 2006) | 2 lines
+r285 | bas | 2006-03-09 21:11:14 +0100 (do, 09 mrt 2006) | 2 lines
 Changed paths:
    M /pinfo/trunk/configure.ac
 
 Changed version to 0.6.9-rc1
 
 ------------------------------------------------------------------------
-r284 | bas | 2006-03-09 21:10:23 +0100 (Thu, 09 Mar 2006) | 2 lines
+r284 | bas | 2006-03-09 21:10:23 +0100 (do, 09 mrt 2006) | 2 lines
 Changed paths:
    M /pinfo/trunk/po/cs.po
    M /pinfo/trunk/po/de.po
@@ -142,7 +176,7 @@ Changed paths:
 Updated po files
 
 ------------------------------------------------------------------------
-r283 | bas | 2006-03-09 21:09:59 +0100 (Thu, 09 Mar 2006) | 2 lines
+r283 | bas | 2006-03-09 21:09:59 +0100 (do, 09 mrt 2006) | 2 lines
 Changed paths:
    A /pinfo/trunk/Changelog (from /pinfo/trunk/ChangeLog:281)
    M /pinfo/trunk/Makefile.am
@@ -151,14 +185,14 @@ Changed paths:
 Fixed "make dist" errors
 
 ------------------------------------------------------------------------
-r282 | bas | 2006-03-09 21:09:20 +0100 (Thu, 09 Mar 2006) | 2 lines
+r282 | bas | 2006-03-09 21:09:20 +0100 (do, 09 mrt 2006) | 2 lines
 Changed paths:
    D /pinfo/trunk/macros/Makefile.in
 
 Removed generated file
 
 ------------------------------------------------------------------------
-r281 | bas | 2006-03-09 20:49:12 +0100 (Thu, 09 Mar 2006) | 3 lines
+r281 | bas | 2006-03-09 20:49:12 +0100 (do, 09 mrt 2006) | 3 lines
 Changed paths:
    A /pinfo/trunk/ChangeLog (from /pinfo/trunk/Changelog:279)
    D /pinfo/trunk/Changelog
@@ -167,7 +201,7 @@ Stupid fscking GNU utilities are forcing me to write ChangeLog instead of
 Changelog
 
 ------------------------------------------------------------------------
-r280 | bas | 2006-03-09 20:44:48 +0100 (Thu, 09 Mar 2006) | 2 lines
+r280 | bas | 2006-03-09 20:44:48 +0100 (do, 09 mrt 2006) | 2 lines
 Changed paths:
    M /pinfo/trunk/COPYING
    M /pinfo/trunk/README
@@ -212,21 +246,21 @@ Changed paths:
 Fixed FSF address
 
 ------------------------------------------------------------------------
-r279 | bas | 2006-03-09 20:30:44 +0100 (Thu, 09 Mar 2006) | 2 lines
+r279 | bas | 2006-03-09 20:30:44 +0100 (do, 09 mrt 2006) | 2 lines
 Changed paths:
    M /pinfo/trunk/README
 
 Fixed spacing
 
 ------------------------------------------------------------------------
-r278 | bas | 2006-03-09 20:30:34 +0100 (Thu, 09 Mar 2006) | 2 lines
+r278 | bas | 2006-03-09 20:30:34 +0100 (do, 09 mrt 2006) | 2 lines
 Changed paths:
    M /pinfo/trunk/AUTHORS
 
 Added Nathanael to the Authors file
 
 ------------------------------------------------------------------------
-r277 | bas | 2006-03-09 20:27:22 +0100 (Thu, 09 Mar 2006) | 2 lines
+r277 | bas | 2006-03-09 20:27:22 +0100 (do, 09 mrt 2006) | 2 lines
 Changed paths:
    D /pinfo/trunk/ChangeLog
    A /pinfo/trunk/ChangeLog.old (from /pinfo/trunk/ChangeLog:276)
@@ -238,7 +272,7 @@ Changed paths:
 Prepare for release: fix Changelog, README, etc
 
 ------------------------------------------------------------------------
-r276 | bas | 2006-03-09 19:41:33 +0100 (Thu, 09 Mar 2006) | 4 lines
+r276 | bas | 2006-03-09 19:41:33 +0100 (do, 09 mrt 2006) | 4 lines
 Changed paths:
    M /pinfo/trunk/src/pinforc.in
 
@@ -247,7 +281,7 @@ background colors.  Thansk to Rob Funk for bringing this issue to my attention
 and sending a patch.
 
 ------------------------------------------------------------------------
-r275 | bas | 2006-03-09 19:33:36 +0100 (Thu, 09 Mar 2006) | 2 lines
+r275 | bas | 2006-03-09 19:33:36 +0100 (do, 09 mrt 2006) | 2 lines
 Changed paths:
    M /pinfo/trunk/AUTHORS
    M /pinfo/trunk/configure.ac
@@ -256,7 +290,7 @@ Changed paths:
 Added Brazilian translation by Felipe Augusto van de Wiel
 
 ------------------------------------------------------------------------
-r274 | bas | 2006-03-09 19:28:45 +0100 (Thu, 09 Mar 2006) | 3 lines
+r274 | bas | 2006-03-09 19:28:45 +0100 (do, 09 mrt 2006) | 3 lines
 Changed paths:
    M /pinfo/trunk/configure.ac
 
@@ -264,7 +298,7 @@ Fixed the readline check in autoconf.ac, which caused ./configure to fail if
 readline was not found.
 
 ------------------------------------------------------------------------
-r273 | bas | 2006-03-09 19:27:59 +0100 (Thu, 09 Mar 2006) | 2 lines
+r273 | bas | 2006-03-09 19:27:59 +0100 (do, 09 mrt 2006) | 2 lines
 Changed paths:
    A /pinfo/trunk/autogen.sh (from /pinfo/trunk/tools/autogen.sh:272)
    D /pinfo/trunk/tools
@@ -272,7 +306,7 @@ Changed paths:
 Moved autogen.sh to the main dir
 
 ------------------------------------------------------------------------
-r272 | bas | 2006-03-09 19:10:31 +0100 (Thu, 09 Mar 2006) | 2 lines
+r272 | bas | 2006-03-09 19:10:31 +0100 (do, 09 mrt 2006) | 2 lines
 Changed paths:
    M /pinfo/trunk/po/cs.po
    M /pinfo/trunk/po/de.po
@@ -288,21 +322,21 @@ Changed paths:
 Updated po files
 
 ------------------------------------------------------------------------
-r270 | bas | 2005-11-14 15:47:38 +0100 (Mon, 14 Nov 2005) | 2 lines
+r270 | bas | 2005-11-14 15:47:38 +0100 (ma, 14 nov 2005) | 2 lines
 Changed paths:
    M /pinfo/trunk/doc/pinfo.1.in
 
 Spelling fixes to man page
 
 ------------------------------------------------------------------------
-r269 | bas | 2005-11-05 13:51:49 +0100 (Sat, 05 Nov 2005) | 2 lines
+r269 | bas | 2005-11-05 13:51:49 +0100 (za, 05 nov 2005) | 2 lines
 Changed paths:
    M /pinfo/trunk/po/ro.po
 
 Unfuzzied Romanian translation, thanks to Eddy Petrişor
 
 ------------------------------------------------------------------------
-r268 | bas | 2005-10-12 19:33:26 +0200 (Wed, 12 Oct 2005) | 2 lines
+r268 | bas | 2005-10-12 19:33:26 +0200 (wo, 12 okt 2005) | 2 lines
 Changed paths:
    M /pinfo/trunk/AUTHORS
    M /pinfo/trunk/po/cs.po
@@ -310,7 +344,7 @@ Changed paths:
 Updated Czech translation by Katarína Machálková
 
 ------------------------------------------------------------------------
-r267 | bas | 2005-10-12 19:18:00 +0200 (Wed, 12 Oct 2005) | 2 lines
+r267 | bas | 2005-10-12 19:18:00 +0200 (wo, 12 okt 2005) | 2 lines
 Changed paths:
    M /pinfo/trunk/AUTHORS
    M /pinfo/trunk/po/ru.po
@@ -318,7 +352,7 @@ Changed paths:
 Updated Russian translation by Yuri Kozlov 
 
 ------------------------------------------------------------------------
-r266 | bas | 2005-10-12 19:14:11 +0200 (Wed, 12 Oct 2005) | 2 lines
+r266 | bas | 2005-10-12 19:14:11 +0200 (wo, 12 okt 2005) | 2 lines
 Changed paths:
    M /pinfo/trunk/AUTHORS
    M /pinfo/trunk/configure.ac
@@ -327,7 +361,7 @@ Changed paths:
 Added Romanian translation by Eddy Petrişor
 
 ------------------------------------------------------------------------
-r265 | bas | 2005-10-12 19:08:50 +0200 (Wed, 12 Oct 2005) | 2 lines
+r265 | bas | 2005-10-12 19:08:50 +0200 (wo, 12 okt 2005) | 2 lines
 Changed paths:
    M /pinfo/trunk/AUTHORS
    M /pinfo/trunk/po/sv.po
@@ -335,7 +369,7 @@ Changed paths:
 Added Swedish translation by Daniel Nylander
 
 ------------------------------------------------------------------------
-r264 | bas | 2005-10-01 00:48:53 +0200 (Sat, 01 Oct 2005) | 3 lines
+r264 | bas | 2005-10-01 00:48:53 +0200 (za, 01 okt 2005) | 3 lines
 Changed paths:
    M /pinfo/trunk/AUTHORS
    M /pinfo/trunk/configure.ac
@@ -345,7 +379,7 @@ Changed paths:
 - Added annotation in AUTHORS file for Polish translator
 
 ------------------------------------------------------------------------
-r263 | bas | 2005-10-01 00:41:49 +0200 (Sat, 01 Oct 2005) | 2 lines
+r263 | bas | 2005-10-01 00:41:49 +0200 (za, 01 okt 2005) | 2 lines
 Changed paths:
    M /pinfo/trunk/AUTHORS
    M /pinfo/trunk/po/pl.po
@@ -353,7 +387,7 @@ Changed paths:
 Added updated polish translation by Krzysztof Krzyzaniak
 
 ------------------------------------------------------------------------
-r262 | bas | 2005-09-29 21:55:55 +0200 (Thu, 29 Sep 2005) | 2 lines
+r262 | bas | 2005-09-29 21:55:55 +0200 (do, 29 sep 2005) | 2 lines
 Changed paths:
    M /pinfo/trunk/configure.ac
    M /pinfo/trunk/macros/readline.m4
@@ -361,7 +395,7 @@ Changed paths:
 Fixed readline detection: we requite either version 5, of no readline at all
 
 ------------------------------------------------------------------------
-r261 | bas | 2005-09-28 22:22:47 +0200 (Wed, 28 Sep 2005) | 2 lines
+r261 | bas | 2005-09-28 22:22:47 +0200 (wo, 28 sep 2005) | 2 lines
 Changed paths:
    M /pinfo/trunk/po/cs.po
    M /pinfo/trunk/po/de.po
@@ -375,7 +409,7 @@ Changed paths:
 po sync
 
 ------------------------------------------------------------------------
-r260 | bas | 2005-09-27 17:23:27 +0200 (Tue, 27 Sep 2005) | 10 lines
+r260 | bas | 2005-09-27 17:23:27 +0200 (di, 27 sep 2005) | 10 lines
 Changed paths:
    M /pinfo/trunk/config.h.in
    M /pinfo/trunk/configure.ac
@@ -404,21 +438,21 @@ This basically consists of 3 parts:
    with _XOPEN_SOURCE=600 (which we need for wcwidth())
 
 ------------------------------------------------------------------------
-r222 | bas | 2005-09-10 19:37:17 +0200 (Sat, 10 Sep 2005) | 2 lines
+r222 | bas | 2005-09-10 19:37:17 +0200 (za, 10 sep 2005) | 2 lines
 Changed paths:
    M /pinfo/trunk/src/utils.c
 
 Oops 2, don't forget to declare variables...
 
 ------------------------------------------------------------------------
-r221 | bas | 2005-09-10 17:23:50 +0200 (Sat, 10 Sep 2005) | 2 lines
+r221 | bas | 2005-09-10 17:23:50 +0200 (za, 10 sep 2005) | 2 lines
 Changed paths:
    M /pinfo/trunk/src/utils.c
 
 Oops, forgot to free() a local variable in check_node_name()
 
 ------------------------------------------------------------------------
-r220 | bas | 2005-09-10 17:06:55 +0200 (Sat, 10 Sep 2005) | 5 lines
+r220 | bas | 2005-09-10 17:06:55 +0200 (za, 10 sep 2005) | 5 lines
 Changed paths:
    M /pinfo/trunk/src/pinfo.c
    M /pinfo/trunk/src/utils.c
@@ -430,7 +464,7 @@ for, we set ForceManualTagTable to 1 (simulating a -t
 command line option) and reload the current file.
 
 ------------------------------------------------------------------------
-r219 | bas | 2005-09-10 12:46:18 +0200 (Sat, 10 Sep 2005) | 3 lines
+r219 | bas | 2005-09-10 12:46:18 +0200 (za, 10 sep 2005) | 3 lines
 Changed paths:
    M /pinfo/trunk/AUTHORS
    M /pinfo/trunk/po/cs.po
@@ -448,7 +482,7 @@ Changed paths:
 - Updated german translation by Rene van Bevern
 
 ------------------------------------------------------------------------
-r217 | bas | 2005-09-08 23:01:50 +0200 (Thu, 08 Sep 2005) | 8 lines
+r217 | bas | 2005-09-08 23:01:50 +0200 (do, 08 sep 2005) | 8 lines
 Changed paths:
    M /pinfo/trunk/src/initializelinks.c
 
@@ -461,14 +495,14 @@ This fixes Debian bug #235134.
 
 
 ------------------------------------------------------------------------
-r216 | bas | 2005-09-08 22:34:56 +0200 (Thu, 08 Sep 2005) | 2 lines
+r216 | bas | 2005-09-08 22:34:56 +0200 (do, 08 sep 2005) | 2 lines
 Changed paths:
    M /pinfo/trunk/src/initializelinks.c
 
 Oops, removed one goto too many...  reverted that
 
 ------------------------------------------------------------------------
-r215 | bas | 2005-09-08 22:33:44 +0200 (Thu, 08 Sep 2005) | 5 lines
+r215 | bas | 2005-09-08 22:33:44 +0200 (do, 08 sep 2005) | 5 lines
 Changed paths:
    M /pinfo/trunk/src/initializelinks.c
    M /pinfo/trunk/src/pinfo.c
@@ -479,7 +513,7 @@ Changed paths:
 - removed some evil goto's
 
 ------------------------------------------------------------------------
-r214 | bas | 2005-09-08 16:04:14 +0200 (Thu, 08 Sep 2005) | 6 lines
+r214 | bas | 2005-09-08 16:04:14 +0200 (do, 08 sep 2005) | 6 lines
 Changed paths:
    M /pinfo/trunk/po/Makevars
    M /pinfo/trunk/po/cs.po
@@ -500,21 +534,21 @@ Backport of r205 of braches/cxx to trunk:
  - fix copyright holders in po/Makevars
 
 ------------------------------------------------------------------------
-r189 | neroden-guest | 2005-09-07 04:29:35 +0200 (Wed, 07 Sep 2005) | 2 lines
+r189 | neroden-guest | 2005-09-07 04:29:35 +0200 (wo, 07 sep 2005) | 2 lines
 Changed paths:
    M /pinfo/trunk/src/mainfunction.c
 
 Fix an off-by-one bug which affects display when moving up.  Whee.
 
 ------------------------------------------------------------------------
-r186 | neroden-guest | 2005-09-07 03:58:42 +0200 (Wed, 07 Sep 2005) | 2 lines
+r186 | neroden-guest | 2005-09-07 03:58:42 +0200 (wo, 07 sep 2005) | 2 lines
 Changed paths:
    M /pinfo/trunk/src/filehandling_functions.c
 
 Fix reversed return value in matchfile.
 
 ------------------------------------------------------------------------
-r179 | bas | 2005-09-06 17:37:53 +0200 (Tue, 06 Sep 2005) | 12 lines
+r179 | bas | 2005-09-06 17:37:53 +0200 (di, 06 sep 2005) | 12 lines
 Changed paths:
    M /pinfo/trunk/src/filehandling_functions.c
    M /pinfo/trunk/src/filehandling_functions.h
@@ -532,7 +566,7 @@ This fixes Debian bug #299891.
 Also reindented and cleaned up the code a tiny bit.
 
 ------------------------------------------------------------------------
-r164 | bas | 2005-09-04 02:54:10 +0200 (Sun, 04 Sep 2005) | 2 lines
+r164 | bas | 2005-09-04 02:54:10 +0200 (zo, 04 sep 2005) | 2 lines
 Changed paths:
    M /pinfo/trunk/src/datatypes.c
    M /pinfo/trunk/src/filehandling_functions.c
@@ -545,7 +579,7 @@ Changed paths:
 Fixed -Wshadow warnings
 
 ------------------------------------------------------------------------
-r163 | bas | 2005-09-04 02:39:51 +0200 (Sun, 04 Sep 2005) | 2 lines
+r163 | bas | 2005-09-04 02:39:51 +0200 (zo, 04 sep 2005) | 2 lines
 Changed paths:
    M /pinfo/trunk/src/common_includes.h
    M /pinfo/trunk/src/filehandling_functions.c
@@ -558,14 +592,14 @@ Changed paths:
 Fixed -Wall warnings
 
 ------------------------------------------------------------------------
-r162 | bas | 2005-09-04 02:18:13 +0200 (Sun, 04 Sep 2005) | 2 lines
+r162 | bas | 2005-09-04 02:18:13 +0200 (zo, 04 sep 2005) | 2 lines
 Changed paths:
    M /pinfo/trunk/src/filehandling_functions.c
 
 Fix compile error introduced in r112
 
 ------------------------------------------------------------------------
-r161 | bas | 2005-09-04 02:16:53 +0200 (Sun, 04 Sep 2005) | 4 lines
+r161 | bas | 2005-09-04 02:16:53 +0200 (zo, 04 sep 2005) | 4 lines
 Changed paths:
    M /pinfo/trunk/src/initializelinks.c
    M /pinfo/trunk/src/manual.c
@@ -577,7 +611,7 @@ Backport of r155->r156 from the cxx branch:
  - Fix return type of tmpfiles routines
 
 ------------------------------------------------------------------------
-r160 | bas | 2005-09-04 01:55:39 +0200 (Sun, 04 Sep 2005) | 4 lines
+r160 | bas | 2005-09-04 01:55:39 +0200 (zo, 04 sep 2005) | 4 lines
 Changed paths:
    M /pinfo/trunk/src/pinforc.in
    M /pinfo/trunk/src/utils.c
@@ -587,7 +621,7 @@ and *BSD.  This corresponds to the second part of r153->r154 in the cxx branch.
 
 
 ------------------------------------------------------------------------
-r113 | bas | 2005-09-01 21:58:45 +0200 (Thu, 01 Sep 2005) | 2 lines
+r113 | bas | 2005-09-01 21:58:45 +0200 (do, 01 sep 2005) | 2 lines
 Changed paths:
    M /pinfo/trunk/configure.ac
    A /pinfo/trunk/po/nl.po
@@ -595,7 +629,7 @@ Changed paths:
 Added a dutch translation
 
 ------------------------------------------------------------------------
-r112 | bas | 2005-09-01 21:58:23 +0200 (Thu, 01 Sep 2005) | 2 lines
+r112 | bas | 2005-09-01 21:58:23 +0200 (do, 01 sep 2005) | 2 lines
 Changed paths:
    M /pinfo/trunk/po/cs.po
    M /pinfo/trunk/po/de.po
@@ -610,7 +644,7 @@ Changed paths:
 Updated and merged some strings in the code, and rebuilt the *.po files.
 
 ------------------------------------------------------------------------
-r111 | bas | 2005-09-01 21:15:33 +0200 (Thu, 01 Sep 2005) | 2 lines
+r111 | bas | 2005-09-01 21:15:33 +0200 (do, 01 sep 2005) | 2 lines
 Changed paths:
    M /pinfo/trunk/po/cs.po
    M /pinfo/trunk/po/de.po
@@ -623,21 +657,21 @@ Changed paths:
 ran po update
 
 ------------------------------------------------------------------------
-r110 | bas | 2005-09-01 21:13:47 +0200 (Thu, 01 Sep 2005) | 2 lines
+r110 | bas | 2005-09-01 21:13:47 +0200 (do, 01 sep 2005) | 2 lines
 Changed paths:
    M /pinfo/trunk/src/video.c
 
 Added an extra safety check on message[i] in showscreen()
 
 ------------------------------------------------------------------------
-r109 | bas | 2005-09-01 21:11:35 +0200 (Thu, 01 Sep 2005) | 2 lines
+r109 | bas | 2005-09-01 21:11:35 +0200 (do, 01 sep 2005) | 2 lines
 Changed paths:
    M /pinfo/trunk/src/filehandling_functions.c
 
 Fixed a small memory leak.
 
 ------------------------------------------------------------------------
-r108 | bas | 2005-08-31 23:30:42 +0200 (Wed, 31 Aug 2005) | 6 lines
+r108 | bas | 2005-08-31 23:30:42 +0200 (wo, 31 aug 2005) | 6 lines
 Changed paths:
    M /pinfo/trunk/src/filehandling_functions.c
 
@@ -648,14 +682,14 @@ changes them to spaces.
 This also fixes displaying indices in general, which now works.
 
 ------------------------------------------------------------------------
-r107 | bas | 2005-08-31 20:09:31 +0200 (Wed, 31 Aug 2005) | 2 lines
+r107 | bas | 2005-08-31 20:09:31 +0200 (wo, 31 aug 2005) | 2 lines
 Changed paths:
    M /pinfo/trunk/po/POTFILES.in
 
 Removed reference to keyboard.c, which was removed.
 
 ------------------------------------------------------------------------
-r46 | neroden-guest | 2005-08-26 12:21:26 +0200 (Fri, 26 Aug 2005) | 3 lines
+r46 | neroden-guest | 2005-08-26 12:21:26 +0200 (vr, 26 aug 2005) | 3 lines
 Changed paths:
    M /pinfo/trunk/src/filehandling_functions.c
 
@@ -663,7 +697,7 @@ Fix transposed for loop.
 
 
 ------------------------------------------------------------------------
-r35 | neroden-guest | 2005-08-23 03:20:17 +0200 (Tue, 23 Aug 2005) | 3 lines
+r35 | neroden-guest | 2005-08-23 03:20:17 +0200 (di, 23 aug 2005) | 3 lines
 Changed paths:
    M /pinfo/trunk/INSTALL
    M /pinfo/trunk/macros/Makefile.in
@@ -674,7 +708,7 @@ Remove keyboard.c because it does nothing and contains nothing.
 It's a complete waste of space.
 
 ------------------------------------------------------------------------
-r33 | neroden-guest | 2005-08-23 02:20:15 +0200 (Tue, 23 Aug 2005) | 3 lines
+r33 | neroden-guest | 2005-08-23 02:20:15 +0200 (di, 23 aug 2005) | 3 lines
 Changed paths:
    M /pinfo/trunk/src/filehandling_functions.c
    M /pinfo/trunk/src/initializelinks.c
@@ -686,7 +720,7 @@ Eliminate unused variables in several functions in several files.
 
 
 ------------------------------------------------------------------------
-r28 | neroden-guest | 2005-08-11 16:26:21 +0200 (Thu, 11 Aug 2005) | 6 lines
+r28 | neroden-guest | 2005-08-11 16:26:21 +0200 (do, 11 aug 2005) | 6 lines
 Changed paths:
    M /pinfo/trunk/src/video.c
 
@@ -697,7 +731,7 @@ hyperlinks (which is a bug elsewhere in pinfo).
 Also, fix a typo.
 
 ------------------------------------------------------------------------
-r27 | neroden-guest | 2005-08-11 14:39:19 +0200 (Thu, 11 Aug 2005) | 3 lines
+r27 | neroden-guest | 2005-08-11 14:39:19 +0200 (do, 11 aug 2005) | 3 lines
 Changed paths:
    M /pinfo/trunk/src/filehandling_functions.c
 
@@ -705,7 +739,7 @@ Remember to initialize to NULL.  Avoid another segfault.
 
 
 ------------------------------------------------------------------------
-r26 | neroden-guest | 2005-08-11 13:53:17 +0200 (Thu, 11 Aug 2005) | 6 lines
+r26 | neroden-guest | 2005-08-11 13:53:17 +0200 (do, 11 aug 2005) | 6 lines
 Changed paths:
    M /pinfo/trunk/src/filehandling_functions.c
 
@@ -716,7 +750,7 @@ NULL.  Both wrapped in a null pointer check.
 
 
 ------------------------------------------------------------------------
-r25 | bas | 2005-07-25 22:51:44 +0200 (Mon, 25 Jul 2005) | 2 lines
+r25 | bas | 2005-07-25 22:51:44 +0200 (ma, 25 jul 2005) | 2 lines
 Changed paths:
    M /pinfo/trunk/AUTHORS
    M /pinfo/trunk/README
@@ -724,7 +758,7 @@ Changed paths:
 Updated AUTORS AND README (added myself as maintainer)
 
 ------------------------------------------------------------------------
-r24 | bas | 2005-07-25 22:47:44 +0200 (Mon, 25 Jul 2005) | 2 lines
+r24 | bas | 2005-07-25 22:47:44 +0200 (ma, 25 jul 2005) | 2 lines
 Changed paths:
    M /pinfo/trunk/configure.ac
    M /pinfo/trunk/src/colors.c
@@ -766,7 +800,7 @@ Changed paths:
 Added copyright messages to all source files.
 
 ------------------------------------------------------------------------
-r23 | bas | 2005-07-25 22:15:15 +0200 (Mon, 25 Jul 2005) | 2 lines
+r23 | bas | 2005-07-25 22:15:15 +0200 (ma, 25 jul 2005) | 2 lines
 Changed paths:
    M /pinfo/trunk/config.h.in
    M /pinfo/trunk/configure.ac
@@ -774,7 +808,7 @@ Changed paths:
 Added an autoconf check for strsep
 
 ------------------------------------------------------------------------
-r22 | bas | 2005-07-25 22:14:49 +0200 (Mon, 25 Jul 2005) | 9 lines
+r22 | bas | 2005-07-25 22:14:49 +0200 (ma, 25 jul 2005) | 9 lines
 Changed paths:
    M /pinfo/trunk/macros/readline.m4
    M /pinfo/trunk/src/readlinewrapper.c
@@ -790,7 +824,7 @@ Fixed the readline code
    on input of a non-edit key (this fixes Debian bug #222651)
 
 ------------------------------------------------------------------------
-r21 | bas | 2005-07-25 18:52:10 +0200 (Mon, 25 Jul 2005) | 4 lines
+r21 | bas | 2005-07-25 18:52:10 +0200 (ma, 25 jul 2005) | 4 lines
 Changed paths:
    M /pinfo/trunk/src/mainfunction.c
    M /pinfo/trunk/src/manual.c
@@ -802,7 +836,7 @@ compiled, show an error message instead of segfaulting.
 (fixes Debian bug #222650)
 
 ------------------------------------------------------------------------
-r20 | bas | 2005-07-25 01:13:04 +0200 (Mon, 25 Jul 2005) | 3 lines
+r20 | bas | 2005-07-25 01:13:04 +0200 (ma, 25 jul 2005) | 3 lines
 Changed paths:
    M /pinfo/trunk/src/filehandling_functions.c
 
@@ -810,7 +844,7 @@ Small fix to the language code in initpaths(): make sure we only allocate
 langshort once.
 
 ------------------------------------------------------------------------
-r19 | bas | 2005-07-25 01:04:09 +0200 (Mon, 25 Jul 2005) | 8 lines
+r19 | bas | 2005-07-25 01:04:09 +0200 (ma, 25 jul 2005) | 8 lines
 Changed paths:
    M /pinfo/trunk/src/datatypes.c
    M /pinfo/trunk/src/filehandling_functions.c
@@ -825,7 +859,7 @@ Fixed the path search for info dirs:
 	 symlinks or so) (fixes Debian bug #181907)
 
 ------------------------------------------------------------------------
-r18 | bas | 2005-07-23 22:08:22 +0200 (Sat, 23 Jul 2005) | 2 lines
+r18 | bas | 2005-07-23 22:08:22 +0200 (za, 23 jul 2005) | 2 lines
 Changed paths:
    M /pinfo/trunk/config.h.in
    M /pinfo/trunk/configure.ac
@@ -843,7 +877,7 @@ Changed paths:
 Added svn:keywords properties on build tools, docs and po files
 
 ------------------------------------------------------------------------
-r17 | bas | 2005-07-23 22:05:31 +0200 (Sat, 23 Jul 2005) | 2 lines
+r17 | bas | 2005-07-23 22:05:31 +0200 (za, 23 jul 2005) | 2 lines
 Changed paths:
    D /pinfo/trunk/doc/Makefile.in
    D /pinfo/trunk/doc/pinfo.info
@@ -851,14 +885,14 @@ Changed paths:
 Removed automatically generated doc files
 
 ------------------------------------------------------------------------
-r16 | bas | 2005-07-23 22:02:29 +0200 (Sat, 23 Jul 2005) | 2 lines
+r16 | bas | 2005-07-23 22:02:29 +0200 (za, 23 jul 2005) | 2 lines
 Changed paths:
    D /pinfo/trunk/Makefile.in
 
 Removed another generated file
 
 ------------------------------------------------------------------------
-r15 | bas | 2005-07-23 21:58:05 +0200 (Sat, 23 Jul 2005) | 3 lines
+r15 | bas | 2005-07-23 21:58:05 +0200 (za, 23 jul 2005) | 3 lines
 Changed paths:
    M /pinfo/trunk/COPYING
    M /pinfo/trunk/INSTALL
@@ -879,7 +913,7 @@ Ran autoreconf and removed the files that are generated and/or automatically
 copied into the source tree
 
 ------------------------------------------------------------------------
-r14 | bas | 2005-07-23 21:34:57 +0200 (Sat, 23 Jul 2005) | 2 lines
+r14 | bas | 2005-07-23 21:34:57 +0200 (za, 23 jul 2005) | 2 lines
 Changed paths:
    D /pinfo/trunk/macros/autogen.sh
    A /pinfo/trunk/tools/autogen.sh (from /pinfo/trunk/macros/autogen.sh:11)
@@ -887,14 +921,14 @@ Changed paths:
 Replaced autogen.sh by a newer version
 
 ------------------------------------------------------------------------
-r13 | bas | 2005-07-23 21:31:41 +0200 (Sat, 23 Jul 2005) | 2 lines
+r13 | bas | 2005-07-23 21:31:41 +0200 (za, 23 jul 2005) | 2 lines
 Changed paths:
    D /pinfo/trunk/configure
 
 Removed configure (generated file)
 
 ------------------------------------------------------------------------
-r12 | bas | 2005-07-23 21:30:53 +0200 (Sat, 23 Jul 2005) | 2 lines
+r12 | bas | 2005-07-23 21:30:53 +0200 (za, 23 jul 2005) | 2 lines
 Changed paths:
    M /pinfo/trunk/Makefile.in
    D /pinfo/trunk/aclocal.m4
@@ -929,7 +963,7 @@ Changed paths:
 Revised autoconf and friends yet again
 
 ------------------------------------------------------------------------
-r11 | bas | 2005-07-23 18:45:32 +0200 (Sat, 23 Jul 2005) | 3 lines
+r11 | bas | 2005-07-23 18:45:32 +0200 (za, 23 jul 2005) | 3 lines
 Changed paths:
    M /pinfo/trunk/po/de.po
 
@@ -937,7 +971,7 @@ Changed paths:
   (Debian bug #313928)
 
 ------------------------------------------------------------------------
-r10 | bas | 2005-06-01 19:54:03 +0200 (Wed, 01 Jun 2005) | 2 lines
+r10 | bas | 2005-06-01 19:54:03 +0200 (wo, 01 jun 2005) | 2 lines
 Changed paths:
    M /pinfo/trunk/src/filehandling_functions.c
    M /pinfo/trunk/src/mainfunction.c
@@ -947,7 +981,7 @@ Changed paths:
 Fixed some typos
 
 ------------------------------------------------------------------------
-r9 | bas | 2005-06-01 19:49:24 +0200 (Wed, 01 Jun 2005) | 2 lines
+r9 | bas | 2005-06-01 19:49:24 +0200 (wo, 01 jun 2005) | 2 lines
 Changed paths:
    M /pinfo/trunk/src/colors.c
    M /pinfo/trunk/src/colors.h
@@ -987,7 +1021,7 @@ Changed paths:
 Fixed indentation and comments
 
 ------------------------------------------------------------------------
-r8 | bas | 2005-05-17 19:38:20 +0200 (Tue, 17 May 2005) | 2 lines
+r8 | bas | 2005-05-17 19:38:20 +0200 (di, 17 mei 2005) | 2 lines
 Changed paths:
    M /pinfo/trunk/po/cs.po
    M /pinfo/trunk/po/de.po
@@ -1002,7 +1036,7 @@ Changed paths:
 Updated po-shit
 
 ------------------------------------------------------------------------
-r7 | bas | 2005-05-17 19:27:32 +0200 (Tue, 17 May 2005) | 2 lines
+r7 | bas | 2005-05-17 19:27:32 +0200 (di, 17 mei 2005) | 2 lines
 Changed paths:
    M /pinfo/trunk/AUTHORS
    M /pinfo/trunk/ChangeLog
@@ -1010,7 +1044,7 @@ Changed paths:
 Fixed Linus Åkerlund's name
 
 ------------------------------------------------------------------------
-r6 | bas | 2005-05-17 19:23:52 +0200 (Tue, 17 May 2005) | 2 lines
+r6 | bas | 2005-05-17 19:23:52 +0200 (di, 17 mei 2005) | 2 lines
 Changed paths:
    M /pinfo/trunk/AUTHORS
    M /pinfo/trunk/ChangeLog
@@ -1018,7 +1052,7 @@ Changed paths:
 translated AUTHORS en Changelog from iso8859-2 to utf8
 
 ------------------------------------------------------------------------
-r5 | bas | 2005-05-17 19:16:35 +0200 (Tue, 17 May 2005) | 2 lines
+r5 | bas | 2005-05-17 19:16:35 +0200 (di, 17 mei 2005) | 2 lines
 Changed paths:
    M /pinfo/trunk/ABOUT-NLS
    D /pinfo/trunk/INSTALL.in
@@ -1060,7 +1094,7 @@ Changed paths:
 Updated autoconf/automake/etc
 
 ------------------------------------------------------------------------
-r2 | bas | 2005-05-17 15:42:42 +0200 (Tue, 17 May 2005) | 2 lines
+r2 | bas | 2005-05-17 15:42:42 +0200 (di, 17 mei 2005) | 2 lines
 Changed paths:
    A /pinfo/trunk/ABOUT-NLS
    A /pinfo/trunk/AUTHORS
@@ -1197,7 +1231,7 @@ Changed paths:
 Import of pinfo 0.6.8
 
 ------------------------------------------------------------------------
-r1 | bas | 2005-05-17 15:37:39 +0200 (Tue, 17 May 2005) | 2 lines
+r1 | bas | 2005-05-17 15:37:39 +0200 (di, 17 mei 2005) | 2 lines
 Changed paths:
    A /pinfo
    A /pinfo/branches

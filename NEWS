@@ -1,3 +1,7 @@
+0.6.10:
+  - Fix issue with handling of suspend/resume and character input
+    (thanks to Scott Mcdermott for the patch)
+
 0.6.9
   - New maintainer: Bas Zoetekouw <bas@debian.org>
   - License is now GPL version 2 only
