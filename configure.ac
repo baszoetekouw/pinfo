@@ -25,7 +25,7 @@
 #
 
 # init
-AC_INIT([pinfo],[0.6.9],[pinfo-devel@lists.alioth.debian.org])
+AC_INIT([pinfo],[0.6.10],[pinfo-devel@lists.alioth.debian.org])
 # require a recent autoconf
 AC_PREREQ([2.57])
 # for identification of derived ./configure scripts
