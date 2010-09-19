@@ -139,6 +139,7 @@ dirpage_lookup(char **type, char ***message, long *lines,
 	char name[256];
 	char file[256];
 	int i;
+	char *nameend, *filestart, *fileend, *dot;
 	
 	id = opendirfile(0);
 	if (!id)
@@ -146,8 +147,6 @@ dirpage_lookup(char **type, char ***message, long *lines,
 	
 	read_item(id, type, message, lines);
 
-	char *nameend, *filestart, *fileend, *dot;
-	
 	/* search for node-links in every line */
 	for (i = 1; i < Lines; i++)
 	{
@@ -160,6 +159,7 @@ dirpage_lookup(char **type, char ***message, long *lines,
 				&& (strncasecmp(filename, Message[i] + 2, filenamelen) == 0)
 		   )
 		{
+			char *tmp;
 
 			/* skip this hit if it is not a perfect match and 
 			 * we have already found a previous partial match */
@@ -170,7 +170,7 @@ dirpage_lookup(char **type, char ***message, long *lines,
 			}
 
 			/* find the name of the node link */
-			char *tmp = name;
+			tmp = name;
 			strncpy(file, filestart + 1, fileend - filestart - 1);
 			file[fileend - filestart - 1] = 0;
 			strncpy(name, fileend + 1, dot - fileend - 1);

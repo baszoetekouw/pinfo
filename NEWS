@@ -1,6 +1,8 @@
 0.6.10:
   - Fix issue with handling of suspend/resume and character input
     (thanks to Scott Mcdermott for the patch)
+  - Move variable declarations to the start of a block, to accomodate non-gcc
+    compilers.  Thanks to Anonymous for the patches submitted to Alioth.
 
 0.6.9
   - New maintainer: Bas Zoetekouw <bas@debian.org>
