@@ -33,6 +33,7 @@ AC_REVISION([$Revision$])
 
 # put the config into config.h
 AC_CONFIG_HEADERS([config.h])
+AC_CONFIG_MACRO_DIR([macros])
 
 # id main dir by src/pinfo.c file
 AC_CONFIG_SRCDIR([src/pinfo.c])
@@ -78,6 +79,7 @@ fi
 AM_CONDITIONAL(HAVE_SIGBLOCK,test "x$ac_cv_lib_bsd_sigblock" = "xyes" -o \
         "x$ac_cv_func_sigblock" = "xyes" )
 
+AM_PROG_CC_C_O
 
 ####################################################
 ## some additional utilities we need
