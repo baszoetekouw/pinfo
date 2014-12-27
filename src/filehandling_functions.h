@@ -36,7 +36,7 @@ void initpaths ();
 void addrawpath (char *filename);
 
 /*  seek to a node in certain info file */
-void seeknode (int tag_table_pos, FILE ** Id);
+int seeknode (int tag_table_pos, FILE ** Id);
 
 /*
  * free allocated memory, hold by buf (node** content, stored line by line),

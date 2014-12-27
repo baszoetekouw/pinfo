@@ -378,7 +378,14 @@ main(int argc, char *argv[])
 		do
 		{
 			/* set seek offset for given node */
-			seeknode(tag_table_pos, &id);
+			if (seeknode(tag_table_pos, &id)!=0)
+			{
+				tag_table_pos = gettagtablepos(FirstNodeName);
+				if (seeknode(tag_table_pos, &id)!=0) 
+				{
+					exit(-1);
+				}
+			}
 			/* read the node */
 			read_item(id, &type, &message, &lines);
 
@@ -415,7 +422,7 @@ main(int argc, char *argv[])
 				 * the broken info page 
 				 */
 				char msg[81];
-				snprintf(msg, 81, "%s (%s)", 
+				snprintf(msg, 81, "%s (%s)",
 						_("Tag table is corrupt, trying to fix..."),
 						_("press a key to continue") );
 				attrset(bottomline);

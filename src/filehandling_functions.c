@@ -1099,12 +1099,27 @@ create_indirect_tag_table()
 	{
 		id = openinfo(indirect[i].filename, 1);
 		initial = TagTableEntries + 1;
-		if (id)
+		if (!id)
 		{
-			create_tag_table(id);
-			FirstNodeOffset = tag_table[1].offset;
-			strcpy(FirstNodeName, tag_table[1].nodename);
+			/* display error message to make the user aware of
+			 * the broken info page
+			 */
+			char msg[81];
+			snprintf(msg, 81, "%s '%s' (%s)",
+				_("Can't open file"), indirect[i].filename,
+				_("press a key to continue") );
+			attrset(bottomline);
+			mvhline(maxy - 1, 0, ' ', maxx);
+			mvaddstr(maxy - 1, 0, msg);
+			move(0, 0);
+			attrset(normal);
+			getch();
+
+			continue;
 		}
+		create_tag_table(id);
+		FirstNodeOffset = tag_table[1].offset;
+		strcpy(FirstNodeName, tag_table[1].nodename);
 		fclose(id);
 		for (j = initial; j <= TagTableEntries; j++)
 		{
@@ -1187,10 +1202,11 @@ create_tag_table(FILE * id)
 	}
 }
 
-void
+int
 seeknode(int tag_table_pos, FILE ** Id)
 {
 	int i;
+	FILE * newid;
 #define id	(*Id)
 	/*
 	 * Indirect nodes are seeked using a formula:
@@ -1204,15 +1220,17 @@ seeknode(int tag_table_pos, FILE ** Id)
 			if (indirect[i].offset <= tag_table[tag_table_pos].offset)
 			{
 				long off = tag_table[tag_table_pos].offset - indirect[i].offset + FirstNodeOffset - 4;
-				fclose(id);
-				id = openinfo(indirect[i].filename, 0);
-				if (id == NULL)
+				newid = openinfo(indirect[i].filename, 0);
+				if (newid == NULL)
 				{
+					return -1;
 					closeprogram();
-					printf(_("Error: could not open info file"));
+					printf(_("Error: could not open info file part"));
 					printf("\n");
 					exit(1);
 				}
+				fclose(id);
+				id = newid;
 				if (off > 0)
 					fseek(id, off, SEEK_SET);
 				else
@@ -1230,6 +1248,7 @@ seeknode(int tag_table_pos, FILE ** Id)
 			fseek(id, off, SEEK_SET);
 	}
 #undef id
+	return 0;
 }
 
 /* removes trailing .gz, .bz2, etc. */
