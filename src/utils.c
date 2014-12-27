@@ -50,7 +50,6 @@ int pinfo_re_offset = -1;
 #ifdef HAS_READLINE
 #include <readline/readline.h>
 #include <readline/history.h>
-#include <term.h>
 /* HAS_READLINE */
 #endif
 

@@ -123,7 +123,7 @@ if ! test "x$USE_CURSES" = "xtrue"; then
 	AC_MSG_ERROR([Curses not found. You need curses to compile pinfo])
 fi
 LIBS="$LIBS $CURSES_LIBS"
-CPPFLAGS="$CPPFLAGS $CURSES_INCLUDES $CURSES_FLAGS"
+CFLAGS="$CFLAGS $CURSES_INCLUDES $CURSES_FLAGS"
 
 # check for some functions in curses
 AC_CHECK_FUNCS(curs_set use_default_colors bkgdset)
@@ -143,7 +143,7 @@ AC_SUBST(MAN_KEY_END)
 AC_CHECK_WCHAR
 if test "x$USE_WCHAR" = "xtrue"
 then
-	CPPFLAGS="$CPPFLAGS $WCHAR_FLAGS"
+	CFLAGS="$CFLAGS $WCHAR_FLAGS"
 fi
 
 
