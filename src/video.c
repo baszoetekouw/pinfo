@@ -293,6 +293,20 @@ info_add_highlights(int pos, int cursor, long lines, int column, char **message)
 					/* yes, found something, so highlight it */
 					int n = pmatch[0].rm_eo - pmatch[0].rm_so;
 
+					if (n==0) { /* matched empty string! */
+						/* display error message */
+						char msg[81];
+						snprintf(msg, 81, "%s",
+								_("Warning: matched empty string") );
+						attrset(bottomline);
+						mvhline(maxy - 1, 0, ' ', maxx);
+						mvaddstr(maxy - 1, 0, msg);
+						move(0, 0);
+						attrset(normal);
+
+						break;
+					}
+
 					/* point str at start of match */
 					str += pmatch[0].rm_so;
 
