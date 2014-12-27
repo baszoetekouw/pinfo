@@ -753,7 +753,7 @@ openinfo(char *filename, int number)
 	int i, j;
 	char *tmpfilename;
 
-	if (strncmp(filename, "dir", 3) == 0)
+	if ((strncmp(filename, "dir", 3)==0)  &&  !isalnum(filename[3]))
 	{
 		xfree(buf);
 		return opendirfile(number);
