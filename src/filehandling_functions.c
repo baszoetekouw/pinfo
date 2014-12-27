@@ -96,27 +96,38 @@ matchfile(char **buf, char *name)
 	{
 		/* use strcat rather than strdup, because xmalloc handles all 
 		 * malloc errors */
-		char *thisfile = xmalloc(strlen(dp->d_name)+1);
-		strcat(thisfile, dp->d_name);
+		char *filename = xmalloc(strlen(dp->d_name)+1);
+		char *pagename = xmalloc(strlen(dp->d_name)+1);
+		strcat(filename, dp->d_name);
+		strcat(pagename, dp->d_name);
 
 		/* strip suffixes (so "gcc.info.gz" -> "gcc") */
-		strip_compression_suffix(thisfile);
-		strip_info_suffix(thisfile);
+		strip_compression_suffix(pagename);
+		strip_info_suffix(pagename);
+
+		/* strip compression suffix from returned filename
+		 * decompresison and type matching will happen later
+		 * (sigh)
+		 */
+		strip_compression_suffix(filename);
+
+		//fprintf(stdout,"Found filename `%s' (%s)\n", filename, pagename);
 
 		/* compare this file with the file we're looking for */
-		if (strcmp(thisfile,bname) == 0)
+		if (strcmp(pagename,bname) == 0)
 		{
 			/* we found a match! */
 			matched++;
 			/* put it in the buffer */
-			strncat(Buf, thisfile, 1023-strlen(Buf));
-			strncat(Buf, ".info", 1023-strlen(Buf));
+			strncat(Buf, filename, 1023-strlen(Buf));
 
 			/* clean up, and exit the loop */
-			xfree(thisfile);
+			xfree(filename);
+			xfree(pagename);
 			break;
 		}
-		xfree(thisfile);
+		xfree(filename);
+		xfree(pagename);
 	}
 	closedir(dir);
 
