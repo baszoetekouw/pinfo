@@ -60,7 +60,7 @@ Translated to Texinfo by @value{AUTHORTEXI}, @value{CONTACTTEXI} on
 @value{DATE}.
 
 @menu
-* Invoking::                    Comman line options.
+* Invoking::                    Command line options.
 * Configuration::               Configurable behaviour of pinfo.
 * Internationalization Support::  Localization.
 * Author::                      Who wrote pinfo.
