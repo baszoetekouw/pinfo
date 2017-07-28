@@ -60,7 +60,7 @@ Translated to Texinfo by @value{AUTHORTEXI}, @value{CONTACTTEXI} on
 @value{DATE}.
 
 @menu
-* Invoking::                    Comman line options.
+* Invoking::                    Command line options.
 * Configuration::               Configurable behaviour of pinfo.
 * Internationalization Support::  Localization.
 * Author::                      Who wrote pinfo.
@@ -80,7 +80,7 @@ Configuration file
 
 * Color::                       Color settings.
 * Keys::                        Bindable keyboard.
-* Options::                     Confiruration options.
+* Options::                     Configuration options.
 * Example config file::         Build in values.
 
 Keys
@@ -100,14 +100,13 @@ Keys
 @value{PROGRAM} [@var{options}] [@var{info_page}]
 
 @value{PROGRAM} is a program for viewing info files. You specify which
-page you want to read by passing it an @var{info_page} argument. This argumen
-t
+page you want to read by passing it an @var{info_page} argument. This argument
 contains the name of an info page (i.e. @samp{bash}). The program
-will then (by default) search for it in the current diectory, @file{/usr/share/info},
+will then (by default) search for it in the current directory, @file{/usr/share/info},
 @file{/usr/info}, @file{/usr/local/share/info}, @file{/usr/local/info},
 and @file{/opt/info}. Other searchpath may be
 specified in configfile or via INFOPATH environmental variable.
-Pinfo will also automaticaly add the suffix
+Pinfo will also automatically add the suffix
 @samp{-info}, @samp{-info.Z}, @samp{-info.gz}, or @samp{-info.bz2}. At
 present other suffixes are not recognized, but you can easily add them
 to the function @code{openinfo()} in @file{filehandling_functions.c}.
@@ -132,7 +131,7 @@ uses manual page instead of info by default. (@value{PROGRAM} @samp{-m}
 could be used as a manual pager). Warning: Everything what follows this
 option is passed to the @code{man} program. Don't be confused if
 @value{PROGRAM} options, which followed @samp{-m} don't work.
-When using this option, pinfo does not parse the info options as ussual!
+When using this option, pinfo does not parse the info options as usual!
 It invokes the man part of program.
 
 You can also call the man function of @value{PROGRAM} in another way.
@@ -161,7 +160,7 @@ every repeated newline in a manual page.
 @item -t, --force-manual-tag-table
 forces manual detection of tag table. This allows you to view info
 pages, which may be corrupted.  (as i.e.  version of jed's pages,
-shipped with RH5.0). The tag table corruption ussualy appears in that
+shipped with RH5.0). The tag table corruption usually appears in that
 the info links, which you follow, move you to quite unexpected nodes.
 @item --node=@var{nodename}, --node @var{nodename}
 Go to the node @var{nodename} of info file. Since 0.6.7 it is also
@@ -210,7 +209,7 @@ installed, i.e. @file{/usr/local}, or @file{/usr}).
 @menu
 * Color::                       Color settings.
 * Keys::                        Bindable keyboard.
-* Options::                     Confiruration options.
+* Options::                     Configuration options.
 * Example config file::         Build in values.
 @end menu
 
@@ -284,10 +283,10 @@ Key for repeating the last search.
 Alternate key for repeating the last search.
 
 @item KEY_GOTO_1
-Key for explicitly going to a node (by specifing it's name).
+Key for explicitly going to a node (by specifying it's name).
 
 @item KEY_GOTO_2
-Alternate key for explicitly going to a node (by specifing it's name).
+Alternate key for explicitly going to a node (by specifying it's name).
 
 @item KEY_PREVNODE_1
 Key for going to a node marked as 'Prev' in the header. In manpage viewer
@@ -444,7 +443,7 @@ this means a printable character c. The syntax is just like in C/C++ ;).
 
 @item [number]
 you can also specify key as it's code number.  It is useful e.g. when
-specifing control keys, and some nonstandard keys.  A numerical value of
+specifying control keys, and some nonstandard keys.  A numerical value of
 zero turns given keybinding off.
 
 @end table
@@ -521,7 +520,7 @@ This specifies the options, which should be passed to the `man' program.
 (see man(1) for description of what they're like).
 
 @item STDERR-REDIRECTION
-Pinfo allows you to redirect the stderr output of called programms.  For
+Pinfo allows you to redirect the stderr output of called programs.  For
 example if you don't want to see man's error messages about manual page
 formatting, you can use @samp{STDER-REDIRECTION"> /dev/null"}.  This
 is the default.
@@ -669,7 +668,7 @@ SAFE-GROUP=nobody
 
 @node Environment,  , Configuration file, Configuration
 @section Environment
-@cindex Enviroment configuration
+@cindex Environment configuration
 @cindex Search path
 
 There is a variable @code{$INFOPATH}, which can specify the paths
@@ -698,7 +697,7 @@ them to your info directory, into a subdirectory, which is called
 
 @value{AUTHOR} @value{CONTACT}
 
-If that E-mail address wont work (since the machine where it is being
+If that E-mail address won't work (since the machine where it is being
 handled is a bit damaged lately), you can try
 @email{pborys@@zeus.polsl.gliwice.pl}, or
 @email{pborys@@p-soft.silesia.linux.org.pl}.
