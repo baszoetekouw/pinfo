@@ -22,6 +22,10 @@
 #ifndef __COMMON_INCLUDES_H
 #define __COMMON_INCLUDES_H
 
+/* make sure unistd.h defines sbrk() */
+#define _DEFAULT_SOURCE 1
+#define _BSD_SOURCE 1
+
 #include <stdio.h>
 #include <string.h>
 #include <strings.h>
