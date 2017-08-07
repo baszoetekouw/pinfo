@@ -211,7 +211,7 @@ dirpage_lookup(char **type, char ***message, long *lines,
 	}
 
 	/* if we haven't found anything, clean up and exit */
-	if (!goodHit)
+	if (id && !goodHit)
 	{
 		fclose(id);
 		id = 0;
