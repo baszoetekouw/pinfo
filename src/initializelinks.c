@@ -75,7 +75,7 @@ compare_tag_table_string(char *base, char *compared)
  * checks if an item belongs to tag table. returns 1 on success and 0 on
  * failure.  It should be optimised...
  */
-inline int
+int
 exists_in_tag_table(char *item)
 {
 	if (gettagtablepos(item) != -1)

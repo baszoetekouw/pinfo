@@ -562,7 +562,7 @@ seek_tag_table(FILE * id,int quiet)
 	return 1;
 }
 
-inline void
+void
 buildcommand(char *dest, char *command, char *filename, const char *tmpfilename)
 {
 	strcpy(dest, command);
@@ -572,7 +572,7 @@ buildcommand(char *dest, char *command, char *filename, const char *tmpfilename)
 	strcat(dest, tmpfilename);
 }
 
-inline void
+void
 builddircommand(char *dest, char *command, char *filename, const char *tmpfilename)
 {
 	strcpy(dest, command);

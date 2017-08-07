@@ -192,7 +192,7 @@ xrealloc(void *ptr, size_t size)
 	return value;
 }
 
-inline void
+void
 initlocale()
 {
 #ifdef ___DEBUG___
