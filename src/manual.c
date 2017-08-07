@@ -73,7 +73,7 @@ int manwidthChanged = 0;	/* this flag indicates whether the env variable
 typedef struct
 {
 	/* name of a manual */
-	char name[256];
+	char name[128];
 	/* section */
 	char sect[32];
 	/* what was last selected on this page */
