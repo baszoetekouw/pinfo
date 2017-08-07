@@ -21,8 +21,6 @@
 
 #include "common_includes.h"
 
-RCSID("$Id$")
-
 #include <regex.h>
 #include <ctype.h>
 #include <sys/select.h>

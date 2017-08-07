@@ -20,8 +20,6 @@
  ***************************************************************************/
 #include "common_includes.h"
 
-RCSID("$Id$")
-
 #include <termios.h>
 #include <sys/ioctl.h>
 

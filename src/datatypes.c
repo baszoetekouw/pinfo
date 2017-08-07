@@ -20,8 +20,6 @@
  ***************************************************************************/
 #include "common_includes.h"
 
-RCSID("$Id$")
-
 int verbose = 1;
 
 char *filenameprefix = 0;

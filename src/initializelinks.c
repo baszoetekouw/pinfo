@@ -20,8 +20,6 @@
  ***************************************************************************/
 #include "common_includes.h"
 
-RCSID("$Id$")
-
 #define MENU_DOT 0
 #define NOTE_DOT 1
 

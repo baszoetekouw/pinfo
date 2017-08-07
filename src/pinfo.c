@@ -21,8 +21,6 @@
 
 #include "common_includes.h"
 
-RCSID(PKG_VER "$Id$")
-
 #ifdef HAVE_GETOPT_LONG
  #include <getopt.h>
 #endif

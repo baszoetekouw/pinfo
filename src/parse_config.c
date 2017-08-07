@@ -21,8 +21,6 @@
 
 #include "common_includes.h"
 
-RCSID("$Id$")
-
 #include <ctype.h>
 
 #define COLOR_DEFAULT -1	/* mutt uses this was for transparency */

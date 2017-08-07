@@ -20,8 +20,6 @@
  ***************************************************************************/
 #include "common_includes.h"
 
-RCSID("$Id$")
-
 #include <ctype.h>
 #include <sys/stat.h>
 #include <stdlib.h>

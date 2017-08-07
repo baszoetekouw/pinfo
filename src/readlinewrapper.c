@@ -20,8 +20,6 @@
  ***************************************************************************/
 #include "common_includes.h"
 
-RCSID("$Id$")
-
 char **rlhistory = 0;
 int rlhistorylen = 0;
 int rlhistorypos = 0;

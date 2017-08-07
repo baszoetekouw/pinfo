@@ -23,8 +23,6 @@
 
 #include "common_includes.h"
 
-RCSID("$Id$")
-
 void info_add_highlights(int pos, int cursor, long lines, int column, char **message);
 
 void

@@ -21,8 +21,6 @@
 
 #include "common_includes.h"
 
-RCSID("$Id$")
-
 /*
  * Algorithm: We first print highlights, then we send `\r' to the printer,
  * and we draw the base line. Thus highlights are printed `twice', and

@@ -22,8 +22,6 @@
 
 #include "common_includes.h"
 
-RCSID("$Id$")
-
 typedef struct
 {
 	char *suffix;

@@ -59,7 +59,6 @@
 
 #include "localestuff.h"
 
-#include "rcsid.h"
 #include "datatypes.h"
 #include "filehandling_functions.h"
 #include "video.h"
