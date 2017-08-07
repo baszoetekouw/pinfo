@@ -165,10 +165,8 @@ findemailstart(char *str)
 {
 	char *allowedchars = "QWERTYUIOPASDFGHJKLZXCVBNMqwertyuiopasdfghjklzxcvbnm1234567890-_/~.%=|:";
 	char *at = strchr(str, '@');
-	char *emailstart = 0;
 	if (at)
 	{
-		emailstart = str;
 		while (at > str)
 		{
 			at--;

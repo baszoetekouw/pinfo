@@ -365,8 +365,8 @@ work(char ***message, char **type, long *lines, FILE * id, int tag_table_pos)
 							 * read to the memory
 							 */
 							tokenpos += starttokenpos;
-							{	/* local scope for tmpvar, matched */
-								int tmpvar = 0, matched = 0;
+							{	/* local scope for tmpvar */
+								int tmpvar = 0;
 								tag_table[0].offset = 0;
 								for (i = TagTableEntries; i >= 1; i--)
 								{
@@ -375,7 +375,6 @@ work(char ***message, char **type, long *lines, FILE * id, int tag_table_pos)
 									{
 										return_value = i;
 										tmpvar = i;
-										matched = 1;
 									}
 								}
 							}
@@ -460,8 +459,8 @@ work(char ***message, char **type, long *lines, FILE * id, int tag_table_pos)
 						 * position.
 						 */
 						tokenpos += starttokenpos;
-						{		/* local scope for tmpvar, matched */
-							int tmpvar = 0, matched = 0;
+						{		/* local scope for tmpvar */
+							int tmpvar = 0;
 							tag_table[0].offset = 0;
 							for (i = TagTableEntries; i >= 1; i--)
 							{
@@ -470,7 +469,6 @@ work(char ***message, char **type, long *lines, FILE * id, int tag_table_pos)
 								{
 									return_value = i;
 									tmpvar = i;
-									matched = 1;
 								}
 							}
 						}
