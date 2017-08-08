@@ -254,11 +254,11 @@ dnl check if the curses header we found, works
 dnl
 AC_DEFUN([AC_CHECK_CURSES_COMPILE], [
 
-	dnl save CFLAGS and LDFLAGS and set new ones
+	dnl save CFLAGS and LIBS and set new ones
 	CFLAGS_OLD=$CFLAGS
 	CFLAGS="$CFLAGS $curses_includes"
-	LDFLAGS_OLD=$LDFLAGS
-	LDFLAGS="$LDFLAGS $curses_libs"
+	LIBS_OLD=$LIBS
+	LIBS="$LIBS $curses_libs"
 
 	dnl do the compile test 
 	AC_MSG_CHECKING([if curses is usable])
@@ -288,7 +288,7 @@ AC_DEFUN([AC_CHECK_CURSES_COMPILE], [
 
 	dnl restore variables
 	CFLAGS=$CFLAGS_OLD
-	LDFLAGS=$LDFLAGS_OLD
+	LIBS=$LIBS_OLD
 
 ])
 
