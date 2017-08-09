@@ -1113,8 +1113,8 @@ create_indirect_tag_table()
 			/* display error message to make the user aware of
 			 * the broken info page
 			 */
-			char msg[81];
-			snprintf(msg, 81, "%s '%s' (%s)",
+			char msg[1024];
+			snprintf(msg, 1024, "%s '%s' (%s)",
 				_("Can't open file"), indirect[i].filename,
 				_("press a key to continue") );
 			attrset(bottomline);
