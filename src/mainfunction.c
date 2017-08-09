@@ -47,7 +47,7 @@ work(char ***message, char **type, long *lines, FILE * id, int tag_table_pos)
 	static WorkRVal rval =
 	{0, 0};
 	FILE *mypipe;
-	int i, fileoffset, j;
+	int fileoffset;
 	int indirectstart = -1;
 	int cursorchanged = 0;
 	int key = 0;
@@ -76,7 +76,7 @@ work(char ***message, char **type, long *lines, FILE * id, int tag_table_pos)
 #endif /*  getmaxyx */
 	/* free memory allocated previously by hypertext links */
 	freelinks();
-	for (i = 1; i < Lines; i++)	/* initialize node-links for every line */
+	for (unsigned i = 1; i < Lines; i++)	/* initialize node-links for every line */
 	{
 		initializelinks(Message[i], Message[i + 1], i);
 	}
@@ -203,7 +203,7 @@ work(char ***message, char **type, long *lines, FILE * id, int tag_table_pos)
 							 */
 				{
 					int digit_val = 1;
-					for (i = 0; token[i] != 0; i++)
+					for (unsigned i = 0; token[i] != 0; i++)
 					{
 						if (!isdigit(token[i]))
 							digit_val = 0;
@@ -243,7 +243,7 @@ work(char ***message, char **type, long *lines, FILE * id, int tag_table_pos)
 				mypipe = popen(token, "w");	/* open mypipe */
 				if (mypipe != NULL)
 				{
-					for (i = 1; i <= Lines; i++)	/* and flush the msg to stdin */
+					for (unsigned i = 1; i <= Lines; i++)	/* and flush the msg to stdin */
 						fprintf(mypipe, "%s", Message[i]);
 					pclose(mypipe);
 					getchar();
@@ -316,7 +316,7 @@ work(char ***message, char **type, long *lines, FILE * id, int tag_table_pos)
 
 				/* Calculate current info file offset...  */
 				fileoffset = 0;
-				for (i = 1; i <= pos + 1; i++)	/* count the length of curnode */
+				for (unsigned i = 1; i <= pos + 1; i++)	/* count the length of curnode */
 					fileoffset += strlen(Message[i]);
 				fileoffset += strlen(Type);	/* add also header length */
 
@@ -333,7 +333,7 @@ work(char ***message, char **type, long *lines, FILE * id, int tag_table_pos)
 					long tokenpos;
 					long starttokenpos;
 					long filelen;
-					for (j = indirectstart; j <= IndirectEntries; j++)
+					for (int j = indirectstart; j <= (int) IndirectEntries; j++)
 					{
 						fd = openinfo(indirect[j].filename, 1);	/* get file
 																	 * length. */
@@ -368,7 +368,7 @@ work(char ***message, char **type, long *lines, FILE * id, int tag_table_pos)
 							{	/* local scope for tmpvar */
 								int tmpvar = 0;
 								tag_table[0].offset = 0;
-								for (i = TagTableEntries; i >= 1; i--)
+								for (unsigned i = TagTableEntries; i >= 1; i--)
 								{
 									if ((tag_table[i].offset > tag_table[tmpvar].offset) &&
 											((tag_table[i].offset - indirect[j].offset + FirstNodeOffset) <= tokenpos))
@@ -462,7 +462,7 @@ work(char ***message, char **type, long *lines, FILE * id, int tag_table_pos)
 						{		/* local scope for tmpvar */
 							int tmpvar = 0;
 							tag_table[0].offset = 0;
-							for (i = TagTableEntries; i >= 1; i--)
+							for (unsigned i = TagTableEntries; i >= 1; i--)
 							{
 								if ((tag_table[i].offset > tag_table[tmpvar].offset) &&
 										(tag_table[i].offset <= tokenpos))
@@ -582,7 +582,7 @@ work(char ***message, char **type, long *lines, FILE * id, int tag_table_pos)
 					
 				}
 				/* scan for the token in the following lines.  */
-				for (i = pos + 1; i < Lines; i++)
+				for (unsigned i = pos + 1; i < Lines; i++)
 				{
 					tmp = xmalloc(strlen(Message[i]) + strlen(Message[i + 1]) + 2);
 					/*
@@ -648,7 +648,7 @@ skip_search:
 				curs_set(0);
 				noecho();
 				attrset(normal);
-				for (i = 1; i <= TagTableEntries; i++)
+				for (unsigned i = 1; i <= TagTableEntries; i++)
 				{
 					/* if the name was found in the tag table */
 					if (strcmp(token, tag_table[i].nodename) == 0)
@@ -820,7 +820,7 @@ skip_search:
 						 * look if there's a cursor(link) pos available above,
 						 * and if it is visible now.
 						 */
-						for (i = cursor - 1; i >= 0; i--)
+						for (int i = cursor - 1; i >= 0; i--)
 						{
 							if ((hyperobjects[i].line >= pos) &&
 									(hyperobjects[i].line < pos +(maxy - 1)))
@@ -840,7 +840,7 @@ skip_search:
 					if (pos > 1)	/* lower the nodepos */
 						pos--;
 					/* and scan for a hyperlink in the new line */
-					for (i = 0; i < hyperobjectcount; i++)
+					for (unsigned i = 0; i < hyperobjectcount; i++)
 					{
 						if (hyperobjects[i].line == pos)
 						{
@@ -919,7 +919,7 @@ skip_search:
 			{
 				cursorchanged = 0;	/* works similar to keys.up */
 				if (cursor < hyperobjectcount)
-					for (i = cursor + 1; i < hyperobjectcount; i++)
+					for (unsigned i = cursor + 1; i < hyperobjectcount; i++)
 					{
 						if ((hyperobjects[i].line >= pos) &&
 								(hyperobjects[i].line < pos +(maxy - 2)))
@@ -936,7 +936,7 @@ skip_search:
 				{
 					if (pos <= Lines -(maxy - 2))
 						pos++;
-					for (i = cursor + 1; i < hyperobjectcount; i++)
+					for (unsigned i = cursor + 1; i < hyperobjectcount; i++)
 					{
 						if ((hyperobjects[i].line >= pos) &&
 								(hyperobjects[i].line < pos +(maxy - 2)))
@@ -1071,18 +1071,26 @@ skip_search:
 			{
 				MEVENT mouse;
 				int done = 0;
+
 				getmouse(&mouse);
+				if (mouse.x<0 || mouse.y<0) /* should never happen, according to curses docs */
+					continue;
+
+				/* copy to unsigned vars to avoid all kinds of signed/unsigned comparison unpleasantness below */
+				unsigned mouse_x = mouse.x;
+				unsigned mouse_y = mouse.x;
+
 				if (mouse.bstate == BUTTON1_CLICKED)
 				{
-					if ((mouse.y > 0) &&(mouse.y < maxy - 1))
+					if ((mouse_y > 0) &&(mouse_y < maxy - 1))
 					{
-						for (i = cursor; i > 0; i--)
+						for (int i = cursor; i > 0; i--)
 						{
-							if (hyperobjects[i].line == mouse.y + pos - 1)
+							if (hyperobjects[i].line == mouse_y + pos - 1)
 							{
-								if (hyperobjects[i].col <= mouse.x - 1)
+								if (hyperobjects[i].col <= mouse_x - 1)
 								{
-									if (hyperobjects[i].col + strlen(hyperobjects[i].node) + strlen(hyperobjects[i].file) >= mouse.x - 1)
+									if (hyperobjects[i].col + strlen(hyperobjects[i].node) + strlen(hyperobjects[i].file) >= mouse_x - 1)
 									{
 										if (hyperobjects[i].type < HIGHLIGHT)
 										{
@@ -1095,13 +1103,13 @@ skip_search:
 							}
 						}
 						if (!done)
-							for (i = cursor; i < hyperobjectcount; i++)
+							for (unsigned i = cursor; i < hyperobjectcount; i++)
 							{
-								if (hyperobjects[i].line == mouse.y + pos - 1)
+								if (hyperobjects[i].line == mouse_y + pos - 1)
 								{
-									if (hyperobjects[i].col <= mouse.x - 1)
+									if (hyperobjects[i].col <= mouse_x - 1)
 									{
-										if (hyperobjects[i].col + strlen(hyperobjects[i].node) + strlen(hyperobjects[i].file) >= mouse.x - 1)
+										if (hyperobjects[i].col + strlen(hyperobjects[i].node) + strlen(hyperobjects[i].file) >= mouse_x - 1)
 										{
 											if (hyperobjects[i].type < HIGHLIGHT)
 											{
@@ -1113,23 +1121,23 @@ skip_search:
 									}
 								}
 							}
-					}		/* end: if (mouse.y not on top/bottom line) */
-					else if (mouse.y == 0)
+					}		/* end: if (mouse_y not on top/bottom line) */
+					else if (mouse_y == 0)
 						ungetch(keys.up_1);
-					else if (mouse.y == maxy - 1)
+					else if (mouse_y == maxy - 1)
 						ungetch(keys.down_1);
 				}		/* end: button clicked */
 				if (mouse.bstate == BUTTON1_DOUBLE_CLICKED)
 				{
-					if ((mouse.y > 0) &&(mouse.y < maxy - 1))
+					if ((mouse_y > 0) &&(mouse_y < maxy - 1))
 					{
-						for (i = cursor; i >= 0; i--)
+						for (int i = cursor; i >= 0; i--)
 						{
-							if (hyperobjects[i].line == mouse.y + pos - 1)
+							if (hyperobjects[i].line == mouse_y + pos - 1)
 							{
-								if (hyperobjects[i].col <= mouse.x - 1)
+								if (hyperobjects[i].col <= mouse_x - 1)
 								{
-									if (hyperobjects[i].col + strlen(hyperobjects[i].node) + strlen(hyperobjects[i].file) >= mouse.x - 1)
+									if (hyperobjects[i].col + strlen(hyperobjects[i].node) + strlen(hyperobjects[i].file) >= mouse_x - 1)
 									{
 										if (hyperobjects[i].type < HIGHLIGHT)
 										{
@@ -1142,13 +1150,13 @@ skip_search:
 							}
 						}
 						if (!done)
-							for (i = cursor; i < hyperobjectcount; i++)
+							for (unsigned i = cursor; i < hyperobjectcount; i++)
 							{
-								if (hyperobjects[i].line == mouse.y + pos - 1)
+								if (hyperobjects[i].line == mouse_y + pos - 1)
 								{
-									if (hyperobjects[i].col <= mouse.x - 1)
+									if (hyperobjects[i].col <= mouse_x - 1)
 									{
-										if (hyperobjects[i].col + strlen(hyperobjects[i].node) + strlen(hyperobjects[i].file) >= mouse.x - 1)
+										if (hyperobjects[i].col + strlen(hyperobjects[i].node) + strlen(hyperobjects[i].file) >= mouse_x - 1)
 										{
 											if (hyperobjects[i].type < HIGHLIGHT)
 											{
@@ -1162,10 +1170,10 @@ skip_search:
 							}
 						if (done)
 							ungetch(keys.followlink_1);
-					}		/* end: if (mouse.y not on top/bottom line) */
-					else if (mouse.y == 0)
+					}		/* end: if (mouse_y not on top/bottom line) */
+					else if (mouse_y == 0)
 						ungetch(keys.pgup_1);
-					else if (mouse.y == maxy - 1)
+					else if (mouse_y == maxy - 1)
 						ungetch(keys.pgdn_1);
 				}		/* end: button doubleclicked */
 			}
@@ -1190,13 +1198,12 @@ skip_search:
 void
 next_infomenu()
 {
-	int i;
 	if (hyperobjectcount == 0)
 	{
 		infomenu = -1;
 		return;
 	}
-	for (i = infomenu + 1; i < hyperobjectcount; i++)
+	for (unsigned i = infomenu + 1; i < hyperobjectcount; i++)
 	{
 		if (hyperobjects[i].type <= 1)	/* menu item */
 		{
@@ -1210,8 +1217,7 @@ next_infomenu()
 void
 rescan_cursor()
 {
-	int i;
-	for (i = 0; i < hyperobjectcount; i++)
+	for (unsigned i = 0; i < hyperobjectcount; i++)
 	{
 		if ((hyperobjects[i].line >= pos) &&
 				(hyperobjects[i].line < pos +(maxy - 2)))

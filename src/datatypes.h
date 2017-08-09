@@ -68,8 +68,8 @@ InfoHistory;
 
 typedef struct
 {
-	int line;			/* line number of the place where the link is */
-	int col;			/* column number ----||---- */
+	unsigned line;			/* line number of the place where the link is */
+	unsigned col;			/* column number ----||---- */
 	int breakpos;		/* col number, where the links breaks to next line */
 	int type;			/* type of link: 0 -  * menu::,
 						   1 -  * Comment: menu.
@@ -123,11 +123,11 @@ extern SearchAgain searchagain;
 
 /* an array of references for info */
 extern HyperObject *hyperobjects;
-extern int hyperobjectcount;
+extern unsigned hyperobjectcount;
 /* an array of indirect entries [1 to n] */
 extern Indirect *indirect;
 /* number of indirect entries */
-extern int IndirectEntries;
+extern unsigned IndirectEntries;
 /* an array of tag table entries [1 to n] */
 extern TagTable *tag_table;
 /* offset of the first node in info file */
@@ -135,9 +135,9 @@ extern long FirstNodeOffset;
 /* name of the first node in info file */
 extern char FirstNodeName[256];
 /* number of tag table entries */
-extern int TagTableEntries;
+extern unsigned TagTableEntries;
 /* maximum dimensions of screen */
-extern int maxx, maxy;
+extern unsigned int maxx, maxy;
 extern InfoHistory infohistory;
 /* position to by set when moving via history */
 extern int npos;

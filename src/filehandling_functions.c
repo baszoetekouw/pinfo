@@ -1103,8 +1103,8 @@ void
 create_indirect_tag_table()
 {
 	FILE *id = 0;
-	int i, j, initial;
-	for (i = 1; i <= IndirectEntries; i++)
+	int initial;
+	for (unsigned i = 1; i <= IndirectEntries; i++)
 	{
 		id = openinfo(indirect[i].filename, 1);
 		initial = TagTableEntries + 1;
@@ -1130,7 +1130,7 @@ create_indirect_tag_table()
 		FirstNodeOffset = tag_table[1].offset;
 		strcpy(FirstNodeName, tag_table[1].nodename);
 		fclose(id);
-		for (j = initial; j <= TagTableEntries; j++)
+		for (unsigned j = initial; j <= TagTableEntries; j++)
 		{
 			tag_table[j].offset +=(indirect[i].offset - FirstNodeOffset);
 		}

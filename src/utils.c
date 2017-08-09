@@ -502,9 +502,9 @@ yesno(char *prompt, int def)
 void
 myclrtoeol()
 {
-	int x, y, i;
+	unsigned x, y;
 	getyx(stdscr, y, x);
-	for (i = x; i < maxx; i++)
+	for (unsigned i = x; i < maxx; i++)
 		mvaddch(y, i, ' ');
 }
 

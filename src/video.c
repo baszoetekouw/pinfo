@@ -23,7 +23,7 @@
 
 #include "common_includes.h"
 
-void info_add_highlights(int pos, int cursor, long lines, int column, char **message);
+void info_add_highlights(unsigned pos, unsigned cursor, long lines, unsigned column, char **message);
 
 void
 substitutestr(char *src, char *dest, char *from, char *to)
@@ -142,10 +142,9 @@ info_addstr(int y, int x, char *txt, int column, int txtlen)
 }
 
 void
-info_add_highlights(int pos, int cursor, long lines, int column, char **message)
+info_add_highlights(unsigned pos, unsigned cursor, long lines, unsigned column, char **message)
 {
-	int i;
-	for (i = 0; i < hyperobjectcount; i++)
+	for (unsigned i = 0; i < hyperobjectcount; i++)
 	{
 		if ((hyperobjects[i].line >= pos) &&
 				(hyperobjects[i].line < pos +(maxy - 2)))
@@ -274,7 +273,7 @@ info_add_highlights(int pos, int cursor, long lines, int column, char **message)
 		 * a searched regexp to highlight
 		 */
 		/* loop over all the lines currently in the window */
-		for (i = pos; (i < lines) && (i < pos + maxy - 2); i++)
+		for (unsigned i = pos; (i < lines) && (i < pos + maxy - 2); i++)
 		{
 			char *str = message[i];
 

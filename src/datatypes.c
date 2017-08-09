@@ -39,15 +39,15 @@ char *tmpfilename2 = 0;
 SearchAgain searchagain;
 
 HyperObject *hyperobjects = 0;
-int hyperobjectcount = 0;
+unsigned hyperobjectcount = 0;
 
 Indirect *indirect = 0;
 TagTable *tag_table = 0;
 long FirstNodeOffset = 0;
 char FirstNodeName[256];
-int IndirectEntries = 0;
-int TagTableEntries = 0;
-int maxx, maxy;
+unsigned IndirectEntries = 0;
+unsigned TagTableEntries = 0;
+unsigned int maxx, maxy;
 int CutManHeaders = 0;
 int CutEmptyManLines = 0;
 int ForceManualTagTable = 0;
