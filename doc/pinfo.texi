@@ -9,8 +9,8 @@
 @set DATE 1 Dec 2001
 @set DATEMAN 21 Mar 1999
 
-@set AUTHOR Przemek Borys
-@set CONTACT @email{pborys@@dione.ids.pl}, @uref{http://zeus.polsl.gliwice.pl/~pborys/}
+@set AUTHOR Przemek Borys, Bas Zoetekouw
+@set CONTACT @email{pborys@@dione.ids.pl}, @email{bas@@debian.org}
 @set AUTHORTEXI Stanislav Kuchar
 @set CONTACTTEXI @email{thorn@@slonik.sk}, @uref{http://slonik.sk/}
 @set PROGRAM @file{pinfo}
@@ -698,24 +698,16 @@ them to your info directory, into a subdirectory, which is called
 
 @value{AUTHOR} @value{CONTACT}
 
-If that E-mail address won't work (since the machine where it is being
-handled is a bit damaged lately), you can try
-@email{pborys@@zeus.polsl.gliwice.pl}, or
-@email{pborys@@p-soft.silesia.linux.org.pl}.
-
 A lot of other people also contributed
 to this code.
 See the @file{AUTHORS} file.
 
-Please send bug reports to the author: @value{AUTHOR} @value{CONTACT}.
-
-The author would like to read some comments and suggestions from you, if
-any.
+Please file bug reports on Github: @uref{https://github.com/baszoetekouw/pinfo}
 
 @node Bugs, Copyright, Author, Top
 @chapter Bugs
 
-Please send bug reports to the author, @ref{Author}.
+Please file bug reports on Github: @uref{https://github.com/baszoetekouw/pinfo}
 
 @node Copyright, Index, Bugs, Top
 @chapter Copyright

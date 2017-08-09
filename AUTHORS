@@ -1,74 +1,71 @@
-Pinfo is currently maintained by Bas Zoetekouw <bas@debian.org> and Nathanael
-Nerode <neroden@fastmail.fm>.  Its original author is Przemek Borys
-<pborys@dione.ids.pl>.  Please send any comments/questions/bug reports to
-<pinfo-devel@lists.alioth.debian.org>
+Pinfo is currently maintained by Bas Zoetekouw <bas@debian.org>.
+Its original author is Przemek Borys <pborys@dione.ids.pl>.  
+
+Please file any comments/questions/bug reports as an issue on Github: 
+https://github.com/baszoetekouw/pinfo
 
 Below are the names of the people who helped by sending good ideas, bugs
 reports, or helped out in some other way:
 
-Linus Åkerlund (%)
-Tomasz Kloczko (%)
-Artur Frysiak (%)
-Dobrica Pavlinusic (%)
-Jiri Pavlovsky (%)
-Pawel Wilk (%)
-Paul Boekholt (*)
-Ingo Oeser (*)
-Simon Huggins (*)
-Marius Gedminas (*)
-andrew deryabin (*)
-Ilya L Ovchinnikov (*)
-Cort (*)
-Stanislav Kuchar (*)
-Kevin Kreamer (*)
-David M. Cooke (*)
-Witold Filipczyk (*)
-Liviu Daia (+)
-Jarkko O Mourujarvi (+)
-Michal Politowski (+)
-Tim Bell (+)
-Marcin Wojdyr (+)
-Pawel Kot (+)
-Jerzy Klejnowski (+)
-Adam Lazur (+)
-Daniel Bauke
-André Karwath
-Pawel Kolodziej
-Egil Kvaleberg
-Andrzej Solecki
-Christian Kurz
-Moritz Moeller-Herrmann
-Hao Li
-Sotiris Vassilopoulos
-Michal Kuratczyk
-Maciej Nowicki
-Frederick W. Wheeler
-Ryszard Kurek
-Matthias Friedrich
-Marcin Kadziolka
-Dmitry Volosenkov
+Adam Lazur
 Aleksey I Zavilohin
-Stanislav Kuchar
-Hector Rivas Gandara
+Andrzej Solecki
+André Karwath
+Artur Frysiak
+Bas Zoetekouw
 Carlo Wood
+Christian Kurz
+Clytie Siddall
+Cort
+Daniel Bauke
+Daniel Nylander
+David M. Cooke
+Dmitry Volosenkov
+Dobrica Pavlinusic
+Eddy Petrişor
+Egil Kvaleberg
+Felipe Augusto van de Wiel
+Frederick W. Wheeler
+Hao Li
+Hector Rivas Gandara
+Ilya L Ovchinnikov
+Ingo Oeser
 Jakub Bogusz
-Michał Stępień
+Jarkko O Mourujarvi
 Jerzy Klejnowski
-Stanislav Ievlev
+Jiri Pavlovsky
+Katarína Machálková
+Kevin Kreamer
+Krzysztof Krzyzaniak
+Linus Åkerlund
+Liviu Daia
+Maciej Nowicki
+Marcin Kadziolka
+Marcin Wojdyr
+Marius Gedminas
+Matthias Friedrich
+Michal Kuratczyk
+Michal Politowski
+Michał Stępień
+Moritz Moeller-Herrmann
+Nathanael Nerode
+Paul Boekholt
+Pawel Kolodziej
+Pawel Kot
+Pawel Wilk
+Piarres Beobide
+Przemek Borys
 Rene van Bevern
-Krzysztof Krzyzaniak (Polish translation)
-Piarres Beobide (Basque translation)
-Daniel Nylander (Swedish translation)
-Eddy Petrişor (Romanian translation)
-Yuri Kozlov (Russian translation)
-Katarína Machálková (Czech translation)
-Felipe Augusto van de Wiel (Brazilian translation)
-Clytie Siddall (Vietnamese translation)
+Ryszard Kurek
+Simon Huggins
+Sotiris Vassilopoulos
+Stanislav Ievlev
+Stanislav Kuchar
+Tim Bell
+Tomasz Kloczko
+Witold Filipczyk
+Yuri Kozlov
+andrew deryabin
 
 (This list is possibly incomplete -- please remind me if you
 contributed in the past in some way, and are not credited here)
-
-People marked with '%' have done really serious coding :)
-People marked with '*' have sent me complete (coded) ideas/fixes.
-People marked with '+' have helped by sending (almost) complete solutions.
-The other people have sent bugrepots, translations and good wishlist bugs.

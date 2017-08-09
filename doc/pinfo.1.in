@@ -1,7 +1,7 @@
 .TH PINFO 1 "01 Dec 2001"
 .SH NAME
 .B pinfo
-\- curses based lynx-style info browser
+\- is user-friendly, console-based viewer for Info documents
 .SH SYNTAX
 .B pinfo 
 [\fIoptions\fR]
@@ -20,11 +20,6 @@ and
 .IR "/opt/info".
 The search path can be adjusted by INFOPATH environment variable or in the configuration
 file. Pinfo will also automatically add the suffix '-info', '-info.Z', '-info.gz', or '-info.bz2'.
-At present other suffixes are not recognized, but you can easily add them to
-the function 
-.I openinfo() 
-in 
-.IR "filehandling_functions.c".
 .P
 When the search for info pages fails, man is called with the infopage
 argument, and its output is parsed by pinfo. This means that when you don't
@@ -581,11 +576,7 @@ Please send bug reports to the author.
 
 .SH AUTHOR
 Przemek Borys <\fBpborys@dione.ids.pl\fR>
-.P
-If that E-mail address won't work (since the machine where it is being
-handled is a bit damaged lately), you can try 
-\fBpborys@zeus.polsl.gliwice.pl\fR, or
-\fBpborys@p-soft.silesia.linux.org.pl\fR.
+Bas Zoetekouw <\fBbas@debian.org\fR>
 .P
 There was also a lot of other people, who contributed to this code. See the
 AUTHORS file.
