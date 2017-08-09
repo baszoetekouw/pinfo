@@ -201,7 +201,7 @@ construct_manualname(char *buf, int which)
 			char *base = xmalloc(1024);
 			char *ptr;
 			int tmppos;
-			strcpy(base, manual[manuallinks[which].line - 1]);
+			strncpy(base, manual[manuallinks[which].line - 1],1023);
 			strip_manual(base);
 			ptr = base + strlen(base) - 3;
 			while (((isalpha(*ptr)) ||(*ptr == '.') ||(*ptr == '_')) &&(ptr > base))
