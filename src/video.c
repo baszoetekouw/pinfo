@@ -74,7 +74,7 @@ addtopline(char *type, int column)
 }
 
 void
-showscreen(char **message, char *type, long lines, long pos, long cursor, int column)
+showscreen(char **message, long lines, long pos, long cursor, int column)
 {
 	long i;
 #ifdef getmaxyx

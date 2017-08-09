@@ -23,7 +23,7 @@
 #ifndef __VIDEO_H
 #define __VIDEO_H
 /* paints the screen while viewing info file */
-void showscreen (char **message, char *type, long lines, long pos,
+void showscreen (char **message, long lines, long pos,
 		long cursor, int column);
 /* prints unselected menu option */
 void mvaddstr_menu (int y, int x, char *line, int linenumber);

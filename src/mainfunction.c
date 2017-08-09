@@ -120,7 +120,7 @@ work(char ***message, char **type, long *lines, FILE * id, int tag_table_pos)
 		if (key == ERR)
 		{
 			if (statusline == FREE)
-				showscreen(Message, Type, Lines, pos, cursor,infocolumn);
+				showscreen(Message, Lines, pos, cursor,infocolumn);
 			waitforgetch();
 			key = pinfo_getch();
 		}
