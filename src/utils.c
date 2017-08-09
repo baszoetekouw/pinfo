@@ -21,8 +21,6 @@
 
 #include "common_includes.h"
 
-RCSID("$Id$")
-
 #include <regex.h>
 #include <ctype.h>
 #include <sys/select.h>
@@ -192,7 +190,7 @@ xrealloc(void *ptr, size_t size)
 	return value;
 }
 
-inline void
+void
 initlocale()
 {
 #ifdef ___DEBUG___
@@ -504,9 +502,9 @@ yesno(char *prompt, int def)
 void
 myclrtoeol()
 {
-	int x, y, i;
+	unsigned x, y;
 	getyx(stdscr, y, x);
-	for (i = x; i < maxx; i++)
+	for (unsigned i = x; i < maxx; i++)
 		mvaddch(y, i, ' ');
 }
 

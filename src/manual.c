@@ -20,8 +20,6 @@
  ***************************************************************************/
 #include "common_includes.h"
 
-RCSID("$Id$")
-
 #include <ctype.h>
 #include <sys/stat.h>
 #include <stdlib.h>
@@ -58,13 +56,13 @@ void printmanual(char **Message, long Lines);
 /* line by line stored manual */
 char **manual = 0;
 /* number of lines in manual */
-int ManualLines = 0;
+unsigned ManualLines = 0;
 int selected = -1;		/* number of selected link(offset in 'manuallinks',
 						   bellow) */
-int manualpos = 0;		/* number of the first line, which is painted on
+unsigned manualpos = 0;	/* number of the first line, which is painted on
 						   screen */
 
-int manualcol = 0;		/* the first displayed column of manpage--
+unsigned manualcol = 0;	/* the first displayed column of manpage--
 						   for moving the screen left/right */
 
 int manual_aftersearch = 0;	/* this is set if man page is now after search
@@ -75,7 +73,7 @@ int manwidthChanged = 0;	/* this flag indicates whether the env variable
 typedef struct
 {
 	/* name of a manual */
-	char name[256];
+	char name[128];
 	/* section */
 	char sect[32];
 	/* what was last selected on this page */
@@ -96,9 +94,9 @@ int manualhistorylength = 0;
 /* this structure describes a hyperlink in manual viewer */
 typedef struct
 {			/* struct for hypertext references */
-	int line;		/* line of the manpage, where the reference is */
+	unsigned int line;		/* line of the manpage, where the reference is */
 	/* column of that line */
-	int col;
+	unsigned int col;
 	/* name of the reference */
 	char *name;
 	/* section of the reference */
@@ -113,7 +111,7 @@ manuallink;
 manuallink *manuallinks = 0;
 
 /* number of found manual references in man page */
-int ManualLinks = 0;
+unsigned ManualLinks = 0;
 
 /* semaphore for checking if it's a history(left arrow) call */
 int historical = 0;
@@ -123,7 +121,7 @@ void
 /* free buffers allocated by current man page */
 manual_free_buffers()
 {
-	int i;
+	unsigned int i;
 	/* first free previously allocated memory */
 	/* for the manual itself... */
 	if (manual)
@@ -203,7 +201,7 @@ construct_manualname(char *buf, int which)
 			char *base = xmalloc(1024);
 			char *ptr;
 			int tmppos;
-			strcpy(base, manual[manuallinks[which].line - 1]);
+			strncpy(base, manual[manuallinks[which].line - 1],1023);
 			strip_manual(base);
 			ptr = base + strlen(base) - 3;
 			while (((isalpha(*ptr)) ||(*ptr == '.') ||(*ptr == '_')) &&(ptr > base))
@@ -213,9 +211,8 @@ construct_manualname(char *buf, int which)
 				ptr++;
 			strcpy(buf, ptr);
 			tmppos = strlen(buf);
-			/* TODO: check the following statement */
-			if (tmppos > 1);
-			buf[tmppos - 2] = 0;
+			if (tmppos > 1)
+				buf[tmppos - 2] = 0;
 			strcat(buf, manuallinks[which].name);
 			xfree(base);
 		}
@@ -910,7 +907,7 @@ manualwork()
 	/* key, which contains the value entered by user */
 	int key = 0;
 	/* tmp values */
-	int i, selectedchanged;
+	int selectedchanged;
 	int statusline = FREE;
 #ifdef getmaxyx
 	/* if ncurses, get maxx and maxy */
@@ -1033,7 +1030,7 @@ manualwork()
 				if (token)
 				{
 					int digit_val = 1;
-					for (i = 0; token[i] != 0; i++)
+					for (unsigned i = 0; token[i] != 0; i++)
 					{
 						if (!isdigit(token[i]))
 							digit_val = 0;
@@ -1083,7 +1080,7 @@ manualwork()
 				if (mypipe != NULL)
 				{
 					/* and flush the msg to stdin */
-					for (i = 0; i < ManualLines; i++)
+					for (unsigned i = 0; i < ManualLines; i++)
 						fprintf(mypipe, "%s", manual[i]);
 					pclose(mypipe);
 				}
@@ -1159,7 +1156,7 @@ manualwork()
 					goto skip_search;
 				}
 				/* and search for it in all subsequential lines */
-				for (i = manualpos + 1; i < ManualLines - 1; i++)
+				for (unsigned i = manualpos + 1; i < ManualLines - 1; i++)
 				{
 					char *tmp;
 					tmp = xmalloc(strlen(manual[i]) + strlen(manual[i + 1]) + 10);
@@ -1235,7 +1232,7 @@ skip_search:
 						 * scan for a next visible one, which is above the
 						 * current.
 						 */
-						for (i = selected - 1; i >= 0; i--)
+						for (int i = selected - 1; i >= 0; i--)
 						{
 							if ((manuallinks[i].line >= manualpos) &&
 									(manuallinks[i].line < manualpos +(maxy - 1)))
@@ -1253,7 +1250,7 @@ skip_search:
 					if (manualpos >= 1)
 						manualpos--;
 					/* and scan for selected again :) */
-					for (i = 0; i < ManualLinks; i++)
+					for (unsigned i = 0; i < ManualLinks; i++)
 					{
 						if (manuallinks[i].line == manualpos)
 						{
@@ -1267,16 +1264,18 @@ skip_search:
 			if ((key == keys.end_1) ||
 					(key == keys.end_2))
 			{
-				manualpos = ManualLines -(maxy - 1);
-				if (manualpos < 0)
+				if (ManualLines < maxy - 1)
 					manualpos = 0;
+				else
+					manualpos = ManualLines -(maxy - 1);
+
 				selected = ManualLinks - 1;
 			}
 			/*=====================================================*/
 			if ((key == keys.nextnode_1) ||
 					(key == keys.nextnode_2))
 			{
-				for (i = manualpos + 1; i < ManualLines; i++)
+				for (unsigned i = manualpos + 1; i < ManualLines; i++)
 				{
 					if (manual[i][1] == 8)
 					{
@@ -1289,7 +1288,7 @@ skip_search:
 			if ((key == keys.prevnode_1) ||
 					(key == keys.prevnode_2))
 			{
-				for (i = manualpos - 1; i > 0; i--)
+				for (unsigned i = manualpos - 1; i > 0; i--)
 				{
 					if (manual[i][1] == 8)
 					{
@@ -1347,8 +1346,21 @@ skip_search:
 			if ((key == keys.down_1) || (key == keys.down_2))
 			{
 				selectedchanged = 0;
-				if (selected < ManualLinks)
-					for (i = selected + 1; i < ManualLinks; i++)
+				for (unsigned i = selected + 1; i < ManualLinks; i++)
+				{
+					if ((manuallinks[i].line >= manualpos) &&
+							(manuallinks[i].line < manualpos +(maxy - 2)))
+					{
+						selected = i;
+						selectedchanged = 1;
+						break;
+					}
+				}
+				if (!selectedchanged)
+				{
+					if (manualpos < ManualLines -(maxy - 1))
+						manualpos++;
+					for (unsigned i = selected + 1; i < ManualLinks; i++)
 					{
 						if ((manuallinks[i].line >= manualpos) &&
 								(manuallinks[i].line < manualpos +(maxy - 2)))
@@ -1358,21 +1370,6 @@ skip_search:
 							break;
 						}
 					}
-				if (!selectedchanged)
-				{
-					if (manualpos < ManualLines -(maxy - 1))
-						manualpos++;
-					if (selected < ManualLinks)
-						for (i = selected + 1; i < ManualLinks; i++)
-						{
-							if ((manuallinks[i].line >= manualpos) &&
-									(manuallinks[i].line < manualpos +(maxy - 2)))
-							{
-								selected = i;
-								selectedchanged = 1;
-								break;
-							}
-						}
 				}
 			}
 			/*=====================================================*/
@@ -1451,17 +1448,24 @@ skip_search:
 				MEVENT mouse;
 				int done = 0;
 				getmouse(&mouse);
+				if (mouse.x<0 || mouse.y<0) /* should never happen, according to curses docs */
+					continue;
+
+				/* copy to unsigned vars to avoid all kinds of signed/unsigned comparison unpleasantness below */
+				unsigned mouse_x = mouse.x;
+				unsigned mouse_y = mouse.x;
+
 				if (mouse.bstate == BUTTON1_CLICKED)
 				{
-					if ((mouse.y > 0) &&(mouse.y < maxy - 1))
+					if ((mouse_y > 0) &&(mouse_y < maxy - 1))
 					{
-						for (i = selected; i >= 0; i--)
+						for (int i = selected; i >= 0; i--)
 						{
-							if (manuallinks[i].line == mouse.y + manualpos - 1)
+							if (manuallinks[i].line == mouse_y + manualpos - 1)
 							{
-								if (manuallinks[i].col <= mouse.x - 1)
+								if (manuallinks[i].col <= mouse_x - 1)
 								{
-									if (manuallinks[i].col + strlen(manuallinks[i].name) >= mouse.x - 1)
+									if (manuallinks[i].col + strlen(manuallinks[i].name) >= mouse_x - 1)
 									{
 										selected = i;
 										done = 1;
@@ -1471,13 +1475,13 @@ skip_search:
 							}
 						}
 						if (!done)
-							for (i = selected; i < ManualLinks; i++)
+							for (unsigned i = selected; i < ManualLinks; i++)
 							{
-								if (manuallinks[i].line == mouse.y + manualpos - 1)
+								if (manuallinks[i].line == mouse_y + manualpos - 1)
 								{
-									if (manuallinks[i].col <= mouse.x - 1)
+									if (manuallinks[i].col <= mouse_x - 1)
 									{
-										if (manuallinks[i].col + strlen(manuallinks[i].name) >= mouse.x - 1)
+										if (manuallinks[i].col + strlen(manuallinks[i].name) >= mouse_x - 1)
 										{
 											selected = i;
 											done = 1;
@@ -1487,22 +1491,22 @@ skip_search:
 								}
 							}
 					}		/* end: mouse not on top/bottom line */
-					if (mouse.y == 0)
+					if (mouse_y == 0)
 						ungetch(keys.up_1);
-					if (mouse.y == maxy - 1)
+					if (mouse_y == maxy - 1)
 						ungetch(keys.down_1);
 				}		/* end: button_clicked */
 				if (mouse.bstate == BUTTON1_DOUBLE_CLICKED)
 				{
-					if ((mouse.y > 0) &&(mouse.y < maxy - 1))
+					if ((mouse_y > 0) &&(mouse_y < maxy - 1))
 					{
-						for (i = selected; i >= 0; i--)
+						for (int i = selected; i >= 0; i--)
 						{
-							if (manuallinks[i].line == mouse.y + manualpos - 1)
+							if (manuallinks[i].line == mouse_y + manualpos - 1)
 							{
-								if (manuallinks[i].col <= mouse.x - 1)
+								if (manuallinks[i].col <= mouse_x - 1)
 								{
-									if (manuallinks[i].col + strlen(manuallinks[i].name) >= mouse.x - 1)
+									if (manuallinks[i].col + strlen(manuallinks[i].name) >= mouse_x - 1)
 									{
 										selected = i;
 										done = 1;
@@ -1512,13 +1516,13 @@ skip_search:
 							}
 						}
 						if (!done)
-							for (i = selected; i < ManualLinks; i++)
+							for (unsigned i = selected; i < ManualLinks; i++)
 							{
-								if (manuallinks[i].line == mouse.y + manualpos - 1)
+								if (manuallinks[i].line == mouse_y + manualpos - 1)
 								{
-									if (manuallinks[i].col <= mouse.x - 1)
+									if (manuallinks[i].col <= mouse_x - 1)
 									{
-										if (manuallinks[i].col + strlen(manuallinks[i].name) >= mouse.x - 1)
+										if (manuallinks[i].col + strlen(manuallinks[i].name) >= mouse_x - 1)
 										{
 											selected = i;
 											done = 1;
@@ -1530,9 +1534,9 @@ skip_search:
 						if (done)
 							ungetch(keys.followlink_1);
 					}		/* end: mouse not at top/bottom line */
-					if (mouse.y == 0)
+					if (mouse_y == 0)
 						ungetch(keys.pgup_1);
-					if (mouse.y == maxy - 1)
+					if (mouse_y == maxy - 1)
 						ungetch(keys.pgdn_1);
 				}		/* end: button doubleclicked */
 			}
@@ -1558,8 +1562,7 @@ void
 /* scan for some hyperlink, available on current screen */
 rescan_selected()
 {
-	int i;
-	for (i = 0; i < ManualLinks; i++)
+	for (unsigned i = 0; i < ManualLinks; i++)
 	{
 		if ((manuallinks[i].line >= manualpos) &&
 				(manuallinks[i].line < manualpos +(maxy - 1)))
@@ -1587,16 +1590,15 @@ char *getmancolumn(char *man, int mancol)
 void
 showmanualscreen()
 {
-	int i;
 #ifdef getmaxyx
 	/* refresh maxy, maxx values */
 	getmaxyx(stdscr, maxy, maxx);
 #endif
 	attrset(normal);
 	/* print all visible text lines */
-	for (i = manualpos;(i < manualpos +(maxy - 2)) &&(i < ManualLines); i++)
+	for (unsigned i = manualpos;(i < manualpos +(maxy - 2)) &&(i < ManualLines); i++)
 	{
-		int len = strlen(manual[i]);
+		size_t len = strlen(manual[i]);
 		if (len)
 			manual[i][len - 1] = ' ';
 		/* if we have something to display */
@@ -1737,7 +1739,7 @@ add_highlights()
 {
 	int i;
 	/* scan through the visible objects */
-	for (i = 0; i < ManualLinks; i++)
+	for (i = 0; (unsigned) i < ManualLinks; i++)
 	{
 		/* if the object is on the current screen */
 		if ((manuallinks[i].line >= manualpos) &&
@@ -1757,7 +1759,7 @@ add_highlights()
 					int x, y, ltline = manuallinks[i].line - 1;
 					/* find the line, where starts the split link */
 					char *tmpstr = strdup(manual[ltline]);
-					int ltlinelen;
+					size_t ltlinelen;
 					char *newlinemark;
 					/* remove boldfaces&italics */
 					strip_manual(tmpstr);

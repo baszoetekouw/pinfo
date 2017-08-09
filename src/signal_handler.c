@@ -20,8 +20,6 @@
  ***************************************************************************/
 #include "common_includes.h"
 
-RCSID("$Id$")
-
 #include <termios.h>
 #include <sys/ioctl.h>
 
@@ -36,7 +34,7 @@ handle_crash(int signum)
 }
 
 void
-handle_window_resize(int signum)
+handle_window_resize(int UNUSED(signum))
 {
 	winchanged = 1;
 	ungetch(keys.refresh_1);
@@ -44,7 +42,7 @@ handle_window_resize(int signum)
 }
 
 void
-handle_suspend(int signum)
+handle_suspend(int UNUSED(signum))
 {
 	if (!isendwin()) {
 		curs_set(1);
@@ -56,7 +54,7 @@ handle_suspend(int signum)
 }
 
 void
-handle_resume(int signum)
+handle_resume(int UNUSED(signum))
 {
 	if (isendwin()) {
 		refresh();

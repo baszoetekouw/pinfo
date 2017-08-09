@@ -21,8 +21,6 @@
 
 #include "common_includes.h"
 
-RCSID("$Id$")
-
 #include <ctype.h>
 
 #define COLOR_DEFAULT -1	/* mutt uses this was for transparency */
@@ -976,7 +974,7 @@ skip_whitespace(char *str)
 char *
 remove_quotes(char *str)
 {
-	int i = 0;
+	size_t i = 0;
 
 	for (i = 0; i < strlen(str); i++)
 		if (str[i] == '\"')

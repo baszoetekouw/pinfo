@@ -21,8 +21,6 @@
 
 #include "common_includes.h"
 
-RCSID("$Id$")
-
 void
 freeindirect()
 {

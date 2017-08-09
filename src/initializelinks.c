@@ -20,8 +20,6 @@
  ***************************************************************************/
 #include "common_includes.h"
 
-RCSID("$Id$")
-
 #define MENU_DOT 0
 #define NOTE_DOT 1
 
@@ -75,7 +73,7 @@ compare_tag_table_string(char *base, char *compared)
  * checks if an item belongs to tag table. returns 1 on success and 0 on
  * failure.  It should be optimised...
  */
-inline int
+int
 exists_in_tag_table(char *item)
 {
 	if (gettagtablepos(item) != -1)
@@ -167,10 +165,8 @@ findemailstart(char *str)
 {
 	char *allowedchars = "QWERTYUIOPASDFGHJKLZXCVBNMqwertyuiopasdfghjklzxcvbnm1234567890-_/~.%=|:";
 	char *at = strchr(str, '@');
-	char *emailstart = 0;
 	if (at)
 	{
-		emailstart = str;
 		while (at > str)
 		{
 			at--;
@@ -491,7 +487,7 @@ handlenote:
 		 *************************************************************************/
 		/* make sure that we don't handle notes, which fit in the second line */
 		/* Signed-unsigned issues FIXME */
-		if ((long)(notestart - buf) < strlen(line1))
+		if (notestart  < buf + strlen(line1))
 		{
 			/* we can handle only those, who are in the first line,
 			 * or who are split up into two lines */
@@ -517,12 +513,12 @@ handlenote:
 								end + 1, NodenameLen);
 						hyperobjects[hyperobjectcount].node[NodenameLen] = 0;
 						hyperobjects[hyperobjectcount].type = 2;
-						if (notestart + 7 - buf < strlen(line1))
+						if (notestart + 7 < buf + strlen(line1))
 						{
 							hyperobjects[hyperobjectcount].line = line;
 							hyperobjects[hyperobjectcount].col = calculate_len(buf, notestart + 7);
 							/* if the note highlight fits int first line */
-							if (tmp - buf < strlen(line1))
+							if (tmp < buf + strlen(line1))
 							{
 								/* we don't need to break highlighting
 								 * into several lines */
@@ -540,7 +536,7 @@ handlenote:
 							hyperobjects[hyperobjectcount].line = line + 1;
 							hyperobjects[hyperobjectcount].col =
 								calculate_len(buf + strlen(line1), notestart + 7);
-							if (tmp - buf < strlen(line1))	/* as above */
+							if (tmp < buf + strlen(line1))	/* as above */
 								hyperobjects[hyperobjectcount].breakpos = -1;
 							else if ((hyperobjects[hyperobjectcount].breakpos =
 										strlen(line1) -
@@ -569,13 +565,13 @@ handlenote:
 						strlen(hyperobjects[hyperobjectcount].node);
 					hyperobjects[hyperobjectcount].filelen =
 						strlen(hyperobjects[hyperobjectcount].file);
-					if (notestart + 7 - buf < strlen(line1))
+					if (notestart + 7 < buf + strlen(line1))
 					{
 						hyperobjects[hyperobjectcount].line = line;
 						hyperobjects[hyperobjectcount].col =
 							calculate_len(buf, notestart + 7) - 1;
 						/* if the note highlight fits int first line */
-						if (tmp - buf < strlen(line1))
+						if (tmp < buf + strlen(line1))
 						{
 							/* we don't need to break highlighting into
 							 * several lines */
@@ -593,7 +589,7 @@ handlenote:
 						hyperobjects[hyperobjectcount].line = line + 1;
 						hyperobjects[hyperobjectcount].col =
 							calculate_len(buf + strlen(line1), notestart + 7) - 1;
-						if (tmp - buf < strlen(line1))	/* as above */
+						if (tmp < buf + strlen(line1))	/* as above */
 							hyperobjects[hyperobjectcount].breakpos = -1;
 						else if ((hyperobjects[hyperobjectcount].breakpos =
 									strlen(line1)
@@ -650,12 +646,12 @@ handlenote:
 								end + 1, NodenameLen);
 						hyperobjects[hyperobjectcount].node[NodenameLen] = 0;
 						hyperobjects[hyperobjectcount].type = 3;
-						if (start - buf < strlen(line1))
+						if (start < buf + strlen(line1))
 						{
 							hyperobjects[hyperobjectcount].line = line;
 							hyperobjects[hyperobjectcount].col =
 								calculate_len(buf, start);
-							if (dot - buf < strlen(line1))
+							if (dot < buf + strlen(line1))
 							{
 								/* if the note highlight fits in first line
 								 * we don't need to break highlighting into
@@ -714,12 +710,12 @@ handle_no_file_note_label:
 							strlen(hyperobjects[hyperobjectcount].node);
 						hyperobjects[hyperobjectcount].filelen =
 							strlen(hyperobjects[hyperobjectcount].file);
-						if (start - buf < strlen(line1))
+						if (start < buf + strlen(line1))
 						{
 							hyperobjects[hyperobjectcount].line = line;
 							hyperobjects[hyperobjectcount].col =
 								calculate_len(buf, start);
-							if (dot - buf < strlen(line1))
+							if (dot < buf + strlen(line1))
 							{
 								/* if the note highlight fits in first line
 								 * we don't need to break highlighting into

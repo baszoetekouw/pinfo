@@ -21,8 +21,6 @@
 
 #include "common_includes.h"
 
-RCSID("$Id$")
-
 #ifndef NO_COLOR_CURSES
 extern struct colours cols;
 #endif /* NO_COLOR_CURSES */

@@ -22,6 +22,10 @@
 #ifndef __COMMON_INCLUDES_H
 #define __COMMON_INCLUDES_H
 
+/* make sure unistd.h defines sbrk() */
+#define _DEFAULT_SOURCE 1
+#define _BSD_SOURCE 1
+
 #include <stdio.h>
 #include <string.h>
 #include <strings.h>
@@ -33,6 +37,7 @@
 #include <sys/stat.h>
 #include <pwd.h>
 #include <grp.h>
+#include <assert.h>
 
 #ifdef HAVE_CONFIG_H
  #include "config.h"
@@ -55,7 +60,6 @@
 
 #include "localestuff.h"
 
-#include "rcsid.h"
 #include "datatypes.h"
 #include "filehandling_functions.h"
 #include "video.h"
@@ -87,4 +91,19 @@
 
 /* I hear voices, that it is needed by RH5.2 ;) */
 #define _REGEX_RE_COMP
+
+/* somewhat portable way of flagging unused vars 
+ * from https://stackoverflow.com/questions/7090998/portable-unused-parameter-macro-used-on-function-signature-for-c-and-c
+ */
+#ifdef UNUSED
+#elif defined(__GNUC__)
+# define UNUSED(x) x __attribute__((unused))
+#elif defined(__LCLINT__)
+# define UNUSED(x) /*@unused@*/ x
+#elif defined(__cplusplus)
+# define UNUSED(x)
+#else
+# define UNUSED(x) x
+#endif
+
 #endif

@@ -23,9 +23,7 @@
 
 #include "common_includes.h"
 
-RCSID("$Id$")
-
-void info_add_highlights(int pos, int cursor, long lines, int column, char **message);
+void info_add_highlights(unsigned pos, unsigned cursor, long lines, unsigned column, char **message);
 
 void
 substitutestr(char *src, char *dest, char *from, char *to)
@@ -76,7 +74,7 @@ addtopline(char *type, int column)
 }
 
 void
-showscreen(char **message, char *type, long lines, long pos, long cursor, int column)
+showscreen(char **message, long lines, long pos, long cursor, int column)
 {
 	long i;
 #ifdef getmaxyx
@@ -129,7 +127,7 @@ showscreen(char **message, char *type, long lines, long pos, long cursor, int co
 void
 info_addstr(int y, int x, char *txt, int column, int txtlen)
 {
-  int xmax, ymax;
+  int xmax, UNUSED(ymax);
   getmaxyx(stdscr, ymax, xmax);
   /* Use xmax and mvaddnstr to force clipping.
    * Fairly blunt instrument, but the best I could come up with.
@@ -144,10 +142,9 @@ info_addstr(int y, int x, char *txt, int column, int txtlen)
 }
 
 void
-info_add_highlights(int pos, int cursor, long lines, int column, char **message)
+info_add_highlights(unsigned pos, unsigned cursor, long lines, unsigned column, char **message)
 {
-	int i;
-	for (i = 0; i < hyperobjectcount; i++)
+	for (unsigned i = 0; i < hyperobjectcount; i++)
 	{
 		if ((hyperobjects[i].line >= pos) &&
 				(hyperobjects[i].line < pos +(maxy - 2)))
@@ -276,7 +273,7 @@ info_add_highlights(int pos, int cursor, long lines, int column, char **message)
 		 * a searched regexp to highlight
 		 */
 		/* loop over all the lines currently in the window */
-		for (i = pos; (i < lines) && (i < pos + maxy - 2); i++)
+		for (unsigned i = pos; (i < lines) && (i < pos + maxy - 2); i++)
 		{
 			char *str = message[i];
 

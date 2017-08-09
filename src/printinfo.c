@@ -21,8 +21,6 @@
 
 #include "common_includes.h"
 
-RCSID("$Id$")
-
 /*
  * Algorithm: We first print highlights, then we send `\r' to the printer,
  * and we draw the base line. Thus highlights are printed `twice', and
@@ -35,8 +33,7 @@ printnode(char ***message, long *lines)
 #define Lines	(*lines)
 
 	/* counter, to point at what highlights are already * handled */
-	int highlight = 0;
-	int i, j;
+	unsigned highlight = 0;
 	/* printer fd */
 	FILE *prnFD;
 	/* temporary buffer */
@@ -45,7 +42,7 @@ printnode(char ***message, long *lines)
 	prnFD = popen(printutility, "w");
 
 	/* scan through all lines */
-	for (i = 1; i < Lines; i++)
+	for (unsigned i = 1; i < Lines; i++)
 	{
 		/*
 		 * this says, where the printer's head is
@@ -82,7 +79,7 @@ printnode(char ***message, long *lines)
 			}
 			else if (hyperobjects[highlight].line == i)
 			{
-				for (j = 0; j < hyperobjects[highlight].col - lineprinted; j++)
+				for (unsigned j = 0; j < hyperobjects[highlight].col - lineprinted; j++)
 					fprintf(prnFD, " ");
 				fprintf(prnFD, "%s", buf);
 				lineprinted = hyperobjects[highlight].col +

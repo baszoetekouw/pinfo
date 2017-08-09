@@ -22,8 +22,6 @@
 
 #include "common_includes.h"
 
-RCSID("$Id$")
-
 typedef struct
 {
 	char *suffix;
@@ -211,7 +209,7 @@ dirpage_lookup(char **type, char ***message, long *lines,
 	}
 
 	/* if we haven't found anything, clean up and exit */
-	if (!goodHit)
+	if (id && !goodHit)
 	{
 		fclose(id);
 		id = 0;
@@ -562,7 +560,7 @@ seek_tag_table(FILE * id,int quiet)
 	return 1;
 }
 
-inline void
+void
 buildcommand(char *dest, char *command, char *filename, const char *tmpfilename)
 {
 	strcpy(dest, command);
@@ -572,7 +570,7 @@ buildcommand(char *dest, char *command, char *filename, const char *tmpfilename)
 	strcat(dest, tmpfilename);
 }
 
-inline void
+void
 builddircommand(char *dest, char *command, char *filename, const char *tmpfilename)
 {
 	strcpy(dest, command);
@@ -1105,8 +1103,8 @@ void
 create_indirect_tag_table()
 {
 	FILE *id = 0;
-	int i, j, initial;
-	for (i = 1; i <= IndirectEntries; i++)
+	int initial;
+	for (unsigned i = 1; i <= IndirectEntries; i++)
 	{
 		id = openinfo(indirect[i].filename, 1);
 		initial = TagTableEntries + 1;
@@ -1115,8 +1113,8 @@ create_indirect_tag_table()
 			/* display error message to make the user aware of
 			 * the broken info page
 			 */
-			char msg[81];
-			snprintf(msg, 81, "%s '%s' (%s)",
+			char msg[1024];
+			snprintf(msg, 1024, "%s '%s' (%s)",
 				_("Can't open file"), indirect[i].filename,
 				_("press a key to continue") );
 			attrset(bottomline);
@@ -1132,7 +1130,7 @@ create_indirect_tag_table()
 		FirstNodeOffset = tag_table[1].offset;
 		strcpy(FirstNodeName, tag_table[1].nodename);
 		fclose(id);
-		for (j = initial; j <= TagTableEntries; j++)
+		for (unsigned j = initial; j <= TagTableEntries; j++)
 		{
 			tag_table[j].offset +=(indirect[i].offset - FirstNodeOffset);
 		}
@@ -1266,13 +1264,15 @@ seeknode(int tag_table_pos, FILE ** Id)
 void
 strip_compression_suffix(char *file)
 {
+	const size_t len = strlen(file);
+	assert(len<1024); /* just some random limit */
 	char *found = 0;
-	int j;
-	for (j = 0; j < SuffixesNumber; j++)
+
+	for (unsigned j = 0; j < SuffixesNumber; j++)
 	{
 		if ( (found = strstr(file, suffixes[j].suffix)) != NULL )
 		{
-			if ( (file + strlen(file)) - found == strlen(suffixes[j].suffix) ) 
+			if ( file + len == found + strlen(suffixes[j].suffix) )
 			{
 				*found = '\0';
 				break;
@@ -1285,11 +1285,15 @@ strip_compression_suffix(char *file)
 void
 strip_info_suffix(char *file)
 {
+	const size_t len = strlen(file);
+	assert(len<1024); /* just some random limit */
+
 	char *found = 0;
-	char suffix[6] = ".info";
+	const char suffix[6] = ".info";
+
 	if ( (found = strstr(file, suffix)) != NULL )
 	{
-		if ( (file + strlen(file)) - found == strlen(suffix) )
+		if ( file + len == found + strlen(suffix) )
 		{
 			*found = '\0';
 		}
