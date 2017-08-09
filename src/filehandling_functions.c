@@ -1264,13 +1264,15 @@ seeknode(int tag_table_pos, FILE ** Id)
 void
 strip_compression_suffix(char *file)
 {
+	const size_t len = strlen(file);
+	assert(len<1024); /* just some random limit */
 	char *found = 0;
-	int j;
-	for (j = 0; j < SuffixesNumber; j++)
+
+	for (unsigned j = 0; j < SuffixesNumber; j++)
 	{
 		if ( (found = strstr(file, suffixes[j].suffix)) != NULL )
 		{
-			if ( (file + strlen(file)) - found == strlen(suffixes[j].suffix) ) 
+			if ( file + len == found + strlen(suffixes[j].suffix) )
 			{
 				*found = '\0';
 				break;
@@ -1283,11 +1285,15 @@ strip_compression_suffix(char *file)
 void
 strip_info_suffix(char *file)
 {
+	const size_t len = strlen(file);
+	assert(len<1024); /* just some random limit */
+
 	char *found = 0;
-	char suffix[6] = ".info";
+	const char suffix[6] = ".info";
+
 	if ( (found = strstr(file, suffix)) != NULL )
 	{
-		if ( (file + strlen(file)) - found == strlen(suffix) )
+		if ( file + len == found + strlen(suffix) )
 		{
 			*found = '\0';
 		}
