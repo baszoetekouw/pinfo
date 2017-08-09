@@ -127,8 +127,7 @@ showscreen(char **message, char *type, long lines, long pos, long cursor, int co
 void
 info_addstr(int y, int x, char *txt, int column, int txtlen)
 {
-  int xmax;
-  int ymax __attribute__((unused));
+  int xmax, UNUSED(ymax);
   getmaxyx(stdscr, ymax, xmax);
   /* Use xmax and mvaddnstr to force clipping.
    * Fairly blunt instrument, but the best I could come up with.

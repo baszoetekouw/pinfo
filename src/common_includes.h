@@ -90,4 +90,19 @@
 
 /* I hear voices, that it is needed by RH5.2 ;) */
 #define _REGEX_RE_COMP
+
+/* somewhat portable way of flagging unused vars 
+ * from https://stackoverflow.com/questions/7090998/portable-unused-parameter-macro-used-on-function-signature-for-c-and-c
+ */
+#ifdef UNUSED
+#elif defined(__GNUC__)
+# define UNUSED(x) x __attribute__((unused))
+#elif defined(__LCLINT__)
+# define UNUSED(x) /*@unused@*/ x
+#elif defined(__cplusplus)
+# define UNUSED(x)
+#else
+# define UNUSED(x) x
+#endif
+
 #endif
