@@ -211,9 +211,8 @@ construct_manualname(char *buf, int which)
 				ptr++;
 			strcpy(buf, ptr);
 			tmppos = strlen(buf);
-			/* TODO: check the following statement */
-			if (tmppos > 1);
-			buf[tmppos - 2] = 0;
+			if (tmppos > 1)
+				buf[tmppos - 2] = 0;
 			strcat(buf, manuallinks[which].name);
 			xfree(base);
 		}
