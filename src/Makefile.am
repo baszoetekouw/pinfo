@@ -68,7 +68,8 @@ pinfo_LDADD = \
 	$(pinfo_SIGBLOCK_OBJ) @READLINE_LIBS@ $(INTLLIBS) \
 	@CURSES_LIBS@ 
 
-pinfo_CFLAGS = @CURSES_FLAGS@ @CURSES_INCLUDES@ @WCHAR_FLAGS@
+pinfo_CFLAGS = @CURSES_FLAGS@ @CURSES_INCLUDES@ @WCHAR_FLAGS@ \
+	-DLOCALEDIR=\"@LOCALEDIR@\" -DCONFIGDIR=\"$(sysconfdir)/pinforc\"
 
 pinfo_DEPENDENCIES = $(pinfo_READLINE_OBJ)\
                      $(pinfo_SNPRINTF_OBJ)\

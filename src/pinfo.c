@@ -25,7 +25,7 @@
  #include <getopt.h>
 #endif
 
-char *version = VERSION;
+char *version = PACKAGE_VERSION;
 int DontHandleWithoutTagTable = 0;
 
 /* currently viewed filename */

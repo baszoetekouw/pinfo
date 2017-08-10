@@ -25,7 +25,7 @@
 #
 
 # init
-AC_INIT([pinfo],[0.6.10],[pinfo-devel@lists.alioth.debian.org])
+AC_INIT([pinfo],[0.6.10],[https://github.com/baszoetekouw/pinfo])
 # require a recent autoconf
 AC_PREREQ([2.57])
 # for identification of derived ./configure scripts
@@ -40,16 +40,11 @@ AC_CONFIG_SRCDIR([src/pinfo.c])
 # helper scripts are in tools/
 AC_CONFIG_AUX_DIR([tools])
 
-# The fairly useless --with-tags option to configure requires that
-# C++ and F77 support be invoked; this makes configure horribly
-# slow. Obliterating this macro pries the feature out of libtool 1.5; it
-# is removed in 1.6 in favour of a different scheme.
-m4_define([_LT_AC_TAGCONFIG], [])
 
 # init automake
 AM_INIT_AUTOMAKE
-# disable automatic rebuilding of ./configure, Makefile.in, etc
-AM_MAINTAINER_MODE
+# enable automatic rebuilding of ./configure, Makefile.in, and generation of # version.texi
+AM_MAINTAINER_MODE([enable])
 # include the m4 stuff in tools/macros
 AM_ACLOCAL_INCLUDE(macros)
 
@@ -59,6 +54,7 @@ AM_ACLOCAL_INCLUDE(macros)
 ####################################################
 # find C compiler
 AC_PROG_CC
+AC_PROG_CC_C99
 
 # set correct LIBS for (almost obsolete) INTERACTIVE UNIX
 AC_ISC_POSIX
@@ -179,6 +175,7 @@ if test "x$LOCALEDIR" = "x"; then
 		LOCALEDIR='$(prefix)/share/locale'
 	fi
 fi
+AC_SUBST(LOCALEDIR)
 
 
 ####################################################
@@ -189,9 +186,9 @@ fi
 AC_ARG_ENABLE(showcursor,
 	[  --enable-cursor         enable cursor when working with pinfo [default=no]], , )
 if test "x$enable_showcursor" != "xyes" ; then
-	AC_DEFINE(HIDECURSOR,FALSE,[don't show cursor])
+	AC_DEFINE(HIDECURSOR,FALSE,[don't show cursor]) #'
 else
-	AC_DEFINE(HIDECURSOR,TRUE,[don't show cursor])
+	AC_DEFINE(HIDECURSOR,TRUE,[don't show cursor]) #'
 fi
 
 # If pinfo is too slow, the below definition will resign from dynamical
@@ -202,7 +199,7 @@ AC_ARG_ENABLE(use_static,
 	[  --disable-static        enable using static buffers ], ,
 	enable_use_static=yes) 
 if test "x$enable_use_static" = "xyes" ; then
-	AC_DEFINE(___USE_STATIC___, 1, [don't use dynamic buffer])
+	AC_DEFINE(___USE_STATIC___, 1, [don't use dynamic buffer]) #'
 fi
 
 # do you want to use regexp searches?
@@ -211,7 +208,7 @@ AC_ARG_WITH(regexp_search,
 	[  --with-regexp-search    use regular expression search [default=yes]])
 if test "x$with_regexp_search" = "xno"; then
         AC_DEFINE(___DONT_USE_REGEXP_SEARCH___,1,
-			[Don't use regexp search engine])
+			[Don't use regexp search engine]) #'
 fi
 
 
@@ -220,13 +217,6 @@ fi
 ####################################################
 ## destination dirs
 ####################################################
-CONFIGDIR=${sysconfdir}/pinforc
-## TODO: have this put in config.h instead of passing it on the command line
-CPPFLAGS="$CPPFLAGS -DCONFIGDIR=\\\"${sysconfdir}/pinforc\\\" -DLOCALEDIR=\\\"${LOCALEDIR}\\\""
-## TODO: looks evil
-MANDIR="`eval MANDIR=$mandir;echo $MANDIR|sed -e \"s#NONE#$ac_default_prefix#\"`"
-
-
 
 ##TODO: replace these by PACKAGE_VERSION and PACKAGE_NAME
 AC_DEFINE_UNQUOTED(VERSION,"$VERSION",[Package version])
@@ -243,7 +233,7 @@ AC_CONFIG_FILES([
 	Makefile
 	doc/Makefile
 	macros/Makefile
-	src/Makefile  
+	src/Makefile
 	pinfo.spec
 	po/Makefile.in
 	src/pinforc
