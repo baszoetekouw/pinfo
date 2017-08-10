@@ -4,10 +4,7 @@
 @settitle Pinfo
 @c %**end of header
 
-@set EDITION 0.2.1
-@set VERSION 0.6.4
-@set DATE 1 Dec 2001
-@set DATEMAN 21 Mar 1999
+@include version.texi
 
 @set AUTHOR Przemek Borys, Bas Zoetekouw
 @set CONTACT @email{pborys@@dione.ids.pl}, @email{bas@@debian.org}
@@ -17,7 +14,7 @@
 
 @ifinfo
 This is documentation for @value{PROGRAM}, version @value{VERSION}.
-Edition @value{EDITION}, date @value{DATE}.
+Edition @value{EDITION}, date @value{UPDATED}.
 
 @flushright
 Copyright 2000 @copyright{} @value{AUTHOR}@*
@@ -29,7 +26,7 @@ Copyright 2000 @copyright{} @value{AUTHOR}@*
 @title Pinfo
 @subtitle Version of @value{PROGRAM} @value{VERSION}
 @subtitle Edition @value{EDITION}
-@subtitle @value{DATE}
+@subtitle @value{UPDATED-MONTH}
 @author @value{AUTHOR}
 @author @value{CONTACT}
 @page
@@ -52,12 +49,6 @@ Copyright 2000 @copyright{} @value{AUTHOR}@*
 @cindex Date
 
 This documentation is for @value{PROGRAM}, version @value{VERSION}.
-
-Original manpage written on @value{DATEMAN} by @value{AUTHOR},
-@value{CONTACT}.
-
-Translated to Texinfo by @value{AUTHORTEXI}, @value{CONTACTTEXI} on
-@value{DATE}.
 
 @menu
 * Invoking::                    Command line options.
