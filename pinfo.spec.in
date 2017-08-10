@@ -1,15 +1,13 @@
 Summary:	Lynx-style info browser
 Summary(pl):	PrzЙgl╠darka info w stylu lynksa
-Summary(ru):	Вьюер info-файлов Пржемека
-Name:		@PACKAGE@	
-Version:	@VERSION@
+Name:		@PACKAGE_NAME@
+Version:	@PACKAGE_VERSION@
 Release:	1
 Group:		Utilities/System
 Group(pl):	NarzЙdzia/System
-Group(ru):	Утилиты/Система
 Copyright:	GPL
 Vendor:		Bas Zoetekouw <bas@debian.org>
-Source:		http://alioth.debian.org/project/showfiles.php?group_id=30592
+Source:		https://github.com/baszoetekouw/pinfo
 BuildRoot:   	/tmp/%{name}-%{version}-root
 
 %define		_prefix		/usr
@@ -23,11 +21,6 @@ Pinfo is a curses based lynx-style info browser.
 
 %description -l pl
 Pinfo jest przegl╠dark╠ dokumentСw info podobn╠ do lynksa.
-
-%description -l ru
-Гипертекстовый вьюер info-файлов. Пользовательский интерфейс аналогичен
-lynx'у. Базируется на ncurses. Умеет также работать с man-страницами. 
-Поддерживает regexp-поиск.
 
 %prep
 echo "%{_mandir}"
