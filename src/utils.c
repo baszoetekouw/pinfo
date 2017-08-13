@@ -279,7 +279,9 @@ getstring(char *prompt)
 void
 init_curses()
 {
-	initscr();
+	FILE *f = fopen("/dev/tty", "r+");
+	SCREEN *screen = newterm(NULL, f, f);
+	set_term(screen);
 	noecho();
 	cbreak();
 	keypad(stdscr, TRUE);
