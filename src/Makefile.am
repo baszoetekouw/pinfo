@@ -2,8 +2,9 @@
 
 @SET_MAKE@
 
-bin_PROGRAMS = pinfo
+CFLAGS+=@WFLAGS@
 
+bin_PROGRAMS = pinfo
 
 pinfo_COMMON_SRC = pinfo.c \
 		colors.c \

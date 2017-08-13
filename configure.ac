@@ -62,6 +62,12 @@ AC_ISC_POSIX
 # Checks for typedefs, structures, and compiler characteristics.
 AC_C_CONST
 
+WFLAGS="-Wall -Wextra -Wshadow -Werror"
+AX_CHECK_COMPILE_FLAG($WFLAGS,
+	[AC_SUBST(WFLAGS)],
+	[AC_SUBST(WFLAGS,"")]
+)
+
 # Checks for library functions.
 AC_CHECK_FUNCS(strdup strstr strsep)
 AC_CHECK_FUNCS(getopt_long snprintf)
