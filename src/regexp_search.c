@@ -72,7 +72,7 @@ __regexp_search(char *pattern, char *string)
 		/* invalid regexp */
 		if (regcomp(&h_regexp[pinfo_re_offset], pattern, flags))
 		{
-			return 0;
+			return -1;
 		}
 		old_pattern = strdup(pattern);
 		old_type = match_type;
