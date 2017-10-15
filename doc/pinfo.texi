@@ -514,7 +514,7 @@ This specifies the options, which should be passed to the `man' program.
 @item STDERR-REDIRECTION
 Pinfo allows you to redirect the stderr output of called programs.  For
 example if you don't want to see man's error messages about manual page
-formatting, you can use @samp{STDER-REDIRECTION"> /dev/null"}.  This
+formatting, you can use @samp{STDERR-REDIRECTION="2> /dev/null"}.  This
 is the default.
 
 @item LONG-MANUAL-LINKS
