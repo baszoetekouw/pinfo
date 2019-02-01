@@ -11,8 +11,9 @@ msgstr ""
 "PO-Revision-Date: 2005-09-01 21:21+0200\n"
 "Last-Translator: Bas Zoetekouw <bas@debian.org>\n"
 "Language-Team: Dutch <nl@li.org>\n"
+"Language: nl\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=ISO-8859-15\n"
+"Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
 #: src/filehandling_functions.c:469 src/filehandling_functions.c:476

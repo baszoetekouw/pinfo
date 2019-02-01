@@ -1,8 +1,8 @@
 # Svenska translation of pinfo.
 # Copyright (C) 2005 Free Software Foundation, Inc.
 # Daniel Nylander <po@danielnylander.se>, 2005.
-# 
-# 
+#
+#
 msgid ""
 msgstr ""
 "Project-Id-Version: pinfo 0.6.8-6\n"
@@ -11,15 +11,16 @@ msgstr ""
 "PO-Revision-Date: 2005-10-06 12:00+0200\n"
 "Last-Translator: Daniel Nylander <po@danielnylander.se>\n"
 "Language-Team: Swedish <sv@li.org>\n"
+"Language: sv\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=iso-8859-1\n"
+"Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: \n"
 
 #: src/filehandling_functions.c:469 src/filehandling_functions.c:476
 #, c-format
 msgid "Searching for indirect done"
-msgstr "Sökning efter indirekt klar"
+msgstr "SÃ¶kning efter indirekt klar"
 
 #: src/filehandling_functions.c:508 src/filehandling_functions.c:515
 #, c-format
@@ -29,17 +30,17 @@ msgstr "Varning: kunde inte finna tag table"
 #: src/filehandling_functions.c:542
 #, c-format
 msgid "Searching for tag table done\n"
-msgstr "Sökning efter tag table klar\n"
+msgstr "SÃ¶kning efter tag table klar\n"
 
 #: src/filehandling_functions.c:1211
 #, fuzzy, c-format
 msgid "Error: could not open info file"
-msgstr "Fel: kunde inte öppna info-fil"
+msgstr "Fel: kunde inte Ã¶ppna info-fil"
 
 #: src/mainfunction.c:143 src/manual.c:975
 #, fuzzy
 msgid "Are you sure you want to print?"
-msgstr "Är du säker att du vill skriva ut?"
+msgstr "Ã„r du sÃ¤ker att du vill skriva ut?"
 
 #
 # Regexp search messages
@@ -69,7 +70,7 @@ msgstr "Skriv regexp: "
 
 #: src/mainfunction.c:523 src/mainfunction.c:621 src/manual.c:1198
 msgid "Search string not found..."
-msgstr "Söksträng inte hittad..."
+msgstr "SÃ¶kstrÃ¤ng inte hittad..."
 
 #: src/mainfunction.c:580 src/manual.c:1155
 msgid "Invalid regular expression;"
@@ -95,7 +96,7 @@ msgstr "Kunde inte hitta nod %s"
 #: src/mainfunction.c:1184 src/manual.c:1548
 #, fuzzy
 msgid "Are you sure you want to quit?"
-msgstr "Är du säker att du vill avsluta?"
+msgstr "Ã„r du sÃ¤ker att du vill avsluta?"
 
 #: src/manual.c:315
 #, c-format
@@ -115,11 +116,11 @@ msgstr "Fel: Hittade ingen manual-sida heller.\n"
 #: src/manual.c:327
 #, fuzzy, c-format
 msgid "Apropos pages:\n"
-msgstr "Lämpliga sidor:\n"
+msgstr "LÃ¤mpliga sidor:\n"
 
 #: src/manual.c:370
 msgid "Calling gunzip for"
-msgstr "Kallar upp gunzip för"
+msgstr "Kallar upp gunzip fÃ¶r"
 
 #: src/manual.c:376
 #, c-format
@@ -147,7 +148,7 @@ msgstr "Kallar upp apropos \n"
 #: src/manual.c:466
 #, fuzzy, c-format
 msgid "Nothing appropiate\n"
-msgstr "Inget lämpligt\n"
+msgstr "Inget lÃ¤mpligt\n"
 
 #
 # Goto messages
@@ -172,7 +173,7 @@ msgstr "Aktuell rad %d/%d, 100%%"
 #: src/parse_config.c:113
 #, c-format
 msgid "Can't open config file!\n"
-msgstr "Kunde inte öppna konfigurationsfilen!\n"
+msgstr "Kunde inte Ã¶ppna konfigurationsfilen!\n"
 
 #
 # Messages from the config file parsing procedures:
@@ -180,7 +181,7 @@ msgstr "Kunde inte öppna konfigurationsfilen!\n"
 #: src/parse_config.c:163
 #, c-format
 msgid "Parse error in config file on line %d\n"
-msgstr "Syntax-fel i konfigureringsfil på rad %d\n"
+msgstr "Syntax-fel i konfigureringsfil pÃ¥ rad %d\n"
 
 #
 # Out of memory message
@@ -188,7 +189,7 @@ msgstr "Syntax-fel i konfigureringsfil på rad %d\n"
 #: src/utils.c:122 src/utils.c:178
 #, c-format
 msgid "Virtual memory exhausted\n"
-msgstr "Slut på virtuellt minne\n"
+msgstr "Slut pÃ¥ virtuellt minne\n"
 
 #: src/utils.c:232
 #, c-format
@@ -268,12 +269,12 @@ msgstr ""
 #: src/pinfo.c:312
 #, fuzzy, c-format
 msgid "Error: could not open info file, trying manual\n"
-msgstr "Fel: kunde inte öppna info-fil\n"
+msgstr "Fel: kunde inte Ã¶ppna info-fil\n"
 
 #: src/pinfo.c:345
 #, fuzzy, c-format
 msgid "Warning: tag table not found...\n"
-msgstr "Sökning efter tag table klar\n"
+msgstr "SÃ¶kning efter tag table klar\n"
 
 #: src/pinfo.c:349
 #, c-format
@@ -329,7 +330,7 @@ msgstr ""
 # Load messages for info pages (version for printf)
 #
 #~ msgid "Searching for indirect done\n"
-#~ msgstr "Sökning efter indirekt klar\n"
+#~ msgstr "SÃ¶kning efter indirekt klar\n"
 
 #~ msgid "Warning: could not find tag table\n"
 #~ msgstr "Varning: kunde inte finna tag table\n"

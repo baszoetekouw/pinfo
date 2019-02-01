@@ -10,55 +10,56 @@ msgstr ""
 "PO-Revision-Date: 2001-11-21 17:42+0900\n"
 "Last-Translator: Masayuki Hatta <mhatta@gnu.org>\n"
 "Language-Team: Japanese <ja@li.org>\n"
+"Language: ja\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=euc-jp\n"
+"Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
 #: src/filehandling_functions.c:469 src/filehandling_functions.c:476
 #, c-format
 msgid "Searching for indirect done"
-msgstr "indirect¤Î¸¡º÷´°Î»"
+msgstr "indirectã®æ¤œç´¢å®Œäº†"
 
 #: src/filehandling_functions.c:508 src/filehandling_functions.c:515
 #, c-format
 msgid "Warning: could not find tag table"
-msgstr "·Ù¹ğ: ¥¿¥°¥Æ¡¼¥Ö¥ë¤¬¸«¤Ä¤«¤ê¤Ş¤»¤ó¤Ç¤·¤¿"
+msgstr "è­¦å‘Š: ã‚¿ã‚°ãƒ†ãƒ¼ãƒ–ãƒ«ãŒè¦‹ã¤ã‹ã‚Šã¾ã›ã‚“ã§ã—ãŸ"
 
 #: src/filehandling_functions.c:542
 #, c-format
 msgid "Searching for tag table done\n"
-msgstr "¥¿¥°¥Æ¡¼¥Ö¥ë¤Î¸¡º÷´°Î»\n"
+msgstr "ã‚¿ã‚°ãƒ†ãƒ¼ãƒ–ãƒ«ã®æ¤œç´¢å®Œäº†\n"
 
 #: src/filehandling_functions.c:1211
 #, fuzzy, c-format
 msgid "Error: could not open info file"
-msgstr "¥¨¥é¡¼: info¥Õ¥¡¥¤¥ë¤¬³«¤±¤Ş¤»¤ó¤Ç¤·¤¿"
+msgstr "ã‚¨ãƒ©ãƒ¼: infoãƒ•ã‚¡ã‚¤ãƒ«ãŒé–‹ã‘ã¾ã›ã‚“ã§ã—ãŸ"
 
 #: src/mainfunction.c:143 src/manual.c:975
 msgid "Are you sure you want to print?"
-msgstr "ËÜÅö¤Ë°õºş¤·¤Æ¤è¤í¤·¤¤¤Ç¤¹¤«?"
+msgstr "æœ¬å½“ã«å°åˆ·ã—ã¦ã‚ˆã‚ã—ã„ã§ã™ã‹?"
 
 #: src/mainfunction.c:195 src/manual.c:1020
 msgid "Enter line: "
-msgstr "¹Ô¤òÆşÎÏ: "
+msgstr "è¡Œã‚’å…¥åŠ›: "
 
 #: src/mainfunction.c:236 src/manual.c:1067
 msgid "Enter command: "
-msgstr "¥³¥Ş¥ó¥É¤òÆşÎÏ: "
+msgstr "ã‚³ãƒãƒ³ãƒ‰ã‚’å…¥åŠ›: "
 
 #: src/mainfunction.c:255
 msgid "Operation failed..."
-msgstr "Áàºî¤Ë¼ºÇÔ¤·¤Ş¤·¤¿..."
+msgstr "æ“ä½œã«å¤±æ•—ã—ã¾ã—ãŸ..."
 
 #: src/mainfunction.c:291 src/mainfunction.c:553 src/manual.c:1120
 #, fuzzy
 msgid "Enter regular expression: "
-msgstr "Àµµ¬É½¸½¤òÆşÎÏ: "
+msgstr "æ­£è¦è¡¨ç¾ã‚’å…¥åŠ›: "
 
 #: src/mainfunction.c:523 src/mainfunction.c:621 src/manual.c:1198
 #, fuzzy
 msgid "Search string not found..."
-msgstr "·Ù¹ğ: ¥¿¥°¥Æ¡¼¥Ö¥ë¤¬¸«¤Ä¤«¤ê¤Ş¤»¤ó¤Ç¤·¤¿...\n"
+msgstr "è­¦å‘Š: ã‚¿ã‚°ãƒ†ãƒ¼ãƒ–ãƒ«ãŒè¦‹ã¤ã‹ã‚Šã¾ã›ã‚“ã§ã—ãŸ...\n"
 
 #: src/mainfunction.c:580 src/manual.c:1155
 msgid "Invalid regular expression;"
@@ -70,49 +71,49 @@ msgstr ""
 
 #: src/mainfunction.c:650
 msgid "Enter node name: "
-msgstr "¥Î¡¼¥ÉÌ¾¤òÆşÎÏ: "
+msgstr "ãƒãƒ¼ãƒ‰åã‚’å…¥åŠ›: "
 
 #: src/mainfunction.c:726
 #, c-format
 msgid "Node %s not found"
-msgstr "¥Î¡¼¥É %s ¤Ï¸«¤Ä¤«¤ê¤Ş¤»¤ó¤Ç¤·¤¿"
+msgstr "ãƒãƒ¼ãƒ‰ %s ã¯è¦‹ã¤ã‹ã‚Šã¾ã›ã‚“ã§ã—ãŸ"
 
 #: src/mainfunction.c:1184 src/manual.c:1548
 msgid "Are you sure you want to quit?"
-msgstr "ËÜÅö¤Ë½ªÎ»¤·¤Æ¤è¤í¤·¤¤¤Ç¤¹¤«?"
+msgstr "æœ¬å½“ã«çµ‚äº†ã—ã¦ã‚ˆã‚ã—ã„ã§ã™ã‹?"
 
 #: src/manual.c:315
 #, c-format
 msgid "Error: Cannot call man command.\n"
-msgstr "¥¨¥é¡¼: man¥³¥Ş¥ó¥É¤¬¸Æ¤Ó½Ğ¤»¤Ş¤»¤ó¡£\n"
+msgstr "ã‚¨ãƒ©ãƒ¼: manã‚³ãƒãƒ³ãƒ‰ãŒå‘¼ã³å‡ºã›ã¾ã›ã‚“ã€‚\n"
 
 #: src/manual.c:324
 #, c-format
 msgid "Error: No manual page found either.\n"
-msgstr "¥¨¥é¡¼: ¤É¤Î¥Ş¥Ë¥å¥¢¥ë¥Ú¡¼¥¸¤â¸«¤Ä¤«¤ê¤Ş¤»¤ó¤Ç¤·¤¿¡£\n"
+msgstr "ã‚¨ãƒ©ãƒ¼: ã©ã®ãƒãƒ‹ãƒ¥ã‚¢ãƒ«ãƒšãƒ¼ã‚¸ã‚‚è¦‹ã¤ã‹ã‚Šã¾ã›ã‚“ã§ã—ãŸã€‚\n"
 
 #: src/manual.c:327
 #, fuzzy, c-format
 msgid "Apropos pages:\n"
-msgstr "Å¬ÀÚ¤Ê¥Ú¡¼¥¸:\n"
+msgstr "é©åˆ‡ãªãƒšãƒ¼ã‚¸:\n"
 
 #: src/manual.c:370
 msgid "Calling gunzip for"
-msgstr "gunzip¤ò¸Æ¤Ó½Ğ¤·Ãæ: "
+msgstr "gunzipã‚’å‘¼ã³å‡ºã—ä¸­: "
 
 #: src/manual.c:376
 #, c-format
 msgid "Couldn't call gunzip.\n"
-msgstr "gunzip¤ò¸Æ¤Ó½Ğ¤»¤Ş¤»¤ó¤Ç¤·¤¿¡£\n"
+msgstr "gunzipã‚’å‘¼ã³å‡ºã›ã¾ã›ã‚“ã§ã—ãŸã€‚\n"
 
 #: src/manual.c:413
 msgid "IGNORING"
-msgstr "Ìµ»ë"
+msgstr "ç„¡è¦–"
 
 #: src/manual.c:456
 #, fuzzy, c-format
 msgid "Error: No manual page found\n"
-msgstr "¥¨¥é¡¼: ¤É¤Î¥Ş¥Ë¥å¥¢¥ë¥Ú¡¼¥¸¤â¸«¤Ä¤«¤ê¤Ş¤»¤ó¤Ç¤·¤¿¡£\n"
+msgstr "ã‚¨ãƒ©ãƒ¼: ã©ã®ãƒãƒ‹ãƒ¥ã‚¢ãƒ«ãƒšãƒ¼ã‚¸ã‚‚è¦‹ã¤ã‹ã‚Šã¾ã›ã‚“ã§ã—ãŸã€‚\n"
 
 #: src/manual.c:461
 #, c-format
@@ -126,17 +127,17 @@ msgstr ""
 
 #: src/manual.c:989
 msgid "Enter manual name: "
-msgstr "¥Ş¥Ë¥å¥¢¥ëÌ¾¤òÆşÎÏ: "
+msgstr "ãƒãƒ‹ãƒ¥ã‚¢ãƒ«åã‚’å…¥åŠ›: "
 
 #: src/manual.c:1631 src/video.c:114
 #, c-format
 msgid "Viewing line %d/%d, %d%%"
-msgstr "¸½ºß %d/%d ¹ÔÌÜ¡¢%d%%"
+msgstr "ç¾åœ¨ %d/%d è¡Œç›®ã€%d%%"
 
 #: src/manual.c:1633 src/video.c:116
 #, c-format
 msgid "Viewing line %d/%d, 100%%"
-msgstr "¸½ºß %d/%d ¹ÔÌÜ¡¢100%%"
+msgstr "ç¾åœ¨ %d/%d è¡Œç›®ã€100%%"
 
 #: src/parse_config.c:113
 #, c-format
@@ -146,12 +147,12 @@ msgstr ""
 #: src/parse_config.c:163
 #, c-format
 msgid "Parse error in config file on line %d\n"
-msgstr "ÀßÄê¥Õ¥¡¥¤¥ë¤Î %d ¹ÔÌÜ¤Ç²òÀÏ¥¨¥é¡¼\n"
+msgstr "è¨­å®šãƒ•ã‚¡ã‚¤ãƒ«ã® %d è¡Œç›®ã§è§£æã‚¨ãƒ©ãƒ¼\n"
 
 #: src/utils.c:122 src/utils.c:178
 #, c-format
 msgid "Virtual memory exhausted\n"
-msgstr "²¾ÁÛ¥á¥â¥ê¤ò»È¤¤ÀÚ¤Ã¤Æ¤·¤Ş¤¤¤Ş¤·¤¿\n"
+msgstr "ä»®æƒ³ãƒ¡ãƒ¢ãƒªã‚’ä½¿ã„åˆ‡ã£ã¦ã—ã¾ã„ã¾ã—ãŸ\n"
 
 #: src/utils.c:232
 #, c-format
@@ -159,7 +160,7 @@ msgid ""
 "Illegal characters in filename!\n"
 "*** %s\n"
 msgstr ""
-"¥Õ¥¡¥¤¥ëÌ¾¤Ë°Ê²¼¤ÎÉÔÀµ¤Ê¥­¥ã¥é¥¯¥¿¤¬´Ş¤Ş¤ì¤Æ¤¤¤Ş¤¹!\n"
+"ãƒ•ã‚¡ã‚¤ãƒ«åã«ä»¥ä¸‹ã®ä¸æ­£ãªã‚­ãƒ£ãƒ©ã‚¯ã‚¿ãŒå«ã¾ã‚Œã¦ã„ã¾ã™!\n"
 "*** %s\n"
 
 #: src/utils.c:451
@@ -172,38 +173,38 @@ msgstr "no"
 
 #: src/video.c:61
 msgid "File:"
-msgstr "¥Õ¥¡¥¤¥ë: "
+msgstr "ãƒ•ã‚¡ã‚¤ãƒ«: "
 
 #: src/video.c:62
 msgid "Node:"
-msgstr "¥Î¡¼¥É: "
+msgstr "ãƒãƒ¼ãƒ‰: "
 
 #: src/video.c:63
 msgid "Next:"
-msgstr "¼¡: "
+msgstr "æ¬¡: "
 
 #: src/video.c:64
 msgid "Prev:"
-msgstr "Á°: "
+msgstr "å‰: "
 
 #: src/video.c:65
 msgid "Up:"
-msgstr "¾å: "
+msgstr "ä¸Š: "
 
 #: src/pinfo.c:113 src/pinfo.c:198
 #, c-format
 msgid "Looking for man page...\n"
-msgstr "man¥Ú¡¼¥¸¤òÃµ¤·¤Æ¤¤¤Ş¤¹...\n"
+msgstr "manãƒšãƒ¼ã‚¸ã‚’æ¢ã—ã¦ã„ã¾ã™...\n"
 
 #: src/pinfo.c:151
 #, c-format
 msgid "--node option used without argument\n"
-msgstr "--node¥ª¥×¥·¥ç¥ó¤Ë°ú¿ô¤¬Í¿¤¨¤é¤ì¤Æ¤¤¤Ş¤»¤ó\n"
+msgstr "--nodeã‚ªãƒ—ã‚·ãƒ§ãƒ³ã«å¼•æ•°ãŒä¸ãˆã‚‰ã‚Œã¦ã„ã¾ã›ã‚“\n"
 
 #: src/pinfo.c:161
 #, fuzzy, c-format
 msgid "--rcfile option used without argument\n"
-msgstr "--node¥ª¥×¥·¥ç¥ó¤Ë°ú¿ô¤¬Í¿¤¨¤é¤ì¤Æ¤¤¤Ş¤»¤ó\n"
+msgstr "--nodeã‚ªãƒ—ã‚·ãƒ§ãƒ³ã«å¼•æ•°ãŒä¸ãˆã‚‰ã‚Œã¦ã„ã¾ã›ã‚“\n"
 
 #: src/pinfo.c:172
 #, fuzzy, c-format
@@ -229,49 +230,49 @@ msgid ""
 "    --node=nodename, --node nodename  jump directly to the node nodename\n"
 "    --rcfile=file, --rcfile file      use alternate rcfile\n"
 msgstr ""
-"»È¤¤Êı:\n"
-"%s [¥ª¥×¥·¥ç¥ó] [info|manual]\n"
-"¥ª¥×¥·¥ç¥ó:\n"
-"-h, --help                            ¥Ø¥ë¥×\n"
-"-v, --version                         ¥Ğ¡¼¥¸¥ç¥ó\n"
-"-m, --manual                          man¥Ú¡¼¥¸¤ò»ÈÍÑ\n"
-"-r, --raw-filename                    À¸¤Î¥Õ¥¡¥¤¥ëÌ¾¤ò»ÈÍÑ\n"
-"-f, --file\t\t\t    -r¤ÈÆ±¤¸\n"
-"-a, --apropos                         ²¿¤â¸«¤Ä¤«¤é¤Ê¤±¤ì¤Ğapropos¤ò¸Æ¤Ö\n"
+"ä½¿ã„æ–¹:\n"
+"%s [ã‚ªãƒ—ã‚·ãƒ§ãƒ³] [info|manual]\n"
+"ã‚ªãƒ—ã‚·ãƒ§ãƒ³:\n"
+"-h, --help                            ãƒ˜ãƒ«ãƒ—\n"
+"-v, --version                         ãƒãƒ¼ã‚¸ãƒ§ãƒ³\n"
+"-m, --manual                          manãƒšãƒ¼ã‚¸ã‚’ä½¿ç”¨\n"
+"-r, --raw-filename                    ç”Ÿã®ãƒ•ã‚¡ã‚¤ãƒ«åã‚’ä½¿ç”¨\n"
+"-f, --file\t\t\t    -rã¨åŒã˜\n"
+"-a, --apropos                         ä½•ã‚‚è¦‹ã¤ã‹ã‚‰ãªã‘ã‚Œã°aproposã‚’å‘¼ã¶\n"
 "-p, --plain-apropos                   call only apropos\n"
-"-c, --cut-man-headers                 ·«¤êÊÖ¤µ¤ì¤¿man¥Ø¥Ã¥À¤ò¥«¥Ã¥È\n"
-"-l, --long-manual-links               ¥Ş¥Ë¥å¥¢¥ë¤ËÄ¹¤¤¥ê¥ó¥¯Ì¾¤ò»È¤¦\n"
-"-s, --squeeze-manlines                ¥Ş¥Ë¥å¥¢¥ë¥Ú¡¼¥¸¤«¤é¶õ¹Ô¤òºï½ü\n"
-"-d, --dont-handle-without-tag-table   ¥¿¥°¥Æ¡¼¥Ö¥ë¤ÎÌµ¤¤texinfo¥Ú¡¼¥¸¤ò\n"
-"                                      É½¼¨¤·¤Ê¤¤\n"
-"-t, --force-manual-tag-table          ¥¿¥°¥Æ¡¼¥Ö¥ë¤Î¥Ş¥Ë¥å¥¢¥ëÇ§¼±¤ò¶¯À©\n"
-"-x, --clear-at-exit                   ½ªÎ»»ş¤Ë²èÌÌ¤ò¥¯¥ê¥¢\n"
-"    --node=nodename, --node nodename  ¥Î¡¼¥Énodename¤ËÄ¾ÀÜ¥¸¥ã¥ó¥×\n"
+"-c, --cut-man-headers                 ç¹°ã‚Šè¿”ã•ã‚ŒãŸmanãƒ˜ãƒƒãƒ€ã‚’ã‚«ãƒƒãƒˆ\n"
+"-l, --long-manual-links               ãƒãƒ‹ãƒ¥ã‚¢ãƒ«ã«é•·ã„ãƒªãƒ³ã‚¯åã‚’ä½¿ã†\n"
+"-s, --squeeze-manlines                ãƒãƒ‹ãƒ¥ã‚¢ãƒ«ãƒšãƒ¼ã‚¸ã‹ã‚‰ç©ºè¡Œã‚’å‰Šé™¤\n"
+"-d, --dont-handle-without-tag-table   ã‚¿ã‚°ãƒ†ãƒ¼ãƒ–ãƒ«ã®ç„¡ã„texinfoãƒšãƒ¼ã‚¸ã‚’\n"
+"                                      è¡¨ç¤ºã—ãªã„\n"
+"-t, --force-manual-tag-table          ã‚¿ã‚°ãƒ†ãƒ¼ãƒ–ãƒ«ã®ãƒãƒ‹ãƒ¥ã‚¢ãƒ«èªè­˜ã‚’å¼·åˆ¶\n"
+"-x, --clear-at-exit                   çµ‚äº†æ™‚ã«ç”»é¢ã‚’ã‚¯ãƒªã‚¢\n"
+"    --node=nodename, --node nodename  ãƒãƒ¼ãƒ‰nodenameã«ç›´æ¥ã‚¸ãƒ£ãƒ³ãƒ—\n"
 
 #: src/pinfo.c:312
 #, c-format
 msgid "Error: could not open info file, trying manual\n"
-msgstr "¥¨¥é¡¼: info¥Õ¥¡¥¤¥ë¤ò³«¤±¤Ş¤»¤ó¤Ç¤·¤¿¡£¥Ş¥Ë¥å¥¢¥ë¤Ç»î¤·¤Æ¤¤¤Ş¤¹\n"
+msgstr "ã‚¨ãƒ©ãƒ¼: infoãƒ•ã‚¡ã‚¤ãƒ«ã‚’é–‹ã‘ã¾ã›ã‚“ã§ã—ãŸã€‚ãƒãƒ‹ãƒ¥ã‚¢ãƒ«ã§è©¦ã—ã¦ã„ã¾ã™\n"
 
 #: src/pinfo.c:345
 #, c-format
 msgid "Warning: tag table not found...\n"
-msgstr "·Ù¹ğ: ¥¿¥°¥Æ¡¼¥Ö¥ë¤¬¸«¤Ä¤«¤ê¤Ş¤»¤ó¤Ç¤·¤¿...\n"
+msgstr "è­¦å‘Š: ã‚¿ã‚°ãƒ†ãƒ¼ãƒ–ãƒ«ãŒè¦‹ã¤ã‹ã‚Šã¾ã›ã‚“ã§ã—ãŸ...\n"
 
 #: src/pinfo.c:349
 #, c-format
 msgid "Trying to create alternate tag table...\n"
-msgstr "ÊÌ¤Î¥¿¥°¥Æ¡¼¥Ö¥ë¤òºîÀ®¤·¤è¤¦¤È¤·¤Æ¤¤¤Ş¤¹...\n"
+msgstr "åˆ¥ã®ã‚¿ã‚°ãƒ†ãƒ¼ãƒ–ãƒ«ã‚’ä½œæˆã—ã‚ˆã†ã¨ã—ã¦ã„ã¾ã™...\n"
 
 #: src/pinfo.c:354 src/pinfo.c:564
 #, c-format
 msgid "This doesn't look like info file...\n"
-msgstr "¤³¤ì¤Ïinfo¥Õ¥¡¥¤¥ë¤Ç¤Ï¤Ê¤¤¤è¤¦¤Ç¤¹...\n"
+msgstr "ã“ã‚Œã¯infoãƒ•ã‚¡ã‚¤ãƒ«ã§ã¯ãªã„ã‚ˆã†ã§ã™...\n"
 
 #: src/pinfo.c:367
 #, c-format
 msgid "Specified node does not exist...\n"
-msgstr "»ØÄê¤µ¤ì¤¿¥Î¡¼¥É¤ÏÂ¸ºß¤·¤Ş¤»¤ó...\n"
+msgstr "æŒ‡å®šã•ã‚ŒãŸãƒãƒ¼ãƒ‰ã¯å­˜åœ¨ã—ã¾ã›ã‚“...\n"
 
 #: src/pinfo.c:419
 msgid "Tag table is corrupt, trying to fix..."
@@ -283,32 +284,32 @@ msgstr ""
 
 #: src/pinfo.c:486
 msgid "File not found. Press any key..."
-msgstr "¥Õ¥¡¥¤¥ë¤¬¸«¤Ä¤«¤ê¤Ş¤»¤ó¡£²¿¤«¥­¡¼¤ò²¡¤·¤Æ²¼¤µ¤¤..."
+msgstr "ãƒ•ã‚¡ã‚¤ãƒ«ãŒè¦‹ã¤ã‹ã‚Šã¾ã›ã‚“ã€‚ä½•ã‹ã‚­ãƒ¼ã‚’æŠ¼ã—ã¦ä¸‹ã•ã„..."
 
 #: src/pinfo.c:506
 #, c-format
 msgid "Unexpected error.\n"
-msgstr "Í½´ü¤»¤Ì¥¨¥é¡¼¤Ç¤¹¡£\n"
+msgstr "äºˆæœŸã›ã¬ã‚¨ãƒ©ãƒ¼ã§ã™ã€‚\n"
 
 #: src/pinfo.c:559
 msgid "Tag table not found. Trying to create alternate..."
-msgstr "¥¿¥°¥Æ¡¼¥Ö¥ë¤¬¸«¤Ä¤«¤ê¤Ş¤»¤ó¡£ÊÌ¤Î¤òºîÀ®¤·¤è¤¦¤È¤·¤Æ¤¤¤Ş¤¹..."
+msgstr "ã‚¿ã‚°ãƒ†ãƒ¼ãƒ–ãƒ«ãŒè¦‹ã¤ã‹ã‚Šã¾ã›ã‚“ã€‚åˆ¥ã®ã‚’ä½œæˆã—ã‚ˆã†ã¨ã—ã¦ã„ã¾ã™..."
 
 #: src/pinfo.c:645
 #, c-format
 msgid "Security warning: Unable to get GID of group called: %s\n"
-msgstr "¥»¥­¥å¥ê¥Æ¥£·Ù¹ğ: °Ê²¼¤Î¥°¥ë¡¼¥×¤ÎGID¤òÆÀ¤ë¤³¤È¤¬¤Ç¤­¤Ş¤»¤ó: %s\n"
+msgstr "ã‚»ã‚­ãƒ¥ãƒªãƒ†ã‚£è­¦å‘Š: ä»¥ä¸‹ã®ã‚°ãƒ«ãƒ¼ãƒ—ã®GIDã‚’å¾—ã‚‹ã“ã¨ãŒã§ãã¾ã›ã‚“: %s\n"
 
 #: src/pinfo.c:665
 #, c-format
 msgid "Security warning: Unable to get UID of user called: %s\n"
-msgstr "¥»¥­¥å¥ê¥Æ¥£·Ù¹ğ: °Ê²¼¤Î¥æ¡¼¥¶¤ÎUID¤ò¼èÆÀ¤¹¤ë¤³¤È¤¬¤Ç¤­¤Ş¤»¤ó: %s\n"
+msgstr "ã‚»ã‚­ãƒ¥ãƒªãƒ†ã‚£è­¦å‘Š: ä»¥ä¸‹ã®ãƒ¦ãƒ¼ã‚¶ã®UIDã‚’å–å¾—ã™ã‚‹ã“ã¨ãŒã§ãã¾ã›ã‚“: %s\n"
 
 #~ msgid "Are you sure to print?"
-#~ msgstr "ËÜÅö¤Ë°õºş¤·¤Æ¤è¤í¤·¤¤¤Ç¤¹¤«?"
+#~ msgstr "æœ¬å½“ã«å°åˆ·ã—ã¦ã‚ˆã‚ã—ã„ã§ã™ã‹?"
 
 #~ msgid "Warning: could not find tag table\n"
-#~ msgstr "·Ù¹ğ: ¥¿¥°¥Æ¡¼¥Ö¥ë¤¬¸«¤Ä¤«¤ê¤Ş¤»¤ó¤Ç¤·¤¿\n"
+#~ msgstr "è­¦å‘Š: ã‚¿ã‚°ãƒ†ãƒ¼ãƒ–ãƒ«ãŒè¦‹ã¤ã‹ã‚Šã¾ã›ã‚“ã§ã—ãŸ\n"
 
 #~ msgid "Searching for indirect done\n"
-#~ msgstr "indirect¤Î¸¡º÷´°Î»\n"
+#~ msgstr "indirectã®æ¤œç´¢å®Œäº†\n"

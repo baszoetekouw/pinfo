@@ -8,10 +8,11 @@ msgstr ""
 "Report-Msgid-Bugs-To: pinfo-devel@lists.alioth.debian.org\n"
 "POT-Creation-Date: 2006-03-15 23:04+0100\n"
 "PO-Revision-Date: 1999-04-21 01:50+0200\n"
-"Last-Translator: René van Bevern <rvb@pro-linux.de>\n"
+"Last-Translator: RenÃ© van Bevern <rvb@pro-linux.de>\n"
 "Language-Team: German <de@li.org>\n"
+"Language: de\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=ISO-8859-1\n"
+"Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
 #: src/filehandling_functions.c:469 src/filehandling_functions.c:476
@@ -32,7 +33,7 @@ msgstr "Suche nach der Tag-Tabelle abgeschlossen.\n"
 #: src/filehandling_functions.c:1211
 #, fuzzy, c-format
 msgid "Error: could not open info file"
-msgstr "Fehler: Konnte die Info-Datei nicht öffnen."
+msgstr "Fehler: Konnte die Info-Datei nicht Ã¶ffnen."
 
 #: src/mainfunction.c:143 src/manual.c:975
 msgid "Are you sure you want to print?"
@@ -52,7 +53,7 @@ msgstr "Funktion fehlgeschlagen..."
 
 #: src/mainfunction.c:291 src/mainfunction.c:553 src/manual.c:1120
 msgid "Enter regular expression: "
-msgstr "Bitte regulären Ausdruck eingeben: "
+msgstr "Bitte regulÃ¤ren Ausdruck eingeben: "
 
 #: src/mainfunction.c:523 src/mainfunction.c:621 src/manual.c:1198
 #, fuzzy
@@ -61,11 +62,11 @@ msgstr "Warnung: Konnte keine Tag-Tabelle finden...\n"
 
 #: src/mainfunction.c:580 src/manual.c:1155
 msgid "Invalid regular expression;"
-msgstr "Ungültiger regulärer Ausdruck;"
+msgstr "UngÃ¼ltiger regulÃ¤rer Ausdruck;"
 
 #: src/mainfunction.c:582 src/manual.c:1157
 msgid "Press any key to continue..."
-msgstr "Beliebige Taste drücken, um fortzufahren..."
+msgstr "Beliebige Taste drÃ¼cken, um fortzufahren..."
 
 #: src/mainfunction.c:650
 msgid "Enter node name: "
@@ -83,7 +84,7 @@ msgstr "Sind Sie sicher, dass Sie pinfo beenden wollen?"
 #: src/manual.c:315
 #, c-format
 msgid "Error: Cannot call man command.\n"
-msgstr "Fehler: Kann 'man' nicht ausführen.\n"
+msgstr "Fehler: Kann 'man' nicht ausfÃ¼hren.\n"
 
 #: src/manual.c:324
 #, c-format
@@ -97,12 +98,12 @@ msgstr "Passende Seiten:\n"
 
 #: src/manual.c:370
 msgid "Calling gunzip for"
-msgstr "Rufe gunzip auf für"
+msgstr "Rufe gunzip auf fÃ¼r"
 
 #: src/manual.c:376
 #, c-format
 msgid "Couldn't call gunzip.\n"
-msgstr "Konnte gunzip nicht ausführen.\n"
+msgstr "Konnte gunzip nicht ausfÃ¼hren.\n"
 
 #: src/manual.c:413
 msgid "IGNORING"
@@ -140,7 +141,7 @@ msgstr "Zeile %d/%d, 100%%"
 #: src/parse_config.c:113
 #, c-format
 msgid "Can't open config file!\n"
-msgstr "Kann Konfigurationsdatei nicht öffnen.\n"
+msgstr "Kann Konfigurationsdatei nicht Ã¶ffnen.\n"
 
 #: src/parse_config.c:163
 #, c-format
@@ -158,7 +159,7 @@ msgid ""
 "Illegal characters in filename!\n"
 "*** %s\n"
 msgstr ""
-"Ungültiges Zeichen im Dateinamen.\n"
+"UngÃ¼ltiges Zeichen im Dateinamen.\n"
 "*** %s\n"
 
 #: src/utils.c:451
@@ -179,7 +180,7 @@ msgstr "Knoten:"
 
 #: src/video.c:63
 msgid "Next:"
-msgstr "nächstes Thema:"
+msgstr "nÃ¤chstes Thema:"
 
 #: src/video.c:64
 msgid "Prev:"
@@ -187,7 +188,7 @@ msgstr "vorheriges Thema:"
 
 #: src/video.c:65
 msgid "Up:"
-msgstr "Übergeordnet:"
+msgstr "Ãœbergeordnet:"
 
 #: src/pinfo.c:113 src/pinfo.c:198
 #, c-format
@@ -235,7 +236,7 @@ msgstr ""
 "-v, --version                         Version\n"
 "-m, --manual                          Man-Page verwenden\n"
 "-r, --raw-filename                    rohen Dateinamen verwenden\n"
-"-f, --file                            synonym für -r\n"
+"-f, --file                            synonym fÃ¼r -r\n"
 "-a, --apropos                         Apropos aufrufen, wenn nichts "
 "gefunden\n"
 "-p, --plain-apropos                   nur apropos aufrufen\n"
@@ -246,7 +247,7 @@ msgstr ""
 "                                      anzeigen\n"
 "-t, --force-manual-tag-table          Manuelles Auffinden der Tagtabelle\n"
 "                                      erzwingen\n"
-"-x, --clear-at-exit                   Schirm beim Verlassen löschen\n"
+"-x, --clear-at-exit                   Schirm beim Verlassen lÃ¶schen\n"
 "    --node=knoten, --node knoten      direkt zum Knoten 'knoten' springen\n"
 "    --rcfile=datei, --rcfile datei    alternative Konfigurationsdatei "
 "benutzen\n"
@@ -282,11 +283,11 @@ msgstr ""
 
 #: src/pinfo.c:420
 msgid "press a key to continue"
-msgstr "Beliebige Taste drücken, um fortzufahren"
+msgstr "Beliebige Taste drÃ¼cken, um fortzufahren"
 
 #: src/pinfo.c:486
 msgid "File not found. Press any key..."
-msgstr "Datei wurde nicht gefunden. Bitte drücken Sie eine Taste..."
+msgstr "Datei wurde nicht gefunden. Bitte drÃ¼cken Sie eine Taste..."
 
 #: src/pinfo.c:506
 #, c-format
