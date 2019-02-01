@@ -2,8 +2,6 @@
 
 @SET_MAKE@
 
-CFLAGS+=@WFLAGS@
-
 bin_PROGRAMS = pinfo
 
 pinfo_COMMON_SRC = pinfo.c \
@@ -38,15 +36,15 @@ pinfo_COMMON_SRC = pinfo.c \
 		localestuff.h \
 		rcsid.h
 
-pinfo_READLINE = readlinewrapper.c readlinewrapper.h 
+pinfo_READLINE = readlinewrapper.c readlinewrapper.h
 pinfo_SNPRINTF = snprintf.c # snprintf.h
 pinfo_SIGBLOCK = sigblock.c sigblock.h
 
 if HAS_READLINE
-pinfo_READLINE_OBJ = 
+pinfo_READLINE_OBJ =
 else
 pinfo_READLINE_OBJ = readlinewrapper.o
-endif	
+endif
 
 if HAVE_SNPRINTF
 pinfo_SNPRINTF_OBJ =
@@ -56,20 +54,19 @@ endif
 
 if HAVE_SIGBLOCK
 pinfo_SIGBLOCK_OBJ =
-else 
+else
 pinfo_SIGBLOCK_OBJ = sigblock.o
-endif 
+endif
 
 pinfo_SOURCES =	$(pinfo_COMMON_SRC)
-
-AM_CFLAGS = @READLINE_INCLUDES@ @CURSES_INCLUDES@
 
 pinfo_LDADD = \
 	$(pinfo_READLINE_OBJ) $(pinfo_SNPRINTF_OBJ) \
 	$(pinfo_SIGBLOCK_OBJ) @READLINE_LIBS@ $(INTLLIBS) \
-	@CURSES_LIBS@ 
+	@CURSES_LIBS@
 
 pinfo_CFLAGS = @CURSES_FLAGS@ @CURSES_INCLUDES@ @WCHAR_FLAGS@ \
+	@READLINE_INCLUDES@ $(WFLAGS) \
 	-DLOCALEDIR=\"@LOCALEDIR@\" -DCONFIGDIR=\"$(sysconfdir)/pinforc\"
 
 pinfo_DEPENDENCIES = $(pinfo_READLINE_OBJ)\
@@ -81,7 +78,7 @@ pinfo_DEPENDENCIES = $(pinfo_READLINE_OBJ)\
 if HAS_READLINE
 else
 readlinewrapper.o: $(pinfo_READLINE)
-endif	
+endif
 
 if HAVE_SNPRINTF
 else
@@ -89,9 +86,9 @@ snprintf.o: $(pinfo_SNPRINTF)
 endif
 
 if HAVE_SIGBLOCK
-else 
+else
 sigblock.o: $(pinfo_SIGBLOCK)
-endif 
+endif
 
 install-data-local:
 	if [ ! -f $(DESTDIR)$(sysconfdir)/pinforc ] ; then \
