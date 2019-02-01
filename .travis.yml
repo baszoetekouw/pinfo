@@ -4,7 +4,7 @@ dist: xenial
 
 addons:
   apt:
-    packages: [gettext, libreadline-dev, libncursesw5-dev, texinfo, install-info, autotools-dev]
+    packages: [gettext, autopoint, libreadline-dev, libncursesw5-dev, texinfo, install-info, autotools-dev]
 
 compile:
   - clang
