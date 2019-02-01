@@ -1,5 +1,4 @@
 *~
-stamp-*
 Makefile
 Makefile.in
 
@@ -11,6 +10,7 @@ Makefile.in
 /config.status
 /libtool
 /pinfo.spec
+/stamp-h1
 
 /macros/codeset.m4
 /macros/gettext.m4
@@ -55,12 +55,14 @@ Makefile.in
 /po/quot.sed
 /po/POTFILES
 /po/*.gmo
+/po/stamp-po
 
 /tools/
 
 /doc/pinfo.1
 /doc/pinfo.info
 /doc/version.texi
+/doc/stamp-vti
 
 /macros/macros.dep
 /src/.deps/
