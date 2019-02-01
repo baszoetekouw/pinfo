@@ -190,6 +190,32 @@ xrealloc(void *ptr, size_t size)
 	return value;
 }
 
+int
+system_check(const char *command)
+{
+	if (command==NULL)
+	{
+		return -1;
+	}
+	int result = system(command);
+	if (WIFEXITED(result))
+	{
+		return WEXITSTATUS(result);
+	}
+	return -1;
+}
+
+void
+xsystem(const char *command)
+{
+	int result = system_check(command);
+	if (result!=0)
+	{
+		printf(_("Failed to execute command '%s': %i"), command, result);
+		exit(2);
+	}
+}
+
 void
 initlocale()
 {
@@ -301,7 +327,7 @@ closeprogram()
 	if (curses_open)
 		myendwin();
 	if (ClearScreenAtExit)
-		system("clear");
+		xsystem("clear");
 	else
 		printf("\n");
 	if (tmpfilename1)

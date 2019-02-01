@@ -45,6 +45,10 @@ void xfree (void *ptr);
 void *xmalloc (size_t size);
 /* realloc() wrapper */
 void *xrealloc (void *ptr, size_t size);
+/* system(), but return sane error code */
+int system_check(const char *command);
+/* safe, error-checking, command execution */
+void xsystem(const char *command);
 /* initializes GNU locales */
 void initlocale ();
 /* checks if file name does not cause secuirity problems */

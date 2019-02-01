@@ -239,7 +239,7 @@ work(char ***message, char **type, long *lines, FILE * id, int tag_table_pos)
 				attrset(normal);
 
 				myendwin();
-				system("clear");
+				xsystem("clear");
 				mypipe = popen(token, "w");	/* open mypipe */
 				if (mypipe != NULL)
 				{
@@ -353,8 +353,8 @@ work(char ***message, char **type, long *lines, FILE * id, int tag_table_pos)
 						starttokenpos = ftell(fd);
 
 						tmp = xmalloc(filelen - starttokenpos + 10);	/* read data */
-						fread(tmp, 1, filelen - starttokenpos, fd);
-						tmp[filelen - starttokenpos + 1] = 0;
+						size_t num_read = fread(tmp, 1, filelen - starttokenpos, fd);
+						tmp[num_read] = 0;
 
 						tokenpos = regexp_search(token, tmp);	/* search */
 
@@ -446,8 +446,8 @@ work(char ***message, char **type, long *lines, FILE * id, int tag_table_pos)
 
 					/* read data */
 					tmp = xmalloc(filelen - starttokenpos + 10);
-					fread(tmp, 1, filelen - starttokenpos, id);
-					tmp[filelen - starttokenpos + 1] = 0;
+					size_t num_read = fread(tmp, 1, filelen - starttokenpos, id);
+					tmp[num_read] = 0;
 
 					/* search */
 					tokenpos = regexp_search(token, tmp);
@@ -1021,7 +1021,7 @@ skip_search:
 								strcat(tempbuf, " ");
 								strcat(tempbuf, hyperobjects[cursor].node);
 								myendwin();
-								system(tempbuf);
+								xsystem(tempbuf);
 								doupdate();
 								xfree(tempbuf);
 							}
@@ -1032,7 +1032,7 @@ skip_search:
 								strcat(tempbuf, " ");
 								strcat(tempbuf, hyperobjects[cursor].node);
 								myendwin();
-								system(tempbuf);
+								xsystem(tempbuf);
 								doupdate();
 								xfree(tempbuf);
 							}
@@ -1043,8 +1043,8 @@ skip_search:
 								strcat(tempbuf, " ");
 								strcat(tempbuf, hyperobjects[cursor].node);
 								myendwin();
-								system("clear");
-								system(tempbuf);
+								xsystem("clear");
+								xsystem(tempbuf);
 								doupdate();
 								xfree(tempbuf);
 							}

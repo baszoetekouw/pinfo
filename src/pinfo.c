@@ -639,6 +639,7 @@ checksu()
 {
 	struct passwd *pswd;
 	struct group *grwd;
+	int result = 0;
 
 	if (!getegid() || !getgid())
 	{
@@ -654,13 +655,13 @@ checksu()
 		else
 		{
 			if (!getgid() && !getuid())
-				setgid(grwd->gr_gid);
+				result = setgid(grwd->gr_gid);
 			else
-				setegid(grwd->gr_gid);
+				result = setegid(grwd->gr_gid);
 		}
 	}
 
-	if (!geteuid() || !getuid())
+	if (result==0 && (!geteuid() || !getuid()) )
 	{
 		pswd = getpwnam(safe_user);
 		if (!pswd)
@@ -674,10 +675,16 @@ checksu()
 		else
 		{
 			if (!getuid())
-				setuid(pswd->pw_uid);
+				result = setuid(pswd->pw_uid);
 			else
-				seteuid(pswd->pw_uid);
+				result = seteuid(pswd->pw_uid);
 		}
+	}
+
+	if (result != 0)
+	{
+		printf(_("Unable to drop root privileges: %s"), strerror(errno));
+		exit(-1);
 	}
 
 }

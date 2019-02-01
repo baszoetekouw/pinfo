@@ -262,6 +262,12 @@ read_item(FILE * id, char **type, char ***buf, long *lines)
 
 	freeitem(type, buf, lines);	/* free previously allocated memory */
 
+	/* set number of lines to 0 */
+	Lines = 0;
+
+	/* initial buffer allocation */
+	Buf = xmalloc(sizeof(char **));
+
 	/* seek precisely on the INFO_TAG (the seeknode function may be imprecise
 	 * in combination with some weird tag_tables).  */
 	while (fgetc(id) != INFO_TAG);
@@ -270,15 +276,12 @@ read_item(FILE * id, char **type, char ***buf, long *lines)
 
 	/* allocate and read the header line */
 	Type = xmalloc(1024);
-	fgets(Type, 1024, id);
+	if (fgets(Type, 1024, id)==NULL)
+	{
+		/* nothing to do */
+		return;
+	}
 	Type = xrealloc(Type, strlen(Type) + 1);
-
-	/* set number of lines to 0 */
-	Lines = 0;
-
-	/* initial buffer allocation */
-	Buf = xmalloc(sizeof(char **));
-
 	/* now iterate over the lines */
 	do
 	{
@@ -465,7 +468,10 @@ seek_indirect(FILE * id)
 			}
 		seek_pos = ftell(id) - 2;
 		fgetc(id);
-		fgets(type, 1024, id);
+		if (fgets(type, 1024, id)==0)
+		{
+			finito = 1;
+		}
 		if (strncasecmp("Indirect:", type, strlen("Indirect:")) == 0)
 		{
 			finito = 1;
@@ -539,8 +545,7 @@ seek_tag_table(FILE * id,int quiet)
 			if (feof(id))
 				break;
 		}
-		fgets(type, 1024, id);
-		if (strncasecmp("Tag Table:", type, strlen("Tag Table:")) == 0)
+		if (fgets(type, 1024, id)==NULL || strncasecmp("Tag Table:", type, strlen("Tag Table:")) == 0)
 		{
 			finito = 1;
 		}
@@ -589,7 +594,7 @@ opendirfile(int number)
 	char command[1128];		/* holds command to evaluate for decompression of file */
 	int i, j;
 	char *tmpfilename = NULL;
-	int *fileendentries = xmalloc(infopathcount * sizeof(int));
+	size_t *fileendentries = xmalloc(infopathcount * sizeof(*fileendentries)); /* should really be off_t, but a signed type really doesn't make sense here */
 	int dir_found = 0;
 	int dircount = 0;
 	int lang_found;
@@ -627,7 +632,7 @@ opendirfile(int number)
 			{
 				fclose(id);
 				builddircommand(command, suffixes[j].command, buf, tmpfilename);
-				system(command);
+				xsystem(command);
 				lstat(tmpfilename, &status);
 				fileendentries[dircount] = status.st_size;
 				dircount++;
@@ -656,7 +661,7 @@ opendirfile(int number)
 				{
 					fclose(id);
 					builddircommand(command, suffixes[j].command, buf, tmpfilename);
-					system(command);
+					xsystem(command);
 					lstat(tmpfilename, &status);
 					fileendentries[dircount] = status.st_size;
 					dircount++;
@@ -675,7 +680,7 @@ opendirfile(int number)
 	if (id)
 	{
 		char *tmp;
-		long filelen, l;
+		size_t filelen, l;
 		int aswitch = 0;
 		int firstswitch = 0;
 		dircount = 0;
@@ -685,7 +690,12 @@ opendirfile(int number)
 
 		tmp = xmalloc(filelen);
 		fseek(id, 0, SEEK_SET);
-		fread(tmp, 1, filelen, id);
+		if (fread(tmp, 1, filelen, id)!=filelen)
+		{
+			printf(_("Error while reading file '%s'"), tmp);
+			closeprogram();
+			exit(1);
+		}
 		fclose(id);
 		id = fopen(tmpfilename, "w");
 		for (l = 0; l < filelen; l++)
@@ -825,7 +835,7 @@ openinfo(char *filename, int number)
 						}
 				}
 				buildcommand(command, suffixes[j].command, buf, tmpfilename);
-				system(command);
+				xsystem(command);
 				id = fopen(tmpfilename, "r");
 				if (id)
 				{

@@ -248,7 +248,7 @@ handlemanual(char *name)
 	FILE *id;
 
 	char manualname[256];
-	char cmd[256];
+	char cmd[4096];
 	char *raw_tempfilename = 0;
 	char *apropos_tempfilename = 0;
 
@@ -323,7 +323,7 @@ handlemanual(char *name)
 				{
 					printf(_("Apropos pages:\n"));
 					snprintf(cmd, 255, "apropos %s|cat %s", name, StderrRedirection);
-					system(cmd);
+					xsystem(cmd);
 				}
 				return 1;
 			}
@@ -440,12 +440,15 @@ handlemanual(char *name)
 	 ****************************************************************************/
 #endif
 	if (!plain_apropos)
+	{
 		snprintf(cmd, 255, "man %s %s %s > %s",
 				ManOptions,
 				name,
 				StderrRedirection,
 				tmpfilename1);
-	if ((plain_apropos) ||(system(cmd) != 0))
+	}
+
+	if (plain_apropos || (system_check(cmd) != 0))
 	{
 		if (!plain_apropos)
 		{
@@ -457,8 +460,8 @@ handlemanual(char *name)
 		{
 			printf(_("Calling apropos \n"));
 			apropos_tempfilename = make_tempfile();
-			snprintf(cmd, 255, "apropos %s > %s", name, apropos_tempfilename);
-			if (system(cmd) != 0)
+			snprintf(cmd, 4096, "apropos %s > %s", name, apropos_tempfilename);
+			if (system_check(cmd) != 0)
 			{
 				printf(_("Nothing appropiate\n"));
 				unlink(apropos_tempfilename);
@@ -511,7 +514,7 @@ handlemanual(char *name)
 			if (return_value != -2)
 			{
 				construct_manualname(manualname, return_value);
-				snprintf(cmd, 255, "man %s %s %s %s > %s",
+				snprintf(cmd, 4096, "man %s %s %s %s > %s",
 						ManOptions,
 						manuallinks[return_value].section,
 						manualname,
@@ -548,13 +551,13 @@ handlemanual(char *name)
 				 */
 				historical = 1;
 			}
-			system(cmd);
+			xsystem(cmd);
 			stat(tmpfilename2, &statbuf);
 			if (statbuf.st_size > 0)
 			{
 				snprintf(cmd, 255, "mv %s %s", tmpfilename2, tmpfilename1);
 				/* create tmp file containing man page */
-				system(cmd);
+				xsystem(cmd);
 				/* open man page */
 				id = fopen(tmpfilename1, "r");
 				if (id != NULL)
@@ -1074,7 +1077,7 @@ manualwork()
 				attrset(normal);
 
 				myendwin();
-				system("clear");
+				xsystem("clear");
 				/* open mypipe */
 				mypipe = popen(token, "w");
 				if (mypipe != NULL)
@@ -1398,7 +1401,7 @@ skip_search:
 							buflen = strlen(tempbuf);
 							construct_manualname(tempbuf + buflen, selected);
 							myendwin();
-							system(tempbuf);
+							xsystem(tempbuf);
 							doupdate();
 							xfree(tempbuf);
 						}
@@ -1411,7 +1414,7 @@ skip_search:
 							buflen = strlen(tempbuf);
 							construct_manualname(tempbuf + buflen, selected);
 							myendwin();
-							system(tempbuf);
+							xsystem(tempbuf);
 							doupdate();
 							xfree(tempbuf);
 						}
@@ -1424,7 +1427,7 @@ skip_search:
 							buflen = strlen(tempbuf);
 							construct_manualname(tempbuf + buflen, selected);
 							myendwin();
-							system(tempbuf);
+							xsystem(tempbuf);
 							doupdate();
 							xfree(tempbuf);
 						}
