@@ -579,7 +579,7 @@ work(char ***message, char **type, long *lines, FILE * id, int tag_table_pos)
 					printw(_("Press any key to continue..."));
 					getch();
 					goto skip_search;
-					
+
 				}
 				/* scan for the token in the following lines.  */
 				for (unsigned i = pos + 1; i < Lines; i++)
@@ -997,8 +997,8 @@ skip_search:
 				if (!toggled_by_menu)
 					infohistory.menu[infohistory.length] = cursor;
 				if ((cursor >= 0) &&(cursor < hyperobjectcount))
-					if ( 
-						( (hyperobjects[cursor].line >= pos) 
+					if (
+						( (hyperobjects[cursor].line >= pos)
 						  && (hyperobjects[cursor].line < pos +(maxy - 2) )
 						) || (toggled_by_menu) )
 					{

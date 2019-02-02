@@ -45,12 +45,12 @@
 
 #include CURSES_H_NAME
 
-/* fall back to using 'E' is curses doesn't support the end key */ 
+/* fall back to using 'E' is curses doesn't support the end key */
 #ifndef CURSES_KEY_END
  #define KEY_END	'E'
 #endif
 /* quick hack;
- * really should replace all the NO_COLOR_CURSES checks 
+ * really should replace all the NO_COLOR_CURSES checks
  * by CURSES_COLORS
  */
 #ifndef CURSES_COLORS
@@ -92,7 +92,7 @@
 /* I hear voices, that it is needed by RH5.2 ;) */
 #define _REGEX_RE_COMP
 
-/* somewhat portable way of flagging unused vars 
+/* somewhat portable way of flagging unused vars
  * from https://stackoverflow.com/questions/7090998/portable-unused-parameter-macro-used-on-function-signature-for-c-and-c
  */
 #ifdef UNUSED

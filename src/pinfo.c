@@ -379,7 +379,7 @@ main(int argc, char *argv[])
 			if (seeknode(tag_table_pos, &id)!=0)
 			{
 				tag_table_pos = gettagtablepos(FirstNodeName);
-				if (seeknode(tag_table_pos, &id)!=0) 
+				if (seeknode(tag_table_pos, &id)!=0)
 				{
 					exit(-1);
 				}
@@ -390,25 +390,25 @@ main(int argc, char *argv[])
 			/* handle goto/link where no file was found -- see below */
 			if (!filenotfound)
 			{
-				addinfohistory(curfile, tag_table[tag_table_pos].nodename, 
+				addinfohistory(curfile, tag_table[tag_table_pos].nodename,
 						-1, -1, -1);
 			}
 			else
 				filenotfound = 0;
 
 			/* this might have been allocated in the previous iteration */
-			if (file_name_force!=NULL) 
+			if (file_name_force!=NULL)
 			{
 				xfree(file_name_force);
 				file_name_force = NULL;
 			}
 
 			/* check if we really found the node we were looking for
-			 * (don't do this for tag tables we manually created, as this 
+			 * (don't do this for tag tables we manually created, as this
 			 * might cause a loop if somethign goes wrong)
 			 *
-			 * the entire handling of file_name_force and work_return_value.file is a 
-			 * big hack, but it'll have to do for now, until the entire work 
+			 * the entire handling of file_name_force and work_return_value.file is a
+			 * big hack, but it'll have to do for now, until the entire work
 			 * loop thing is rewritten.
 			 */
 			if ( (ForceManualTagTable==0)
@@ -416,8 +416,8 @@ main(int argc, char *argv[])
 			{
 				/* Oops, we found the wrong node! */
 
-				/* display error message to make the user aware of 
-				 * the broken info page 
+				/* display error message to make the user aware of
+				 * the broken info page
 				 */
 				char msg[81];
 				snprintf(msg, 81, "%s (%s)",
@@ -430,13 +430,13 @@ main(int argc, char *argv[])
 				attrset(normal);
 				getch();
 
-				/* We found another node than we were looking for, so the 
+				/* We found another node than we were looking for, so the
 				 * tag table must be corrupt. Try to fix it by manually
 				 * creating tag tables and... */
 				ForceManualTagTable = 1;
-				
-				/* forcing the current file to reload by seting 
-				 * work_return_value.file to the current file, and the current 
+
+				/* forcing the current file to reload by seting
+				 * work_return_value.file to the current file, and the current
 				 * file to \0
 				 */
 				if (file_name_force) xfree(file_name_force);
@@ -448,7 +448,7 @@ main(int argc, char *argv[])
 				/* remove this try from the history stack */
 				dellastinfohistory();
 			}
-			else 
+			else
 			{
 				/* everything went fine, so display the node and wait for
 				 * key events and stuff */

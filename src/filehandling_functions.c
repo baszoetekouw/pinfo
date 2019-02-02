@@ -70,7 +70,7 @@ matchfile(char **buf, char *name)
 	char *bname = basename(name);
 	struct dirent *dp;
 	int matched = 0;
-	
+
 	/* remove a possible ".info" from the end of the file name
 	 * we're looking for */
 	strip_info_suffix(bname);
@@ -92,7 +92,7 @@ matchfile(char **buf, char *name)
 	/* iterate over all files in the directory */
 	while ((dp = readdir(dir)) != NULL)
 	{
-		/* use strcat rather than strdup, because xmalloc handles all 
+		/* use strcat rather than strdup, because xmalloc handles all
 		 * malloc errors */
 		char *filename = xmalloc(strlen(dp->d_name)+1);
 		char *pagename = xmalloc(strlen(dp->d_name)+1);
@@ -149,17 +149,17 @@ dirpage_lookup(char **type, char ***message, long *lines,
 	char file[256];
 	int i;
 	char *nameend, *filestart, *fileend, *dot;
-	
+
 	id = opendirfile(0);
 	if (!id)
-		return 0;
-	
+		return NULL;
+
 	read_item(id, type, message, lines);
 
 	/* search for node-links in every line */
 	for (i = 1; i < Lines; i++)
 	{
-		if ( (Message[i][0] == '*') && (Message[i][1] == ' ') 
+		if ( (Message[i][0] == '*') && (Message[i][1] == ' ')
 				&& ( nameend = strchr(Message[i], ':') )
 				&& (*(nameend + 1) != ':')	/* form: `* name:(file)node.' */
 				&& (filestart = strchr(nameend, '(') )
@@ -170,9 +170,9 @@ dirpage_lookup(char **type, char ***message, long *lines,
 		{
 			char *tmp;
 
-			/* skip this hit if it is not a perfect match and 
+			/* skip this hit if it is not a perfect match and
 			 * we have already found a previous partial match */
-			if ( ! ( (nameend - Message[i]) - 2 == filenamelen ) 
+			if ( ! ( (nameend - Message[i]) - 2 == filenamelen )
 					&&	goodHit )
 			{
 				continue;
@@ -185,7 +185,7 @@ dirpage_lookup(char **type, char ***message, long *lines,
 			strncpy(name, fileend + 1, dot - fileend - 1);
 			name[dot - fileend - 1] = 0;
 			while (isspace(*tmp)) tmp++;
-			
+
 			if (strlen(name))
 			{
 				*first_node = xmalloc(strlen(tmp) + 1);
@@ -195,13 +195,13 @@ dirpage_lookup(char **type, char ***message, long *lines,
 			/* close the previously opened file */
 			if (id)
 			{
-				fclose(id);	
+				fclose(id);
 				id = 0;
 			}
 
 			/* see if this info file exists */
 			id = openinfo(file, 0);
-			if (id) 
+			if (id)
 			{
 				goodHit = 1;
 			}
@@ -335,6 +335,7 @@ read_item(FILE * id, char **type, char ***buf, long *lines)
 	}
 
 	fseek(id, -2, SEEK_CUR);
+
 #undef Type
 #undef Buf
 #undef Lines
@@ -845,7 +846,7 @@ openinfo(char *filename, int number)
 			}
 			(*bufend) = 0;
 		}
-		
+
 		/* if we have a nonzero filename prefix, that is we view a set of
 		 * infopages, we don't want to search for a page in all
 		 * directories, but only in the prefix directory.  Therefore break
@@ -855,7 +856,7 @@ openinfo(char *filename, int number)
 	}
 	xfree(buf);
 
-	
+
 	return 0;
 }
 
@@ -963,7 +964,7 @@ initpaths()
 	while ( (next = strchr(dir, ':')) != NULL )
 	{
 		*next = '\0';  /* terminate the string */
-		
+
 		/* if the dir actually is a non-empty string, add it to paths[] */
 		if ( dir && strlen(dir)>0 )
 		{
