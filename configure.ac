@@ -27,7 +27,7 @@
 # init
 AC_INIT([pinfo],[0.6.10],[https://github.com/baszoetekouw/pinfo])
 # require a recent autoconf
-AC_PREREQ([2.57])
+AC_PREREQ([2.69])
 # for identification of derived ./configure scripts
 AC_REVISION([$Revision$])
 
@@ -57,7 +57,7 @@ AC_PROG_CC
 AC_PROG_CC_C99
 
 # set correct LIBS for (almost obsolete) INTERACTIVE UNIX
-AC_ISC_POSIX
+AC_SEARCH_LIBS([strerror],[cposix])
 
 # Checks for typedefs, structures, and compiler characteristics.
 AC_C_CONST
@@ -96,7 +96,7 @@ AC_PROG_LN_S
 AC_PROG_MAKE_SET
 
 # find libtool
-AC_PROG_LIBTOOL
+LT_INIT
 
 
 ####################################################
