@@ -4,85 +4,141 @@ dist: xenial
 
 addons:
   apt:
-    packages: [gettext, autopoint, libreadline-dev, libncursesw5-dev, texinfo, autotools-dev]
-  brew:
-    packages: [autoconf, automake, libtool, autopoint, gettext, texinfo]
-
-compile:
-  - clang
-  - gcc
+    packages: &pkg_apt
+      - gettext
+      - autopoint
+      - libreadline-dev
+      - libncursesw5-dev
+      - texinfo
+      - autotools-dev
+  homebrew:
+    packages: &pkg_brew
+      - autoconf
+      - automake
+      - libtool
+      - gettext
+      - texinfo
 
 matrix:
   include:
-    - os: linux
+    - name: "linux/gcc-5"
+      os: linux
+      compiler: "gcc-5"
       addons:
         apt:
           sources: ["ubuntu-toolchain-r-test"]
-          packages: ["g++-5"]
-      env: [MATRIX_EVAL="CC=gcc-5"]
+          packages:
+            - *pkg_apt
+            - "gcc-5"
 
-    - os: linux
+    - name: "linux/gcc-6"
+      os: linux
+      compiler: "gcc-6"
       addons:
         apt:
           sources: ["ubuntu-toolchain-r-test"]
-          packages: ["g++-6"]
-      env: [MATRIX_EVAL="CC=gcc-6"]
+          packages:
+            - *pkg_apt
+            - "gcc-6"
 
-    - os: linux
+    - name: "linux/gcc-7"
+      os: linux
+      compiler: "gcc-7"
       addons:
         apt:
           sources: ["ubuntu-toolchain-r-test"]
-          packages: ["g++-7"]
-      env: [MATRIX_EVAL="CC=gcc-7"]
+          packages:
+            - *pkg_apt
+            - "gcc-7"
 
-    - os: linux
+    - name: "linux/gcc-8"
+      os: linux
+      compiler: "gcc-8"
       addons:
         apt:
           sources: ["ubuntu-toolchain-r-test"]
-          packages: ["g++-8"]
-      env: [MATRIX_EVAL="CC=gcc-8"]
+          packages:
+            - *pkg_apt
+            - "gcc-8"
 
-    - os: linux
+    - name: "linux/clang-5"
+      os: linux
+      compiler: "clang-5.0"
       addons:
         apt:
           sources: ["ubuntu-toolchain-r-test", "llvm-toolchain-xenial-5.0"]
-          packages: ["clang-5.0"]
-      env: [MATRIX_EVAL="CC=clang-5.0"]
+          packages:
+            - *pkg_apt
+            - "clang-5.0"
 
-    - os: linux
+    - name: "linux/clang-6"
+      os: linux
+      compiler: "clang-6.0"
       addons:
         apt:
           sources: ["ubuntu-toolchain-r-test", "llvm-toolchain-xenial-6.0"]
-          packages: ["clang-6.0"]
-      env: [MATRIX_EVAL="CC=clang-6.0"]
+          packages:
+            - *pkg_apt
+            - "clang-6.0"
 
-    - os: linux
+    - name: "linux/clang-7"
+      os: linux
+      compiler: "clang-7"
       addons:
         apt:
-          sources: ["ubuntu-toolchain-r-test", "llvm-toolchain-xenial-7.0"]
-          packages: ["clang-7.0"]
-      env: [MATRIX_EVAL="CC=clang-7.0"]
+          sources: ["ubuntu-toolchain-r-test", "llvm-toolchain-xenial-7"]
+          packages:
+            - *pkg_apt
+            - "clang-7"
 
-    - os: linux
+    - name: "osx/xcode-9.4"
+      os: osx
+      osx_image: "xcode9.4"
+      compiler: clang
       addons:
-        apt:
-          sources: ["ubuntu-toolchain-r-test", "llvm-toolchain-xenial-8.0"]
-          packages: ["clang-8.0"]
-      env: [MATRIX_EVAL="CC=clang-8.0"]
+        homebrew:
+          packages: [ gettext ]
 
+    - name: "osx/xcode-10.1"
+      os: osx
+      osx_image: "xcode10.1"
+      compiler: clang
+      addons:
+        homebrew:
+          packages: [ gettext ]
+
+    - name: "osx/hb/gcc-5"
+      os: osx
+      compiler: "gcc-5"
+      addons:
+        homebrew:
+          packages:
+            - *pkg_brew
+            - "gcc@5"
+
+    - name: "osx/hb/gcc-8"
+      os: osx
+      compiler: "gcc-8"
+      addons:
+        homebrew:
+          packages:
+            - *pkg_apt
+            - "gcc@8"
+
+  allow_failures:
     - os: osx
-      osx_image: "xcode8"
-      env: [MATRIX_EVAL="brew install gcc && CC=gcc-7"]
-
-    - os: osx
-      osx_image: "xcode8"
-      env: [MATRIX_EVAL="brew install gcc && CC=gcc-8"]
-
+      compiler: gcc-8
 
 before_install:
-  - eval "${MATRIX_EVAL}"
+  - "$CC --version"
+
+before_script:
+  - export PATH="/usr/local/opt/gettext/bin:$PATH"
 
 script:
   - ./autogen.sh
   - ./configure
   - make
+
+after_failure:
+  - "test -e config.log && cat config.log"
