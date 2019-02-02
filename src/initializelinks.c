@@ -99,7 +99,7 @@ char *
 findurlend(char *str)
 {
 	char *end;
-	char *allowedchars = "QWERTYUIOPASDFGHJKLZXCVBNMqwertyuiopasdfghjklzxcvbnm1234567890-_/~.%=|:@­";
+	char *allowedchars = "QWERTYUIOPASDFGHJKLZXCVBNMqwertyuiopasdfghjklzxcvbnm1234567890-_/~.%=|:@";
 	end = str;
 	while (strchr(allowedchars, *end) != NULL)
 		++end;
