@@ -225,7 +225,6 @@ initlocale()
 		malloc_addr[i] = 0;
 /* ___DEBUG___ */
 #endif
-	sbrk(100000);
 	setlocale(LC_ALL, "");
 	bindtextdomain(PACKAGE, LOCALEDIR);
 	textdomain(PACKAGE);
