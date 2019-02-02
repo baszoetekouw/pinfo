@@ -297,12 +297,16 @@ Alternate key for going to a node marked as 'Next' in the header. In manpage
 viewer this goes to the next man section.
 
 @item KEY_UP_1
-Key for scrolling text one line up.  Alternate key for scrolling text
-one line up.
+Key for scrolling text one line up.
+
+@item KEY_UP_2
+Alternate key for scrolling text one line up.
 
 @item KEY_END_1
-Key for going to the end of the node.  Alternate key for going to the
-end of the node.
+Key for going to the end of the node.
+
+@item KEY_END_2
+Alternate key for going to the end of the node.
 
 @item KEY_PGDN_1
 Key for going one page down in the viewed node.
@@ -345,8 +349,10 @@ Key for scrolling the text down one line.
 Alternate key for scrolling the text down one line.
 
 @item KEY_TOP_1
-Key for going to the top (first) node.  Alternate key for going to the
-top (first) node.
+Key for going to the top (first) node.
+
+@item KEY_TOP_2
+Alternate key for going to the top (first) node.
 
 @item KEY_BACK_1
 Key for going back (in the history of viewed nodes).
@@ -514,7 +520,7 @@ This specifies the options, which should be passed to the `man' program.
 @item STDERR-REDIRECTION
 Pinfo allows you to redirect the stderr output of called programs.  For
 example if you don't want to see man's error messages about manual page
-formatting, you can use @samp{STDER-REDIRECTION"> /dev/null"}.  This
+formatting, you can use @samp{STDERR-REDIRECTION="2> /dev/null"}.  This
 is the default.
 
 @item LONG-MANUAL-LINKS
