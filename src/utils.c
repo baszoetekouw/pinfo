@@ -243,6 +243,22 @@ my_rl_display()
 	printw("%s%s", rl_prompt, rl_line_buffer);
 	refresh();
 }
+
+void
+my_rl_completion_display_matches(char *matches[], int num, int max)
+{
+	(void)matches;
+	(void)num;
+	(void)max;
+}
+
+char *
+my_rl_completion_entry(const char text[], int state)
+{
+	(void)text;
+	(void)state;
+	return NULL;
+}
 #endif
 
 char *
@@ -258,6 +274,12 @@ getstring(char *prompt)
 
 	rl_readline_name = PACKAGE;
 	
+	/* prevent displaying completion menu, which could mess up output */
+	rl_completion_display_matches_hook = my_rl_completion_display_matches;
+
+	/* disable filename completion */
+	rl_completion_entry_function = my_rl_completion_entry;
+
 	/* set display function for readline to my_rl_display and call readline */
 	rl_redisplay_function = my_rl_display;
 	buf = readline(prompt);
