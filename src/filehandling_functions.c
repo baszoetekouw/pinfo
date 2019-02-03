@@ -444,6 +444,7 @@ load_tag_table(char **message, long lines)
 	qsort(&tag_table[1], TagTableEntries, sizeof(TagTable), qsort_cmp);
 }
 
+/* TODO: seek_indirect() and seek_tag_table() are almost identical: remove duplicate code */
 int
 seek_indirect(FILE * id)
 {
@@ -471,7 +472,13 @@ seek_indirect(FILE * id)
 		fgetc(id);
 		if (fgets(type, 1024, id)==0)
 		{
-			finito = 1;
+			/* we're at the end of the file and haven't found any indirect refs. so bail out */
+			if (type)
+			{
+				xfree(type);
+				type = 0;
+			}
+			return 0;
 		}
 		if (strncasecmp("Indirect:", type, strlen("Indirect:")) == 0)
 		{
@@ -541,10 +548,16 @@ seek_tag_table(FILE * id,int quiet)
 			}
 		}
 		seek_pos = ftell(id) - 2;
-		while (fgetc(id) != '\n')
+		while (fgetc(id) != '\n');
+		if (fgets(type, 1024, id)==NULL)
 		{
-			if (feof(id))
-				break;
+			/* we're at the end of the file and haven't found a tag table. so bail out */
+			if (type)
+			{
+				xfree(type);
+				type = 0;
+			}
+			return 2;
 		}
 		if (fgets(type, 1024, id)==NULL || strncasecmp("Tag Table:", type, strlen("Tag Table:")) == 0)
 		{
