@@ -33,8 +33,7 @@ pinfo_COMMON_SRC = pinfo.c \
 		initializelinks.h \
 		printinfo.c \
 		printinfo.h \
-		localestuff.h \
-		rcsid.h
+		localestuff.h
 
 pinfo_READLINE = readlinewrapper.c readlinewrapper.h
 pinfo_SNPRINTF = snprintf.c # snprintf.h
