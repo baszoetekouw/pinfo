@@ -51,6 +51,7 @@ unsigned int maxx, maxy;
 int CutManHeaders = 0;
 int CutEmptyManLines = 0;
 int ForceManualTagTable = 0;
+int DontHandleWithoutTagTable = 0;
 int LongManualLinks = 0;
 char *ManOptions = "";
 char *StderrRedirection = "2> /dev/null";

@@ -26,7 +26,6 @@
 #endif
 
 char *version = PACKAGE_VERSION;
-int DontHandleWithoutTagTable = 0;
 
 /* currently viewed filename */
 char *curfile = 0;

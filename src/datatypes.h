@@ -179,12 +179,17 @@ extern int ClearScreenAtExit;
 /* determines whether when using readline wrapper to call the latest history
  * entry as default prompt or not */
 extern int CallReadlineHistory;
-
 /* quote ignored macros when watching page */
 extern int quote_ignored;
-
 /* set by SIGWINCH handler */
 extern int winchanged;
+/* true if we prefer man pages over info pages */
+extern int use_manual;
+/* if true, search the current directory first, before checking /sur/share/info etc */
+extern int use_raw_filename;
+/* If set to true , pinfo will not attempt to display texinfo pages without tag tables */
+extern int DontHandleWithoutTagTable;
+
 
 /* initialize history (see struct above) * variables for `lastread' history */
 void inithistory ();

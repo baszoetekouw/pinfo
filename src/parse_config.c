@@ -28,18 +28,6 @@
 regex_t *h_regexp = 0;	/* regexps to highlight */
 int h_regexp_num = 0;	/* number of those regexps */
 
-extern int use_apropos;
-extern int CutManHeaders;
-extern int DontHandleWithoutTagTable;
-extern int use_manual;
-extern int use_raw_filename;
-extern int quote_ignored;
-extern char *httpviewer;
-extern char *ftpviewer;
-extern char *maileditor;
-extern char *manlinks;
-extern char *ignoredmacros;
-
 struct keybindings keys =
 {
 	's',		'S',		/* regexp search */
