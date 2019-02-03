@@ -185,6 +185,8 @@ extern int quote_ignored;
 extern int winchanged;
 /* true if we prefer man pages over info pages */
 extern int use_manual;
+/* true if pinfo/curses should grab the mouse and override normal terminal mouse behaviour */
+extern int grab_mouse;
 /* if true, search the current directory first, before checking /sur/share/info etc */
 extern int use_raw_filename;
 /* If set to true , pinfo will not attempt to display texinfo pages without tag tables */

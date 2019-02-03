@@ -314,7 +314,10 @@ init_curses()
 	initcolors();
 	shell_cursor = curs_set(0);
 #ifdef CURSES_MOUSE
-	mousemask(BUTTON1_CLICKED | BUTTON1_DOUBLE_CLICKED, NULL);
+	if (grab_mouse)
+	{
+		mousemask(BUTTON1_CLICKED | BUTTON1_DOUBLE_CLICKED, NULL);
+	}
 #endif
 	curses_open = 1;
 }

@@ -71,6 +71,7 @@ int plain_apropos = 0;
 int use_manual = 0;
 int use_raw_filename = 0;
 int quote_ignored = 0;
+int grab_mouse = 0;
 
 int winchanged = 0;
 

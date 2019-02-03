@@ -411,6 +411,21 @@ parse_line(char *line)
 				return 1;
 		}
 	}
+	else if (!strncmp(temp, "GRAB-MOUSE", 10))
+	{
+		temp = strtok(NULL, "=");
+		if (temp)
+		{
+			if (!(temp = str_toupper(skip_whitespace(temp))))
+				return 1;
+			if (!strncmp(temp, "TRUE", 4))
+				grab_mouse = 1;
+			else if (!strncmp(temp, "FALSE", 5))
+				grab_mouse = 0;
+			else
+				return 1;
+		}
+	}
 	else if (!strncmp(temp, "RAW-FILENAME", 12))
 	{
 		temp = strtok(NULL, "=");
