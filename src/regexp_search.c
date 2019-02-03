@@ -19,11 +19,11 @@
  *  USA
  ***************************************************************************/
 
-#include"common_includes.h"
+#include "common_includes.h"
 
 #ifndef ___DONT_USE_REGEXP_SEARCH___
-#include"regex.h"
-#include<ctype.h>
+#include "regex.h"
+#include <ctype.h>
 /* adapted partialy from midnight commander view regexp search */
 
 enum
