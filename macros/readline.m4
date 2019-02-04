@@ -6,7 +6,7 @@ dnl =============
 dnl
 dnl - Determine which version of readline is installed on your system
 dnl   and set the -I/-L/-l compiler entries and add a few preprocessor
-dnl   symbols
+dnl   symbols 
 dnl - Do an AC_SUBST on the READLINE_INCLUDES and READLINE_LIBS so that
 dnl   @READLINE_INCLUDES@ and @READLINE_LIBS@ will be available in
 dnl   Makefile.in's
@@ -27,7 +27,7 @@ dnl - call AM_CONDITIONAL(HAS_READLINE, test "$has_readline" = true) from
 dnl   configure.in
 dnl - your Makefile.am can look something like this
 dnl   -----------------------------------------------
-dnl   INCLUDES= blah blah blah $(READLINE_INCLUDES)
+dnl   INCLUDES= blah blah blah $(READLINE_INCLUDES) 
 dnl   if HAS_READLINE
 dnl   READLINE_TARGETS=name_of_readline_prog
 dnl   endif
@@ -81,7 +81,7 @@ dnl	CFLAGS=${CFLAGS--O}
 
 
 ])
-
+	
 dnl
 dnl Parameters: directory filename cureses_LIBS curses_INCLUDES nicename
 dnl
@@ -102,11 +102,11 @@ AC_DEFUN([AC_READLINE], [
 AC_DEFUN([AC_SEARCH_READLINE], [
     AC_CHECKING(location of readline.h file)
 
-    AC_READLINE(/usr/local/include, readline.h, -L/usr/local/lib -lreadline, -I/usr/local/include, "readline on /usr/local")
-    AC_READLINE(/usr/local/include/readline, readline.h, -L/usr/local/lib -L/usr/local/lib/readline -lreadline, -I/usr/local/include/readline, "readline on /usr/local/include/readline")
     AC_READLINE(/usr/include, readline.h, -lreadline,, "readline on /usr/include")
     AC_READLINE(/usr/include/readline, readline.h, -lreadline, -I/usr/include/readline, "readline on /usr/include/readline")
-] )
+    AC_READLINE(/usr/local/include, readline.h, -L/usr/local/lib -lreadline, -I/usr/local/include, "readline on /usr/local")
+    AC_READLINE(/usr/local/include/readline, readline.h, -L/usr/local/lib -L/usr/local/lib/readline -lreadline, -I/usr/local/include/readline, "readline on /usr/local/include/readline")
+] ) 
 
 AC_DEFUN([AC_READLINE_VERSION], [
 	AC_MSG_CHECKING(for readline version)
