@@ -98,7 +98,8 @@ matrix:
       compiler: clang
       addons:
         homebrew:
-          packages: [ gettext ]
+          packages:
+            - *pkg_brew
 
     - name: "osx/xcode-10.1"
       os: osx
@@ -106,7 +107,8 @@ matrix:
       compiler: clang
       addons:
         homebrew:
-          packages: [ gettext ]
+          packages:
+            - *gettext
 
     - name: "osx/hb/gcc-5"
       os: osx
