@@ -770,7 +770,8 @@ FILE *
 openinfo(char *filename, int number)
 {
 	FILE *id = NULL;
-	char *buf = xmalloc(1024);	/* holds local copy of filename */
+#define BUF_LEN 1024
+	char *buf = xmalloc(BUF_LEN);	/* holds local copy of filename */
 	char *bufend;			/* points at the trailing 0 of initial name */
 	char command[1128];		/* holds command to evaluate for decompression of file */
 	int i, j;
@@ -803,9 +804,9 @@ openinfo(char *filename, int number)
 		tmpfilename = tmpfilename2;	/* later we will refere only to tmp2 */
 	}
 
-	for (i = -1; i < infopathcount; i++)	/* go through all paths */
+	for (i = -2; i < infopathcount; i++)	/* go through all paths */
 	{
-		if (i == -1)
+		if (i < 0)
 		{
 			/*
 			 * no filenameprefix, we don't navigate around any specific
@@ -813,12 +814,12 @@ openinfo(char *filename, int number)
 			 */
 			if (!filenameprefix)
 				continue;
+			/* build a filename: First (i == -2) try filenameprefix/filename,
+			 * then try with a .info appended */
+			if (i == -2)
+				snprintf(buf, BUF_LEN, "%s/%s", filenameprefix, basename(filename));
 			else
-			{
-				strcpy(buf, filenameprefix);	/* build a filename */
-				strcat(buf, "/");
-				strcat(buf, basename(filename));
-			}
+				snprintf(buf, BUF_LEN, "%s/%s.info", filenameprefix, basename(filename));
 		}
 		else
 		{
@@ -872,6 +873,7 @@ openinfo(char *filename, int number)
 
 
 	return 0;
+#undef BUF_LEN
 }
 
 	void
