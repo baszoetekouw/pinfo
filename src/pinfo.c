@@ -133,7 +133,7 @@ main(int argc, char *argv[])
 		{
 			char *tmp;
 			command_line_option = getopt_long(argc, argv,
-					"hvmfrapcsdtnlx", long_options, NULL);
+					"hvmfrapcsdtn:lx", long_options, NULL);
 			switch(command_line_option)
 			{
 				case 'x':
@@ -236,6 +236,8 @@ main(int argc, char *argv[])
 				case 's':
 					CutEmptyManLines = 1;
 					break;
+				case '?':
+					exit(1);
 			}
 		}
 		while (command_line_option != EOF);
