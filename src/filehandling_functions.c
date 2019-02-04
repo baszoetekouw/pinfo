@@ -559,7 +559,7 @@ seek_tag_table(FILE * id,int quiet)
 			}
 			return 2;
 		}
-		if (fgets(type, 1024, id)==NULL || strncasecmp("Tag Table:", type, strlen("Tag Table:")) == 0)
+		if (strncasecmp("Tag Table:", type, strlen("Tag Table:")) == 0)
 		{
 			finito = 1;
 		}
