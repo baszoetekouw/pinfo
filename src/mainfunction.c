@@ -38,6 +38,32 @@ int aftersearch = 0;
 int toggled_by_menu = 0;
 long pos, cursor, infomenu, infocolumn=0;
 
+/* strdup src string, but when doing so, strip leading/trailing spaces and
+ * substitute multiple spaces with a single space. This is needed when *Node
+ * links span multiple lines and the margin is embedded in the string */
+static char *
+canonical_strdup(const char *src)
+{
+	char *dst;
+	int dstlen, srclen, copylen;
+
+	while (*src == ' ')
+		++src;
+	for (dstlen = 0, srclen = 0; src[srclen]; ++srclen)
+	{
+		if (src[srclen] != ' ' || (src[srclen + 1] != 0 && src[srclen + 1] != ' '))
+			++dstlen;
+	}
+	dst = xmalloc(dstlen + 1);
+	for (copylen = 0, srclen = 0; copylen < dstlen; ++srclen)
+	{
+		if (src[srclen] != ' ' || src[srclen + 1] != ' ')
+			dst[copylen++] = src[srclen];
+	}
+	dst[dstlen] = 0;
+	return dst;
+}
+
 WorkRVal
 work(char ***message, char **type, long *lines, FILE * id, int tag_table_pos)
 {
@@ -529,8 +555,7 @@ work(char ***message, char **type, long *lines, FILE * id, int tag_table_pos)
 					infohistory.pos[infohistory.length] = pos;
 					infohistory.cursor[infohistory.length] = cursor;
 					infohistory.menu[infohistory.length] = infomenu;
-					rval.node = xmalloc(strlen(tag_table[return_value].nodename) + 1);
-					strcpy(rval.node, tag_table[return_value].nodename);
+					rval.node = canonical_strdup(tag_table[return_value].nodename);
 					rval.file = xmalloc(1);
 					rval.file[0] = 0;
 					return rval;
@@ -671,8 +696,7 @@ skip_search:
 					infohistory.pos[infohistory.length] = pos;
 					infohistory.cursor[infohistory.length] = cursor;
 					infohistory.menu[infohistory.length] = infomenu;
-					rval.node = xmalloc(strlen(tag_table[return_value].nodename) + 1);
-					strcpy(rval.node, tag_table[return_value].nodename);
+					rval.node = canonical_strdup(tag_table[return_value].nodename);
 					rval.file = xmalloc(1);
 					rval.file[0] = 0;
 					aftersearch = 0;
@@ -702,8 +726,7 @@ skip_search:
 									break;
 								gotoendptr++;
 							}	/* skip spaces */
-							rval.node = xmalloc(strlen(gotoendptr) + 1);
-							strcpy(rval.node, gotoendptr);
+							rval.node = canonical_strdup(gotoendptr);
 							xfree(token);
 							token = 0;
 							aftersearch = 0;
@@ -750,8 +773,7 @@ skip_search:
 					infohistory.pos[infohistory.length] = pos;
 					infohistory.cursor[infohistory.length] = cursor;
 					infohistory.menu[infohistory.length] = infomenu;
-					rval.node = xmalloc(strlen(tag_table[return_value].nodename) + 1);
-					strcpy(rval.node, tag_table[return_value].nodename);
+					rval.node = canonical_strdup(tag_table[return_value].nodename);
 					rval.file = xmalloc(1);
 					rval.file[0] = 0;
 					aftersearch = 0;
@@ -772,8 +794,7 @@ skip_search:
 					infohistory.pos[infohistory.length] = pos;
 					infohistory.cursor[infohistory.length] = cursor;
 					infohistory.menu[infohistory.length] = infomenu;
-					rval.node = xmalloc(strlen(tag_table[return_value].nodename) + 1);
-					strcpy(rval.node, tag_table[return_value].nodename);
+					rval.node = canonical_strdup(tag_table[return_value].nodename);
 					rval.file = xmalloc(1);
 					rval.file[0] = 0;
 					aftersearch = 0;
@@ -801,8 +822,7 @@ skip_search:
 						infohistory.cursor[infohistory.length] = cursor;
 						infohistory.menu[infohistory.length] = infomenu;
 					}
-					rval.node = xmalloc(strlen(tag_table[return_value].nodename) + 1);
-					strcpy(rval.node, tag_table[return_value].nodename);
+					rval.node = canonical_strdup(tag_table[return_value].nodename);
 					rval.file = xmalloc(1);
 					rval.file[0] = 0;
 					aftersearch = 0;
@@ -965,8 +985,7 @@ skip_search:
 				infohistory.pos[infohistory.length] = pos;
 				infohistory.cursor[infohistory.length] = cursor;
 				infohistory.menu[infohistory.length] = infomenu;
-				rval.node = xmalloc(strlen(FirstNodeName) + 1);
-				strcpy(rval.node, FirstNodeName);
+				rval.node = canonical_strdup(FirstNodeName);
 				rval.file = xmalloc(1);
 				rval.file[0] = 0;
 				aftersearch = 0;
@@ -981,8 +1000,7 @@ skip_search:
 					dellastinfohistory();	/* remove history entry for this node */
 					/* now we deal with the previous node history entry */
 
-					rval.node = xmalloc(strlen(infohistory.node[infohistory.length]) + 1);
-					strcpy(rval.node, infohistory.node[infohistory.length]);
+					rval.node = canonical_strdup(infohistory.node[infohistory.length]);
 					rval.file = xmalloc(strlen(infohistory.file[infohistory.length]) + 1);
 					strcpy(rval.file, infohistory.file[infohistory.length]);
 
@@ -1012,8 +1030,7 @@ skip_search:
 						toggled_by_menu = 0;
 						if (hyperobjects[cursor].type < 4)	/* normal info link */
 						{
-							rval.node = xmalloc(strlen(hyperobjects[cursor].node) + 1);
-							strcpy(rval.node, hyperobjects[cursor].node);
+							rval.node = canonical_strdup(hyperobjects[cursor].node);
 							rval.file = xmalloc(strlen(hyperobjects[cursor].file) + 1);
 							strcpy(rval.file, hyperobjects[cursor].file);
 							aftersearch = 0;
