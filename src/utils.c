@@ -261,23 +261,124 @@ checkfilename(char *filename)
 void
 my_rl_display()
 {
-	/* go to the bottom line, empty it, and print the prompt and buffer */
+	static size_t len = 0;
+
+	/* if the user's input has changed, clear the entire line to remove possible leftover completions */
+	size_t newlen = strlen(rl_line_buffer);
+	if (newlen!=len)
+	{
+		mymvhline(maxy - 1, 0, ' ', maxx);
+		len = newlen;
+	}
+
+	/* go to the bottom line, print the prompt and buffer */
 	attrset(bottomline);
-	mymvhline(maxy - 1, 0, ' ', maxx);
 	move(maxy-1,0);
+
 	printw("%s%s", rl_prompt, rl_line_buffer);
 	refresh();
 }
+
+void
+my_rl_completion_display(char **matches, int num_matches, int UNUSED(max_length))
+{
+	if (num_matches<1)
+	{
+		return;
+	}
+	/* redraw entire prompt line, appended with possible matches */
+	move(maxy-1,0);
+	printw("%s", rl_prompt);
+	/* note: first entry is the entered text, matches start at index 1 */
+	printw("%s  ", matches[0]);
+	for (int i=1; i < num_matches+1; i++)
+	{
+		printw("%s ", matches[i]);
+	}
+	/* and return prompt to correct position */
+	move(maxy-1, strlen(rl_prompt) + strlen(matches[0]) );
+
+	refresh();
+}
+
+
+/* note: if set, last string MUST be set to NULL */
+static const char * const *completion_values = NULL;
+
+/* readline completion functions, see https://thoughtbot.com/blog/tab-completion-in-gnu-readline */
+
+/* this function is called for each attempted match */
+char *
+getstring_completion_generator(const char *text, int state)
+{
+	static int list_index, len;
+	const char *name;
+
+	if (!state) {
+		list_index = 0;
+		len = strlen(text);
+	}
+
+	while ((name = completion_values[list_index++]) && name!=NULL) {
+		if (strncmp(name, text, len) == 0) {
+			return strdup(name);
+		}
+	}
+
+	return NULL;
+}
+
+/* this function is called when readline attempts completions.  Return a matching function or NULL for no matching */
+char **
+getstring_completion(const char *text, int UNUSED(start), int UNUSED(end))
+{
+	/* do not fall back to default filename completion */
+	rl_attempted_completion_over = 1;
+	rl_completion_append_character = '\0';
+
+	if (completion_values==NULL)
+	{
+		return NULL;
+	}
+	return rl_completion_matches(text, getstring_completion_generator);
+}
+
 #endif
+
+const
+char ** completions_from_tag_table(TagTable * table, size_t num)
+{
+	/* allocate an extra entry at the end, which is set to NULL to terminate the table */
+	const char ** completions = calloc(num+1, sizeof(*completions));
+	for (size_t i=0, j=0; i<num; i++)
+	{
+		if (isalnum(table[i].nodename[0]))
+		{
+			completions[j++] = table[i].nodename;
+		}
+	}
+	return completions;
+}
+
 
 char *
 getstring(char *prompt)
 {
+	return getstring_with_completion(prompt, NULL);
+}
+
+char *
+getstring_with_completion(char *prompt, const char * const * completions)
+{
 	char *buf;
 
 #ifdef HAS_READLINE
+	completion_values = completions;
+	rl_attempted_completion_function = getstring_completion;
+	rl_completion_display_matches_hook = my_rl_completion_display;
 
 	curs_set(1);
+	mymvhline(maxy - 1, 0, ' ', maxx);
 	move(maxy - 1, 0);
 	refresh();
 

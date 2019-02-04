@@ -295,6 +295,7 @@ read_item(FILE * id, char **type, char ***buf, long *lines)
 			Buf[Lines] = xrealloc(Buf[Lines], strlen(Buf[Lines]) + 1);
 		}
 
+		/* TODO: Weirdness going on here; looks like off-by-one error as Buf[0] is always "\0" */
 		/* increase the read lines number */
 		Lines++;
 

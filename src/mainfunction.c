@@ -644,7 +644,14 @@ skip_search:
 				move(maxy - 1, 0);
 				attrset(bottomline);
 				curs_set(1);
-				token = getstring(_("Enter node name: "));	/* read user's wish */
+
+				const char ** tag_completions = completions_from_tag_table(tag_table, TagTableEntries);
+				token = getstring_with_completion(_("Enter node name: "), tag_completions);	/* read user's wish */
+				if (tag_completions!=NULL)
+				{
+					free(tag_completions);
+				}
+
 				curs_set(0);
 				noecho();
 				attrset(normal);

@@ -59,6 +59,9 @@ void closeprogram ();
 void init_curses ();
 /* an interface to gnu readline */
 char *getstring (char *prompt);
+char *getstring_with_completion (char *prompt, const char * const *completions);
+/* create a completion table from a tag_table */
+const char ** completions_from_tag_table(TagTable * table, size_t num);
 /* for some reasons mvhline does not work quite properly... */
 void mymvhline (int y, int x, char ch, int len);
 /* this one supports color back/foreground */
