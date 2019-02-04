@@ -15,6 +15,7 @@ addons:
     packages: &pkg_brew
       - autoconf
       - automake
+      - readline
       - libtool
       - gettext
       - texinfo
