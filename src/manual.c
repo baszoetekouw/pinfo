@@ -173,8 +173,34 @@ set_initial_history(char *name)
 
 	/* filename->name */
 	strcpy(manualhistory[0].name, &name1[i]);
-	/* section unknown */
-	strcpy(manualhistory[0].sect, "");
+
+	/* It is essential to know the section name, as otherwise links in the
+	 * man page to the same name but different section would be ignored -
+	 * see man_initializelinks. An example is sleep(1) which has link to
+	 * sleep(3). So we try to find the section directly from man. */
+	if (manualhistory[0].sect[0] == 0) {
+		char buf[1024];
+		char *str, *lastSlash, *lastButOneSlash;
+		FILE *pathFile;
+		snprintf(buf, sizeof(buf), "man -w -W %s %s", ManOptions, name);
+		pathFile = popen(buf, "r");
+		fgets(buf, sizeof(buf), pathFile);
+		pclose(pathFile);
+		/* buf will be of the form "/usr/share/man/man1/sleep.1.gz". We
+		 * find the section from the leaf directory "/man1" */
+		for (str = buf, lastSlash = str, lastButOneSlash = 0; *str; ++str) {
+			if (*str == '/') {
+				lastButOneSlash = lastSlash;
+				lastSlash = str;
+			}
+		}
+		if (lastButOneSlash) {
+			*lastSlash = 0; /* terminate the section */
+			lastButOneSlash += 4; /* skip "/man", and land on the section */
+			strncpy(manualhistory[0].sect, lastButOneSlash, sizeof(manualhistory[0].sect));
+		}
+	}
+
 	/* selected unknown */
 	manualhistory[0].selected = -1;
 	/* pos=0 */
