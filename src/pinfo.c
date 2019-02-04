@@ -115,8 +115,8 @@ main(int argc, char *argv[])
 				 */
 				for (i = 1; i < argc; i++)
 				{
-					strcat(filename, argv[i]);
-					strcat(filename, " ");
+					strncat(filename, argv[i], sizeof(filename)-strlen(filename)-2);
+					strncat(filename, " ", 2);
 				}
 				exit(handlemanual(filename));
 			}
@@ -196,8 +196,8 @@ main(int argc, char *argv[])
 					strcpy(filename, "");
 					for (i = optind; i < argc; i++)
 					{
-						strcat(filename, argv[i]);
-						strcat(filename, " ");
+						strncat(filename, argv[i], sizeof(filename)-strlen(filename)-2);
+						strncat(filename, " ", 2);
 					}
 					exit(handlemanual(filename));
 				case 'f':
