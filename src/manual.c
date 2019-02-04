@@ -184,7 +184,11 @@ set_initial_history(char *name)
 		FILE *pathFile;
 		snprintf(buf, sizeof(buf), "man -w -W %s %s", ManOptions, name);
 		pathFile = popen(buf, "r");
-		fgets(buf, sizeof(buf), pathFile);
+		if (fgets(buf, sizeof(buf), pathFile)==NULL)
+		{
+			fprintf(stderr, "Error executing command '%s'\n", buf);
+			exit(1);
+		}
 		pclose(pathFile);
 		/* buf will be of the form "/usr/share/man/man1/sleep.1.gz". We
 		 * find the section from the leaf directory "/man1" */
