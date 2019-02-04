@@ -270,9 +270,9 @@ read_item(FILE * id, char **type, char ***buf, long *lines)
 
 	/* seek precisely on the INFO_TAG (the seeknode function may be imprecise
 	 * in combination with some weird tag_tables).  */
-	while (fgetc(id) != INFO_TAG);
+	while (!feof(id) && fgetc(id) != INFO_TAG);
 	/* then skip the trailing `\n' */
-	while (fgetc(id) != '\n');
+	while (!feof(id) && fgetc(id) != '\n');
 
 	/* allocate and read the header line */
 	Type = xmalloc(1024);
