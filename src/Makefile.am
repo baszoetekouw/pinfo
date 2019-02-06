@@ -61,17 +61,17 @@ pinfo_SOURCES =	$(pinfo_COMMON_SRC)
 
 pinfo_LDADD = \
 	$(pinfo_READLINE_OBJ) $(pinfo_SNPRINTF_OBJ) \
-	$(pinfo_SIGBLOCK_OBJ) @READLINE_LIBS@ $(INTLLIBS) \
+	$(pinfo_SIGBLOCK_OBJ) $(READLINE_LIBS) $(INTLLIBS) \
 	$(CURSES_LIBS)
 
 pinfo_CFLAGS = $(CURSES_CFLAGS) $(WCHAR_FLAGS) \
-	@READLINE_INCLUDES@ $(WFLAGS) \
-	-DLOCALEDIR=\"@LOCALEDIR@\" -DCONFIGDIR=\"$(sysconfdir)/pinforc\"
+	$(READLINE_INCLUDES) $(WFLAGS) \
+	-DLOCALEDIR=\"$(LOCALEDIR)\" -DCONFIGDIR=\"$(sysconfdir)/pinforc\"
 
 pinfo_DEPENDENCIES = $(pinfo_READLINE_OBJ)\
                      $(pinfo_SNPRINTF_OBJ)\
                      $(pinfo_SIGBLOCK_OBJ)\
-		     $(INTLDEPS)
+                     $(INTLDEPS)
 
 
 if HAS_READLINE
@@ -94,10 +94,14 @@ install-data-local:
 		if [ ! -d $(DESTDIR)$(sysconfdir) ]; then \
 		   $(INSTALL) -d $(DESTDIR)$(sysconfdir); \
 		fi; \
-		$(INSTALL) -m 644 $(srcdir)/pinforc $(DESTDIR)$(sysconfdir) ; \
+		$(INSTALL) -m 644 pinforc $(DESTDIR)$(sysconfdir) ; \
 	else \
 		echo "WARNING! Old pinforc detected. I'm not installing the new file"; \
-        fi
+	fi
+uninstall-local:
+	rm -f $(DESTDIR)$(sysconfdir)/pinforc
+
+
 
 EXTRA_DIST = $(pinfo_READLINE) $(pinfo_SNPRINTF) $(pinfo_SIGBLOCK)
 

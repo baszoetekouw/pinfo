@@ -164,15 +164,6 @@ AM_INTL_SUBDIR
 AM_GNU_GETTEXT_VERSION([0.14.4])
 AM_GNU_GETTEXT([external])
 
-# TVM:
-# horrible *temporary* hack to make sure that if we found gettext() in
-# -lintl that we add -lintl *back* to $LIBS.
-#
-## TODO: do we still need this?
-##if test X$gt_cv_func_gettext_libintl = Xyes ; then
-##    LIBS="-lintl $LIBS"
-##fi
-
 # Specify locale stuff destination
 AC_ARG_WITH(localedir,
 	[  --with-localedir=PATH      specify where the locale stuff should go ])
@@ -205,7 +196,7 @@ fi
 ## TODO: do we still need this with current computing powers?
 AC_ARG_ENABLE(use_static,
 	[  --disable-static        enable using static buffers ], ,
-	enable_use_static=yes) 
+	enable_use_static=yes)
 if test "x$enable_use_static" = "xyes" ; then
 	AC_DEFINE(___USE_STATIC___, 1, [don't use dynamic buffer]) #'
 fi
