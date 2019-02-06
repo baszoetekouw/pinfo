@@ -25,7 +25,7 @@
 extern char *safe_user;
 extern char *safe_group;
 
-#ifndef HAVE_CURS_SET
+#ifndef HAVE_DECL_CURS_SET
 void curs_set (int a);
 #endif
 

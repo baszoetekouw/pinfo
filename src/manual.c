@@ -1020,7 +1020,7 @@ manualwork()
 				curs_set(0);
 				noecho();
 				move(maxy - 1, 0);
-#ifdef HAVE_BKGDSET
+#ifdef HAVE_DECL_BKGDSET
 				bkgdset(' ' | bottomline);
 				clrtoeol();
 				bkgdset(0);
@@ -1051,7 +1051,7 @@ manualwork()
 				curs_set(0);
 				noecho();
 				move(maxy - 1, 0);
-#ifdef HAVE_BKGDSET
+#ifdef HAVE_DECL_BKGDSET
 				bkgdset(' ' | bottomline);
 				clrtoeol();
 				bkgdset(0);
@@ -1097,7 +1097,7 @@ manualwork()
 				token = getstring(_("Enter command: "));
 				noecho();
 				move(maxy - 1, 0);
-#ifdef HAVE_BKGDSET
+#ifdef HAVE_DECL_BKGDSET
 				bkgdset(' ' | bottomline);
 				clrtoeol();
 				bkgdset(0);
@@ -1165,7 +1165,7 @@ manualwork()
 				curs_set(0);
 				noecho();
 				move(maxy - 1, 0);
-#ifdef HAVE_BKGDSET
+#ifdef HAVE_DECL_BKGDSET
 				bkgdset(' ' | bottomline);
 				clrtoeol();
 				bkgdset(0);
@@ -1646,12 +1646,12 @@ showmanualscreen()
 		if (len)
 			manual[i][len - 1] = '\n';
 	}
-#ifdef HAVE_BKGDSET
+#ifdef HAVE_DECL_BKGDSET
 	bkgdset(' ' | normal);
 #endif
 	/* and clear to bottom */
 	clrtobot();
-#ifdef HAVE_BKGDSET
+#ifdef HAVE_DECL_BKGDSET
 	bkgdset(0);
 #endif
 	attrset(normal);
@@ -1726,7 +1726,7 @@ label_check_italic:
 		}
 label_skip_other:;
 	}
-#ifdef HAVE_BKGDSET
+#ifdef HAVE_DECL_BKGDSET
 	bkgdset(' ' | normal);
 	clrtoeol();
 	bkgdset(0);

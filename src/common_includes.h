@@ -41,20 +41,19 @@
 
 #include "../config.h"
 
-#include CURSES_H_NAME
-
-/* fall back to using 'E' is curses doesn't support the end key */
-#ifndef CURSES_KEY_END
- #define KEY_END	'E'
+#if HAVE_NCURSESW_H           /* if <ncursesw.h> should be used              */
+#  include <ncursesw.h>
+#elif HAVE_NCURSESW_CURSES_H  /* if <ncursesw/curses.h> should be used       */
+#  include <ncursesw/curses.h>
+#elif HAVE_NCURSES_H          /* if <ncurses.h> should be used               */
+#  include <ncurses.h>
+#elif HAVE_NCURSES_CURSES_H   /* if <ncurses/curses.h> should be used        */
+#  include <ncurses/curses.h>
+#elif HAVE_CURSES_H           /* if <curses.h> is present and should be used */
+#  include <curses.h>
+#else
+#  error "No valid curses headers detected"
 #endif
-/* quick hack;
- * really should replace all the NO_COLOR_CURSES checks
- * by CURSES_COLORS
- */
-#ifndef CURSES_COLORS
- #define NO_COLOR_CURSES
-#endif
-
 
 #include "localestuff.h"
 

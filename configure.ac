@@ -107,37 +107,39 @@ AC_CHECK_READLINE
 
 # if we have readline, it needs to be version 5
 if test "x$has_readline" = "xtrue"
-then 
+then
 	if test $readline_version -lt 4
-	then 
-		AC_MSG_WARN([Version 4 of readline is required to compile pinfo.  
+	then
+		AC_MSG_WARN([Version 4 of readline is required to compile pinfo.
 			Yours is only version $readline_version.
 			Readline support will be disabled.])
 		has_readline=false
 	fi
 fi
 AM_CONDITIONAL(HAS_READLINE, test "$has_readline" = true)
-					
+
 
 # curses
-AC_CHECK_CURSES
-if ! test "x$USE_CURSES" = "xtrue"; then
-	AC_MSG_ERROR([Curses not found. You need curses to compile pinfo])
+AX_WITH_CURSES
+if test "x$ax_cv_ncursesw" != xyes && test "x$ax_cv_ncurses" != xyes; then
+	AC_MSG_ERROR([requires a (n)curses library])
 fi
-LIBS="$LIBS $CURSES_LIBS"
-CFLAGS="$CFLAGS $CURSES_INCLUDES $CURSES_FLAGS"
-
 # check for some functions in curses
-AC_CHECK_FUNCS(curs_set use_default_colors bkgdset)
-
-# define the MAN_KEY_END var based on the curses support of KEY_END
-if test "x$CURSES_KEY_END" = "xtrue"
-then
-	MAN_KEY_END="End Key"
-else
-	MAN_KEY_END="E"
-fi
-AC_SUBST(MAN_KEY_END)
+AC_CHECK_DECLS([curs_set, bkgdset], [], [], [
+#if HAVE_NCURSESW_H           /* if <ncursesw.h> should be used              */
+#  include <ncursesw.h>
+#elif HAVE_NCURSESW_CURSES_H  /* if <ncursesw/curses.h> should be used       */
+#  include <ncursesw/curses.h>
+#elif HAVE_NCURSES_H          /* if <ncurses.h> should be used               */
+#  include <ncurses.h>
+#elif HAVE_NCURSES_CURSES_H   /* if <ncurses/curses.h> should be used        */
+#  include <ncurses/curses.h>
+#elif HAVE_CURSES_H           /* if <curses.h> is present and should be used */
+#  include <curses.h>
+#else
+#  error "No valid curses headers detected"
+#endif
+])
 
 ####################################################
 ## wchar stuff

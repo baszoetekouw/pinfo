@@ -37,11 +37,11 @@ struct keybindings keys =
 	'n',		'N',		/* next node */
 	'u',		'U',		/* up node */
 	KEY_UP,		'k',		/* up one line */
-#ifdef HAVE_KEY_END
+#ifdef KEY_END
 	KEY_END
-#else	/* HAVE_KEY_END */
+#else
 	'E'
-#endif	/* HAVE_KEY_END */
+#endif
 		,'e',			/* end */
 	KEY_NPAGE,	' ',		/* down one page */
 	KEY_HOME,	'H',		/* home */
@@ -65,7 +65,7 @@ struct keybindings keys =
 	'6',		0			/* scroll right */
 };
 
-#ifndef NO_COLOR_CURSES
+#ifdef HAVE_CURSES_COLOR
 struct colours cols =
 {
 	COLOR_WHITE,	COLOR_BLACK,	NO_BOLD,	NO_BLINK,	/* normal */
@@ -82,7 +82,7 @@ struct colours cols =
 	COLOR_WHITE,	COLOR_BLACK,	BOLD,		NO_BLINK,	/* info highlight(quoted text) */
 	COLOR_YELLOW,	COLOR_BLACK,	BOLD,		NO_BLINK	/* search highlight */
 };
-#endif /* NO_COLOR_CURSES */
+#endif /* HAVE_CURSES_COLOR */
 
 int
 parse_config(void)
@@ -297,7 +297,7 @@ parse_line(char *line)
 		else
 			return 1;
 	}
-#ifndef NO_COLOR_CURSES
+#ifdef HAVE_CURSES_COLOR
 	else if (!strncmp(temp, "COL", 3))
 	{
 		key = NULL;
@@ -395,7 +395,7 @@ parse_line(char *line)
 		else
 			return 1;
 	}
-#endif /* NO_COLOR_CURSES */
+#endif /* HAVE_CURSES_COLOR */
 	else if (!strncmp(temp, "MANUAL", 6))
 	{
 		temp = strtok(NULL, "=");
@@ -770,7 +770,7 @@ parse_line(char *line)
 	}
 	else
 		return 1;
-#ifndef NO_COLOR_CURSES
+#ifdef HAVE_CURSES_COLOR
 	if (fore)
 	{
 		for (i = 0; i < 4; i++)
@@ -820,7 +820,7 @@ parse_line(char *line)
 		}
 	}
 	else
-#endif /* NO_COLOR_CURSES */
+#endif /* HAVE_CURSES_COLOR */
 		if (key)
 		{
 			if (!(temp = skip_whitespace(strtok(NULL, "="))))

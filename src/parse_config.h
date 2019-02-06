@@ -64,7 +64,7 @@ typedef struct keybindings
 }
 keybindings;
 
-#ifndef NO_COLOR_CURSES
+#ifdef HAVE_CURSES_COLOR
 typedef struct colours
 {
 	int normal_fore, normal_back, normal_bold, normal_blink;
@@ -83,7 +83,7 @@ typedef struct colours
 		searchhighlight_blink;
 }
 colours;
-#endif /* NO_COLOR_CURSES */
+#endif /* HAVE_CURSES_COLOR */
 
 int use_manual;
 

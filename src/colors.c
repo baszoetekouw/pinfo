@@ -21,9 +21,9 @@
 
 #include "common_includes.h"
 
-#ifndef NO_COLOR_CURSES
+#ifdef HAVE_CURSES_COLOR
 extern struct colours cols;
-#endif /* NO_COLOR_CURSES */
+#endif /* HAVE_CURSES_COLOR */
 
 int normal;
 int menuselected;
@@ -42,7 +42,7 @@ int searchhighlight;
 void
 initcolors()
 {
-#ifndef NO_COLOR_CURSES
+#ifdef HAVE_CURSES_COLOR
 	if (has_colors())
 	{
 		start_color();
@@ -142,7 +142,7 @@ initcolors()
 	}
 	else
 	{
-#endif /* NO_COLOR_CURSES */
+#endif /* HAVE_CURSES_COLOR */
 		normal = A_NORMAL;
 		menu = A_BOLD;
 		note = A_BOLD;
@@ -156,7 +156,7 @@ initcolors()
 		manualitalic = A_BOLD;
 		infohighlight = A_BOLD;
 		searchhighlight = A_BOLD;
-#ifndef NO_COLOR_CURSES
+#ifdef HAVE_CURSES_COLOR
 	}
-#endif /* NO_COLOR_CURSES */
+#endif /* HAVE_CURSES_COLOR */
 }
