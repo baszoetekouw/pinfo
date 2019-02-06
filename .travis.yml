@@ -11,9 +11,11 @@ addons:
       - libncursesw5-dev
       - texinfo
       - autotools-dev
+      - autoconf-archive
   homebrew:
     packages: &pkg_brew
       - autoconf
+      - autoconf-archive
       - automake
       - readline
       - libtool
