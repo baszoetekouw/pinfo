@@ -29,8 +29,6 @@ typedef struct
 }
 Suffixes;
 
-char * basename(char *filename);
-
 
 /******************************************************************************
  * This piece of declarations says what to do with info files stored with      *
@@ -741,20 +739,6 @@ opendirfile(int number)
 		return id;
 	}
 	return NULL;
-}
-
-char *
-basename(char *filename)
-{
-	int len = strlen(filename);
-	char *a = filename + len;
-	while (a > filename)
-	{
-		a--;
-		if (*a == '/')
-			return a + 1;
-	}
-	return filename;		/* when it was a basename */
 }
 
 /*
