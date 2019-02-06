@@ -27,6 +27,7 @@
 #define _BSD_SOURCE 1
 
 #include <stdio.h>
+#include <libgen.h>
 #include <string.h>
 #include <strings.h>
 #include <stdlib.h>
