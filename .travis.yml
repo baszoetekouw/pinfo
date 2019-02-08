@@ -12,6 +12,7 @@ addons:
       - texinfo
       - autotools-dev
       - autoconf-archive
+      - curl
   homebrew:
     packages: &pkg_brew
       - autoconf
@@ -21,6 +22,7 @@ addons:
       - libtool
       - gettext
       - texinfo
+      - curl
 
 matrix:
   include:
@@ -150,4 +152,12 @@ script:
   - make
 
 after_failure:
-  - "test -e config.log && cat config.log"
+  - apt install curl
+  - >
+    test -e config.log &&
+    curl -s 'https://hastebin.com/documents' --data-binary @config.log |
+    grep '"key"'|sed 's#^.*"key"\s*:\s*"\(.*\)".*$#https://hastebin.com/\1#'
+  - >
+    test -e aclocal.m4 &&
+    curl -s 'https://hastebin.com/documents' --data-binary @aclocal.m4 |
+    grep '"key"'|sed 's#^.*"key"\s*:\s*"\(.*\)".*$#https://hastebin.com/\1#'
