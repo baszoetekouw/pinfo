@@ -137,6 +137,22 @@ matrix:
             - *pkg_apt
             - "gcc@8"
 
+    - name: "distcheck"
+      script:
+        - ./autogen.sh
+        - ./configure
+        - make distcheck
+      before_deploy:
+        - |
+          export PINFO_VERSION=$(awk '/^#define +PACKAGE_VERSION/ { print $3 }' < config.h | tr -d '"')
+        - echo "Deploying pinfo version $PINFO_VERSION to Github Release"
+      deploy:
+        provider: releases
+        api_key: "$GITHUB_TOKEN"
+        file: "pinfo-${PINFO_VERSION}.tar.gz"
+        skip_cleanup: true
+        draft: true
+
   allow_failures:
     - os: osx
       compiler: gcc-8
