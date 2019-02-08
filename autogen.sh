@@ -12,6 +12,6 @@ do
 done
 
 echo Running autoreconf...
-autoreconf --force --install
+autoreconf --install --symlink --verbose
 
 exit 0
