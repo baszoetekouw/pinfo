@@ -26,7 +26,7 @@ addons:
       - texinfo
       - curl
 
-matrix:
+jobs:
   include:
     - name: "linux/gcc-5"
       os: linux
@@ -146,7 +146,14 @@ matrix:
             - *pkg_apt
             - "gcc@8"
 
-    - name: "distcheck"
+    - stage: "distcheck"
+      addons:
+        apt:
+          sources:
+            - *source_apt
+          packages:
+            - *pkg_apt
+            - texlive
       script:
         - ./autogen.sh
         - ./configure
