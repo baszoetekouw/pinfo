@@ -1,3 +1,4 @@
+# yamllint disable rule:truthy
 ---
 language: c
 dist: xenial
@@ -160,13 +161,19 @@ jobs:
         - make distcheck
       before_deploy:
         - |
-          export PINFO_VERSION=$(awk '/^#define +PACKAGE_VERSION/ { print $3 }' < config.h | tr -d '"')
+          export PINFO_VERSION=$(awk '/^#define +PACKAGE_VERSION/ { print $3 }' < config.h | tr -d '"');
+          if [ "$PINFO_VERSION" != "$TRAVIS_TAG" ]; then
+            echo "tag '$TRAVIS_TAG' is not in sync with PACKAGE_VERSION '$PINFO_VERSION'";
+            echo "Aborting release";
+            false;
+          fi
         - echo "Deploying pinfo version $PINFO_VERSION to Github Release"
       deploy:
         provider: releases
         api_key: "$GITHUB_TOKEN"
         file: "pinfo-${PINFO_VERSION}.tar.gz"
         skip_cleanup: true
+        on: { tags: true }
         draft: true
 
   allow_failures:
