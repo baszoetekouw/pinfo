@@ -4,6 +4,8 @@ dist: xenial
 
 addons:
   apt:
+    sources: &source_apt
+      - ubuntu-toolchain-r-test
     packages: &pkg_apt
       - gettext
       - autopoint
@@ -31,7 +33,6 @@ matrix:
       compiler: "gcc-5"
       addons:
         apt:
-          sources: ["ubuntu-toolchain-r-test"]
           packages:
             - *pkg_apt
             - "gcc-5"
@@ -41,7 +42,6 @@ matrix:
       compiler: "gcc-6"
       addons:
         apt:
-          sources: ["ubuntu-toolchain-r-test"]
           packages:
             - *pkg_apt
             - "gcc-6"
@@ -51,7 +51,6 @@ matrix:
       compiler: "gcc-7"
       addons:
         apt:
-          sources: ["ubuntu-toolchain-r-test"]
           packages:
             - *pkg_apt
             - "gcc-7"
@@ -61,7 +60,6 @@ matrix:
       compiler: "gcc-8"
       addons:
         apt:
-          sources: ["ubuntu-toolchain-r-test"]
           packages:
             - *pkg_apt
             - "gcc-8"
@@ -71,7 +69,6 @@ matrix:
       compiler: "clang-5.0"
       addons:
         apt:
-          sources: ["ubuntu-toolchain-r-test", "llvm-toolchain-xenial-5.0"]
           packages:
             - *pkg_apt
             - "clang-5.0"
@@ -81,7 +78,9 @@ matrix:
       compiler: "clang-6.0"
       addons:
         apt:
-          sources: ["ubuntu-toolchain-r-test", "llvm-toolchain-xenial-6.0"]
+          sources:
+            - *source_apt
+            - "llvm-toolchain-xenial-6.0"
           packages:
             - *pkg_apt
             - "clang-6.0"
@@ -91,7 +90,9 @@ matrix:
       compiler: "clang-7"
       addons:
         apt:
-          sources: ["ubuntu-toolchain-r-test", "llvm-toolchain-xenial-7"]
+          sources:
+            - *source_apt
+            - "llvm-toolchain-xenial-7"
           packages:
             - *pkg_apt
             - "clang-7"
