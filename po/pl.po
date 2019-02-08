@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: pinfo-0.6.8\n"
 "Report-Msgid-Bugs-To: pinfo-devel@lists.alioth.debian.org\n"
-"POT-Creation-Date: 2006-03-15 23:04+0100\n"
+"POT-Creation-Date: 2019-02-06 13:30+0100\n"
 "PO-Revision-Date: 2005-09-29 21:59+0200\n"
 "Last-Translator: Krzysztof Krzyżaniak (eloy) <eloy@debian.org>\n"
 "Language-Team:\n"
@@ -15,87 +15,101 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: src/filehandling_functions.c:469 src/filehandling_functions.c:476
+#: src/filehandling_functions.c:491 src/filehandling_functions.c:498
 #, c-format
 msgid "Searching for indirect done"
 msgstr "Zakończono poszukiwanie mapowań niebezpośrednich"
 
-#: src/filehandling_functions.c:508 src/filehandling_functions.c:515
+#: src/filehandling_functions.c:530 src/filehandling_functions.c:537
 #, c-format
 msgid "Warning: could not find tag table"
 msgstr "Ostrzeżenie: nie można znaleźć tablicy tagów"
 
-#: src/filehandling_functions.c:542
+#: src/filehandling_functions.c:569
 #, c-format
 msgid "Searching for tag table done\n"
 msgstr "Zakończono poszukiwanie tablicy tagów\n"
 
-#: src/filehandling_functions.c:1211
+#: src/filehandling_functions.c:708
+#, c-format
+msgid "Error while reading file '%s'"
+msgstr ""
+
+#: src/filehandling_functions.c:1129
+#, fuzzy
+msgid "Can't open file"
+msgstr "Nie można otworzyć pliku konfiguracyjnego!\n"
+
+#: src/filehandling_functions.c:1130 src/pinfo.c:426
+msgid "press a key to continue"
+msgstr "naciśnij dowolny klawisz"
+
+#: src/filehandling_functions.c:1248
 #, fuzzy, c-format
-msgid "Error: could not open info file"
+msgid "Error: could not open info file part"
 msgstr "Bład: nie nie można otworzyć pliku info"
 
-#: src/mainfunction.c:143 src/manual.c:975
+#: src/mainfunction.c:168 src/manual.c:1005
 msgid "Are you sure you want to print?"
 msgstr "Czy na pewno drukować?"
 
 #
 # Go line messages
 #
-#: src/mainfunction.c:195 src/manual.c:1020
+#: src/mainfunction.c:220 src/manual.c:1050
 msgid "Enter line: "
 msgstr "Podaj linię: "
 
 #
 # Shellfeed messages
 #
-#: src/mainfunction.c:236 src/manual.c:1067
+#: src/mainfunction.c:261 src/manual.c:1097
 msgid "Enter command: "
 msgstr "Podaj komendę: "
 
-#: src/mainfunction.c:255
+#: src/mainfunction.c:280
 msgid "Operation failed..."
 msgstr "Operacja się nie powiodła..."
 
 #
 # Regexp search messages
 #
-#: src/mainfunction.c:291 src/mainfunction.c:553 src/manual.c:1120
+#: src/mainfunction.c:316 src/mainfunction.c:575 src/manual.c:1150
 #, fuzzy
 msgid "Enter regular expression: "
 msgstr "Wprowadź wyrażenie regularne: "
 
-#: src/mainfunction.c:523 src/mainfunction.c:621 src/manual.c:1198
+#: src/mainfunction.c:546 src/mainfunction.c:643 src/manual.c:1228
 msgid "Search string not found..."
 msgstr "Szukany łańcuch nie został znaleziony..."
 
-#: src/mainfunction.c:580 src/manual.c:1155
+#: src/mainfunction.c:602 src/manual.c:1185
 msgid "Invalid regular expression;"
 msgstr "Błędne wyrażenie regularne;"
 
-#: src/mainfunction.c:582 src/manual.c:1157
+#: src/mainfunction.c:604 src/manual.c:1187
 msgid "Press any key to continue..."
 msgstr "Naciśnij dowolny klawisz..."
 
 #
 # Goto messages
 #
-#: src/mainfunction.c:650
+#: src/mainfunction.c:674
 msgid "Enter node name: "
 msgstr "Podaj nazwę węzła: "
 
 # , c-format
-#: src/mainfunction.c:726
+#: src/mainfunction.c:753
 #, c-format
 msgid "Node %s not found"
 msgstr "Węzeł %s nie istnieje"
 
 # Dialogs
-#: src/mainfunction.c:1184 src/manual.c:1548
+#: src/mainfunction.c:1213 src/manual.c:1585
 msgid "Are you sure you want to quit?"
 msgstr "Czy na pewno chcesz zakończyć pracę?"
 
-#: src/manual.c:315
+#: src/manual.c:342
 #, c-format
 msgid "Error: Cannot call man command.\n"
 msgstr "Błąd: Nie można uruchomić polecenia man.\n"
@@ -104,27 +118,27 @@ msgstr "Błąd: Nie można uruchomić polecenia man.\n"
 # Manual messages
 #
 # loading:
-#: src/manual.c:324
+#: src/manual.c:351
 #, c-format
 msgid "Error: No manual page found either.\n"
 msgstr "Bład: Nie ma również pasującej strony podręcznika man.\n"
 
 # apropos:
-#: src/manual.c:327
+#: src/manual.c:354
 #, c-format
 msgid "Apropos pages:\n"
 msgstr "Podobne strony:\n"
 
-#: src/manual.c:370
+#: src/manual.c:397
 msgid "Calling gunzip for"
 msgstr "Uruchamianie gunzip dla"
 
-#: src/manual.c:376
+#: src/manual.c:403
 #, c-format
 msgid "Couldn't call gunzip.\n"
 msgstr "Nie można uruchomić programu gunzip.\n"
 
-#: src/manual.c:413
+#: src/manual.c:440
 msgid "IGNORING"
 msgstr "IGNOROWANIE"
 
@@ -132,17 +146,17 @@ msgstr "IGNOROWANIE"
 # Manual messages
 #
 # loading:
-#: src/manual.c:456
+#: src/manual.c:486
 #, fuzzy, c-format
 msgid "Error: No manual page found\n"
 msgstr "Bład: Nie znaleziono strony podręcznika.\n"
 
-#: src/manual.c:461
+#: src/manual.c:491
 #, c-format
 msgid "Calling apropos \n"
 msgstr "Uruchamianie polecenia apropos \n"
 
-#: src/manual.c:466
+#: src/manual.c:496
 #, c-format
 msgid "Nothing appropiate\n"
 msgstr "Brak odpowiadających stron\n"
@@ -150,11 +164,11 @@ msgstr "Brak odpowiadających stron\n"
 #
 # Goto messages
 #
-#: src/manual.c:989
+#: src/manual.c:1019
 msgid "Enter manual name: "
 msgstr "Podaj tytuł podręcznika: "
 
-#: src/manual.c:1631 src/video.c:114
+#: src/manual.c:1666 src/video.c:113
 #, c-format
 msgid "Viewing line %d/%d, %d%%"
 msgstr "Przeglądanie linii %d/%d, %d%%"
@@ -162,12 +176,12 @@ msgstr "Przeglądanie linii %d/%d, %d%%"
 #
 # Viewer messages
 #
-#: src/manual.c:1633 src/video.c:116
+#: src/manual.c:1668 src/video.c:115
 #, c-format
 msgid "Viewing line %d/%d, 100%%"
 msgstr "Przeglądanie linii %d/%d, 100%%"
 
-#: src/parse_config.c:113
+#: src/parse_config.c:99
 #, c-format
 msgid "Can't open config file!\n"
 msgstr "Nie można otworzyć pliku konfiguracyjnego!\n"
@@ -175,7 +189,7 @@ msgstr "Nie można otworzyć pliku konfiguracyjnego!\n"
 #
 # Messages from the config file parsing procedures:
 #
-#: src/parse_config.c:163
+#: src/parse_config.c:149
 #, c-format
 msgid "Parse error in config file on line %d\n"
 msgstr "Błąd składni w linii %d pliku konfiguracyjnego\n"
@@ -183,16 +197,21 @@ msgstr "Błąd składni w linii %d pliku konfiguracyjnego\n"
 #
 # Out of memory message
 #
-#: src/utils.c:122 src/utils.c:178
+#: src/utils.c:119 src/utils.c:175
 #, c-format
 msgid "Virtual memory exhausted\n"
 msgstr "Brak pamięci\n"
+
+#: src/utils.c:214
+#, c-format
+msgid "Failed to execute command '%s': %i"
+msgstr ""
 
 #
 # Message for procedure, which checks the command line filename
 #
 # , c-format
-#: src/utils.c:232
+#: src/utils.c:254
 #, c-format
 msgid ""
 "Illegal characters in filename!\n"
@@ -201,35 +220,44 @@ msgstr ""
 "W nazwie pliku znajdują się niedozwolone znaki!\n"
 "*** %s\n"
 
-#: src/utils.c:451
+#: src/utils.c:584
 msgid "yes"
 msgstr "tak"
 
-#: src/utils.c:452
+#: src/utils.c:585
 msgid "no"
 msgstr "nie"
 
-#: src/video.c:61
+#: src/utils.c:861
+#, fuzzy, c-format
+msgid "Couldn't open temporary file\n"
+msgstr "Nie można otworzyć pliku konfiguracyjnego!\n"
+
+#: src/video.c:59
 msgid "File:"
 msgstr "Plik:"
 
-#: src/video.c:62
+#: src/video.c:60
 msgid "Node:"
 msgstr "Węzeł:"
 
-#: src/video.c:63
+#: src/video.c:61
 msgid "Next:"
 msgstr "Następny:"
 
-#: src/video.c:64
+#: src/video.c:62
 msgid "Prev:"
 msgstr "Poprzedni:"
 
-#: src/video.c:65
+#: src/video.c:63
 msgid "Up:"
 msgstr "Góra:"
 
-#: src/pinfo.c:113 src/pinfo.c:198
+#: src/video.c:297
+msgid "Warning: matched empty string"
+msgstr ""
+
+#: src/pinfo.c:110 src/pinfo.c:195
 #, c-format
 msgid "Looking for man page...\n"
 msgstr "Szukam strony podręcznika...\n"
@@ -237,12 +265,12 @@ msgstr "Szukam strony podręcznika...\n"
 #
 # error messages when loading
 #
-#: src/pinfo.c:151
+#: src/pinfo.c:148
 #, c-format
 msgid "--node option used without argument\n"
 msgstr "opcja --node użyta bez argumentu\n"
 
-#: src/pinfo.c:161
+#: src/pinfo.c:158
 #, c-format
 msgid "--rcfile option used without argument\n"
 msgstr "opcja --rcfile użyta bez argumentu\n"
@@ -251,7 +279,7 @@ msgstr "opcja --rcfile użyta bez argumentu\n"
 # help message
 #
 # , c-format
-#: src/pinfo.c:172
+#: src/pinfo.c:169
 #, c-format
 msgid ""
 "Usage:\n"
@@ -300,59 +328,60 @@ msgstr ""
 "    --node=Węzeł, --node Węzeł        Przejdź do węzła Węzeł strony info\n"
 "    --rcfile=plik, --rcfile plik      Użyj alternatywnego pliku rc\n"
 
-#: src/pinfo.c:312
+#: src/pinfo.c:311
 #, c-format
 msgid "Error: could not open info file, trying manual\n"
 msgstr "Błąd: nie ma takiego pliku info, szukanie strony podręcznika\n"
 
-#: src/pinfo.c:345
+#: src/pinfo.c:344
 #, c-format
 msgid "Warning: tag table not found...\n"
 msgstr "Ostrzeżenie: nie znalaziono tablicy tagów...\n"
 
-#: src/pinfo.c:349
+#: src/pinfo.c:348
 #, c-format
 msgid "Trying to create alternate tag table...\n"
 msgstr "Próba utworzenia alternatywnej tablicy tagów...\n"
 
-#: src/pinfo.c:354 src/pinfo.c:564
+#: src/pinfo.c:353 src/pinfo.c:577
 #, c-format
 msgid "This doesn't look like info file...\n"
 msgstr "Nie jest plikiem typu info...\n"
 
-#: src/pinfo.c:367
+#: src/pinfo.c:366
 #, c-format
 msgid "Specified node does not exist...\n"
 msgstr "Podany węzeł nie istnieje...\n"
 
-#: src/pinfo.c:419
+#: src/pinfo.c:425
 msgid "Tag table is corrupt, trying to fix..."
 msgstr "Tablica tagów jest uszkodzona, próba naprawy..."
 
-#: src/pinfo.c:420
-msgid "press a key to continue"
-msgstr "naciśnij dowolny klawisz"
-
-#: src/pinfo.c:486
+#: src/pinfo.c:499
 msgid "File not found. Press any key..."
 msgstr "Nie znaleziono pliku. Naciśnij dowolny klawisz..."
 
-#: src/pinfo.c:506
+#: src/pinfo.c:519
 #, c-format
 msgid "Unexpected error.\n"
 msgstr "Nieoczekiwany błąd.\n"
 
-#: src/pinfo.c:559
+#: src/pinfo.c:572
 msgid "Tag table not found. Trying to create alternate..."
 msgstr ""
 "Nie znaleziono tablicy tagów. Próba utworzenia alternatywnej tablicy..."
 
-#: src/pinfo.c:645
+#: src/pinfo.c:659
 #, c-format
 msgid "Security warning: Unable to get GID of group called: %s\n"
 msgstr "Niebezpieczeństwo: Nie można pobrać GID grupy: %s\n"
 
-#: src/pinfo.c:665
+#: src/pinfo.c:679
 #, c-format
 msgid "Security warning: Unable to get UID of user called: %s\n"
 msgstr "Niebezpieczeństwo: Nie można pobrać UID użytkownika: %s\n"
+
+#: src/pinfo.c:694
+#, c-format
+msgid "Unable to drop root privileges: %s"
+msgstr ""
