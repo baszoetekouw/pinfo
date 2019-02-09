@@ -13,6 +13,7 @@ Makefile.in
 /libtool
 /pinfo.spec
 /stamp-h1
+/Changelog
 
 /macros/codeset.m4
 /macros/gettext.m4
