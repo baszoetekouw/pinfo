@@ -57,6 +57,7 @@ Makefile.in
 /po/quot.sed
 /po/POTFILES
 /po/*.gmo
+/po/*.sed
 /po/stamp-po
 
 /tools/
