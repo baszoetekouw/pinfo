@@ -25,7 +25,7 @@
 #
 
 # init
-AC_INIT([pinfo],[0.6.10],[https://github.com/baszoetekouw/pinfo])
+AC_INIT([pinfo],[0.6.11],[https://github.com/baszoetekouw/pinfo])
 # require a recent autoconf
 AC_PREREQ([2.69])
 # for identification of derived ./configure scripts

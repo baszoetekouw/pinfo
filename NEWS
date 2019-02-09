@@ -1,3 +1,27 @@
+0.6.11:
+  - Gracefully handle missing indirect info nodes (https://bugs.debian.org/298865)
+  - Fix infinite loop when regexp-matching an empty string (https://bugs.debian.org/358389)
+  - Fix loading of bare info pages (i.e., without .info extension) (http://bugs.debian.org/496840)
+  - Properly load info pages whose name starts with "dir" (http://bugs.debian.org/496840)
+  - Changes and tweaks to the auto* build tools
+  - Get rid of inlined functions, which break building with gcc7 (https://bugs.debian.org/853613)
+  - Fix segfautl when closing unopened file
+  - Fix typos in docs
+  - Fix compiler warnings
+  - Fix a number of out-of-buffer write, buffer overflows, string truncations
+  - Clean up documentation
+  - Correctly handle redirected stdin and/or stdout (https://bugs.debian.org/671306)
+  - Fix crash after failed global search
+  - Make curses mouse behaviour configurable
+    Note: this changes the default behaviour to not capture the mouse. To restore the old behaviour, set GRAB-MOUSE=true in pinforc.
+  - Avoid an infinite loop for malformed info pages
+  - Add readline tab completion for nodes (https://bugs.debian.org/431708)
+  - Correct parse node links that span multiple (indented) lines. (https://github.com/baszoetekouw/pinfo/issues/6)
+  - If a direct info page hit isn't found, try to look up a node in the dir (https://github.com/baszoetekouw/pinfo/issues/6)
+  - Improve lookup of info pages (https://github.com/baszoetekouw/pinfo/issues/6)
+  - Fix linking to man pages in a different section (https://github.com/baszoetekouw/pinfo/issues/6)
+  - Fix the -n/--node command line option (https://bugs.launchpad.net/ubuntu/+source/pinfo/+bug/1599374)
+
 0.6.10:
   - Fix issue with handling of suspend/resume and character input
     (thanks to Scott Mcdermott for the patch)
@@ -16,12 +40,12 @@
   - Non-ASCII man pages are displayed correctly
   - Improved the history behavior of the search input line
   - Broken tag tables are now automatically fixed
-  - Don't segfault when a broken regexp is entered 
-  - Fixed a number of segfaults caused by using uninitialized pointers and 
+  - Don't segfault when a broken regexp is entered
+  - Fixed a number of segfaults caused by using uninitialized pointers and
     off-by-1 errors
   - Fixed heap corruption caused by non-ascii chars in info pages
   - Fixed a lot of patch searching issues
-  - Fixed text display on narrow terminals 
+  - Fixed text display on narrow terminals
   - Fixed highlighting of searches
   - The default pinforc now uses the terminal's default foreground and
     background colors.  Thanks to Rob Funk for a patch.
@@ -31,7 +55,7 @@
   - Got rid of tempnam() calls
   - Fixed -Wall and -Wshadow compiler warnings
   - Use utf8 in documentation files and fixed typoes
-    
+
 0.6.8
   Patches from Witold Filipczyk for node detection algorithms in man
   and info.
@@ -39,17 +63,17 @@
   Bugfix in info link freeing procedure, which failed on exim pages.
   Bugfix for dir page lookup when several matches are found--there was
   a double close() problem.
-0.6.7    
+0.6.7
   Added scrolling in left/right direction (!!!new config file keys).
   Fixed handling of info entries like `emacs21/emacs'--modified
   function matchfile().
   Added autmatical detection of rawfilename for filenames beginning
   with `../', `./', `/' in main().
   Added support for '(gcc)Introduction' like specification of nodes.
-0.6.6    
+0.6.6
   bugfixes for userdefined rcfile and configuration inconsistences
   added sorting of matches for the info file to display
-0.6.5    
+0.6.5
   Fixed bug in sorting of tag table links (major effect to the engine)
   Changed the file search engine to scan the directory for a matching
   pattern (instead of trying various propositions).
@@ -59,7 +83,7 @@
   notes anymore.
   Added information when the search is not successful
   Added support for command line selected rc files
-0.6.4    
+0.6.4
   New apropos handler. It works now interactively. New option -p here.
   Doesn't highlight anymore links to itself in man viewer.
   Fixed bug with link following.
@@ -70,28 +94,28 @@
   'context' for currently viewed file. Pinfo will search files for
   one set of infopages only in one directory--in the context directory.
   The context can be changed only when changing the set of infopages.
-0.6.3   
+0.6.3
   NLS and documentation bugfixes
   Small bugfix in keyhandler
-0.6.2    
+0.6.2
   Fixed bug with searchpath for raw filename specification (temporary
   hack).
   Fixed stupid bug with info parser, which didn't accept an
   `INFOTAG.+\n' separator for info nodes (eg. gnuplot's infopage).
   Fixd detection of first info page.
   Fixed buggy use of bkgdset()
-0.6.1   
+0.6.1
   Modified behaviour of auto-pgdn. It now expands the submenus, as in
   info.
   Fixed problem with pinforc installed to non-exsisting etc directory
   Fixed problem with black bar on first man page
-  Fixed buggy whitespace-skip comparing procedure 
+  Fixed buggy whitespace-skip comparing procedure
   Manual code can now handle hyphenated url links (it's still not
   perfect with e-mail--it only works if the `@' is in the upper line)
   Fixed buf in indirect-file search engine (a misplaced if())
   Added texinfo documentation.
   Manual code is now case insensitive as far as sections are considered
-0.6.0    
+0.6.0
   Replaced evil `myclrtoeol' with `bkgdset+clrtoeol'
   Fixed putenv handler
   Make install does not overwrite old pinforc anymore (this has it's
@@ -117,19 +141,19 @@
   Manual code displays now manuals with optional width != than 80 chars.
   Fixed configure --with-included-gettext (hopefuly)
   -r works now with compressed files
-0.5.6    
+0.5.6
   Fixed memory bugs
   Fixed displaying of concatenated dir pages
   Speed up alghoritms
   Transparent colors
   Manual code can now handle hyperlinks splitted by `-' sign
   Security filter for dangerous man macros (experimental)
-0.5.5    
+0.5.5
   Fixed nasty sigsegv bug in manual code.
   Speed improvements to the code.
   Many memory bugs fixed in the whole code.
   Added key for going to specified line.
-  Added dir page name lookups. Now you will be able f.i. to go to 
+  Added dir page name lookups. Now you will be able f.i. to go to
   `textutils:cat'    after typing `pinfo cat'.
   Added support for printing. (with highlights, as in groff -Tascii).
 0.5.4
@@ -162,12 +186,12 @@
   "3ncurses", and similar, without abbreviating them to just "3". (see
   LONG-MANUAL-LINKS config option).
   Added regexp search wrapper for systems which don't support it.
-0.5.2    
+0.5.2
   Fixed one very bad bug. That's the reason for fast new-version
   release.
   Added German language support.
   Added -t option, for viewing corrupted info files.
-0.5.1    
+0.5.1
   Added support for mailto urls
   Fixed highlighting routines for info pages, which ignored
   tabulation formatting.
@@ -175,12 +199,12 @@
   node at the bottom(top) of viewed node. Also added support for
   0 key value.
   Fixed one bug in $INFOPATH handler.
-  Added support for hypertextualization of weird man sections 
+  Added support for hypertextualization of weird man sections
   (i.e. 3X11, 3Xt, etc. -- it's configurable)
   Config file allows you now to specify your web browser, and
   maileditor.
   Added national language support for Swedish and Czech.
-0.5.0    
+0.5.0
   Added support for http:// and ftp:// URLs embedded into
   man pages/info pages.
   Secured the mechanism of tmp file creation
@@ -195,41 +219,41 @@
   translation).
   Added key_dir
   Fixed support for xterm mouse.
-0.4.9    
+0.4.9
   Corrected global search code for inirect info files (that is those,
   split up across several info files). It works fine now.
-0.4.8    
+0.4.8
   You can now browse man pages from different sections.
-0.4.7    
+0.4.7
   After a week of contignous fight I've... FIXED the nasty bug, which
   caused so many sigsegvs! I'm really happy :)) And what about you? ;)
   But locales at present send sigsegvs anyway ;)
   I also added a program `testkey' for making it possible to obtain
   keycode values for weird keys for config file.
-0.4.6    
+0.4.6
   Fixed many bugs connected with v0.4.5.
   Started working on locale stuff. But for now it only causes
   unexpected segmentation faults ;)
-0.4.5    
+0.4.5
   HUGE change. I reimplemented the info handling routines so, that
   there is now possible to use links across different info files.
   Thanks to this I could also implement a handler for 'dir' page.
   Huh... I can't belive it works ;)
-0.4.4    
+0.4.4
   Made a wrapper for readline function. I just can't implement
   readline handling properly under ncurses, so you'd rather use
   this wrapper. It's not to advanced yet, but implements primary
   things, thich readline deals with (history, and line editing).
   I'm working on tab completion.
-0.4.3    
+0.4.3
   Added support for infos without tag table. Modified man page.
-0.4.2    
+0.4.2
   Modified use of readline lib. It doesn't require to use ltermcap
   anymore, and does not need to close curses screen... This was
   quite difficult task ;)
   Added support for resizing screen 'on the fly' (i.e. in x window).
   Added support for ncurses mouse (which works in xterm).
-0.4.1    
+0.4.1
   Recreated mechanism of opening info file. Now it is possible
   to add new compression methods for info by just modyfing two
   variables on the top of filehandling_functions.c. Also I've
@@ -238,76 +262,76 @@
   that could be /usr/info/pl_PL/infopage.info)
   Added support for cutting off manual headers (--cut-man-headers)
   Added some nodeposition informations in status bar.
-0.4.0    
+0.4.0
   Support for apropos. Searches finally work properly.
-0.3.9    
-  Gnu Readline support. Now you can browse history on regexp 
+0.3.9
+  Gnu Readline support. Now you can browse history on regexp
   searchs    ;). Added sigblock on sigpipe. Now you can safely open
   pipes to programs which don't exist.
-0.3.8    
+0.3.8
   Added configuration file support. Fixed one bug. Expanded manual
   page :)
-0.3.7    
+0.3.7
   Added option --manual, and --raw-filename. Added support for
   8-bit characters (i.e. national characters for certain charsets).
   Modified regexp search on manuals. Bold/italic tokens are recognized
   now.
-0.3.6    
+0.3.6
   Added possibility to call shell commands from within pinfo.
   Modified a bit makefile. Source does not use the 'dangerous' ;)
   sprintf anymore. Fixed minor bugs.
-0.3.5    
+0.3.5
   Fixed some more sigsegv bugs.
-0.3.4    
+0.3.4
   Fixed some stupid bugs in manual code. Added new comments to source.
   (since I almost got lost myself ;)
-0.3.3    
+0.3.3
   Speedup modifications. I.e. window is not refreshed now when
   key buffer is not empty (to avoid scrolling, when the key is
   already depressed, and to make it work better on slow terminals).
-0.3.2    
+0.3.2
   Added support for the refresh (^L) key.
-0.3.1    
+0.3.1
   Added possibility to redefine keys (at compile-time). Modified
   man page hypertext recognization (now it recognizes everything of
   the form 'something (x) or something (xy)'. Removed bug with
   regex.h in manual.c.
-0.3.0    
+0.3.0
   Manuals can be read now as well as info files, when info cannot be
   found. Manuals can be browsed similar to infos; hyperlinks are
   the fields od form 'something (x)' (according to the common format at
   SEE ALSO section). Since the change is quite big, I've moved the
   version number to 0.3.0.
-0.2.4    
+0.2.4
   Added regexp searching -- '/' option and 's' option.
-0.2.3    
+0.2.3
   Tiny change -- added some checking for mvaddstr functions, so they
   don't drop core if there's no menu/note token.
-0.2.2    
+0.2.2
   Added support for old curses (macro definition ___OLD_CURSES___,
   enabled in Makefile. That was enough to compile this program
   under HP-UX :)
-0.2.1    
+0.2.1
   Added support for "index menus", and all other of the format
   "* blabla:[optional spaces]node.". Added cache for menu/note
   highlight positions. Also code is a bit modified; to be precise
   I started to clarify it a bit by adding macros, and other
   things, to get as close to short'n'clear procedures, as possible.
-0.2.0    
+0.2.0
   The engine for hypertext recognization is reimplemented. Support for
   notes and menus of format : node. is added. Also color support is
   added. Also added some cache for menuchecking and notechecking
   functs.
-0.1.5    
+0.1.5
   Fixed bug with not deleting files from /tmp; added $INFOPATH support
-0.1.4    
+0.1.4
   Added 'g' key
-0.1.3    
+0.1.3
   Added pgdn/pgup/home/end keys
-0.1.2    
+0.1.2
   Added support for notes of kind note::
-0.1.1    
+0.1.1
   First working engine; menus of kind menu:: are supported [12.III.1999]
-0.0.0    
+0.0.0
   I'm angry, because the only docs considering my problem (gtk) are in
   info format, and I just can't work with standard info ;-)
