@@ -13,5 +13,9 @@ done
 
 echo Running autoreconf...
 autoreconf --install --symlink --verbose
+if [ -d ".git" ]
+then
+	git log > Changelog
+fi
 
 exit 0

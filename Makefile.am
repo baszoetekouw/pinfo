@@ -9,10 +9,6 @@ SUBDIRS = doc macros po $(always_built_SUBDIRS)
 
 EXTRA_DIST =  TECHSTUFF pinfo.spec Changelog.old Changelog
 
-## dump git log to changelog
-Changelog: .git/logs/HEAD
-	git log > $@
-
 ## make rpms
 rpm: Makefile
 	$(MAKE) dist
