@@ -136,7 +136,7 @@ msgstr "Запуск команды apropos \n"
 
 #: src/manual.c:496
 #, c-format
-msgid "Nothing appropiate\n"
+msgid "Nothing appropriate\n"
 msgstr "Ничего подходящего\n"
 
 #: src/manual.c:1019

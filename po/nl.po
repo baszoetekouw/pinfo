@@ -134,7 +134,7 @@ msgstr "Apropos wordt aangeroepen \n"
 
 #: src/manual.c:496
 #, c-format
-msgid "Nothing appropiate\n"
+msgid "Nothing appropriate\n"
 msgstr "Niets geschikts\n"
 
 #: src/manual.c:1019

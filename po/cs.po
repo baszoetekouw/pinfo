@@ -133,7 +133,7 @@ msgstr "Volám program apropos \n"
 
 #: src/manual.c:496
 #, c-format
-msgid "Nothing appropiate\n"
+msgid "Nothing appropriate\n"
 msgstr "Žádné související stránky\n"
 
 #: src/manual.c:1019

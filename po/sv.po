@@ -161,7 +161,7 @@ msgstr "Kallar upp apropos \n"
 
 #: src/manual.c:496
 #, fuzzy, c-format
-msgid "Nothing appropiate\n"
+msgid "Nothing appropriate\n"
 msgstr "Inget lämpligt\n"
 
 #

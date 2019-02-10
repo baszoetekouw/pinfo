@@ -493,7 +493,7 @@ handlemanual(char *name)
 			snprintf(cmd, 4096, "apropos %s > %s", name, apropos_tempfilename);
 			if (system_check(cmd) != 0)
 			{
-				printf(_("Nothing appropiate\n"));
+				printf(_("Nothing appropriate\n"));
 				unlink(apropos_tempfilename);
 				return 1;
 			}

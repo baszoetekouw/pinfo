@@ -135,7 +135,7 @@ msgstr "Rufe apropos auf \n"
 
 #: src/manual.c:496
 #, c-format
-msgid "Nothing appropiate\n"
+msgid "Nothing appropriate\n"
 msgstr "Nichts entsprechendes gefunden.\n"
 
 #: src/manual.c:1019

@@ -137,7 +137,7 @@ msgstr "apropos abiarazten \n"
 
 #: src/manual.c:496
 #, c-format
-msgid "Nothing appropiate\n"
+msgid "Nothing appropriate\n"
 msgstr "Baliozko ezer ez\n"
 
 #: src/manual.c:1019

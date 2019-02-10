@@ -138,7 +138,7 @@ msgstr "Chamando apropos \n"
 
 #: src/manual.c:496
 #, c-format
-msgid "Nothing appropiate\n"
+msgid "Nothing appropriate\n"
 msgstr "Nada apropriado\n"
 
 #: src/manual.c:1019

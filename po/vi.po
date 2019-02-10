@@ -137,7 +137,7 @@ msgstr "Đang gọi apropos \n"
 
 #: src/manual.c:496
 #, c-format
-msgid "Nothing appropiate\n"
+msgid "Nothing appropriate\n"
 msgstr "Không có gì thích hợp\n"
 
 #: src/manual.c:1019
