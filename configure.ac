@@ -43,8 +43,6 @@ AC_CONFIG_AUX_DIR([tools])
 
 # init automake
 AM_INIT_AUTOMAKE
-# enable automatic rebuilding of ./configure, Makefile.in, and generation of # version.texi
-AM_MAINTAINER_MODE([enable])
 # include the m4 stuff in tools/macros
 AM_ACLOCAL_INCLUDE(macros)
 
