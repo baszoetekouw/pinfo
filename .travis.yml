@@ -66,6 +66,30 @@ jobs:
             - "gcc-7"
 
     - stage: "Compiler version/OS checks"
+      name: "linux/gcc-8"
+      os: linux
+      compiler: "gcc-8"
+      addons:
+        apt:
+          sources:
+            - *source_apt
+          packages:
+            - *pkg_apt
+            - "gcc-8"
+
+    - stage: "Compiler version/OS checks"
+      name: "linux/gcc-9"
+      os: linux
+      compiler: "gcc-9"
+      addons:
+        apt:
+          sources:
+            - *source_apt
+          packages:
+            - *pkg_apt
+            - "gcc-9"
+
+    - stage: "Compiler version/OS checks"
       name: "linux/clang-5"
       os: linux
       compiler: "clang-5.0"
@@ -204,6 +228,10 @@ jobs:
         draft: true
 
   allow_failures:
+    - os: linux
+      compiler: gcc-8
+    - os: linux
+      compiler: gcc-9
     - os: osx
       compiler: gcc-8
 
