@@ -1,10 +1,23 @@
-0.6.11:
-  - Gracefully handle missing indirect info nodes (https://bugs.debian.org/298865)
-  - Fix infinite loop when regexp-matching an empty string (https://bugs.debian.org/358389)
-  - Fix loading of bare info pages (i.e., without .info extension) (http://bugs.debian.org/496840)
-  - Properly load info pages whose name starts with "dir" (http://bugs.debian.org/496840)
+0.6.12: (2019-02-11)
+  - minor release to fix the use of defualt colors (COLOR_DEFAULT) on ncurses
+    installs; COLOR_DEFAULT values in pinforc were silently ignored, causing
+    pinfo to use black-on-balc or white-on-white text
+  - remove AM_MAINTAINER_MODE from autoconf scripts to make sure all necessary
+    files are always rebuilt on ./configure && make
+  - fix possibel buffer overflow (and compiler error with gcc 8.2)
+
+0.6.11: (2019-02-08)
+  - Gracefully handle missing indirect info nodes
+    (https://bugs.debian.org/298865)
+  - Fix infinite loop when regexp-matching an empty string
+    (https://bugs.debian.org/358389)
+  - Fix loading of bare info pages (i.e., without .info extension)
+    (http://bugs.debian.org/496840)
+  - Properly load info pages whose name starts with "dir"
+    (http://bugs.debian.org/496840)
   - Changes and tweaks to the auto* build tools
-  - Get rid of inlined functions, which break building with gcc7 (https://bugs.debian.org/853613)
+  - Get rid of inlined functions, which break building with gcc7
+    (https://bugs.debian.org/853613)
   - Fix segfautl when closing unopened file
   - Fix typos in docs
   - Fix compiler warnings
@@ -13,14 +26,20 @@
   - Correctly handle redirected stdin and/or stdout (https://bugs.debian.org/671306)
   - Fix crash after failed global search
   - Make curses mouse behaviour configurable
-    Note: this changes the default behaviour to not capture the mouse. To restore the old behaviour, set GRAB-MOUSE=true in pinforc.
+    Note: this changes the default behaviour to not capture the mouse. To
+    restore the old behaviour, set GRAB-MOUSE=true in pinforc.
   - Avoid an infinite loop for malformed info pages
   - Add readline tab completion for nodes (https://bugs.debian.org/431708)
-  - Correct parse node links that span multiple (indented) lines. (https://github.com/baszoetekouw/pinfo/issues/6)
-  - If a direct info page hit isn't found, try to look up a node in the dir (https://github.com/baszoetekouw/pinfo/issues/6)
-  - Improve lookup of info pages (https://github.com/baszoetekouw/pinfo/issues/6)
-  - Fix linking to man pages in a different section (https://github.com/baszoetekouw/pinfo/issues/6)
-  - Fix the -n/--node command line option (https://bugs.launchpad.net/ubuntu/+source/pinfo/+bug/1599374)
+  - Correct parse node links that span multiple (indented) lines.
+    (https://github.com/baszoetekouw/pinfo/issues/6)
+  - If a direct info page hit isn't found, try to look up a node in the dir
+    (https://github.com/baszoetekouw/pinfo/issues/6)
+  - Improve lookup of info pages
+    (https://github.com/baszoetekouw/pinfo/issues/6)
+  - Fix linking to man pages in a different section
+    (https://github.com/baszoetekouw/pinfo/issues/6)
+  - Fix the -n/--node command line option
+    (https://bugs.launchpad.net/ubuntu/+source/pinfo/+bug/1599374)
 
 0.6.10:
   - Fix issue with handling of suspend/resume and character input
