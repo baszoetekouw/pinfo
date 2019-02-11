@@ -201,7 +201,7 @@ set_initial_history(char *name)
 		if (lastButOneSlash) {
 			*lastSlash = 0; /* terminate the section */
 			lastButOneSlash += 4; /* skip "/man", and land on the section */
-			strncpy(manualhistory[0].sect, lastButOneSlash, sizeof(manualhistory[0].sect));
+			strncpy(manualhistory[0].sect, lastButOneSlash, sizeof(manualhistory[0].sect)-1);
 		}
 	}
 
