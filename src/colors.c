@@ -46,7 +46,7 @@ initcolors()
 	if (has_colors())
 	{
 		start_color();
-#ifdef HAVE_USE_DEFAULT_COLORS
+#ifdef HAVE_DECL_USE_DEFAULT_COLORS
 		use_default_colors();
 #endif
 		normal = COLOR_PAIR(NORMAL);	/* normal text */

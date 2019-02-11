@@ -123,7 +123,7 @@ if test "x$ax_cv_ncursesw" != xyes && test "x$ax_cv_ncurses" != xyes; then
 	AC_MSG_ERROR([requires a (n)curses library])
 fi
 # check for some functions in curses
-AC_CHECK_DECLS([curs_set, bkgdset], [], [], [
+AC_CHECK_DECLS([curs_set, bkgdset, use_default_colors], [], [], [
 #if HAVE_NCURSESW_H           /* if <ncursesw.h> should be used              */
 #  include <ncursesw.h>
 #elif HAVE_NCURSESW_CURSES_H  /* if <ncursesw/curses.h> should be used       */

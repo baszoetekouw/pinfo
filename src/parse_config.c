@@ -23,7 +23,9 @@
 
 #include <ctype.h>
 
-#define COLOR_DEFAULT -1	/* mutt uses this was for transparency */
+#ifdef HAVE_DECL_USE_DEFAULT_COLORS
+# define COLOR_DEFAULT (-1)	/* ncurses extension to use default color, see default_colors(3NCURSES) */
+#endif
 
 regex_t *h_regexp = 0;	/* regexps to highlight */
 int h_regexp_num = 0;	/* number of those regexps */
@@ -806,7 +808,14 @@ parse_line(char *line)
 			else if (!(strncmp(temp, "COLOR_MAGENTA", 13)))
 				*p = COLOR_MAGENTA;
 			else if (!(strncmp(temp, "COLOR_DEFAULT", 13)))
+			{
+#ifdef HAVE_DECL_USE_DEFAULT_COLORS
 				*p = COLOR_DEFAULT;
+#else
+				fprintf(stderr, "COLOR_DEFAULT is not supported on this system\n");
+				return 1;
+#endif
+			}
 			else if (!(strncmp(temp, "BOLD", 4)))
 				*p = BOLD;
 			else if (!(strncmp(temp, "NO_BOLD", 7)))
