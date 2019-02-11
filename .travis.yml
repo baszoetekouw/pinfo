@@ -170,12 +170,28 @@ jobs:
             - *pkg_apt
             - "gcc@8"
 
+    - stage: "Crosscompiler checks"
+      name: "x86_32"
+      os: linux
+      compiler: "gcc-8"
+      env: { CFLAGS: "-m32" }
+      addons:
+        apt:
+          sources:
+            - *source_apt
+          packages:
+            - *pkg_apt
+            - "gcc-8"
+            - "gcc-8-multilib"
+            - "lib32gcc-8-dev"
+            - "lib32ncurses-dev"
+            - "lib32readline-dev"
+
     - stage: "Optimization checks"
       name: "gcc-8 -Os"
       os: linux
       compiler: "gcc-8"
-      env:
-        CFLAGS: "-Os"
+      env: { CFLAGS: "-Os" }
       addons:
         apt:
           sources:
@@ -188,8 +204,7 @@ jobs:
       name: "gcc-8 -O3"
       os: linux
       compiler: "gcc-8"
-      env:
-        CFLAGS: "-O3"
+      env: { CFLAGS: "-O3" }
       addons:
         apt:
           sources:
