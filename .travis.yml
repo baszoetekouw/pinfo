@@ -184,7 +184,7 @@ jobs:
             - "gcc-8"
             - "gcc-8-multilib"
             - "lib32gcc-8-dev"
-            - "lib32ncurses-dev"
+            - "lib32ncurses5-dev"
             - "lib32readline-dev"
 
     - stage: "Optimization checks"
@@ -243,8 +243,6 @@ jobs:
         draft: true
 
   allow_failures:
-    - os: linux
-      compiler: gcc-8
     - os: linux
       compiler: gcc-9
     - os: osx
