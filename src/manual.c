@@ -739,7 +739,7 @@ man_initializelinks(char *tmp, int carry)
 	int tmpcnt = strlen(tmp) + 1;
 	char *mylink = tmp;
 	char *urlstart, *urlend;
-	long initialManualLinks = ManualLinks;
+	unsigned initialManualLinks = ManualLinks;
 	int i, b;
 	/******************************************************************************
 	 * handle url refrences                                                       *
@@ -1073,7 +1073,7 @@ manualwork()
 					{
 						newpos = atol(token);
 						newpos -=(maxy - 1);
-						if ((newpos >= 0) &&(newpos < ManualLines -(maxy - 2)))
+						if ((newpos >= 0) && ((unsigned long) newpos < ManualLines - (maxy - 2)))
 							manualpos = newpos;
 						else if (newpos > 0)
 							manualpos = ManualLines -(maxy - 2);
@@ -1849,19 +1849,22 @@ add_highlights()
 					 * to the line defined in manlinks(line+1)
 					 */
 					char *tmpstr = strdup(manual[ltline]);
-					char *wsk = tmpstr, *wskend;
+					unsigned long k = 0;
+					char *wskend;
 					strip_manual(tmpstr);
 					/* skip spaces */
-					while (isspace(*wsk))
-						wsk++;
+					while (isspace(tmpstr[k]))
+						k++;
 					/* find the end of url */
-					wskend = findurlend(wsk);
+					wskend = findurlend(tmpstr+k);
+					if (wskend<tmpstr) abort(); /* TODO: crude check, but this should never occur anyway */
+
 					/* add end of string, and print */
 					*wskend = 0;
-					if (wsk-tmpstr<manualcol)
-						mvaddstr(manuallinks[i].line - manualpos + 2, wsk - tmpstr - manualcol, wsk);
-					else if (wskend-tmpstr<manualcol)
-						mvaddstr(manuallinks[i].line - manualpos + 2, 0, wsk+manualcol);
+					if (k<manualcol)
+						mvaddstr(manuallinks[i].line - manualpos + 2, k - manualcol, tmpstr+k);
+					else if ((uint64_t) (wskend-tmpstr)<manualcol) /* should be safe see check above */
+						mvaddstr(manuallinks[i].line - manualpos + 2, 0, tmpstr+k+manualcol);
 				}
 			}
 			if (manuallinks[i].col>manualcol)

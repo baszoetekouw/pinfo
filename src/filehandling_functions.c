@@ -134,7 +134,7 @@ matchfile(char **buf, char *name)
 }
 
 FILE *
-dirpage_lookup(char **type, char ***message, long *lines,
+dirpage_lookup(char **type, char ***message, unsigned long *lines,
 		char *filename, char **first_node)
 {
 #define Type	(*type)
@@ -145,7 +145,6 @@ dirpage_lookup(char **type, char ***message, long *lines,
 	int goodHit = 0;
 	char name[256];
 	char file[256];
-	int i;
 	char *nameend, *filestart, *fileend, *dot;
 
 	id = opendirfile(0);
@@ -155,7 +154,7 @@ dirpage_lookup(char **type, char ***message, long *lines,
 	read_item(id, type, message, lines);
 
 	/* search for node-links in every line */
-	for (i = 1; i < Lines; i++)
+	for (unsigned long i = 1; i < Lines; i++)
 	{
 		if ( (Message[i][0] == '*') && (Message[i][1] == ' ')
 				&& ( nameend = strchr(Message[i], ':') )
@@ -221,12 +220,11 @@ dirpage_lookup(char **type, char ***message, long *lines,
 }
 
 void
-freeitem(char **type, char ***buf, long *lines)
+freeitem(char **type, char ***buf, unsigned long *lines)
 {
 #define Type	(*type)
 #define Buf		(*buf)
 #define Lines	(*lines)
-	long i;
 
 	if (Type != 0)
 	{
@@ -235,7 +233,7 @@ freeitem(char **type, char ***buf, long *lines)
 	}
 	if (Buf != 0)
 	{
-		for (i = 1; i <= Lines; i++)
+		for (unsigned long i = 1; i <= Lines; i++)
 			if (Buf[i] != 0)
 			{
 				xfree(Buf[i]);
@@ -250,7 +248,7 @@ freeitem(char **type, char ***buf, long *lines)
 }
 
 void
-read_item(FILE * id, char **type, char ***buf, long *lines)
+read_item(FILE * id, char **type, char ***buf, unsigned long *lines)
 {
 
 #define Type	(*type)
@@ -341,13 +339,12 @@ read_item(FILE * id, char **type, char ***buf, long *lines)
 
 }
 void
-load_indirect(char **message, long lines)
+load_indirect(char **message, unsigned long lines)
 {
-	long i;
 	char *wsk;
 	int cut = 0;			/* number of invalid entries */
 	indirect = xmalloc((lines + 1) * sizeof(Indirect));
-	for (i = 1; i < lines; i++)
+	for (unsigned long i = 1; i < lines; i++)
 	{
 		char *check;
 		wsk = message[i];
@@ -374,9 +371,8 @@ load_indirect(char **message, long lines)
 }
 
 void
-load_tag_table(char **message, long lines)
+load_tag_table(char **message, unsigned long lines)
 {
-	long i;
 	char *wsk, *wsk1;
 	int is_indirect = 0;
 	register unsigned int j;
@@ -390,7 +386,7 @@ load_tag_table(char **message, long lines)
 	if (strcasecmp("(Indirect)", message[1]) == 0)
 		is_indirect = 1;
 	tag_table = xmalloc((lines + 1) * sizeof(TagTable));
-	for (i = 1; i < lines - is_indirect; i++)
+	for (unsigned long i = 1; i < lines - is_indirect; i++)
 	{
 		char *check;
 		wsk = message[i + is_indirect];
@@ -432,7 +428,7 @@ load_tag_table(char **message, long lines)
 	/* FIXME: info should ALWAYS start at the 'Top' node, not at the first
 	   mentioned node(vide ocaml.info) */
 
-	for (i = 1; i <= TagTableEntries; i++)
+	for (unsigned int i = 1; i <= TagTableEntries; i++)
 	{
 		if (strcasecmp(tag_table[i].nodename, "Top") == 0)
 		{

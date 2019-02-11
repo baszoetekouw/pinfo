@@ -27,7 +27,7 @@
  * are darker than the rest :)
  */
 void
-printnode(char ***message, long *lines)
+printnode(char ***message, unsigned long *lines)
 {
 #define Message	(*message)
 #define Lines	(*lines)

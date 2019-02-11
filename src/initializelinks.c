@@ -95,6 +95,7 @@ freelinks()			/* frees space allocated previously by node-links */
 /*
  * Finds url end.  It is recognized by an invalid character.
  */
+/* TODO: fix possible string overflow (no bounds checking) */
 char *
 findurlend(char *str)
 {
@@ -108,12 +109,14 @@ findurlend(char *str)
 		if (*(end - 1) == '.')
 			end--;
 	}
+	assert(end>=str);
 	return end;
 }
 
 /*
  * Searchs for a note/menu delimiter.  it may be dot, comma, tab, or newline.
  */
+/* TODO: fix possible string overflow (no bounds checking) */
 char *
 finddot(char *str, int mynote)
 {
@@ -153,6 +156,7 @@ finddot(char *str, int mynote)
 		if ((end[i] < closest) &&(end[i]))
 			closest = end[i];
 	}
+	assert(closest>=str);
 	return closest;
 }
 
@@ -160,6 +164,7 @@ finddot(char *str, int mynote)
  * Moves you to the beginning of username in email address.  If username has
  * length=0, NULL is returned.
  */
+/* TODO: fix possible string overflow (no bounds checking) */
 char *
 findemailstart(char *str)
 {
@@ -194,7 +199,7 @@ initializelinks(char *line1, char *line2, int line)
 	char *quotestart = 0, *quoteend = 0;
 	char *buf = xmalloc(strlen(line1) + strlen(line2) + 1);
 	/* required to sort properly the hyperlinks from current line only */
-	long initialhyperobjectcount = hyperobjectcount;
+	unsigned long initialhyperobjectcount = hyperobjectcount;
 	int changed;
 	int line1len = strlen(line1);
 

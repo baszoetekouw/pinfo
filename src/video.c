@@ -23,7 +23,7 @@
 
 #include "common_includes.h"
 
-void info_add_highlights(unsigned pos, unsigned cursor, long lines, unsigned column, char **message);
+void info_add_highlights(unsigned pos, unsigned cursor, unsigned long lines, unsigned column, char **message);
 
 void
 substitutestr(char *src, char *dest, char *from, char *to)
@@ -74,9 +74,8 @@ addtopline(char *type, int column)
 }
 
 void
-showscreen(char **message, long lines, long pos, long cursor, int column)
+showscreen(char **message, unsigned long lines, unsigned long pos, long cursor, int column)
 {
-	long i;
 #ifdef getmaxyx
 	getmaxyx(stdscr, maxy, maxx);
 #endif
@@ -84,7 +83,7 @@ showscreen(char **message, long lines, long pos, long cursor, int column)
 	bkgdset(' ' | normal);
 #endif
 	attrset(normal);
-	for (i = pos;(i < lines) &&(i < pos + maxy - 2); i++)
+	for (unsigned long i = pos; (i < lines) && (i < pos + maxy - 2); i++)
 	{
 		int tmp;
 
@@ -142,9 +141,9 @@ info_addstr(int y, int x, char *txt, int column, int txtlen)
 }
 
 void
-info_add_highlights(unsigned pos, unsigned cursor, long lines, unsigned column, char **message)
+info_add_highlights(unsigned pos, unsigned cursor, unsigned long lines, unsigned column, char **message)
 {
-	for (unsigned i = 0; i < hyperobjectcount; i++)
+	for (unsigned long i = 0; i < hyperobjectcount; i++)
 	{
 		if ((hyperobjects[i].line >= pos) &&
 				(hyperobjects[i].line < pos +(maxy - 2)))
@@ -260,7 +259,8 @@ info_add_highlights(unsigned pos, unsigned cursor, long lines, unsigned column, 
 	if ((h_regexp_num) ||(aftersearch))
 	{
 		regmatch_t pmatch[1];
-		long maxpos = pos +(maxy - 2);
+		if (maxy<2) maxy=2;
+		unsigned long maxpos = pos +(maxy - 2);
 		int maxregexp;
 		if (maxpos > lines)
 		{

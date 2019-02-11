@@ -36,7 +36,9 @@ int aftersearch = 0;
  * caused by the sequential auto-pgdn reading code
  */
 int toggled_by_menu = 0;
-long pos, cursor, infomenu, infocolumn=0;
+unsigned pos;
+long cursor;
+long infomenu, infocolumn=0;
 
 /* strdup src string, but when doing so, strip leading/trailing spaces and
  * substitute multiple spaces with a single space. This is needed when *Node
@@ -65,7 +67,7 @@ canonical_strdup(const char *src)
 }
 
 WorkRVal
-work(char ***message, char **type, long *lines, FILE * id, int tag_table_pos)
+work(char ***message, char **type, unsigned long *lines, FILE * id, int tag_table_pos)
 {
 #define Message	(*message)
 #define Lines	(*lines)
@@ -102,7 +104,7 @@ work(char ***message, char **type, long *lines, FILE * id, int tag_table_pos)
 #endif /*  getmaxyx */
 	/* free memory allocated previously by hypertext links */
 	freelinks();
-	for (unsigned i = 1; i < Lines; i++)	/* initialize node-links for every line */
+	for (unsigned long i = 1; i < Lines; i++)	/* initialize node-links for every line */
 	{
 		initializelinks(Message[i], Message[i + 1], i);
 	}
@@ -212,7 +214,7 @@ work(char ***message, char **type, long *lines, FILE * id, int tag_table_pos)
 			if ((key == keys.goline_1) ||
 					(key == keys.goline_2))
 			{
-				long newpos;
+				unsigned long newpos;
 				attrset(bottomline);	/* read user's value */
 				move(maxy - 1, 0);
 				echo();
@@ -269,7 +271,7 @@ work(char ***message, char **type, long *lines, FILE * id, int tag_table_pos)
 				mypipe = popen(token, "w");	/* open mypipe */
 				if (mypipe != NULL)
 				{
-					for (unsigned i = 1; i <= Lines; i++)	/* and flush the msg to stdin */
+					for (unsigned long i = 1; i <= Lines; i++)	/* and flush the msg to stdin */
 						fprintf(mypipe, "%s", Message[i]);
 					pclose(mypipe);
 					getchar();
@@ -607,7 +609,7 @@ work(char ***message, char **type, long *lines, FILE * id, int tag_table_pos)
 
 				}
 				/* scan for the token in the following lines.  */
-				for (unsigned i = pos + 1; i < Lines; i++)
+				for (unsigned long i = pos + 1; i < Lines; i++)
 				{
 					tmp = xmalloc(strlen(Message[i]) + strlen(Message[i + 1]) + 2);
 					/*
@@ -867,7 +869,7 @@ skip_search:
 					if (pos > 1)	/* lower the nodepos */
 						pos--;
 					/* and scan for a hyperlink in the new line */
-					for (unsigned i = 0; i < hyperobjectcount; i++)
+					for (unsigned long i = 0; i < hyperobjectcount; i++)
 					{
 						if (hyperobjects[i].line == pos)
 						{
@@ -945,8 +947,10 @@ skip_search:
 					(key == keys.down_2))	/* top+bottom line \|/ */
 			{
 				cursorchanged = 0;	/* works similar to keys.up */
-				if (cursor < hyperobjectcount)
-					for (unsigned i = cursor + 1; i < hyperobjectcount; i++)
+				if (cursor < 0) cursor = -1;
+				if (cursor < 0 || (unsigned long) cursor < hyperobjectcount)
+				{
+					for (unsigned long i = (unsigned long) (cursor + 1); i < hyperobjectcount; i++)
 					{
 						if ((hyperobjects[i].line >= pos) &&
 								(hyperobjects[i].line < pos +(maxy - 2)))
@@ -959,11 +963,12 @@ skip_search:
 							}
 						}
 					}
+				}
 				if (!cursorchanged)
 				{
 					if (pos <= Lines -(maxy - 2))
 						pos++;
-					for (unsigned i = cursor + 1; i < hyperobjectcount; i++)
+					for (unsigned long i = cursor + 1; i < hyperobjectcount; i++)
 					{
 						if ((hyperobjects[i].line >= pos) &&
 								(hyperobjects[i].line < pos +(maxy - 2)))
@@ -1021,7 +1026,7 @@ skip_search:
 				infohistory.menu[infohistory.length] = infomenu;
 				if (!toggled_by_menu)
 					infohistory.menu[infohistory.length] = cursor;
-				if ((cursor >= 0) &&(cursor < hyperobjectcount))
+				if ((cursor >= 0) && ((unsigned long) cursor < hyperobjectcount))
 					if (
 						( (hyperobjects[cursor].line >= pos)
 						  && (hyperobjects[cursor].line < pos +(maxy - 2) )
@@ -1227,7 +1232,7 @@ next_infomenu()
 		infomenu = -1;
 		return;
 	}
-	for (unsigned i = infomenu + 1; i < hyperobjectcount; i++)
+	for (unsigned long i = infomenu + 1; i < hyperobjectcount; i++)
 	{
 		if (hyperobjects[i].type <= 1)	/* menu item */
 		{
@@ -1241,7 +1246,7 @@ next_infomenu()
 void
 rescan_cursor()
 {
-	for (unsigned i = 0; i < hyperobjectcount; i++)
+	for (unsigned long i = 0; i < hyperobjectcount; i++)
 	{
 		if ((hyperobjects[i].line >= pos) &&
 				(hyperobjects[i].line < pos +(maxy - 2)))

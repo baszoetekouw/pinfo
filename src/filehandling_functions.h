@@ -42,14 +42,14 @@ int seeknode (int tag_table_pos, FILE ** Id);
  * free allocated memory, hold by buf (node** content, stored line by line),
  * and type (a char* pointer, which stores the node header).
  */
-void freeitem (char **type, char ***buf, long *lines);
+void freeitem (char **type, char ***buf, unsigned long *lines);
 
 /*
  * reads a node from 'id' to 'buf', and the header of node to 'type'. It sets
  * the numer of read lines to *lines. Warning! First line of 'buf' is left
  * empty.
  */
-void read_item (FILE * id, char **type, char ***buf, long *lines);
+void read_item (FILE * id, char **type, char ***buf, unsigned long *lines);
 /* searches for indirect entry of info file */
 int seek_indirect (FILE * id);
 /* as above, but with tag table entry */
@@ -58,9 +58,9 @@ int seek_tag_table (FILE * id,int quiet);
  * loads indirect table (from a special node, stored in message, of lines
  * length)
  */
-void load_indirect (char **message, long lines);
+void load_indirect (char **message, unsigned long lines);
 /* loads tag table (as above) */
-void load_tag_table (char **message, long lines);
+void load_tag_table (char **message, unsigned long lines);
 /* opens info file */
 FILE *openinfo (char *filename, int number);
 /* opens dir info file */
@@ -82,7 +82,7 @@ void create_indirect_tag_table ();
  * lines: pointer to long, which holds the number of lines in dir entry
  */
 FILE *
-dirpage_lookup (char **type, char ***message, long *lines,
+dirpage_lookup (char **type, char ***message, unsigned long *lines,
 		char *filename, char **first_node);
 
 /* removes trailing .gz, .bz2, etc. */

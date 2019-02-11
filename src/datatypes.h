@@ -123,7 +123,7 @@ extern SearchAgain searchagain;
 
 /* an array of references for info */
 extern HyperObject *hyperobjects;
-extern unsigned hyperobjectcount;
+extern unsigned long hyperobjectcount;
 /* an array of indirect entries [1 to n] */
 extern Indirect *indirect;
 /* number of indirect entries */

@@ -52,7 +52,7 @@ main(int argc, char *argv[])
 	int command_line_option;
 	FILE *id = NULL;
 	/* line count in message */
-	long lines = 0;
+	unsigned long lines = 0;
 	/* this will hold node's text */
 	char **message = 0;
 	/* this will hold the node's header */

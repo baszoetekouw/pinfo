@@ -39,7 +39,7 @@ char *tmpfilename2 = 0;
 SearchAgain searchagain;
 
 HyperObject *hyperobjects = 0;
-unsigned hyperobjectcount = 0;
+unsigned long hyperobjectcount = 0;
 
 Indirect *indirect = 0;
 TagTable *tag_table = 0;
