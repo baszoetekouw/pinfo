@@ -119,7 +119,7 @@ AM_CONDITIONAL(HAS_READLINE, test "$has_readline" = true)
 
 # curses
 AX_WITH_CURSES
-if test "x$ax_cv_ncursesw" != xyes && test "x$ax_cv_ncurses" != xyes; then
+if test "x$ax_cv_curses" != xyes; then
 	AC_MSG_ERROR([requires a (n)curses library])
 fi
 # check for some functions in curses
