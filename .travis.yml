@@ -247,6 +247,9 @@ jobs:
       compiler: gcc-9
     - os: osx
       compiler: gcc-8
+    - os: linux
+      compiler: "gcc-8"
+      env: { CFLAGS: "-m32" }
 
 before_install:
   - "$CC --version"
