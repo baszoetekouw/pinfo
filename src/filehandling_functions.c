@@ -1033,7 +1033,7 @@ initpaths()
 
 	/* ok, now we have all the (possibly) revelevant paths in paths[] */
 	/* now loop over them, see if they are valid and if they are duplicates*/
-	inodes = (ino_t *) xmalloc( maxpaths * sizeof(ino_t *) );
+	inodes = (ino_t *) xmalloc( maxpaths * sizeof(ino_t) );
 	numpaths = 0;
 	len = 0;
 	for (i=0; i< maxpaths; i++)
