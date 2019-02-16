@@ -1033,6 +1033,7 @@ initpaths()
 
 	/* ok, now we have all the (possibly) revelevant paths in paths[] */
 	/* now loop over them, see if they are valid and if they are duplicates*/
+	/* TODO: cleanup all malloc calls (get rid of cast, use sizeof(varname) instead of sizeof(type) */
 	inodes = (ino_t *) xmalloc( maxpaths * sizeof(ino_t) );
 	numpaths = 0;
 	len = 0;

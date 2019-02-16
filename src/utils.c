@@ -104,6 +104,7 @@ xfree(void *ptr)
 	free(ptr);
 }
 
+/* TODO: get rid of this xmalloc nonsense */
 void *
 xmalloc(size_t size)
 {
