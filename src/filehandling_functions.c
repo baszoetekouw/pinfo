@@ -1038,6 +1038,10 @@ initpaths()
 	len = 0;
 	for (i=0; i< maxpaths; i++)
 	{
+		/* TODO: check where these NULL paths come from */
+		if (paths[i]==NULL)
+			continue;
+
 		/* stat() the dir */
 		ret = stat( paths[i], &sbuf);
 		/* and see if it could be opened */
