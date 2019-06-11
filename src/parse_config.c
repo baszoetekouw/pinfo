@@ -877,9 +877,9 @@ parse_line(char *line)
 					*key = KEY_F(7);
 				else if (!(strncmp(temp + 4, "F(8)", 4)))
 					*key = KEY_F(8);
-				else if (!(strncmp(temp + 4, "(F9)", 4)))
+				else if (!(strncmp(temp + 4, "F(9)", 4)))
 					*key = KEY_F(9);
-				else if (!(strncmp(temp + 4, "(F10)", 5)))
+				else if (!(strncmp(temp + 4, "F(10)", 5)))
 					*key = KEY_F(10);
 				else if (!(strncmp(temp + 4, "F(11)", 5)))
 					*key = KEY_F(11);
