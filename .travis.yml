@@ -149,8 +149,20 @@ jobs:
             - *gettext
 
     - stage: "Compiler version/OS checks"
+      name: "osx/xcode-11"
+      os: osx
+      osx_image: "xcode11"
+      compiler: clang
+      env: [ CONFIGOPTIONS="--with-readline=/usr/local/opt/readline/" ]
+      addons:
+        homebrew:
+          packages:
+            - *gettext
+
+    - stage: "Compiler version/OS checks"
       name: "osx/hb/gcc-5"
       os: osx
+      osx_image: "xcode11"
       compiler: "gcc-5"
       env: [ CONFIGOPTIONS="--with-readline=/usr/local/opt/readline/" ]
       addons:
@@ -162,6 +174,7 @@ jobs:
     - stage: "Compiler version/OS checks"
       name: "osx/hb/gcc-8"
       os: osx
+      osx_image: "xcode11"
       compiler: "gcc-8"
       env: [ CONFIGOPTIONS="--with-readline=/usr/local/opt/readline/" ]
       addons:
