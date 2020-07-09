@@ -1,0 +1,28 @@
+INSTALLATION GUIDE
+==================
+
+
+REQUIREMENTS
+------------
+
+* automake 1.14 or later
+* autoconf
+* libtool
+
+
+HOW TO INSTALL
+--------------
+
+Run these commands:
+
+autoreconf -fiv
+./configure
+make
+make install
+
+This will install into /usr/local by default.
+
+If you want to install somewhere else, e.g. to your home directory,
+you should use the "--prefix" option to configure:
+
+./configure --prefix=$HOME
