@@ -120,7 +120,7 @@ jobs:
         apt:
           sources:
             - *source_apt
-            - "llvm-toolchain-xenial-6.0"
+            - "llvm-toolchain-bionic-6.0"
           packages:
             - *pkg_apt
             - "clang-6.0"
@@ -133,7 +133,7 @@ jobs:
         apt:
           sources:
             - *source_apt
-            - "llvm-toolchain-xenial-7"
+            - "llvm-toolchain-bionic-7"
           packages:
             - *pkg_apt
             - "clang-7"
@@ -146,7 +146,7 @@ jobs:
         apt:
           sources:
             - *source_apt
-            - "llvm-toolchain-xenial-8"
+            - "llvm-toolchain-bionic-8"
           packages:
             - *pkg_apt
             - "clang-8"
@@ -159,7 +159,7 @@ jobs:
         apt:
           sources:
             - *source_apt
-            - sourceline: 'deb https://apt.llvm.org/xenial/ llvm-toolchain-xenial-9 main'
+            - sourceline: 'deb https://apt.llvm.org/bionic/ llvm-toolchain-bionic-9 main'
               key_url: 'https://apt.llvm.org/llvm-snapshot.gpg.key'
           packages:
             - *pkg_apt
@@ -173,7 +173,7 @@ jobs:
         apt:
           sources:
             - *source_apt
-            - sourceline: 'deb http://apt.llvm.org/bionic/ llvm-toolchain-xenial-10 main'
+            - sourceline: 'deb http://apt.llvm.org/bionic/ llvm-toolchain-bionic-10 main'
               key_url: 'https://apt.llvm.org/llvm-snapshot.gpg.key'
           packages:
             - *pkg_apt
