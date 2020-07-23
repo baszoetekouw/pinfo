@@ -226,7 +226,6 @@ jobs:
     - stage: "Compiler version/OS checks"
       name: "osx/hb/gcc-8"
       os: osx
-      osx_image: "xcode11"
       compiler: "gcc-8"
       env: [ CONFIGOPTIONS="--with-readline=/usr/local/opt/readline/" ]
       addons:
@@ -236,14 +235,15 @@ jobs:
             - "gcc@8"
 
     - stage: "Compiler version/OS checks"
-      name: "osx/hb/gcc-10"
+      name: "osx/hb/gcc-9"
       os: osx
-      osx_image: "xcode11"
-      compiler: "gcc-10"
+      compiler: "gcc-9"
       env: [ CONFIGOPTIONS="--with-readline=/usr/local/opt/readline/" ]
-      before_install:
-        - "brew update"
-        - "brew install gcc@10"
+      addons:
+        homebrew:
+          packages:
+            - *pkg_apt
+            - "gcc@9"
 
     - stage: "Crosscompiler checks"
       name: "x86_32"
@@ -261,32 +261,6 @@ jobs:
             - "lib32gcc-8-dev"
             - "lib32ncurses5-dev"
             - "lib32readline-dev"
-
-    - stage: "Optimization checks"
-      name: "gcc-8 -Os"
-      os: linux
-      compiler: "gcc-8"
-      env: { CFLAGS: "-Os" }
-      addons:
-        apt:
-          sources:
-            - *source_apt
-          packages:
-            - *pkg_apt
-            - "gcc-8"
-
-    - stage: "Optimization checks"
-      name: "gcc-8 -O3"
-      os: linux
-      compiler: "gcc-8"
-      env: { CFLAGS: "-O3" }
-      addons:
-        apt:
-          sources:
-            - *source_apt
-          packages:
-            - *pkg_apt
-            - "gcc-8"
 
     - stage: "distcheck"
       addons:
