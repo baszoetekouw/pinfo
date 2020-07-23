@@ -226,6 +226,7 @@ jobs:
     - stage: "Compiler version/OS checks"
       name: "osx/hb/gcc-8"
       os: osx
+      osx_image: "xcode11"
       compiler: "gcc-8"
       env: [ CONFIGOPTIONS="--with-readline=/usr/local/opt/readline/" ]
       addons:
