@@ -90,6 +90,18 @@ jobs:
             - "gcc-9"
 
     - stage: "Compiler version/OS checks"
+      name: "linux/gcc-10"
+      os: linux
+      compiler: "gcc-10"
+      addons:
+        apt:
+          sources:
+            - *source_apt
+          packages:
+            - *pkg_apt
+            - "gcc-10"
+
+    - stage: "Compiler version/OS checks"
       name: "linux/clang-5"
       os: linux
       compiler: "clang-5.0"
@@ -127,6 +139,45 @@ jobs:
             - "clang-7"
 
     - stage: "Compiler version/OS checks"
+      name: "linux/clang-8"
+      os: linux
+      compiler: "clang-8"
+      addons:
+        apt:
+          sources:
+            - *source_apt
+            - "llvm-toolchain-xenial-8"
+          packages:
+            - *pkg_apt
+            - "clang-8"
+
+    - stage: "Compiler version/OS checks"
+      name: "linux/clang-9"
+      os: linux
+      compiler: "clang-9"
+      addons:
+        apt:
+          sources:
+            - *source_apt
+            - "llvm-toolchain-xenial-9"
+          packages:
+            - *pkg_apt
+            - "clang-9"
+
+    - stage: "Compiler version/OS checks"
+      name: "linux/clang-10"
+      os: linux
+      compiler: "clang-10"
+      addons:
+        apt:
+          sources:
+            - *source_apt
+            - "llvm-toolchain-xenial-10"
+          packages:
+            - *pkg_apt
+            - "clang-10"
+
+    - stage: "Compiler version/OS checks"
       name: "osx/xcode-9.4"
       os: osx
       osx_image: "xcode9.4"
@@ -160,16 +211,15 @@ jobs:
             - *gettext
 
     - stage: "Compiler version/OS checks"
-      name: "osx/hb/gcc-5"
+      name: "osx/xcode-12"
       os: osx
-      osx_image: "xcode11"
-      compiler: "gcc-5"
+      osx_image: "xcode12"
+      compiler: clang
       env: [ CONFIGOPTIONS="--with-readline=/usr/local/opt/readline/" ]
       addons:
         homebrew:
           packages:
-            - *pkg_brew
-            - "gcc@5"
+            - *gettext
 
     - stage: "Compiler version/OS checks"
       name: "osx/hb/gcc-8"
@@ -182,6 +232,18 @@ jobs:
           packages:
             - *pkg_apt
             - "gcc@8"
+
+    - stage: "Compiler version/OS checks"
+      name: "osx/hb/gcc-10"
+      os: osx
+      osx_image: "xcode11"
+      compiler: "gcc-10"
+      env: [ CONFIGOPTIONS="--with-readline=/usr/local/opt/readline/" ]
+      addons:
+        homebrew:
+          packages:
+            - *pkg_apt
+            - "gcc@10"
 
     - stage: "Crosscompiler checks"
       name: "x86_32"
