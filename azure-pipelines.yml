@@ -14,7 +14,7 @@ steps:
   displayName: 'Run a one-line script'
 
 - script: |
-    apt build-dep pinfo
+    sudo apt build-dep pinfo
     ./autogen.sh
     make
   displayName: 'Run a multi-line script'
