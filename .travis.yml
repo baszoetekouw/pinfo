@@ -243,11 +243,7 @@ jobs:
       env: [ CONFIGOPTIONS="--with-readline=/usr/local/opt/readline/" ]
       before_install:
         - "brew update"
-      addons:
-        homebrew:
-          packages:
-            - *pkg_apt
-            - "gcc@10"
+        - "brew install gcc@10"
 
     - stage: "Crosscompiler checks"
       name: "x86_32"
