@@ -159,7 +159,8 @@ jobs:
         apt:
           sources:
             - *source_apt
-            - "llvm-toolchain-xenial-9"
+            - sourceline: 'deb https://apt.llvm.org/xenial/ llvm-toolchain-xenial-9 main'
+              key_url: 'https://apt.llvm.org/llvm-snapshot.gpg.key'
           packages:
             - *pkg_apt
             - "clang-9"
@@ -172,7 +173,8 @@ jobs:
         apt:
           sources:
             - *source_apt
-            - "llvm-toolchain-xenial-10"
+            - sourceline: 'deb http://apt.llvm.org/bionic/ llvm-toolchain-xenial-10 main'
+              key_url: 'https://apt.llvm.org/llvm-snapshot.gpg.key'
           packages:
             - *pkg_apt
             - "clang-10"
@@ -239,6 +241,8 @@ jobs:
       osx_image: "xcode11"
       compiler: "gcc-10"
       env: [ CONFIGOPTIONS="--with-readline=/usr/local/opt/readline/" ]
+      before_install:
+        - "brew update"
       addons:
         homebrew:
           packages:
@@ -318,10 +322,6 @@ jobs:
         draft: true
 
   allow_failures:
-    - os: linux
-      compiler: gcc-9
-    - os: osx
-      compiler: gcc-8
     - os: linux
       compiler: "gcc-8"
       env: { CFLAGS: "-m32" }
