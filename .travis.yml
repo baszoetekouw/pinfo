@@ -1,7 +1,7 @@
 # yamllint disable rule:truthy
 ---
 language: c
-dist: xenial
+dist: bionic
 
 addons:
   apt:
