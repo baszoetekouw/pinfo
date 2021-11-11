@@ -394,7 +394,7 @@ getstring_with_completion(char *prompt, const char * const * completions)
 	curs_set(0);
 
 #else
-
+	(void)completions; /* unused */
 	move(maxy - 1, 0);
 	buf = readlinewrapper(prompt);
 
