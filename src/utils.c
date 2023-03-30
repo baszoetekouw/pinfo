@@ -433,7 +433,10 @@ closeprogram()
 	if (ClearScreenAtExit)
 		xsystem("clear");
 	else
-		printf("\n");
+	{
+		if (verbose)
+			printf("\n");
+	}
 	if (tmpfilename1)
 	{
 		unlink(tmpfilename1);
