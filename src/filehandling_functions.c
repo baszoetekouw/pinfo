@@ -484,14 +484,16 @@ seek_indirect(FILE * id)
 	type = 0;
 	if (!curses_open)
 	{
-		printf(_("Searching for indirect done"));
+		if (verbose)
+			printf(_("Searching for indirect done"));
 		printf("\n");
 	}
 	else
 	{
 		attrset(bottomline);
 		mvhline(maxy - 1, 0, ' ', maxx);
-		mvaddstr(maxy - 1, 0, _("Searching for indirect done"));
+		if (verbose)
+			mvaddstr(maxy - 1, 0, _("Searching for indirect done"));
 		attrset(normal);
 	}
 	fseek(id, seek_pos, SEEK_SET);
@@ -562,12 +564,16 @@ seek_tag_table(FILE * id,int quiet)
 	xfree(type);
 	type = 0;
 	if (!curses_open)
-		printf(_("Searching for tag table done\n"));
+	{
+		if (verbose)
+			printf(_("Searching for tag table done\n"));
+	}
 	else
 	{
 		attrset(bottomline);
 		mvhline(maxy - 1, 0, ' ', maxx);
-		mvaddstr(maxy - 1, 0, "Searching for tag table done");
+		if (verbose)
+			mvaddstr(maxy - 1, 0, "Searching for tag table done");
 		attrset(normal);
 	}
 	fseek(id, seek_pos, SEEK_SET);
