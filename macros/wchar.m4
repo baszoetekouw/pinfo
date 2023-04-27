@@ -78,7 +78,8 @@ AC_DEFUN([AC_CHECK_WCHAR],[
 		then
 			AC_COMPILE_IFELSE([
 				AC_LANG_PROGRAM( 
-					[[ 
+					[[
+						#define _DEFAULT_SOURCE
 						#define _XOPEN_SOURCE 600
 						#include <wchar.h> 
 					]],
@@ -87,7 +88,7 @@ AC_DEFUN([AC_CHECK_WCHAR],[
 				[
 					dnl if found, set variables and print result
 					have_wcwidth=true
-					wchar_flags="$wchar_flags -D_XOPEN_SOURCE=600"
+					wchar_flags="$wchar_flags -D_DEFAULT_SOURCE -D_XOPEN_SOURCE=600"
 					AC_MSG_RESULT([with -D_XOPEN_SOURCE=600])
 				],
 				[ ]
