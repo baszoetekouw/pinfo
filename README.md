@@ -8,10 +8,12 @@ and moved to Alioth: https://alioth.debian.org/projects/pinfo/.
 Since 2014 (version 0.6.10), development has moved to Github:
 https://github.com/baszoetekouw/pinfo
 
-Note: this is not the official repo. It's a fork that fixes two bugs:
-* Black screen upon window resize
-* Program crashes when 'man' command fails (e.g. because the requested manual
+Note: this is not the official repo. It's a fork that attempts to address a few
+bugs and missing features, specifically:
+* Bugfix: Black screen upon terminal window resize
+* Bugfix: Program crashes when 'man' command fails (e.g. because the requested manual
   page doesn't exist)
+* New feature: Support https URLs
 
 See man page (pinfo.1) for details.
 

@@ -584,7 +584,7 @@ handlemanual(char *name)
 			}
             /* Patched by plp                                                */
             /* We use system() rather than xsystem() here, as we don't want  */
-            /* the program to crash if the 'man' command failes, e.g.        */
+            /* the program to crash if the 'man' command fails, e.g.         */
             /* because the requested manual page wasn't found.               */
 			if (system(cmd)) {};
 			stat(tmpfilename2, &statbuf);
@@ -760,6 +760,27 @@ man_initializelinks(char *tmp, int carry)
 	 *****************************************************************************/
 	urlend = tmp;
 	while ((urlstart = strstr(urlend, "http://")) != NULL)
+	{
+		/* always successfull */
+		urlend = findurlend(urlstart);
+		manuallinks = xrealloc(manuallinks, sizeof(manuallink) *(ManualLinks + 3));
+		manuallinks[ManualLinks].line = ManualLines;
+		manuallinks[ManualLinks].col = width_of_string(tmp, urlstart - tmp);
+		strcpy(manuallinks[ManualLinks].section, "HTTPSECTION");
+		manuallinks[ManualLinks].section_mark = HTTPSECTION;
+		manuallinks[ManualLinks].name = xmalloc(urlend - urlstart + 10);
+		strncpy(manuallinks[ManualLinks].name, urlstart, urlend - urlstart);
+		manuallinks[ManualLinks].name[urlend - urlstart] = 0;
+		if (ishyphen(manuallinks[ManualLinks].name[urlend - urlstart - 1]))
+			manuallinks[ManualLinks].carry = 1;
+		else
+			manuallinks[ManualLinks].carry = 0;
+		ManualLinks++;
+	}
+	urlend = tmp;
+    /* Patched by plp                                                        */
+    /* Support for https URLs                                                */
+	while ((urlstart = strstr(urlend, "https://")) != NULL)
 	{
 		/* always successfull */
 		urlend = findurlend(urlstart);

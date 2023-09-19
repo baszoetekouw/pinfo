@@ -798,6 +798,33 @@ handle_no_file_note_label:
 			strlen(hyperobjects[hyperobjectcount].file);
 		hyperobjectcount++;
 	}
+    /* Patched by plp                                                        */
+    /* Support for https URLs                                                */
+    /* https:// */
+	while ((urlstart = strstr(urlend, "https://")) != NULL)
+	{
+		urlend = findurlend(urlstart);	/* always successful */
+		if (!hyperobjectcount)
+			hyperobjects = xmalloc(sizeof(HyperObject));
+		else
+		{
+			hyperobjects = xrealloc(hyperobjects,
+					sizeof(HyperObject) *(hyperobjectcount + 1));
+		}
+		hyperobjects[hyperobjectcount].line = line;
+		hyperobjects[hyperobjectcount].col = calculate_len(line1, urlstart);
+		hyperobjects[hyperobjectcount].breakpos = -1;
+		hyperobjects[hyperobjectcount].type = 4;
+		strncpy(hyperobjects[hyperobjectcount].node, urlstart, urlend - urlstart);
+		hyperobjects[hyperobjectcount].node[urlend - urlstart] = 0;
+		strcpy(hyperobjects[hyperobjectcount].file, "");
+		hyperobjects[hyperobjectcount].tagtableoffset = -1;
+		hyperobjects[hyperobjectcount].nodelen =
+			strlen(hyperobjects[hyperobjectcount].node);
+		hyperobjects[hyperobjectcount].filelen =
+			strlen(hyperobjects[hyperobjectcount].file);
+		hyperobjectcount++;
+	}
 	/* ftp:// */
 	urlend = line1;
 	while ((urlstart = strstr(urlend, "ftp://")) != NULL)
