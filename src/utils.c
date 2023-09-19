@@ -505,15 +505,20 @@ pinfo_getch()
 void
 waitforgetch()
 {
-	int ret;
+    /* Patched by plp                                                        */
+    /* waitforgetch() now also returns even when interrupted by a signal.    */
+    /* This fixes a black screen upon terminal resize issue.                 */
+
+	/* int ret; */
 
 	fd_set rdfs;
 	FD_ZERO(&rdfs);
 	FD_SET(0, &rdfs);
 
 	/* we might get interrupted by e.g. SIGTSTP/SIGCONT */
-	do ret = select(1, &rdfs, NULL, NULL, NULL);
-	while (ret == -1 && errno == EINTR);
+	/* do ret = select(1, &rdfs, NULL, NULL, NULL); */
+	/* while (ret == -1 && errno == EINTR); */
+    select(1, &rdfs, NULL, NULL, NULL);
 }
 
 /* returns 0 on success, 1 on error */

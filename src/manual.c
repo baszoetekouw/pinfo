@@ -19,6 +19,7 @@
  *  USA
  ***************************************************************************/
 #include "common_includes.h"
+#include "utils.h"
 
 #include <ctype.h>
 #include <sys/stat.h>
@@ -544,7 +545,7 @@ handlemanual(char *name)
 			if (return_value != -2)
 			{
 				construct_manualname(manualname, return_value);
-				snprintf(cmd, 4096, "man %s %s %s %s > %s",
+				snprintf(cmd, 4096, "man %s %s %s %s > %s 2>>/dev/null",
 						ManOptions,
 						manuallinks[return_value].section,
 						manualname,
@@ -581,7 +582,11 @@ handlemanual(char *name)
 				 */
 				historical = 1;
 			}
-			xsystem(cmd);
+            /* Patched by plp                                                */
+            /* We use system() rather than xsystem() here, as we don't want  */
+            /* the program to crash if the 'man' command failes, e.g.        */
+            /* because the requested manual page wasn't found.               */
+			system(cmd);
 			stat(tmpfilename2, &statbuf);
 			if (statbuf.st_size > 0)
 			{
@@ -621,6 +626,15 @@ handlemanual(char *name)
 				else
 					return_value = -1;
 			}
+            else {
+                /* Patched by plp                                                */
+                /* In case the man command fails, print a friendly error message */
+                /* on the bottom line.                                           */
+				attrset(bottomline);
+                snprintf(cmd, 4096, "%s 'man %s' %s...", _("Command"), manualname, _("failed"));
+				mvaddstr(maxy - 1, 0, cmd);
+                getch();
+            }
 		}
 	}
 	while (return_value != -1);
