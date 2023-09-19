@@ -586,7 +586,7 @@ handlemanual(char *name)
             /* We use system() rather than xsystem() here, as we don't want  */
             /* the program to crash if the 'man' command failes, e.g.        */
             /* because the requested manual page wasn't found.               */
-			system(cmd);
+			if (system(cmd)) {};
 			stat(tmpfilename2, &statbuf);
 			if (statbuf.st_size > 0)
 			{
