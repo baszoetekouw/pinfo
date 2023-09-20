@@ -585,7 +585,7 @@ handlemanual(char *name)
             /* Patched by plp                                                */
             /* We use system() rather than xsystem() here, as we don't want  */
             /* the program to crash if the 'man' command fails, e.g.         */
-            /* because the requested manual page wasn't found.               */
+            /* because the requested manual page wasn't found                */
 			if (system(cmd)) {};
 			stat(tmpfilename2, &statbuf);
 			if (statbuf.st_size > 0)
@@ -629,7 +629,7 @@ handlemanual(char *name)
             else {
                 /* Patched by plp                                                */
                 /* In case the man command fails, print a friendly error message */
-                /* on the bottom line.                                           */
+                /* on the bottom line                                            */
 				attrset(bottomline);
                 snprintf(cmd, 4096, "%s 'man %s' %s...", _("Command"), manualname, _("failed"));
 				mvaddstr(maxy - 1, 0, cmd);
@@ -1356,14 +1356,19 @@ skip_search:
 			if ((key == keys.prevnode_1) ||
 					(key == keys.prevnode_2))
 			{
-				for (unsigned i = manualpos - 1; i > 0; i--)
-				{
-					if (manual[i][1] == 8)
-					{
-						manualpos = i;
-						break;
-					}
-				}
+                /* Patched by plp                                            */
+                /* Fixed a bug where pressing 'p' while at the beginning of  */
+                /* a manual page would crash the program                     */
+                if (manualpos > 0)
+                  for (unsigned i = manualpos - 1; i > 0; i--)
+                  {
+                      printf("%d %d %s\n", manual[i][0], manual[i][1], manual[i]);
+                      if (manual[i][1] == 8)
+                      {
+                          manualpos = i;
+                          break;
+                      }
+                  }
 			}
 			/*=====================================================*/
 			if ((key == keys.pgdn_1) ||

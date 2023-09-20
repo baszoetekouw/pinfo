@@ -11,9 +11,12 @@ https://github.com/baszoetekouw/pinfo
 Note: this is not the official repo. It's a fork that attempts to address a few
 bugs and missing features, specifically:
 * Bugfix: Black screen upon terminal window resize
-* Bugfix: Program crashes when 'man' command fails (e.g. because the requested manual
-  page doesn't exist)
+* Bugfix: Program crashes when 'man' command fails (e.g. because the requested
+  manual page doesn't exist)
 * New feature: Support https URLs
+* Bugfix: Pressing 'p' while at the beginning of a man page would crash the
+  program
+* Bugfix: Program hangs on startup if the TERM environment variable isn't set
 
 See man page (pinfo.1) for details.
 
