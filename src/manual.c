@@ -631,7 +631,7 @@ handlemanual(char *name)
                 /* In case the man command fails, print a friendly error message */
                 /* on the bottom line                                            */
 				attrset(bottomline);
-                snprintf(cmd, 4096, "%s 'man %s' %s...", _("Command"), manualname, _("failed"));
+                snprintf(cmd, 4096, _("Command 'man %s' failed; Press any key to continue..."), manualname);
 				mvaddstr(maxy - 1, 0, cmd);
                 getch();
             }

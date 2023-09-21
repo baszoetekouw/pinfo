@@ -212,7 +212,11 @@ xsystem(const char *command)
 	int result = system_check(command);
 	if (result!=0)
 	{
-		printf(_("Failed to execute command '%s': %i"), command, result);
+        /* Patched by plp                                                    */
+        /* Added a closeprogram() here, to reset the terminal and deallocate */
+        /* memory, in case of system call failure                            */
+        closeprogram();
+		printf(_("Failed to execute command '%s': %i\n"), command, result);
 		exit(2);
 	}
 }
