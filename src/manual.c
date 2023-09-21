@@ -1362,7 +1362,6 @@ skip_search:
                 if (manualpos > 0)
                   for (unsigned i = manualpos - 1; i > 0; i--)
                   {
-                      printf("%d %d %s\n", manual[i][0], manual[i][1], manual[i]);
                       if (manual[i][1] == 8)
                       {
                           manualpos = i;
