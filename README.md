@@ -17,6 +17,7 @@ bugs and missing features, specifically:
 * Bugfix: Pressing 'p' while at the beginning of a man page would crash the
   program
 * Bugfix: Program hangs on startup if the TERM environment variable isn't set
+* Bugfix: Program sometimes won't reset the terminal upon abnormal exit
 
 See man page (pinfo.1) for details.
 

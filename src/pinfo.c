@@ -81,9 +81,9 @@ main(int argc, char *argv[])
 		{0, 0, 0, 0}};
 #endif
 		/* take care of SIGSEGV, SIGTERM, SIGINT */
-        /* Patched by plp                                                        */
-        /* If TERM is not set, set it to 'xterm'. Otherwise the program will     */
-        /* hang.                                                                 */
+        /* Patched by plp                                                    */
+        /* If TERM is not set, set it to 'xterm'. Otherwise the program will */
+        /* hang.                                                             */
         char *term = getenv("TERM");
         if ((NULL == term) || (0 == term[0]))
           setenv("TERM", "xterm", 1);

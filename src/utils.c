@@ -256,6 +256,9 @@ checkfilename(char *filename)
 			(strchr(filename, '&')) ||
 			(strchr(filename, ';')))
 	{
+        /* Patched by plp                                                    */
+        /* Added a closeprogram()                                            */
+        closeprogram();
 		printf(_("Illegal characters in filename!\n*** %s\n"), filename);
 		exit(1);
 	}

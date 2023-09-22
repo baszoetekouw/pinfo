@@ -188,6 +188,11 @@ set_initial_history(char *name)
 		if (fgets(buf, sizeof(buf), pathFile)==NULL)
 		{
 			fprintf(stderr, "Error executing command '%s'\n", buf);
+            /* Patched by plp                                                */
+            /* Added a closeprogram() here, to reset the terminal and        */
+            /* deallocate memory, in case of system call failure             */
+            closeprogram();
+            printf(_("Command '%s' failed to execute\n"), buf);
 			exit(1);
 		}
 		pclose(pathFile);
@@ -627,9 +632,9 @@ handlemanual(char *name)
 					return_value = -1;
 			}
             else {
-                /* Patched by plp                                                */
-                /* In case the man command fails, print a friendly error message */
-                /* on the bottom line                                            */
+                /* Patched by plp                                            */
+                /* In case the man command fails, print a friendly error     */
+                /* message on the bottom line                                */
 				attrset(bottomline);
                 snprintf(cmd, 4096, _("Command 'man %s' failed; Press any key to continue..."), manualname);
 				mvaddstr(maxy - 1, 0, cmd);
