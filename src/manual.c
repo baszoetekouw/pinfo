@@ -186,6 +186,7 @@ set_initial_history(char *name)
 		pathFile = popen(buf, "r");
 		if (fgets(buf, sizeof(buf), pathFile)==NULL)
 		{
+			pclose(pathFile);
 			/* Try without -W */
 			snprintf(buf, sizeof(buf), "man -w %s %s", ManOptions, name);
 			pathFile = popen(buf, "r");
