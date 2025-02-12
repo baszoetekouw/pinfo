@@ -153,7 +153,7 @@ fi
 ## locales
 ####################################################
 # the languages for which we have .po files
-ALL_LINGUAS="cs de eu ja nl pl pt_BR ro ru sv vi"
+ALL_LINGUAS="cs de eu ja nl pl pt_BR ro ru sv uk vi"
 
 # Checks for all prerequisites of the intl subdirectory
 AM_INTL_SUBDIR
