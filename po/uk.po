@@ -1,0 +1,341 @@
+# Ukrainian translation for pinfo
+# Copyright (C) 2025 Volodymyr Lisivka <vlisivka@gmail.com>
+# This file is distributed under the same license as the pinfo package.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: pinfo 0.6.13\n"
+"Report-Msgid-Bugs-To: pinfo-devel@lists.alioth.debian.org\n"
+"POT-Creation-Date: 2019-02-06 13:30+0100\n"
+"PO-Revision-Date: 2025-02-12 14:31+0200\n"
+"Last-Translator: Volodymyr Lisivka <vlisivka@gmail.com>\n"
+"Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
+"Language: uk\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 3.5\n"
+
+#: src/filehandling_functions.c:491 src/filehandling_functions.c:498
+#, c-format
+msgid "Searching for indirect done"
+msgstr "Пошук непрямих завершений"
+
+#: src/filehandling_functions.c:530 src/filehandling_functions.c:537
+#, c-format
+msgid "Warning: could not find tag table"
+msgstr "Попередження: не вдалося знайти таблицю тегів"
+
+#: src/filehandling_functions.c:569
+#, c-format
+msgid "Searching for tag table done\n"
+msgstr "Пошук таблиці тегів завершено\n"
+
+#: src/filehandling_functions.c:708
+#, c-format
+msgid "Error while reading file '%s'"
+msgstr "Помилка при читанні файла «%s»"
+
+#: src/filehandling_functions.c:1129
+msgid "Can't open file"
+msgstr "Не можу відкрити файл"
+
+#: src/filehandling_functions.c:1130 src/pinfo.c:426
+msgid "press a key to continue"
+msgstr "натисніть будь-яку клавішу, щоб продовжити"
+
+#: src/filehandling_functions.c:1248
+#, c-format
+msgid "Error: could not open info file part"
+msgstr "Помилка: не вдалося відкрити частину файлу info"
+
+#: src/mainfunction.c:168 src/manual.c:1005
+msgid "Are you sure you want to print?"
+msgstr "Ви впевнені, що хочете надрукувати?"
+
+#: src/mainfunction.c:220 src/manual.c:1050
+msgid "Enter line: "
+msgstr "Введіть рядок: "
+
+#: src/mainfunction.c:261 src/manual.c:1097
+msgid "Enter command: "
+msgstr "Введіть команду: "
+
+#: src/mainfunction.c:280
+msgid "Operation failed..."
+msgstr "Операція не вдалася..."
+
+#: src/mainfunction.c:316 src/mainfunction.c:575 src/manual.c:1150
+msgid "Enter regular expression: "
+msgstr "Введіть регулярний вираз: "
+
+#: src/mainfunction.c:546 src/mainfunction.c:643 src/manual.c:1228
+msgid "Search string not found..."
+msgstr "Пошуковий рядок не знайдено..."
+
+#: src/mainfunction.c:602 src/manual.c:1185
+msgid "Invalid regular expression;"
+msgstr "Недійсний регулярний вираз;"
+
+#: src/mainfunction.c:604 src/manual.c:1187
+msgid "Press any key to continue..."
+msgstr "Натисніть будь-яку клавішу, щоб продовжити..."
+
+#: src/mainfunction.c:674
+msgid "Enter node name: "
+msgstr "Введіть назву вузла: "
+
+#: src/mainfunction.c:753
+#, c-format
+msgid "Node %s not found"
+msgstr "Вузол %s не знайдено"
+
+#: src/mainfunction.c:1213 src/manual.c:1585
+msgid "Are you sure you want to quit?"
+msgstr "Ви впевнені, що хочете вийти?"
+
+#: src/manual.c:342
+#, c-format
+msgid "Error: Cannot call man command.\n"
+msgstr "Помилка: Не можу викликати команду man.\n"
+
+#: src/manual.c:351
+#, c-format
+msgid "Error: No manual page found either.\n"
+msgstr "Помилка: Сторінку посібника також не знайдено.\n"
+
+#: src/manual.c:354
+#, c-format
+msgid "Apropos pages:\n"
+msgstr "Подібні сторінки:\n"
+
+#: src/manual.c:397
+msgid "Calling gunzip for"
+msgstr "Виклик gunzip для"
+
+#: src/manual.c:403
+#, c-format
+msgid "Couldn't call gunzip.\n"
+msgstr "Не вдалося викликати gunzip.\n"
+
+#: src/manual.c:440
+msgid "IGNORING"
+msgstr "ІГНОРУВАННЯ"
+
+#: src/manual.c:486
+#, c-format
+msgid "Error: No manual page found\n"
+msgstr "Помилка: Сторінку посібника не знайдено.\n"
+
+#: src/manual.c:491
+#, c-format
+msgid "Calling apropos \n"
+msgstr "Виклик команди apropos \n"
+
+#: src/manual.c:496
+#, c-format
+msgid "Nothing appropriate\n"
+msgstr "Нічого відповідного\n"
+
+#: src/manual.c:1019
+msgid "Enter manual name: "
+msgstr "Введіть назву посібника: "
+
+#: src/manual.c:1666 src/video.c:113
+#, c-format
+msgid "Viewing line %d/%d, %d%%"
+msgstr "Перегляд рядка %d/%d, %d%%"
+
+#: src/manual.c:1668 src/video.c:115
+#, c-format
+msgid "Viewing line %d/%d, 100%%"
+msgstr "Перегляд рядка %d/%d, 100%%"
+
+#: src/parse_config.c:99
+#, c-format
+msgid "Can't open config file!\n"
+msgstr "Не можна відкрити файл конфігурації!\n"
+
+#: src/parse_config.c:149
+#, c-format
+msgid "Parse error in config file on line %d\n"
+msgstr "Помилка синтаксису в рядку %d файлу конфігурації\n"
+
+#: src/utils.c:119 src/utils.c:175
+#, c-format
+msgid "Virtual memory exhausted\n"
+msgstr "Віртуальна памʼять вичерпана\n"
+
+#: src/utils.c:214
+#, c-format
+msgid "Failed to execute command '%s': %i"
+msgstr "Збій виконання команди «%s»: %i"
+
+#: src/utils.c:254
+#, c-format
+msgid ""
+"Illegal characters in filename!\n"
+"*** %s\n"
+msgstr ""
+"Заборонені символи в назві файлу!\n"
+"*** %s\n"
+
+#: src/utils.c:584
+msgid "yes"
+msgstr "tak"
+
+#: src/utils.c:585
+msgid "no"
+msgstr "ні"
+
+#: src/utils.c:861
+#, c-format
+msgid "Couldn't open temporary file\n"
+msgstr "Не можу відкрити тимчасовий файл!\n"
+
+#: src/video.c:59
+msgid "File:"
+msgstr "Файл:"
+
+#: src/video.c:60
+msgid "Node:"
+msgstr "Вузол:"
+
+#: src/video.c:61
+msgid "Next:"
+msgstr "Наступний:"
+
+#: src/video.c:62
+msgid "Prev:"
+msgstr "Попередній:"
+
+#: src/video.c:63
+msgid "Up:"
+msgstr "Вгору:"
+
+#: src/video.c:297
+msgid "Warning: matched empty string"
+msgstr "Увага: співпало з пустою стрічкою"
+
+#: src/pinfo.c:110 src/pinfo.c:195
+#, c-format
+msgid "Looking for man page...\n"
+msgstr "Шукаю сторінку посібника...\n"
+
+#: src/pinfo.c:148
+#, c-format
+msgid "--node option used without argument\n"
+msgstr "Опція --node використана без аргументу\n"
+
+#: src/pinfo.c:158
+#, c-format
+msgid "--rcfile option used without argument\n"
+msgstr "Опція --rcfile використана без аргументу\n"
+
+#: src/pinfo.c:169
+#, c-format
+msgid ""
+"Usage:\n"
+"%s [options] [info|manual]\n"
+"Options:\n"
+"-h, --help                            help\n"
+"-v, --version                         version\n"
+"-m, --manual                          use man page\n"
+"-r, --raw-filename                    use raw filename\n"
+"-f, --file                            synonym for -r\n"
+"-a, --apropos                         call apropos if nothing found\n"
+"-p, --plain-apropos                   call only apropos\n"
+"-c, --cut-man-headers                 cut out repeated man headers\n"
+"-l, --long-manual-links               use long link names in manuals\n"
+"-s, --squeeze-manlines                cut empty lines from manual pages\n"
+"-d, --dont-handle-without-tag-table   don't display texinfo pages without "
+"tag\n"
+"                                      tables\n"
+"-t, --force-manual-tag-table          force manual detection of tag table\n"
+"-x, --clear-at-exit                   clear screen at exit\n"
+"    --node=nodename, --node nodename  jump directly to the node nodename\n"
+"    --rcfile=file, --rcfile file      use alternate rcfile\n"
+msgstr ""
+"Використання:\n"
+"%s [опції] [info|manual]\n"
+"Опції:\n"
+"-h, --help                            Ця довідка\n"
+"-v, --version                         Версія\n"
+"-m, --manual                          Використовувати сторінку підручника "
+"man\n"
+"-r, --raw-filename                    Використовувати вказану назву файлу\n"
+"-a, --apropos                         У разі відсутності відповідного "
+"документа, використовувати apropos\n"
+"-p, --plain-apropos                   Викликати apropos без пошуку "
+"відповідних сторінок man\n"
+"-c, --cut-man-headers                 Видаляти повторювані заголовки зі "
+"сторінок підручника man\n"
+"-l, --long-manual-links               Використовувати довгі назви посилань в "
+"сторінках підручника man\n"
+"-s, --squeeze-manlines                Видаляти порожні рядки зі сторінок "
+"підручника man\n"
+"-d, --dont-handle-without-tag-table   Відмовлятися від обробки, якщо "
+"сторінка info не має запису таблиці тегів\n"
+"-t, --force-manual-tag-table          Примусово створювати таблицю тегів "
+"вручну\n"
+"-x, --clear-at-exit                   Очищати екран після завершення роботи\n"
+"    --node=вузол, --node вузол        Перейти безпосередньо до вузла\n"
+"    --rcfile=файл, --rcfile файл      Використовувати альтернативний файл "
+"rc\n"
+
+#: src/pinfo.c:311
+#, c-format
+msgid "Error: could not open info file, trying manual\n"
+msgstr "Помилка: не вдалося відкрити файл інформації, спробую довідник\n"
+
+#: src/pinfo.c:344
+#, c-format
+msgid "Warning: tag table not found...\n"
+msgstr "Попередження: таблицю тегів не знайдено...\n"
+
+#: src/pinfo.c:348
+#, c-format
+msgid "Trying to create alternate tag table...\n"
+msgstr "Спроба створення альтернативної таблиці тегів...\n"
+
+#: src/pinfo.c:353 src/pinfo.c:577
+#, c-format
+msgid "This doesn't look like info file...\n"
+msgstr "Це не здається файлом типу info...\n"
+
+#: src/pinfo.c:366
+#, c-format
+msgid "Specified node does not exist...\n"
+msgstr "Вказаний вузол не існує...\n"
+
+#: src/pinfo.c:425
+msgid "Tag table is corrupt, trying to fix..."
+msgstr "Таблиця тегів пошкоджена, спроба відновлення..."
+
+#: src/pinfo.c:499
+msgid "File not found. Press any key..."
+msgstr "Файл не знайдено. Натисніть будь-яку клавішу..."
+
+#: src/pinfo.c:519
+#, c-format
+msgid "Unexpected error.\n"
+msgstr "Несподівана помилка.\n"
+
+#: src/pinfo.c:572
+msgid "Tag table not found. Trying to create alternate..."
+msgstr "Таблицю тегів не знайдено. Спроба створення альтернативної таблиці..."
+
+#: src/pinfo.c:659
+#, c-format
+msgid "Security warning: Unable to get GID of group called: %s\n"
+msgstr "Попередження безпеки: Неможливо отримати GID групи: %s\n"
+
+#: src/pinfo.c:679
+#, c-format
+msgid "Security warning: Unable to get UID of user called: %s\n"
+msgstr "Попередження безпеки: Неможливо отримати UID користувача: %s\n"
+
+#: src/pinfo.c:694
+#, c-format
+msgid "Unable to drop root privileges: %s"
+msgstr "Не вдалося відкинути привілеї root: %s"
