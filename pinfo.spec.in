@@ -1,10 +1,10 @@
 Summary:	Lynx-style info browser
-Summary(pl):	Przêgl±darka info w stylu lynksa
+Summary(pl):	PrzÃªglÂ±darka info w stylu lynksa
 Name:		@PACKAGE_NAME@
 Version:	@PACKAGE_VERSION@
 Release:	1
 Group:		Utilities/System
-Group(pl):	Narzêdzia/System
+Group(pl):	NarzÃªdzia/System
 Copyright:	GPL
 Vendor:		Bas Zoetekouw <bas@debian.org>
 Source:		https://github.com/baszoetekouw/pinfo
@@ -20,7 +20,7 @@ BuildRoot:   	/tmp/%{name}-%{version}-root
 Pinfo is a curses based lynx-style info browser.
 
 %description -l pl
-Pinfo jest przegl±dark± dokumentów info podobn± do lynksa.
+Pinfo jest przeglÂ±darkÂ± dokumentÃ³w info podobnÂ± do lynksa.
 
 %prep
 echo "%{_mandir}"
@@ -53,12 +53,17 @@ rm -rf $RPM_BUILD_ROOT
 %lang(pl) %{_datadir}/locale/pl/LC_MESSAGES/*
 %lang(cs) %{_datadir}/locale/cs/LC_MESSAGES/*
 %lang(de) %{_datadir}/locale/de/LC_MESSAGES/*
+%lang(de) %{_datadir}/locale/ka/LC_MESSAGES/*
 %lang(sv) %{_datadir}/locale/sv/LC_MESSAGES/*
 %lang(ru) %{_datadir}/locale/ru/LC_MESSAGES/*
 %lang(uk) %{_datadir}/locale/uk/LC_MESSAGES/*
 %{_mandir}/man1/*
 
 %changelog
+* Mon Feb  17 2025 Temuri Doghonadze <temuri.doghonadze@gmail.com>
+  [0.6.13-1]
+- added ka locale
+
 * Wed Feb  12 2025 Volodymyr Lisivka <vlisivka@gmail.com>
   [0.6.13-1]
 - added uk locale
@@ -76,18 +81,18 @@ rm -rf $RPM_BUILD_ROOT
   [0.4.8-1]
 - added --sysconfdir=/etc to ./configure
 
-* Thu Mar 25 1999 Tomasz K³oczko <kloczek@rudy.mif.pg.gda.pl>
+* Thu Mar 25 1999 Tomasz KÂ³oczko <kloczek@rudy.mif.pg.gda.pl>
   [0.3.5-1]
 - fixed passing $RPM_OPT_FLAGS.
 
-* Mon Mar 23 1999 Micha³ Kuratczyk <kura@pld.org.pl>
+* Mon Mar 23 1999 MichaÂ³ Kuratczyk <kura@pld.org.pl>
   [0.3.1-1]
 - upgraded to 0.3.1
 
-* Sun Mar 21 1999 Micha³ Kuratczyk <kura@pld.org.pl>
+* Sun Mar 21 1999 MichaÂ³ Kuratczyk <kura@pld.org.pl>
   [0.2.4-1]
 - upgraded to 0.2.4
 
-* Fri Mar 19 1999 Micha³ Kuratczyk <kura@pld.org.pl>
+* Fri Mar 19 1999 MichaÂ³ Kuratczyk <kura@pld.org.pl>
   [0.2.3-1]
 - initial RPM release
