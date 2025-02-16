@@ -186,8 +186,15 @@ set_initial_history(char *name)
 		pathFile = popen(buf, "r");
 		if (fgets(buf, sizeof(buf), pathFile)==NULL)
 		{
-			fprintf(stderr, "Error executing command '%s'\n", buf);
-			exit(1);
+			pclose(pathFile);
+			/* Try without -W */
+			snprintf(buf, sizeof(buf), "man -w %s %s", ManOptions, name);
+			pathFile = popen(buf, "r");
+			if (fgets(buf, sizeof(buf), pathFile)==NULL)
+			{
+				fprintf(stderr, "Error executing command '%s'\n", buf);
+				exit(1);
+			}
 		}
 		pclose(pathFile);
 		/* buf will be of the form "/usr/share/man/man1/sleep.1.gz". We

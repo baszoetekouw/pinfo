@@ -55,9 +55,14 @@ rm -rf $RPM_BUILD_ROOT
 %lang(de) %{_datadir}/locale/de/LC_MESSAGES/*
 %lang(sv) %{_datadir}/locale/sv/LC_MESSAGES/*
 %lang(ru) %{_datadir}/locale/ru/LC_MESSAGES/*
+%lang(uk) %{_datadir}/locale/uk/LC_MESSAGES/*
 %{_mandir}/man1/*
 
 %changelog
+* Wed Feb  12 2025 Volodymyr Lisivka <vlisivka@gmail.com>
+  [0.6.13-1]
+- added uk locale
+
 * Mon May  3 1999 Artur Frysiak <wiget@pld.org.pl>
   [0.5.2-1]
 - added de and sv locale
