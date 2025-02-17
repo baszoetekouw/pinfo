@@ -194,6 +194,10 @@ main(int argc, char *argv[])
 							argv[0]);
 					exit(0);
 				case 'v':
+					// If the `verbose` option was not enabled, then the version has not been shown
+					// and it has to be shown now
+					if (!verbose)
+						printf("pinfo v%s\n", version);
 					exit(0);
 				case 'm':
 					checksu();
