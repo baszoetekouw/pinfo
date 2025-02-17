@@ -74,3 +74,4 @@ Makefile.in
 /src/pinfo
 /src/pinforc
 
+.ccls-cache/
