@@ -194,9 +194,9 @@ set_initial_history(char *name)
 			if (fgets(buf, sizeof(buf), pathFile)==NULL)
 			{
 				fprintf(stderr, "Error executing command '%s'\n", buf);
-                /* Patched by plp                                                */
-                /* Added a closeprogram() here, to reset the terminal and        */
-                /* deallocate memory, in case of system call failure             */
+                /* Patched by plp                                            */
+                /* Added a closeprogram() here, to reset the terminal and    */
+                /* deallocate memory, in case of system call failure         */
                 closeprogram();
                 printf(_("Command '%s' failed to execute\n"), buf);
 				exit(1);
