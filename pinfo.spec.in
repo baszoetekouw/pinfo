@@ -52,7 +52,7 @@ rm -rf $RPM_BUILD_ROOT
 
 %lang(pl) %{_datadir}/locale/pl/LC_MESSAGES/*
 %lang(cs) %{_datadir}/locale/cs/LC_MESSAGES/*
-%lang(de) %{_datadir}/locale/de/LC_MESSAGES/*
+%lang(ka) %{_datadir}/locale/de/LC_MESSAGES/*
 %lang(de) %{_datadir}/locale/ka/LC_MESSAGES/*
 %lang(sv) %{_datadir}/locale/sv/LC_MESSAGES/*
 %lang(ru) %{_datadir}/locale/ru/LC_MESSAGES/*
