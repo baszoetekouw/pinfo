@@ -1,14 +1,5 @@
-Pinfo is user-friendly, console-based viewer for Info documents.
-Hope you like it :)
-
-Until version 0.6.8, Pinfo was maintained by Przemek Borys. His old project
-page is still available at http://pinfo.sourceforge.net/. Unfortunately,
-Przemek is no longer active, and development was taken over by Bas Zoetekouw
-and moved to Alioth: https://alioth.debian.org/projects/pinfo/.
-Since 2014 (version 0.6.10), development has moved to Github:
-https://github.com/baszoetekouw/pinfo
-
-Note: this is not the official repo. It's a fork that attempts to address a few
+# Note by plp13
+This is not the official repo. It's a fork that attempts to address a few
 bugs and missing features, specifically:
 * Bugfix: Black screen upon terminal window resize
 * Bugfix: Program crashes when 'man' command fails (e.g. because the requested
@@ -18,6 +9,17 @@ bugs and missing features, specifically:
   program
 * Bugfix: Program hangs on startup if the TERM environment variable isn't set
 * Bugfix: Program sometimes won't reset the terminal upon abnormal exit
+
+# Pinfo
+Pinfo is user-friendly, console-based viewer for Info documents.
+Hope you like it :)
+
+Until version 0.6.8, Pinfo was maintained by Przemek Borys. His old project
+page is still available at http://pinfo.sourceforge.net/. Unfortunately,
+Przemek is no longer active, and development was taken over by Bas Zoetekouw
+and moved to Alioth: https://alioth.debian.org/projects/pinfo/.
+Since 2014 (version 0.6.10), development has moved to Github:
+https://github.com/baszoetekouw/pinfo
 
 See man page (pinfo.1) for details.
 
