@@ -10,6 +10,9 @@ bugs and missing features, specifically:
 * Bugfix: Program hangs on startup if the TERM environment variable isn't set
 * Bugfix: Program sometimes won't reset the terminal upon abnormal exit
 
+A [pull request](https://github.com/baszoetekouw/pinfo/pull/38) with these has
+been submitted.
+
 # Pinfo
 Pinfo is user-friendly, console-based viewer for Info documents.
 Hope you like it :)
