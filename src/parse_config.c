@@ -98,6 +98,9 @@ parse_config(void)
 		f = fopen(rcfile, "r");
 		if (f == NULL)
 		{
+            /* Patched by plp                                                */
+            /* Added a closeprogram()                                        */
+            closeprogram();
 			fprintf(stderr, _("Can't open config file!\n"));
 			exit(1);
 		}
@@ -148,6 +151,9 @@ parse_config(void)
 		{
 			line_number++;
 			fclose(f);
+            /* Patched by plp                                                */
+            /* Added a closeprogram()                                        */
+            closeprogram();
 			fprintf(stderr, _("Parse error in config file on line %d\n"), line_number);
 			exit(1);
 		}

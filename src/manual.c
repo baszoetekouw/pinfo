@@ -19,6 +19,7 @@
  *  USA
  ***************************************************************************/
 #include "common_includes.h"
+#include "utils.h"
 
 #include <ctype.h>
 #include <sys/stat.h>
@@ -193,6 +194,11 @@ set_initial_history(char *name)
 			if (fgets(buf, sizeof(buf), pathFile)==NULL)
 			{
 				fprintf(stderr, "Error executing command '%s'\n", buf);
+                /* Patched by plp                                            */
+                /* Added a closeprogram() here, to reset the terminal and    */
+                /* deallocate memory, in case of system call failure         */
+                closeprogram();
+                printf(_("Command '%s' failed to execute\n"), buf);
 				exit(1);
 			}
 		}
@@ -551,7 +557,7 @@ handlemanual(char *name)
 			if (return_value != -2)
 			{
 				construct_manualname(manualname, return_value);
-				snprintf(cmd, 4096, "man %s %s %s %s > %s",
+				snprintf(cmd, 4096, "man %s %s %s %s > %s 2>>/dev/null",
 						ManOptions,
 						manuallinks[return_value].section,
 						manualname,
@@ -588,7 +594,11 @@ handlemanual(char *name)
 				 */
 				historical = 1;
 			}
-			xsystem(cmd);
+            /* Patched by plp                                                */
+            /* We use system() rather than xsystem() here, as we don't want  */
+            /* the program to crash if the 'man' command fails, e.g.         */
+            /* because the requested manual page wasn't found                */
+			if (system(cmd)) {};
 			stat(tmpfilename2, &statbuf);
 			if (statbuf.st_size > 0)
 			{
@@ -628,6 +638,15 @@ handlemanual(char *name)
 				else
 					return_value = -1;
 			}
+            else {
+                /* Patched by plp                                            */
+                /* In case the man command fails, print a friendly error     */
+                /* message on the bottom line                                */
+				attrset(bottomline);
+                snprintf(cmd, 4096, _("Command 'man %s' failed; Press any key to continue..."), manualname);
+				mvaddstr(maxy - 1, 0, cmd);
+                getch();
+            }
 		}
 	}
 	while (return_value != -1);
@@ -753,6 +772,27 @@ man_initializelinks(char *tmp, int carry)
 	 *****************************************************************************/
 	urlend = tmp;
 	while ((urlstart = strstr(urlend, "http://")) != NULL)
+	{
+		/* always successfull */
+		urlend = findurlend(urlstart);
+		manuallinks = xrealloc(manuallinks, sizeof(manuallink) *(ManualLinks + 3));
+		manuallinks[ManualLinks].line = ManualLines;
+		manuallinks[ManualLinks].col = width_of_string(tmp, urlstart - tmp);
+		strcpy(manuallinks[ManualLinks].section, "HTTPSECTION");
+		manuallinks[ManualLinks].section_mark = HTTPSECTION;
+		manuallinks[ManualLinks].name = xmalloc(urlend - urlstart + 10);
+		strncpy(manuallinks[ManualLinks].name, urlstart, urlend - urlstart);
+		manuallinks[ManualLinks].name[urlend - urlstart] = 0;
+		if (ishyphen(manuallinks[ManualLinks].name[urlend - urlstart - 1]))
+			manuallinks[ManualLinks].carry = 1;
+		else
+			manuallinks[ManualLinks].carry = 0;
+		ManualLinks++;
+	}
+	urlend = tmp;
+    /* Patched by plp                                                        */
+    /* Support for https URLs                                                */
+	while ((urlstart = strstr(urlend, "https://")) != NULL)
 	{
 		/* always successfull */
 		urlend = findurlend(urlstart);
@@ -1328,14 +1368,18 @@ skip_search:
 			if ((key == keys.prevnode_1) ||
 					(key == keys.prevnode_2))
 			{
-				for (unsigned i = manualpos - 1; i > 0; i--)
-				{
-					if (manual[i][1] == 8)
-					{
-						manualpos = i;
-						break;
-					}
-				}
+                /* Patched by plp                                            */
+                /* Fixed a bug where pressing 'p' while at the beginning of  */
+                /* a manual page would crash the program                     */
+                if (manualpos > 0)
+                  for (unsigned i = manualpos - 1; i > 0; i--)
+                  {
+                      if (manual[i][1] == 8)
+                      {
+                          manualpos = i;
+                          break;
+                      }
+                  }
 			}
 			/*=====================================================*/
 			if ((key == keys.pgdn_1) ||

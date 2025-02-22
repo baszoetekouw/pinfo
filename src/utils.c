@@ -212,7 +212,11 @@ xsystem(const char *command)
 	int result = system_check(command);
 	if (result!=0)
 	{
-		printf(_("Failed to execute command '%s': %i"), command, result);
+        /* Patched by plp                                                    */
+        /* Added a closeprogram() here, to reset the terminal and deallocate */
+        /* memory, in case of system call failure                            */
+        closeprogram();
+		printf(_("Failed to execute command '%s': %i\n"), command, result);
 		exit(2);
 	}
 }
@@ -252,6 +256,9 @@ checkfilename(char *filename)
 			(strchr(filename, '&')) ||
 			(strchr(filename, ';')))
 	{
+        /* Patched by plp                                                    */
+        /* Added a closeprogram()                                            */
+        closeprogram();
 		printf(_("Illegal characters in filename!\n*** %s\n"), filename);
 		exit(1);
 	}
@@ -508,15 +515,20 @@ pinfo_getch()
 void
 waitforgetch()
 {
-	int ret;
+    /* Patched by plp                                                        */
+    /* waitforgetch() now also returns even when interrupted by a signal.    */
+    /* This fixes a black screen upon terminal resize issue.                 */
+
+	/* int ret; */
 
 	fd_set rdfs;
 	FD_ZERO(&rdfs);
 	FD_SET(0, &rdfs);
 
 	/* we might get interrupted by e.g. SIGTSTP/SIGCONT */
-	do ret = select(1, &rdfs, NULL, NULL, NULL);
-	while (ret == -1 && errno == EINTR);
+	/* do ret = select(1, &rdfs, NULL, NULL, NULL); */
+	/* while (ret == -1 && errno == EINTR); */
+    select(1, &rdfs, NULL, NULL, NULL);
 }
 
 /* returns 0 on success, 1 on error */
